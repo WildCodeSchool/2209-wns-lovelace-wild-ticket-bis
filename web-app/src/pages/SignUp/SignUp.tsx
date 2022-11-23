@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 
+import Loader from '../../components/Loader'
 import { SignUpMutation, SignUpMutationVariables } from '../../gql/graphql'
 import { SectionTitle } from '../../styles/base-styles'
 import { getErrorMessage } from '../../utils'
@@ -124,6 +125,7 @@ const SignUp = () => {
           />
         </label>
         <br />
+        <button disabled={loading}>{loading ? <Loader /> : 'Valider'}</button>
       </form>
     </>
   )
