@@ -1,13 +1,13 @@
-import { gql, useMutation } from "@apollo/client";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { gql, useMutation } from '@apollo/client'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 
-import Loader from "../../components/Loader";
-import { SignUpMutation, SignUpMutationVariables } from "../../gql/graphql";
-import { SectionTitle } from "../../styles/base-styles";
-import { getErrorMessage } from "../../utils";
-import { SIGN_IN_PATH } from "../paths";
+import Loader from '../../components/Loader'
+import { SignUpMutation, SignUpMutationVariables } from '../../gql/graphql'
+import { SectionTitle } from '../../styles/base-styles'
+import { getErrorMessage } from '../../utils'
+import { SIGN_IN_PATH } from '../paths'
 
 const SIGN_UP = gql`
   mutation SignUp(
@@ -26,41 +26,41 @@ const SIGN_UP = gql`
       emailAddress
     }
   }
-`;
+`
 
 const SignUp = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [emailAddress, setEmailAddress] = useState('')
+  const [password, setPassword] = useState('')
 
   const [signUp, { loading }] = useMutation<
     SignUpMutation,
     SignUpMutationVariables
-  >(SIGN_UP);
-  const navigate = useNavigate();
+  >(SIGN_UP)
+  const navigate = useNavigate()
 
   const submit = async () => {
     try {
       await signUp({
         variables: { firstName, lastName, emailAddress, password },
-      });
+      })
       toast.success(
-        `Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.`
-      );
-      navigate(SIGN_IN_PATH);
+        `Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.`,
+      )
+      navigate(SIGN_IN_PATH)
     } catch (error) {
-      toast.error(getErrorMessage(error));
+      toast.error(getErrorMessage(error))
     }
-  };
+  }
 
   return (
     <>
       <SectionTitle>Inscription</SectionTitle>
       <form
         onSubmit={async (event) => {
-          event.preventDefault();
-          await submit();
+          event.preventDefault()
+          await submit()
         }}
       >
         <label>
@@ -73,7 +73,7 @@ const SignUp = () => {
             name="firstName"
             value={firstName}
             onChange={(event) => {
-              setFirstName(event.target.value);
+              setFirstName(event.target.value)
             }}
           />
         </label>
@@ -88,7 +88,7 @@ const SignUp = () => {
             name="lastName"
             value={lastName}
             onChange={(event) => {
-              setLastName(event.target.value);
+              setLastName(event.target.value)
             }}
           />
         </label>
@@ -104,7 +104,7 @@ const SignUp = () => {
             name="emailAddress"
             value={emailAddress}
             onChange={(event) => {
-              setEmailAddress(event.target.value);
+              setEmailAddress(event.target.value)
             }}
           />
         </label>
@@ -120,15 +120,15 @@ const SignUp = () => {
             name="password"
             value={password}
             onChange={(event) => {
-              setPassword(event.target.value);
+              setPassword(event.target.value)
             }}
           />
         </label>
         <br />
-        <button disabled={loading}>{loading ? <Loader /> : "Valider"}</button>
+        <button disabled={loading}>{loading ? <Loader /> : 'Valider'}</button>
       </form>
     </>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp

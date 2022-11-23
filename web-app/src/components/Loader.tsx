@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { MAIN_THEME_COLOR } from "../styles/style-constants";
+import styled from 'styled-components'
+import { MAIN_THEME_COLOR } from '../styles/style-constants'
 
 export default styled.span`
   width: 48px;
@@ -10,7 +10,6 @@ export default styled.span`
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 1s linear infinite;
-
   @keyframes rotation {
     0% {
       transform: rotate(0deg);
@@ -19,4 +18,4 @@ export default styled.span`
       transform: rotate(360deg);
     }
   }
-`;
+`
