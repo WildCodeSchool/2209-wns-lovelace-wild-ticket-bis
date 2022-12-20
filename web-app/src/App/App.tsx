@@ -65,6 +65,7 @@ function App() {
         </Routes>
       </MainContainer>
       <ToastContainer />
+      {console.log(isNavbarDisplayed)}
     </>
   )
 }

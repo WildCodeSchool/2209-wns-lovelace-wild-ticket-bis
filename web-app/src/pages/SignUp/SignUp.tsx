@@ -67,7 +67,7 @@ const SignUp = ({ displayNavbar }: any) => {
 
   useEffect(() => {
     displayNavbar(false)
-  }, [])
+  })
 
   return (
     <SignUpContainer>

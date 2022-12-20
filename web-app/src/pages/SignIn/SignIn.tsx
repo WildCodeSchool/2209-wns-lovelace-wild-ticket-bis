@@ -52,14 +52,16 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
       toast.success(`Vous vous êtes connecté avec succès.`)
       onSuccess()
       navigate(MES_FLUX_PATH)
+      displayNavbar(true)
     } catch (error) {
+      displayNavbar(false)
       toast.error(getErrorMessage(error))
     }
   }
 
   useEffect(() => {
     displayNavbar(false)
-  }, [])
+  })
 
   return (
     <SignInContainer>
@@ -101,7 +103,7 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
             />
           </LabelForm>
         </ContainerInput>
-        <ButtonLabel disabled={loading} onClick={() => displayNavbar(true)}>
+        <ButtonLabel disabled={loading}>
           {loading ? <Loader /> : 'Se connecter'}{' '}
         </ButtonLabel>
         <FooterForm>
