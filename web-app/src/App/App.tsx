@@ -39,7 +39,6 @@ function App() {
   return (
     <>
       <MainContainer>
-      
         <Routes>
           <Route path={SIGN_UP_PATH} element={<SignUp />} />
           <Route path={SIGN_IN_PATH} element={<SignIn onSuccess={refetch} />} />
