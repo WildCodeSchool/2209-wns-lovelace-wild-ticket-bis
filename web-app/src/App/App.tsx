@@ -1,5 +1,5 @@
 import { gql, useQuery } from '@apollo/client'
-import React from 'react'
+import React, { useState } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import Navbar from '../components/Navbar/Navbar'
@@ -35,13 +35,27 @@ const MY_PROFILE = gql`
 
 function App() {
   const { data, refetch } = useQuery<MyProfileQuery>(MY_PROFILE)
+  const [isNavbarDisplayed, setIsNavbarDisplayed] = useState(true)
+
+  const displayNavbar = (isItDisplayed: boolean) => {
+    setIsNavbarDisplayed(isItDisplayed)
+  }
 
   return (
     <>
       <MainContainer>
+        {isNavbarDisplayed ? <Navbar /> : null}
         <Routes>
-          <Route path={SIGN_UP_PATH} element={<SignUp />} />
-          <Route path={SIGN_IN_PATH} element={<SignIn onSuccess={refetch} />} />
+          <Route
+            path={SIGN_UP_PATH}
+            element={<SignUp displayNavbar={displayNavbar} />}
+          />
+          <Route
+            path={SIGN_IN_PATH}
+            element={
+              <SignIn displayNavbar={displayNavbar} onSuccess={refetch} />
+            }
+          />
           <Route path={MES_FLUX_PATH} element={<MesFlux />} />
           <Route path={TICKETS_PATH} element={<Tickets />} />
           <Route path={QR_CODE_PATH} element={<QRCode />} />
