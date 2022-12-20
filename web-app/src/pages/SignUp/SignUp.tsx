@@ -1,11 +1,11 @@
-import { gql, useMutation } from '@apollo/client';
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import Loader from '../../components/Loader';
-import { SignUpMutation, SignUpMutationVariables } from '../../gql/graphql';
-import { getErrorMessage } from '../../utils';
-import { SIGN_IN_PATH } from '../paths';
+import { gql, useMutation } from '@apollo/client'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import Loader from '../../components/Loader'
+import { SignUpMutation, SignUpMutationVariables } from '../../gql/graphql'
+import { getErrorMessage } from '../../utils'
+import { SIGN_IN_PATH } from '../paths'
 import {
   ButtonLabel,
   ContainerInput,
@@ -16,9 +16,9 @@ import {
   Logo,
   SignUpContainer,
   TextLabel,
-} from './SignUp.styled';
-import './SignUp.styled.tsx';
-import imglogo from '../../logo_flu.png';
+} from './SignUp.styled'
+import './SignUp.styled.tsx'
+import imglogo from '../../logo_flu.png'
 
 const SIGN_UP = gql`
   mutation SignUp(
@@ -37,41 +37,45 @@ const SIGN_UP = gql`
       emailAddress
     }
   }
-`;
+`
 
-const SignUp = () => {
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
+const SignUp = ({ displayNavbar }: any) => {
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [emailAddress, setEmailAddress] = useState('')
+  const [password, setPassword] = useState('')
 
   const [signUp, { loading }] = useMutation<
     SignUpMutation,
     SignUpMutationVariables
-  >(SIGN_UP);
-  const navigate = useNavigate();
+  >(SIGN_UP)
+  const navigate = useNavigate()
 
   const submit = async () => {
     try {
       await signUp({
         variables: { firstName, lastName, emailAddress, password },
-      });
+      })
       toast.success(
-        `Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.`
-      );
-      navigate(SIGN_IN_PATH);
+        `Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.`,
+      )
+      navigate(SIGN_IN_PATH)
     } catch (error) {
-      toast.error(getErrorMessage(error));
+      toast.error(getErrorMessage(error))
     }
-  };
+  }
+
+  useEffect(() => {
+    displayNavbar(false)
+  }, [])
 
   return (
     <SignUpContainer>
       <Logo src={imglogo} />
       <FormContainer
         onSubmit={async (event) => {
-          event.preventDefault();
-          await submit();
+          event.preventDefault()
+          await submit()
         }}
       >
         <LabelTitle>S'inscrire</LabelTitle>
@@ -79,13 +83,13 @@ const SignUp = () => {
           <LabelForm>
             <TextLabel> Prénom</TextLabel>
             <InputForm
-              type='text'
+              type="text"
               required
-              id='firstName'
-              name='firstName'
+              id="firstName"
+              name="firstName"
               value={firstName}
               onChange={(event) => {
-                setFirstName(event.target.value);
+                setFirstName(event.target.value)
               }}
             />
           </LabelForm>
@@ -93,13 +97,13 @@ const SignUp = () => {
             <TextLabel>Nom</TextLabel>
 
             <InputForm
-              type='text'
+              type="text"
               required
-              id='lastName'
-              name='lastName'
+              id="lastName"
+              name="lastName"
               value={lastName}
               onChange={(event) => {
-                setLastName(event.target.value);
+                setLastName(event.target.value)
               }}
             />
           </LabelForm>
@@ -108,14 +112,14 @@ const SignUp = () => {
             <TextLabel>Adresse email</TextLabel>
 
             <InputForm
-              type='email'
+              type="email"
               required
-              autoComplete='email'
-              id='emailAddress'
-              name='emailAddress'
+              autoComplete="email"
+              id="emailAddress"
+              name="emailAddress"
               value={emailAddress}
               onChange={(event) => {
-                setEmailAddress(event.target.value);
+                setEmailAddress(event.target.value)
               }}
             />
           </LabelForm>
@@ -124,14 +128,14 @@ const SignUp = () => {
             <TextLabel>Mot de passe</TextLabel>
 
             <InputForm
-              type='password'
+              type="password"
               required
-              autoComplete='new-password'
-              id='password'
-              name='password'
+              autoComplete="new-password"
+              id="password"
+              name="password"
               value={password}
               onChange={(event) => {
-                setPassword(event.target.value);
+                setPassword(event.target.value)
               }}
             />
           </LabelForm>
@@ -142,7 +146,7 @@ const SignUp = () => {
         </ButtonLabel>
       </FormContainer>
     </SignUpContainer>
-  );
-};
+  )
+}
 
-export default SignUp;
+export default SignUp

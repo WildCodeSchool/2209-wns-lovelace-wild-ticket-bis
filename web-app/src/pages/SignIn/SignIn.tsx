@@ -1,11 +1,11 @@
-import { gql, useMutation } from '@apollo/client';
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import Loader from '../../components/Loader';
-import { SignInMutation, SignInMutationVariables } from '../../gql/graphql';
-import { getErrorMessage } from '../../utils';
-import { MES_FLUX_PATH, SIGN_UP_PATH } from '../paths';
+import { gql, useMutation } from '@apollo/client'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import Loader from '../../components/Loader'
+import { SignInMutation, SignInMutationVariables } from '../../gql/graphql'
+import { getErrorMessage } from '../../utils'
+import { MES_FLUX_PATH, SIGN_UP_PATH } from '../paths'
 import {
   ButtonLabel,
   ContainerInput,
@@ -17,10 +17,10 @@ import {
   LinkFooter,
   SignInContainer,
   TextLabel,
-} from './SignIn.styled';
-import './SignIn.styled.tsx';
-import imglogo from '../../logo_flu.png';
-import styled from 'styled-components';
+} from './SignIn.styled'
+import './SignIn.styled.tsx'
+import imglogo from '../../logo_flu.png'
+import styled from 'styled-components'
 
 const SIGN_IN = gql`
   mutation SignIn($emailAddress: String!, $password: String!) {
@@ -31,39 +31,43 @@ const SIGN_IN = gql`
       lastName
     }
   }
-`;
-const Logo = styled.img``;
+`
+const Logo = styled.img``
 
-const SignIn = ({ onSuccess }: { onSuccess: () => {} }) => {
-  const [emailAddress, setEmailAddress] = useState('');
-  const [password, setPassword] = useState('');
+const SignIn = ({ onSuccess, displayNavbar }: any) => {
+  const [emailAddress, setEmailAddress] = useState('')
+  const [password, setPassword] = useState('')
 
   const [signIn, { loading }] = useMutation<
     SignInMutation,
     SignInMutationVariables
-  >(SIGN_IN);
-  const navigate = useNavigate();
+  >(SIGN_IN)
+  const navigate = useNavigate()
 
   const submit = async () => {
     try {
       await signIn({
         variables: { emailAddress, password },
-      });
-      toast.success(`Vous vous êtes connecté avec succès.`);
-      onSuccess();
-      navigate(MES_FLUX_PATH);
+      })
+      toast.success(`Vous vous êtes connecté avec succès.`)
+      onSuccess()
+      navigate(MES_FLUX_PATH)
     } catch (error) {
-      toast.error(getErrorMessage(error));
+      toast.error(getErrorMessage(error))
     }
-  };
+  }
+
+  useEffect(() => {
+    displayNavbar(false)
+  }, [])
 
   return (
     <SignInContainer>
       <Logo src={imglogo} />
       <FormContainer
         onSubmit={async (event) => {
-          event.preventDefault();
-          await submit();
+          event.preventDefault()
+          await submit()
         }}
       >
         <LabelTitle>Bonjour</LabelTitle>
@@ -71,33 +75,33 @@ const SignIn = ({ onSuccess }: { onSuccess: () => {} }) => {
           <LabelForm>
             <TextLabel>Adresse email</TextLabel>
             <InputForm
-              type='email'
+              type="email"
               required
-              autoComplete='email'
-              id='emailAddress'
-              name='emailAddress'
+              autoComplete="email"
+              id="emailAddress"
+              name="emailAddress"
               value={emailAddress}
               onChange={(event) => {
-                setEmailAddress(event.target.value);
+                setEmailAddress(event.target.value)
               }}
             />
           </LabelForm>
           <LabelForm>
             <TextLabel>Mot de passe</TextLabel>
             <InputForm
-              type='password'
+              type="password"
               required
-              autoComplete='current-password'
-              id='password'
-              name='password'
+              autoComplete="current-password"
+              id="password"
+              name="password"
               value={password}
               onChange={(event) => {
-                setPassword(event.target.value);
+                setPassword(event.target.value)
               }}
             />
           </LabelForm>
         </ContainerInput>
-        <ButtonLabel disabled={loading}>
+        <ButtonLabel disabled={loading} onClick={() => displayNavbar(true)}>
           {loading ? <Loader /> : 'Se connecter'}{' '}
         </ButtonLabel>
         <FooterForm>
@@ -108,7 +112,7 @@ const SignIn = ({ onSuccess }: { onSuccess: () => {} }) => {
         </FooterForm>
       </FormContainer>
     </SignInContainer>
-  );
-};
+  )
+}
 
-export default SignIn;
+export default SignIn
