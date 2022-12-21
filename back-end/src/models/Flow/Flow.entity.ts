@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from 'type-graphql'
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   OneToMany,
@@ -12,9 +13,12 @@ import Ticket from '../ticket/Ticket.entity'
 @Entity()
 @ObjectType()
 export default class Flow {
-  constructor(flowName: string, appUser: AppUser) {
+  constructor(flowName: string, appUser: AppUser, tickets?: Ticket[]) {
     this.flowName = flowName
     this.appUser = appUser
+    if (tickets) {
+      this.tickets = tickets
+    }
   }
 
   @PrimaryGeneratedColumn('uuid')
@@ -25,8 +29,7 @@ export default class Flow {
   @Field()
   flowName: string
 
-  @Column('date', { nullable: false })
-  @Field()
+  @CreateDateColumn()
   date: Date
 
   @ManyToOne(() => AppUser, (appUser) => appUser.flows)

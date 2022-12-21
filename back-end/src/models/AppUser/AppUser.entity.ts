@@ -18,11 +18,16 @@ export default class AppUser {
     lastName: string,
     emailAddress: string,
     hashedPassword: string,
+    flows?: Flow[],
   ) {
     this.firstName = firstName
     this.lastName = lastName
     this.emailAddress = emailAddress
     this.hashedPassword = hashedPassword
+
+    if (flows) {
+      this.flows = flows
+    }
   }
 
   @PrimaryGeneratedColumn('uuid')

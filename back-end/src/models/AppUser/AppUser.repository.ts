@@ -4,10 +4,12 @@ import AppUser from './AppUser.entity'
 import { hashSync, compareSync } from 'bcryptjs'
 import SessionRepository from './Session.repository'
 import Session from './Session.entity'
+import FlowRepository from '../Flow/Flow.repository'
 
 export default class AppUserRepository extends AppUserDb {
   static async initializeUser(): Promise<void> {
     await SessionRepository.clearRepository()
+    await FlowRepository.clearRepository()
     await this.clearRepository()
     await this.createUser(
       'Harry',
@@ -15,7 +17,6 @@ export default class AppUserRepository extends AppUserDb {
       'harrypotter@email.com',
       'Harrypotter1!',
     )
-    await this.signIn('harrypotter@email.com', 'Harrypotter1!')
   }
 
   static createUser(

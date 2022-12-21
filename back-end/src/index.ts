@@ -14,6 +14,7 @@ import AppUserRepository from './models/AppUser/AppUser.repository'
 import SessionRepository from './models/AppUser/Session.repository'
 import { getSessionIdInCookie } from './http-utils'
 import AppUser from './models/AppUser/AppUser.entity'
+import FlowRepository from './models/Flow/Flow.repository'
 
 export type GlobalContext = ExpressContext & {
   user: AppUser | null
@@ -54,8 +55,10 @@ const startServer = async () => {
   await WilderRepository.initializeRepository()
   await AppUserRepository.initializeRepository()
   await SessionRepository.initializeRepository()
+  await FlowRepository.initializeRepository()
 
   await AppUserRepository.initializeUser()
+  await FlowRepository.initializeFlow()
   await SkillRepository.initializeSkills()
   await SchoolRepository.initializeSchools()
   await WilderRepository.initializeWilders()
