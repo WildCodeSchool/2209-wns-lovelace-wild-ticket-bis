@@ -8,7 +8,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import AppUser from '../AppUser/AppUser.entity'
-import Ticket from '../ticket/Ticket.entity'
+import Ticket from '../Ticket/Ticket.entity'
 
 @Entity()
 @ObjectType()

@@ -11,7 +11,7 @@ import SessionRepository from './models/AppUser/Session.repository'
 import { getSessionIdInCookie } from './http-utils'
 import AppUser from './models/AppUser/AppUser.entity'
 import FlowRepository from './models/Flow/Flow.repository'
-import TicketRepository from './models/ticket/Ticket.repository'
+import TicketRepository from './models/Ticket/Ticket.repository'
 
 export type GlobalContext = ExpressContext & {
   user: AppUser | null
