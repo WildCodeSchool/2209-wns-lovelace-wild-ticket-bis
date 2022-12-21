@@ -5,28 +5,26 @@ import Flow from './Flow.entity'
 
 export default class FlowRepository extends FlowDb {
   static async initializeFlow(): Promise<void> {
-    const signIn = await AppUserRepository.signIn(
-      'harrypotter@email.com',
-      'Harrypotter1!',
-    )
-    const userConnected = await AppUserRepository.findBySessionId(
-      signIn.session.id,
-    )
-    if (userConnected) {
-      this.createFlow('Le camion vert', userConnected)
+    const user = await AppUserRepository.findOneByEmail('harrypotter@email.com')
+    if (user) {
+      await this.createFlow('Le camion vert', user)
     }
   }
-
   static async clearRepository(): Promise<void> {
     this.repository.delete({})
   }
 
-  static async createFlow(flowName: string, appUser: AppUser): Promise<Flow> {
-    const flow = new Flow(flowName, appUser)
+  static async createFlow(flowName: string, userId: AppUser): Promise<Flow> {
+    console.log(userId)
+    const flow = new Flow(flowName)
     return this.saveFlow(flow)
   }
 
   static async getFlowByName(flowName: string): Promise<Flow | null> {
     return this.repository.findOneBy({ flowName })
+  }
+
+  static async getUserFlows(userId: string): Promise<Flow[]> {
+    return await this.repository.find({ where: { id: userId } })
   }
 }

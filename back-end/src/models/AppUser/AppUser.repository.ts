@@ -5,11 +5,13 @@ import { hashSync, compareSync } from 'bcryptjs'
 import SessionRepository from './Session.repository'
 import Session from './Session.entity'
 import FlowRepository from '../Flow/Flow.repository'
+import TicketRepository from '../Ticket/Ticket.repository'
 
 export default class AppUserRepository extends AppUserDb {
   static async initializeUser(): Promise<void> {
-    await SessionRepository.clearRepository()
+    await TicketRepository.clearRepository()
     await FlowRepository.clearRepository()
+    await SessionRepository.clearRepository()
     await this.clearRepository()
     await this.createUser(
       'Harry',
@@ -53,5 +55,9 @@ export default class AppUserRepository extends AppUserDb {
       return null
     }
     return session.user
+  }
+
+  static async findOneByEmail(email: string): Promise<AppUser | null> {
+    return this.repository.findOneBy({ emailAddress: email })
   }
 }

@@ -13,9 +13,8 @@ import Ticket from '../Ticket/Ticket.entity'
 @Entity()
 @ObjectType()
 export default class Flow {
-  constructor(flowName: string, appUser: AppUser, tickets?: Ticket[]) {
+  constructor(flowName: string, tickets?: Ticket[]) {
     this.flowName = flowName
-    this.appUser = appUser
     if (tickets) {
       this.tickets = tickets
     }
@@ -33,8 +32,10 @@ export default class Flow {
   date: Date
 
   @ManyToOne(() => AppUser, (appUser) => appUser.flows)
+  @Field(() => AppUser)
   appUser: AppUser
 
   @OneToMany(() => Ticket, (ticket) => ticket.flow)
+  @Field(() => [Ticket])
   tickets: Ticket[]
 }

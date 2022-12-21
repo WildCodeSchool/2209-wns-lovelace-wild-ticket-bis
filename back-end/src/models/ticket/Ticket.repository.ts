@@ -14,7 +14,6 @@ export default class TicketRepository {
   }
 
   static async initializeTicket() {
-    this.clearRepository()
     const flow = await FlowRepository.getFlowByName('Le camion vert')
     if (flow) {
       const ticket1 = new Ticket(2052, flow)
