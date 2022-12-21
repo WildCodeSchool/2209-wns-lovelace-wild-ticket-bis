@@ -25,4 +25,8 @@ export default class FlowRepository extends FlowDb {
     const flow = new Flow(flowName, appUser)
     return this.saveFlow(flow)
   }
+
+  static async getFlowByName(flowName: string): Promise<Flow | null> {
+    return this.repository.findOneBy({ flowName })
+  }
 }

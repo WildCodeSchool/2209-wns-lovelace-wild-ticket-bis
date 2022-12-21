@@ -6,7 +6,6 @@ import {
   Column,
   Index,
   OneToMany,
-  JoinTable,
 } from 'typeorm'
 import Flow from '../Flow/Flow.entity'
 

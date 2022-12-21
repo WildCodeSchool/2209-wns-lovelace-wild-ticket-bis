@@ -4,10 +4,6 @@ import { ExpressContext } from 'apollo-server-express'
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
 import { buildSchema } from 'type-graphql'
 
-import SchoolRepository from './models/School/School.repository'
-import SkillRepository from './models/Skill/Skill.repository'
-import WilderRepository from './models/Wilder/Wilder.repository'
-
 import WilderResolver from './resolvers/Wilder/Wilder.resolver'
 import AppUserResolver from './resolvers/AppUser/AppUser.resolver'
 import AppUserRepository from './models/AppUser/AppUser.repository'
@@ -15,6 +11,7 @@ import SessionRepository from './models/AppUser/Session.repository'
 import { getSessionIdInCookie } from './http-utils'
 import AppUser from './models/AppUser/AppUser.entity'
 import FlowRepository from './models/Flow/Flow.repository'
+import TicketRepository from './models/ticket/Ticket.repository'
 
 export type GlobalContext = ExpressContext & {
   user: AppUser | null
@@ -37,6 +34,7 @@ const startServer = async () => {
       return { res: context.res, req: context.req, user }
     },
     csrfPrevention: true,
+    cors: false,
     cache: 'bounded',
     /**
      * What's up with this embed: true option?
@@ -50,18 +48,15 @@ const startServer = async () => {
 
   // The `listen` method launches a web server.
   const { url } = await server.listen()
-  await SkillRepository.initializeRepository()
-  await SchoolRepository.initializeRepository()
-  await WilderRepository.initializeRepository()
+
   await AppUserRepository.initializeRepository()
   await SessionRepository.initializeRepository()
+  await TicketRepository.initializeRepository()
   await FlowRepository.initializeRepository()
 
   await AppUserRepository.initializeUser()
   await FlowRepository.initializeFlow()
-  await SkillRepository.initializeSkills()
-  await SchoolRepository.initializeSchools()
-  await WilderRepository.initializeWilders()
+  await TicketRepository.initializeTicket()
 
   console.log(`🚀  Server ready at ${url}`)
 }

@@ -1,5 +1,11 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm'
 import Flow from '../Flow/Flow.entity'
 
 enum Status {
@@ -12,20 +18,25 @@ enum Status {
 @Entity()
 @ObjectType()
 export default class Ticket {
+  constructor(orderNumber: number, flow: Flow) {
+    this.orderNumber = orderNumber
+    if (flow) {
+      this.flow = flow
+    }
+  }
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id: string
 
-  @Column('text')
+  @Column('text', { default: Status.TICKET_NON_SCANNE })
   @Field()
   status: Status
 
   @Column()
   @Field()
-  order_number: number
+  orderNumber: number
 
-  @Column()
-  @Field()
+  @CreateDateColumn()
   date: Date
 
   @Column('boolean', { default: false })

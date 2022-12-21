@@ -1,5 +1,6 @@
 import { Repository } from 'typeorm'
 import { getRepository } from '../../database/utils'
+import FlowRepository from '../Flow/Flow.repository'
 import Ticket from './Ticket.entity'
 
 export default class TicketRepository {
@@ -14,6 +15,12 @@ export default class TicketRepository {
 
   static async initializeTicket() {
     this.clearRepository()
-    await this.repository.save({})
+    const flow = await FlowRepository.getFlowByName('Le camion vert')
+    if (flow) {
+      const ticket1 = new Ticket(2052, flow)
+      this.repository.save(ticket1)
+      const ticket2 = new Ticket(2053, flow)
+      this.repository.save(ticket2)
+    }
   }
 }
