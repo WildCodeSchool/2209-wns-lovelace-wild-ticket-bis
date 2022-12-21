@@ -1,6 +1,14 @@
-import { IsEmail } from "class-validator";
-import { Field, ID, ObjectType } from "type-graphql";
-import { Entity, PrimaryGeneratedColumn, Column, Index } from "typeorm";
+import { IsEmail } from 'class-validator'
+import { Field, ID, ObjectType } from 'type-graphql'
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Index,
+  OneToMany,
+  JoinTable,
+} from 'typeorm'
+import Flow from '../Flow/Flow.entity'
 
 @Entity()
 @ObjectType()
@@ -9,32 +17,36 @@ export default class AppUser {
     firstName: string,
     lastName: string,
     emailAddress: string,
-    hashedPassword: string
+    hashedPassword: string,
   ) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.emailAddress = emailAddress;
-    this.hashedPassword = hashedPassword;
+    this.firstName = firstName
+    this.lastName = lastName
+    this.emailAddress = emailAddress
+    this.hashedPassword = hashedPassword
   }
 
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
-  id: string;
+  id: string
 
   @Column()
   @Field()
   @Index({ unique: true })
   @IsEmail()
-  emailAddress: string;
+  emailAddress: string
 
   @Column()
   @Field()
-  firstName: string;
+  firstName: string
 
   @Column()
   @Field()
-  lastName: string;
+  lastName: string
 
   @Column()
-  hashedPassword: string;
+  hashedPassword: string
+
+  @OneToMany(() => Flow, (flow) => flow.appUser, { eager: true })
+  @Field(() => [Flow], { nullable: false })
+  flows: Flow[]
 }
