@@ -1,5 +1,13 @@
 import { Field, ID, ObjectType } from 'type-graphql'
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm'
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm'
+import Flow from '../Flow/Flow.entity'
+
+enum Status {
+  TICKET_NON_SCANNE = 'Ticket non scanné',
+  EN_ATTENTE = 'En attente',
+  INCIDENT = 'Incident',
+  TICKET_VALIDE = 'Ticket validé',
+}
 
 @Entity()
 @ObjectType()
@@ -8,9 +16,9 @@ export default class Ticket {
   @Field(() => ID)
   id: string
 
-  @Column()
+  @Column('text')
   @Field()
-  status: string
+  status: Status
 
   @Column()
   @Field()
@@ -20,7 +28,10 @@ export default class Ticket {
   @Field()
   date: Date
 
-  @Column()
+  @Column('boolean', { default: false })
   @Field()
   isTrash: boolean
+
+  @ManyToOne(() => Flow, (flow) => flow.tickets)
+  flow: Flow
 }
