@@ -44,5 +44,6 @@ export default class Ticket {
   isTrash: boolean
 
   @ManyToOne(() => Flow, (flow) => flow.tickets)
+  @Field(() => Flow)
   flow: Flow
 }

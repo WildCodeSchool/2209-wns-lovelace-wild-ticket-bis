@@ -14,17 +14,12 @@ export default class FlowRepository extends FlowDb {
     this.repository.delete({})
   }
 
-  static async createFlow(flowName: string, userId: AppUser): Promise<Flow> {
-    console.log(userId)
-    const flow = new Flow(flowName)
+  static async createFlow(flowName: string, appUser: AppUser): Promise<Flow> {
+    const flow = new Flow(flowName, appUser)
     return this.saveFlow(flow)
   }
 
   static async getFlowByName(flowName: string): Promise<Flow | null> {
     return this.repository.findOneBy({ flowName })
-  }
-
-  static async getUserFlows(userId: string): Promise<Flow[]> {
-    return await this.repository.find({ where: { id: userId } })
   }
 }

@@ -13,10 +13,11 @@ import Ticket from '../Ticket/Ticket.entity'
 @Entity()
 @ObjectType()
 export default class Flow {
-  constructor(flowName: string, tickets?: Ticket[]) {
+  constructor(flowName: string, appUser: AppUser, tickets?: Ticket[]) {
     this.flowName = flowName
+    this.appUser = appUser
     if (tickets) {
-      this.tickets = tickets
+      this.tickets = Promise.resolve(tickets)
     }
   }
 
@@ -37,5 +38,5 @@ export default class Flow {
 
   @OneToMany(() => Ticket, (ticket) => ticket.flow)
   @Field(() => [Ticket])
-  tickets: Ticket[]
+  tickets: Promise<Ticket[]>
 }

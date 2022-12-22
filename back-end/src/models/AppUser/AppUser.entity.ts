@@ -25,7 +25,7 @@ export default class AppUser {
     this.hashedPassword = hashedPassword
 
     if (flows) {
-      this.flows = flows
+      this.flows = Promise.resolve(flows)
     }
   }
 
@@ -50,7 +50,7 @@ export default class AppUser {
   @Column()
   hashedPassword: string
 
-  @OneToMany(() => Flow, (flow) => flow.appUser, { eager: true })
+  @OneToMany(() => Flow, (flow) => flow.appUser)
   @Field(() => [Flow], { nullable: false })
-  flows: Flow[]
+  flows: Promise<Flow[]>
 }
