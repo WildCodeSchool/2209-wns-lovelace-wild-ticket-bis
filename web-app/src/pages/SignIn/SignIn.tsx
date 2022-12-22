@@ -17,10 +17,10 @@ import {
   LinkFooter,
   SignInContainer,
   TextLabel,
+  Logo,
 } from './SignIn.styled'
 import './SignIn.styled.tsx'
 import imglogo from '../../logo_flu.png'
-import styled from 'styled-components'
 
 const SIGN_IN = gql`
   mutation SignIn($emailAddress: String!, $password: String!) {
@@ -32,8 +32,6 @@ const SIGN_IN = gql`
     }
   }
 `
-const Logo = styled.img``
-
 const SignIn = ({ onSuccess, displayNavbar }: any) => {
   const [emailAddress, setEmailAddress] = useState('')
   const [password, setPassword] = useState('')
