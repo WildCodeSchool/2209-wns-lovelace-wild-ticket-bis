@@ -1,12 +1,26 @@
-import { gql, useMutation } from "@apollo/client";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import Loader from "../../components/Loader";
-import { SignInMutation, SignInMutationVariables } from "../../gql/graphql";
-import { SectionTitle } from "../../styles/base-styles";
-import { getErrorMessage } from "../../utils";
-import { HOME_PATH } from "../paths";
+import { gql, useMutation } from '@apollo/client'
+import { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import Loader from '../../components/Loader'
+import { SignInMutation, SignInMutationVariables } from '../../gql/graphql'
+import { getErrorMessage } from '../../utils'
+import { MES_FLUX_PATH, SIGN_UP_PATH } from '../paths'
+import {
+  ButtonLabel,
+  ContainerInput,
+  FooterForm,
+  FormContainer,
+  InputForm,
+  LabelForm,
+  LabelTitle,
+  LinkFooter,
+  SignInContainer,
+  TextLabel,
+} from './SignIn.styled'
+import './SignIn.styled.tsx'
+import imglogo from '../../logo_flu.png'
+import styled from 'styled-components'
 
 const SIGN_IN = gql`
   mutation SignIn($emailAddress: String!, $password: String!) {
@@ -17,76 +31,90 @@ const SIGN_IN = gql`
       lastName
     }
   }
-`;
+`
+const Logo = styled.img``
 
-const SignIn = ({ onSuccess }: { onSuccess: () => {} }) => {
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
+const SignIn = ({ onSuccess, displayNavbar }: any) => {
+  const [emailAddress, setEmailAddress] = useState('')
+  const [password, setPassword] = useState('')
 
   const [signIn, { loading }] = useMutation<
     SignInMutation,
     SignInMutationVariables
-  >(SIGN_IN);
-  const navigate = useNavigate();
+  >(SIGN_IN)
+  const navigate = useNavigate()
 
   const submit = async () => {
     try {
       await signIn({
         variables: { emailAddress, password },
-      });
-      toast.success(`Vous vous êtes connecté avec succès.`);
-      onSuccess();
-      navigate(HOME_PATH);
+      })
+      toast.success(`Vous vous êtes connecté avec succès.`)
+      onSuccess()
+      navigate(MES_FLUX_PATH)
+      displayNavbar(true)
     } catch (error) {
-      toast.error(getErrorMessage(error));
+      displayNavbar(false)
+      toast.error(getErrorMessage(error))
     }
-  };
+  }
+
+  useEffect(() => {
+    displayNavbar(false)
+  })
 
   return (
-    <>
-      <SectionTitle>Connexion</SectionTitle>
-      <form
+    <SignInContainer>
+      <Logo src={imglogo} />
+      <FormContainer
         onSubmit={async (event) => {
-          event.preventDefault();
-          await submit();
+          event.preventDefault()
+          await submit()
         }}
       >
-        <label>
-          Adresse email
-          <br />
-          <input
-            type="email"
-            required
-            autoComplete="email"
-            id="emailAddress"
-            name="emailAddress"
-            value={emailAddress}
-            onChange={(event) => {
-              setEmailAddress(event.target.value);
-            }}
-          />
-        </label>
-        <br />
-        <label>
-          Mot de passe
-          <br />
-          <input
-            type="password"
-            required
-            autoComplete="current-password"
-            id="password"
-            name="password"
-            value={password}
-            onChange={(event) => {
-              setPassword(event.target.value);
-            }}
-          />
-        </label>
-        <br />
-        <button disabled={loading}>{loading ? <Loader /> : "Valider"}</button>
-      </form>
-    </>
-  );
-};
+        <LabelTitle>Bonjour</LabelTitle>
+        <ContainerInput>
+          <LabelForm>
+            <TextLabel>Adresse email</TextLabel>
+            <InputForm
+              type="email"
+              required
+              autoComplete="email"
+              id="emailAddress"
+              name="emailAddress"
+              value={emailAddress}
+              onChange={(event) => {
+                setEmailAddress(event.target.value)
+              }}
+            />
+          </LabelForm>
+          <LabelForm>
+            <TextLabel>Mot de passe</TextLabel>
+            <InputForm
+              type="password"
+              required
+              autoComplete="current-password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value)
+              }}
+            />
+          </LabelForm>
+        </ContainerInput>
+        <ButtonLabel disabled={loading}>
+          {loading ? <Loader /> : 'Se connecter'}{' '}
+        </ButtonLabel>
+        <FooterForm>
+          Pas encore de compte ?{' '}
+          <Link style={{ textDecoration: 'none' }} to={SIGN_UP_PATH}>
+            <LinkFooter> S'inscrire</LinkFooter>
+          </Link>{' '}
+        </FooterForm>
+      </FormContainer>
+    </SignInContainer>
+  )
+}
 
-export default SignIn;
+export default SignIn

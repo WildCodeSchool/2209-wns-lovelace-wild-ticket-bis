@@ -1,15 +1,15 @@
 import styled, { css } from "styled-components";
 import { APP_FUNCTIONAL_WIDTH } from "./style-constants";
+import { MAIN_THEME_COLOR } from '../styles/style-constants'
 
 export const baseTitleStyles = css`
   margin: 0 0 0.35em;
 `;
-
 export const baseContainerStyles = css`
-  max-width: ${APP_FUNCTIONAL_WIDTH};
   margin-left: auto;
   margin-right: auto;
-  padding: 24px;
+  background: ${MAIN_THEME_COLOR};
+  height: 100vh;
 `;
 
 export const Paragraph = styled.p`
