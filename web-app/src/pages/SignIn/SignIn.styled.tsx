@@ -1,4 +1,14 @@
-import styled from 'styled-components';
+import styled from 'styled-components'
+import {
+  BOX_BACKGROUND_COLOR,
+  BOX_SHADOW,
+  FONT_FAMILY,
+  MAIN_THEME_COLOR,
+} from '../../styles/style-constants'
+
+export const Logo = styled.img`
+  width: 100px;
+`
 
 export const SignInContainer = styled.div`
   display: flex;
@@ -7,19 +17,17 @@ export const SignInContainer = styled.div`
   gap: 30px;
   padding: 20px;
   height: 90%;
-`;
+`
 export const FormContainer = styled.form`
-  height: 50vh;
-  width: 50vw;
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  padding-top: 10px;
+  justify-content: center;
   align-items: center;
   justify-content: center;
-  background-color: #dedede;
-  border-radius: 25px;
-`;
+  border-radius: 20px;
+  background: ${BOX_BACKGROUND_COLOR};
+  box-shadow: ${BOX_SHADOW};
+`
 export const LabelForm = styled.label`
   width: 90%;
   height: 30%;
@@ -28,34 +36,32 @@ export const LabelForm = styled.label`
   gap: 10px;
   align-items: center;
   justify-content: center;
-`;
+`
 export const InputForm = styled.input`
-  width: 100%;
-  height: 40px;
-  border-radius: 10px;
-  border: 0;
-`;
+  border-radius: 3px;
+  border-width: 0.5px;
+`
 export const TextLabel = styled.p`
   margin: 0;
-  font-family: QuickSand;
-  font-size: 25px;
+  font-size: 16px;
   display: flex;
   width: 100%;
-`;
+  font-family: ${FONT_FAMILY};
+`
 export const ButtonLabel = styled.button`
   height: 50px;
   width: 40%;
   border-radius: 30px;
   border: 0;
-  background-color: #ff9442;
-  font-family: QuickSand;
+  background-color: ${MAIN_THEME_COLOR};
+  font-family: ${FONT_FAMILY};
   font-size: 20px;
-`;
+`
 export const LabelTitle = styled.h1`
-  font-family: QuickSand;
+  font-family: ${FONT_FAMILY};
   font-size: 30px;
   font-weight: bold;
-`;
+`
 export const ContainerInput = styled.div`
   height: 40%;
   width: 80%;
@@ -64,20 +70,20 @@ export const ContainerInput = styled.div`
   align-items: center;
   justify-content: center;
   gap: 30px;
-`;
+`
 export const FooterForm = styled.div`
   margin: 0;
-  font-family: QuickSand;
+  font-family: ${FONT_FAMILY};
   font-weight: lighter;
   font-size: 20px;
   display: flex;
   justify-content: center;
   width: 100%;
   align-items: center;
-  gap:10px;
-`;
+  gap: 10px;
+`
 
 export const LinkFooter = styled.p`
-  color: #ff9442;
+  color: ${MAIN_THEME_COLOR};
   text-decoration: none;
-`;
+`
