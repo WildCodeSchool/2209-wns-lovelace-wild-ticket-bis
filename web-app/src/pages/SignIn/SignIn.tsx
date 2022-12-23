@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast, ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import Loader from '../../components/Loader'
 import { SignInMutation, SignInMutationVariables } from '../../gql/graphql'
 import { getErrorMessage } from '../../utils'
 import { MES_FLUX_PATH, SIGN_UP_PATH } from '../paths'
@@ -107,12 +106,10 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
               />
             </LabelForm>
           </ContainerInput>
-          <ButtonLabel disabled={loading}>
-            {loading ? <Loader /> : 'Se connecter'}{' '}
-          </ButtonLabel>
+          <ButtonLabel disabled={loading}>Se connecter</ButtonLabel>
           <FooterForm>
             Pas encore de compte ?{' '}
-            <Link style={{ textDecoration: 'none' }} to={SIGN_UP_PATH}>
+            <Link to={SIGN_UP_PATH}>
               <LinkFooter> S'inscrire</LinkFooter>
             </Link>{' '}
           </FooterForm>

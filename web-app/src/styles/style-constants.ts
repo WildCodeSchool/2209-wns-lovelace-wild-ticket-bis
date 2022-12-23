@@ -1,8 +1,8 @@
 export const MAIN_THEME_COLOR = '#FF9442'
 export const BACKGROUND_COLOR = '#EFF0F3'
-export const TITLE_FONT_COLOR = '0D0D0D'
-export const TEXT_FONT_COLOR = '2A2A2A'
-export const BUTTON_COLOR_ACTION= 'DD8541'
+export const TITLE_FONT_COLOR = '#0D0D0D'
+export const TEXT_FONT_COLOR = '#2A2A2A'
+export const BUTTON_COLOR_ACTION = 'rgba(212, 113, 37, 1)'
 
 export const FONT_FAMILY = `QuickSand`
 export const TITLE_FONT_WEIGHT = '600'

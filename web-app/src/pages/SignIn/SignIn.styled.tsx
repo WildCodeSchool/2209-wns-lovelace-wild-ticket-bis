@@ -3,6 +3,7 @@ import {
   BOX_BACKGROUND_COLOR,
   BOX_BORDER,
   BOX_SHADOW,
+  BUTTON_COLOR_ACTION,
   FONT_FAMILY,
   MAIN_THEME_COLOR,
   TEXT_FONT_WEIGHT,
@@ -77,9 +78,13 @@ export const ButtonLabel = styled.button`
   font-size: 20px;
   margin: 30px;
   background-color: ${MAIN_THEME_COLOR};
+  transition: 0.3s ease-out;
   font-family: ${FONT_FAMILY};
   font-weight: ${TITLE_FONT_WEIGHT};
   box-shadow: ${BOX_SHADOW};
+  &:active {
+    background-color: ${BUTTON_COLOR_ACTION};
+  }
 `
 
 export const LabelTitle = styled.h1`
