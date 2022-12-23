@@ -1,89 +1,119 @@
 import styled from 'styled-components'
 import {
   BOX_BACKGROUND_COLOR,
+  BOX_BORDER,
   BOX_SHADOW,
+  BUTTON_COLOR_ACTION,
   FONT_FAMILY,
   MAIN_THEME_COLOR,
+  TEXT_FONT_WEIGHT,
+  TITLE_FONT_WEIGHT,
 } from '../../styles/style-constants'
 
-export const Logo = styled.img`
-  width: 100px;
+export const SignInContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: 100vh;
 `
 
-export const SignInContainer = styled.div`
+export const GlobalLogoContainer = styled.div`
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  padding: 20px;
-  height: 90%;
+  justify-content: center;
 `
+
+export const Logo = styled.img`
+  width: 150px;
+  height: fit-content;
+  padding: 50px;
+`
+
+export const GlobalFormContainer = styled.div`
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  justify-content: center;
-  border-radius: 20px;
+  border: ${BOX_BORDER};
+  border-radius: 15px;
+  height: 450px;
+  width: 390px;
   background: ${BOX_BACKGROUND_COLOR};
   box-shadow: ${BOX_SHADOW};
 `
 export const LabelForm = styled.label`
   width: 90%;
-  height: 30%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
   align-items: center;
-  justify-content: center;
+  padding: 20px;
 `
 export const InputForm = styled.input`
-  border-radius: 3px;
-  border-width: 0.5px;
+  width: 100%;
+  height: 30px;
+  border: 1px solid rgba(42, 42, 42, 0.2);
+  border-radius: 8px;
 `
 export const TextLabel = styled.p`
-  margin: 0;
+  margin: auto;
+  padding-bottom: 5px;
   font-size: 16px;
   display: flex;
   width: 100%;
   font-family: ${FONT_FAMILY};
 `
 export const ButtonLabel = styled.button`
-  height: 50px;
-  width: 40%;
+  height: 41px;
+  width: 180px;
   border-radius: 30px;
-  border: 0;
-  background-color: ${MAIN_THEME_COLOR};
-  font-family: ${FONT_FAMILY};
+  border: none;
   font-size: 20px;
+  margin: 30px;
+  background-color: ${MAIN_THEME_COLOR};
+  transition: 0.3s ease-out;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${TITLE_FONT_WEIGHT};
+  box-shadow: ${BOX_SHADOW};
+  &:active {
+    background-color: ${BUTTON_COLOR_ACTION};
+  }
 `
+
 export const LabelTitle = styled.h1`
   font-family: ${FONT_FAMILY};
+  font-weight: ${TITLE_FONT_WEIGHT};
   font-size: 30px;
-  font-weight: bold;
 `
+
 export const ContainerInput = styled.div`
-  height: 40%;
-  width: 80%;
+  width: 60%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 30px;
 `
 export const FooterForm = styled.div`
   margin: 0;
   font-family: ${FONT_FAMILY};
-  font-weight: lighter;
-  font-size: 20px;
+  font-weight: ${TEXT_FONT_WEIGHT};
   display: flex;
   justify-content: center;
   width: 100%;
   align-items: center;
   gap: 10px;
+  margin-bottom: 30px;
 `
 
 export const LinkFooter = styled.p`
+  margin: 0px;
   color: ${MAIN_THEME_COLOR};
-  text-decoration: none;
+  text-decoration: underline;
 `
