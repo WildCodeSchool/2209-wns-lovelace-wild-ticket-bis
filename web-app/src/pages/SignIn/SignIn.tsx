@@ -16,7 +16,7 @@ import {
   LabelForm,
   LabelTitle,
   LinkFooter,
-  SignInContainer,
+  SignContainer,
   TextLabel,
   Logo,
   GlobalLogoContainer,
@@ -38,10 +38,7 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
   const [emailAddress, setEmailAddress] = useState('')
   const [password, setPassword] = useState('')
 
-  const [signIn, { loading }] = useMutation<
-    SignInMutation,
-    SignInMutationVariables
-  >(SIGN_IN)
+  const [signIn] = useMutation<SignInMutation, SignInMutationVariables>(SIGN_IN)
   const navigate = useNavigate()
 
   const submit = async () => {
@@ -64,7 +61,7 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
   })
 
   return (
-    <SignInContainer>
+    <SignContainer>
       <GlobalLogoContainer>
         <Logo src={imglogo} />
       </GlobalLogoContainer>
@@ -106,7 +103,7 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
               />
             </LabelForm>
           </ContainerInput>
-          <ButtonLabel disabled={loading}>Se connecter</ButtonLabel>
+          <ButtonLabel>Se connecter</ButtonLabel>
           <FooterForm>
             Pas encore de compte ?{' '}
             <Link to={SIGN_UP_PATH}>
@@ -116,7 +113,7 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
         </FormContainer>
       </GlobalFormContainer>
       <ToastContainer />
-    </SignInContainer>
+    </SignContainer>
   )
 }
 
