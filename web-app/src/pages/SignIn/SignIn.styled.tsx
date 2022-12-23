@@ -9,16 +9,33 @@ import {
   TITLE_FONT_WEIGHT,
 } from '../../styles/style-constants'
 
-export const Logo = styled.img`
-  width: 150px;
+export const SignInContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: 100vh;
 `
 
-export const SignInContainer = styled.div`
-  position: relative;
+export const GlobalLogoContainer = styled.div`
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+`
+
+export const Logo = styled.img`
+  width: 150px;
+  height: fit-content;
+  padding: 50px;
+`
+
+export const GlobalFormContainer = styled.div`
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
   align-items: center;
 `
+
 export const FormContainer = styled.form`
   display: flex;
   flex-direction: column;
