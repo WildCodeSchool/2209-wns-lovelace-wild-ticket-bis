@@ -1,7 +1,8 @@
 import { gql, useMutation } from '@apollo/client'
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import Loader from '../../components/Loader'
 import { SignInMutation, SignInMutationVariables } from '../../gql/graphql'
 import { getErrorMessage } from '../../utils'
@@ -117,6 +118,7 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
           </FooterForm>
         </FormContainer>
       </GlobalFormContainer>
+      <ToastContainer />
     </SignInContainer>
   )
 }
