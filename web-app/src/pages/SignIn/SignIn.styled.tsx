@@ -10,7 +10,7 @@ import {
   TITLE_FONT_WEIGHT,
 } from '../../styles/style-constants'
 
-export const SignInContainer = styled.div`
+export const SignContainer = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
@@ -44,7 +44,7 @@ export const FormContainer = styled.form`
   align-items: center;
   border: ${BOX_BORDER};
   border-radius: 15px;
-  height: 450px;
+  height: 470px;
   width: 390px;
   background: ${BOX_BACKGROUND_COLOR};
   box-shadow: ${BOX_SHADOW};
@@ -63,20 +63,19 @@ export const InputForm = styled.input`
   border-radius: 8px;
 `
 export const TextLabel = styled.p`
-  margin: auto;
+  margin: 0;
   padding-bottom: 5px;
   font-size: 16px;
-  display: flex;
   width: 100%;
   font-family: ${FONT_FAMILY};
 `
 export const ButtonLabel = styled.button`
-  height: 41px;
+  margin: 25px;
   width: 180px;
   border-radius: 30px;
   border: none;
   font-size: 20px;
-  margin: 30px;
+  padding: 10px;
   background-color: ${MAIN_THEME_COLOR};
   transition: 0.3s ease-out;
   font-family: ${FONT_FAMILY};
