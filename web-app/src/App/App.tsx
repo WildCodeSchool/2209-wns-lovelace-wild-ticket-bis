@@ -42,10 +42,7 @@ function App() {
 
   const displayNavbar = (isItDisplayed: boolean) => {
     setIsNavbarDisplayed(isItDisplayed);
-  };
-
-  const displayLogo = (isItDisplayed: boolean) => {
-    setIsLogoDisplayed(isItDisplayed);
+    setIsLogoDisplayed(!isNavbarDisplayed);
   };
 
   return (
@@ -57,22 +54,13 @@ function App() {
           <Routes>
             <Route
               path={SIGN_UP_PATH}
-              element={
-                <SignUp
-                  displayNavbar={displayNavbar}
-                  displayLogo={displayLogo}
-                />
-              }
+              element={<SignUp displayNavbar={displayNavbar} />}
             />
 
             <Route
               path={SIGN_IN_PATH}
               element={
-                <SignIn
-                  displayNavbar={displayNavbar}
-                  onSuccess={refetch}
-                  displayLogo={displayLogo}
-                />
+                <SignIn displayNavbar={displayNavbar} onSuccess={refetch} />
               }
             />
             <Route path={MES_FLUX_PATH} element={<MesFlux />} />
