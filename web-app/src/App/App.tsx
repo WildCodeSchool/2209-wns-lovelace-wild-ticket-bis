@@ -1,7 +1,7 @@
 import { gql, useQuery } from "@apollo/client";
 import { AnimatePresence } from "framer-motion";
 import React, { useState } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Logo from "../components/Logo/Logo";
 import Navbar from "../components/Navbar/Navbar";
@@ -45,13 +45,15 @@ function App() {
     setIsLogoDisplayed(!isNavbarDisplayed);
   };
 
+  const location = useLocation();
+
   return (
     <>
       <MainContainer>
         {isNavbarDisplayed ? <Navbar /> : null}
         {isLogoDisplayed ? <Logo /> : null}
-        <AnimatePresence>
-          <Routes>
+        <AnimatePresence mode="wait">
+          <Routes location={location} key={location.pathname}>
             <Route
               path={SIGN_UP_PATH}
               element={<SignUp displayNavbar={displayNavbar} />}
