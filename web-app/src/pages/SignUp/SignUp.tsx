@@ -1,12 +1,12 @@
-import { gql, useMutation } from '@apollo/client'
-import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import { SignUpMutation, SignUpMutationVariables } from '../../gql/graphql'
-import { getErrorMessage } from '../../utils'
-import { SIGN_IN_PATH } from '../paths'
-import './SignUp.styled.tsx'
-import imglogo from '../../logo_flu.png'
+import React from "react";
+import { gql, useMutation } from "@apollo/client";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { SignUpMutation, SignUpMutationVariables } from "../../gql/graphql";
+import { getErrorMessage } from "../../utils";
+import { SIGN_IN_PATH } from "../paths";
+import "./SignUp.styled.tsx";
 import {
   ContainerInput,
   FormContainer,
@@ -15,17 +15,15 @@ import {
   FooterForm,
   InputForm,
   LabelForm,
-} from './SignUp.styled'
+} from "./SignUp.styled";
 import {
   GlobalFormContainer,
-  GlobalLogoContainer,
   SignContainer,
   LinkFooter,
   ButtonLabel,
   LabelTitle,
   TextLabel,
-  Logo,
-} from '../SignIn/SignIn.styled'
+} from "../SignIn/SignIn.styled";
 
 const SIGN_UP = gql`
   mutation SignUp(
@@ -44,46 +42,55 @@ const SIGN_UP = gql`
       emailAddress
     }
   }
-`
+`;
 
 const SignUp = ({ displayNavbar }: any) => {
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
-  const [emailAddress, setEmailAddress] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmedPassword, setconfirmedPassword] = useState('')
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmedPassword, setconfirmedPassword] = useState("");
 
-  const [signUp] = useMutation<SignUpMutation, SignUpMutationVariables>(SIGN_UP)
-  const navigate = useNavigate()
+  const [signUp] = useMutation<SignUpMutation, SignUpMutationVariables>(
+    SIGN_UP
+  );
+  const navigate = useNavigate();
 
   const submit = async () => {
     try {
       await signUp({
         variables: { firstName, lastName, emailAddress, password },
-      })
+      });
       toast.success(
-        `Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.`,
-      )
-      navigate(SIGN_IN_PATH)
+        `Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.`
+      );
+      navigate(SIGN_IN_PATH);
     } catch (error) {
-      toast.error(getErrorMessage(error))
+      toast.error(getErrorMessage(error));
     }
-  }
+  };
 
   useEffect(() => {
-    displayNavbar(false)
-  })
+    displayNavbar(false);
+  });
 
   return (
-    <SignContainer>
-      <GlobalLogoContainer>
-        <Logo src={imglogo} />
-      </GlobalLogoContainer>
+    <SignContainer
+      key="signUpKey"
+      initial={{ x: 1000, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: 1000, opacity: 0 }}
+      transition={{
+        type: "spring",
+        stiffness: 250,
+        damping: 20,
+      }}
+    >
       <GlobalFormContainer>
         <FormContainer
           onSubmit={async (event) => {
-            event.preventDefault()
-            await submit()
+            event.preventDefault();
+            await submit();
           }}
         >
           <LabelTitle>S'inscrire</LabelTitle>
@@ -98,7 +105,7 @@ const SignUp = ({ displayNavbar }: any) => {
                   name="firstName"
                   value={firstName}
                   onChange={(event) => {
-                    setFirstName(event.target.value)
+                    setFirstName(event.target.value);
                   }}
                 />
               </LabelForm>
@@ -112,7 +119,7 @@ const SignUp = ({ displayNavbar }: any) => {
                   name="lastName"
                   value={lastName}
                   onChange={(event) => {
-                    setLastName(event.target.value)
+                    setLastName(event.target.value);
                   }}
                 />
               </LabelForm>
@@ -128,7 +135,7 @@ const SignUp = ({ displayNavbar }: any) => {
                   name="emailAddress"
                   value={emailAddress}
                   onChange={(event) => {
-                    setEmailAddress(event.target.value)
+                    setEmailAddress(event.target.value);
                   }}
                 />
               </LabelForm>
@@ -145,7 +152,7 @@ const SignUp = ({ displayNavbar }: any) => {
                   name="confirmed-password"
                   value={confirmedPassword}
                   onChange={(event) => {
-                    setconfirmedPassword(event.target.value)
+                    setconfirmedPassword(event.target.value);
                   }}
                 />
               </LabelForm>
@@ -156,19 +163,19 @@ const SignUp = ({ displayNavbar }: any) => {
                   type="password"
                   required
                   autoComplete="new-password"
-                  id="password"
-                  name="password"
+                  id="sign-up-password"
+                  name="sign-up-password"
                   value={password}
                   onChange={(event) => {
-                    setPassword(event.target.value)
+                    setPassword(event.target.value);
                   }}
                 />
               </LabelForm>
               <FooterForm>
-                Déjà un compte ?{' '}
+                Déjà un compte ?{" "}
                 <Link to={SIGN_IN_PATH}>
                   <LinkFooter> Se connecter</LinkFooter>
-                </Link>{' '}
+                </Link>{" "}
               </FooterForm>
             </SignUpRight>
           </ContainerInput>
@@ -176,7 +183,8 @@ const SignUp = ({ displayNavbar }: any) => {
         </FormContainer>
       </GlobalFormContainer>
     </SignContainer>
-  )
-}
+  );
+};
 
-export default SignUp
+export default SignUp;
+
