@@ -1,6 +1,6 @@
 import React from "react";
-import { GlobalLogoContainer, LogoImg } from "../../pages/SignIn/SignIn.styled";
 import logo from "../../assets/logo_flu.png";
+import { GlobalLogoContainer, LogoImg } from "./Logo.styled";
 
 const Logo = () => {
   return (
