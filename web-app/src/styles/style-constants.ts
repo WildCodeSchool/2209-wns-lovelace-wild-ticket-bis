@@ -14,4 +14,6 @@ export const BOX_OPACITY = '0.1'
 export const BOX_SHADOW = 'rgba(99, 99, 99, 0.2) 1px 2px 5px 0px;'
 export const BOX_BORDER = '1px solid rgba(42, 42, 42, 0.04)'
 
-export const APP_FUNCTIONAL_WIDTH = '800px'
+export const APP_FUNCTIONAL_WIDTH = '800px';
+export const SELECT_LINK_COLOR = '#D3D3D3';
+export const BUTTON_LOGOUT_COLOR = '#E7E7E7';
