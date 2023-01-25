@@ -38,7 +38,8 @@ const MY_PROFILE = gql`
 function App() {
   const { data, refetch } = useQuery<MyProfileQuery>(MY_PROFILE);
   const [isNavbarDisplayed, setIsNavbarDisplayed] = useState(true);
-  const [isLogoDisplayed, setIsLogoDisplayed] = useState(true);
+  const [isLogoDisplayed, setIsLogoDisplayed] = useState(false);
+
   const displayNavbar = (isItDisplayed: boolean) => {
     setIsNavbarDisplayed(isItDisplayed);
   };
@@ -56,13 +57,22 @@ function App() {
           <Routes>
             <Route
               path={SIGN_UP_PATH}
-              element={<SignUp displayNavbar={displayNavbar} />}
+              element={
+                <SignUp
+                  displayNavbar={displayNavbar}
+                  displayLogo={displayLogo}
+                />
+              }
             />
 
             <Route
               path={SIGN_IN_PATH}
               element={
-                <SignIn displayNavbar={displayNavbar} onSuccess={refetch} />
+                <SignIn
+                  displayNavbar={displayNavbar}
+                  onSuccess={refetch}
+                  displayLogo={displayLogo}
+                />
               }
             />
             <Route path={MES_FLUX_PATH} element={<MesFlux />} />

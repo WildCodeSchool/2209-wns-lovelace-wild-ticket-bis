@@ -32,7 +32,7 @@ const SIGN_IN = gql`
     }
   }
 `;
-const SignIn = ({ onSuccess, displayNavbar }: any) => {
+const SignIn = ({ onSuccess, displayNavbar, displayLogo }: any) => {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
 
@@ -50,14 +50,17 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
       onSuccess();
       navigate(MES_FLUX_PATH);
       displayNavbar(true);
+      displayLogo(false);
     } catch (error) {
       displayNavbar(false);
+      displayLogo(true);
       toast.error(getErrorMessage(error));
     }
   };
 
   useEffect(() => {
     displayNavbar(false);
+    displayLogo(true);
   });
 
   return (

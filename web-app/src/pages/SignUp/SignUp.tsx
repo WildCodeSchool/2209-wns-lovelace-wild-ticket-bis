@@ -44,7 +44,7 @@ const SIGN_UP = gql`
   }
 `;
 
-const SignUp = ({ displayNavbar }: any) => {
+const SignUp = ({ displayNavbar, displayLogo }: any) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
@@ -72,6 +72,7 @@ const SignUp = ({ displayNavbar }: any) => {
 
   useEffect(() => {
     displayNavbar(false);
+    displayLogo(true);
   });
 
   return (
