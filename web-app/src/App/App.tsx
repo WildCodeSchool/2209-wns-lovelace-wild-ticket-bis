@@ -1,13 +1,10 @@
+import React, { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { AnimatePresence } from "framer-motion";
-import React, { useState } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Logo from "../components/Logo/Logo";
-import Navbar from "../components/Navbar/Navbar";
 import { MyProfileQuery } from "../gql/graphql";
-import Corbeille from "../pages/Corbeille/Corbeille";
-import MesFlux from "../pages/MesFlux/MesFlux";
+import { MainContainer } from "./App.styled";
 
 import {
   SIGN_IN_PATH,
@@ -19,13 +16,18 @@ import {
   QR_CODE_CLIENT_PATH,
   TICKET_CLIENT_PATH,
 } from "../pages/paths";
+
+import Logo from "../components/Logo/Logo";
+import Navbar from "../components/Navbar/Navbar";
+
 import QRCode from "../pages/QRCode/QRCode";
 import QRCodeClient from "../pages/QRCodeClient/QRCodeClient";
 import SignIn from "../pages/SignIn/SignIn";
 import SignUp from "../pages/SignUp/SignUp";
 import TicketClient from "../pages/TicketClient/TicketClient";
 import Tickets from "../pages/Tickets/Tickets";
-import { MainContainer } from "./App.styled";
+import Corbeille from "../pages/Corbeille/Corbeille";
+import MesFlux from "../pages/MesFlux/MesFlux";
 
 const MY_PROFILE = gql`
   query MyProfile {
@@ -39,27 +41,28 @@ function App() {
   const { data, refetch } = useQuery<MyProfileQuery>(MY_PROFILE);
   const [isNavbarDisplayed, setIsNavbarDisplayed] = useState(true);
   const [isLogoDisplayed, setIsLogoDisplayed] = useState(false);
+  const location = useLocation();
 
   const displayNavbar = (isItDisplayed: boolean) => {
     setIsNavbarDisplayed(isItDisplayed);
-    setIsLogoDisplayed(!isNavbarDisplayed);
+    isItDisplayed ? setIsLogoDisplayed(false) : setIsLogoDisplayed(true);
   };
-
-  const location = useLocation();
 
   return (
     <>
       <MainContainer>
         {isNavbarDisplayed ? <Navbar /> : null}
         {isLogoDisplayed ? <Logo /> : null}
-        <AnimatePresence mode="wait">
-          <Routes location={location} key={location.pathname}>
+        <AnimatePresence>
+          <Routes location={location} key={location.key}>
             <Route
+              key="signUpKey"
               path={SIGN_UP_PATH}
               element={<SignUp displayNavbar={displayNavbar} />}
             />
 
             <Route
+              key="signInKey"
               path={SIGN_IN_PATH}
               element={
                 <SignIn displayNavbar={displayNavbar} onSuccess={refetch} />

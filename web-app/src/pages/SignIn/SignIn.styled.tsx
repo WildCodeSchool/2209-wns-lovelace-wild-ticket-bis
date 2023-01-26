@@ -11,9 +11,7 @@ import {
   TITLE_FONT_WEIGHT,
 } from "../../styles/style-constants";
 
-export const SignContainer = styled(motion.div)``;
-
-export const GlobalFormContainer = styled.div`
+export const GlobalFormContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
   align-items: center;

@@ -2,7 +2,7 @@ import React from "react";
 import { gql, useMutation } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { SignInMutation, SignInMutationVariables } from "../../gql/graphql";
 import { getErrorMessage } from "../../utils";
@@ -17,7 +17,6 @@ import {
   LabelForm,
   LabelTitle,
   LinkFooter,
-  SignContainer,
   TextLabel,
 } from "./SignIn.styled";
 import "./SignIn.styled.tsx";
@@ -35,6 +34,7 @@ const SIGN_IN = gql`
 const SignIn = ({ onSuccess, displayNavbar }: any) => {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
+  const [isSignInSuccess, setIsSignInSuccess] = useState(false);
 
   const [signIn] = useMutation<SignInMutation, SignInMutationVariables>(
     SIGN_IN
@@ -46,23 +46,24 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
       await signIn({
         variables: { emailAddress, password },
       });
+      setIsSignInSuccess(true);
       toast.success(`Vous vous êtes connecté avec succès.`);
       onSuccess();
       navigate(MES_FLUX_PATH);
-      displayNavbar(true);
     } catch (error) {
-      displayNavbar(false);
       toast.error(getErrorMessage(error));
     }
   };
 
   useEffect(() => {
     displayNavbar(false);
+    return () => {
+      isSignInSuccess ? displayNavbar(true) : displayNavbar(false);
+    };
   });
 
   return (
-    <SignContainer
-      key="signInKey"
+    <GlobalFormContainer
       initial={{ x: -1000, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: -1000, opacity: 0 }}
@@ -72,55 +73,52 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
         damping: 20,
       }}
     >
-      <GlobalFormContainer>
-        <FormContainer
-          onSubmit={async (event) => {
-            event.preventDefault();
-            await submit();
-          }}
-        >
-          <LabelTitle>Bonjour</LabelTitle>
-          <ContainerInput>
-            <LabelForm>
-              <TextLabel>Adresse email</TextLabel>
-              <InputForm
-                type="email"
-                required
-                autoComplete="email"
-                id="emailAddress"
-                name="emailAddress"
-                value={emailAddress}
-                onChange={(event) => {
-                  setEmailAddress(event.target.value);
-                }}
-              />
-            </LabelForm>
-            <LabelForm>
-              <TextLabel>Mot de passe</TextLabel>
-              <InputForm
-                type="password"
-                required
-                autoComplete="current-password"
-                id="sign-in-password"
-                name="sign-in-password"
-                value={password}
-                onChange={(event) => {
-                  setPassword(event.target.value);
-                }}
-              />
-            </LabelForm>
-          </ContainerInput>
-          <ButtonLabel>Se connecter</ButtonLabel>
-          <FooterForm>
-            Pas encore de compte ?{" "}
-            <Link to={SIGN_UP_PATH}>
-              <LinkFooter> S'inscrire</LinkFooter>
-            </Link>{" "}
-          </FooterForm>
-        </FormContainer>
-      </GlobalFormContainer>
-      <ToastContainer />
-    </SignContainer>
+      <FormContainer
+        onSubmit={async (event) => {
+          event.preventDefault();
+          await submit();
+        }}
+      >
+        <LabelTitle>Bonjour</LabelTitle>
+        <ContainerInput>
+          <LabelForm>
+            <TextLabel>Adresse email</TextLabel>
+            <InputForm
+              type="email"
+              required
+              autoComplete="email"
+              id="emailAddress"
+              name="emailAddress"
+              value={emailAddress}
+              onChange={(event) => {
+                setEmailAddress(event.target.value);
+              }}
+            />
+          </LabelForm>
+          <LabelForm>
+            <TextLabel>Mot de passe</TextLabel>
+            <InputForm
+              type="password"
+              required
+              autoComplete="current-password"
+              id="sign-in-password"
+              name="sign-in-password"
+              value={password}
+              onChange={(event) => {
+                setPassword(event.target.value);
+              }}
+            />
+          </LabelForm>
+        </ContainerInput>
+        <ButtonLabel>Se connecter</ButtonLabel>
+        <FooterForm>
+          Pas encore de compte ?{" "}
+          <Link to={SIGN_UP_PATH}>
+            <LinkFooter> S'inscrire</LinkFooter>
+          </Link>{" "}
+        </FooterForm>
+      </FormContainer>
+    </GlobalFormContainer>
   );
 };
 
