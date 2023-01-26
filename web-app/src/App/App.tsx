@@ -17,7 +17,6 @@ import {
   TICKET_CLIENT_PATH,
 } from "../pages/paths";
 
-import Logo from "../components/Logo/Logo";
 import Navbar from "../components/Navbar/Navbar";
 
 import QRCode from "../pages/QRCode/QRCode";
@@ -40,29 +39,24 @@ const MY_PROFILE = gql`
 function App() {
   const { data, refetch } = useQuery<MyProfileQuery>(MY_PROFILE);
   const [isNavbarDisplayed, setIsNavbarDisplayed] = useState(true);
-  const [isLogoDisplayed, setIsLogoDisplayed] = useState(false);
   const location = useLocation();
 
   const displayNavbar = (isItDisplayed: boolean) => {
     setIsNavbarDisplayed(isItDisplayed);
-    isItDisplayed ? setIsLogoDisplayed(false) : setIsLogoDisplayed(true);
   };
 
   return (
     <>
       <MainContainer>
         {isNavbarDisplayed ? <Navbar /> : null}
-        {isLogoDisplayed ? <Logo /> : null}
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.key}>
             <Route
-              key="signUpKey"
               path={SIGN_UP_PATH}
               element={<SignUp displayNavbar={displayNavbar} />}
             />
 
             <Route
-              key="signInKey"
               path={SIGN_IN_PATH}
               element={
                 <SignIn displayNavbar={displayNavbar} onSuccess={refetch} />

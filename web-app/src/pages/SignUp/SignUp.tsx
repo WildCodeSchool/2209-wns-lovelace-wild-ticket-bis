@@ -22,7 +22,10 @@ import {
   ButtonLabel,
   LabelTitle,
   TextLabel,
+  SignContainer,
+  GlobalLogoContainer,
 } from "../SignIn/SignIn.styled";
+import Logo from "components/Logo/Logo";
 
 const SIGN_UP = gql`
   mutation SignUp(
@@ -77,111 +80,117 @@ const SignUp = ({ displayNavbar }: any) => {
   });
 
   return (
-    <GlobalFormContainer
-      initial={{ x: 1000, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{
-        type: "spring",
-        stiffness: 250,
-        damping: 20,
-      }}
-      exit={{ x: 1000, opacity: 0 }}
-    >
-      <FormContainer
-        onSubmit={async (event) => {
-          event.preventDefault();
-          await submit();
+    <SignContainer>
+      <GlobalLogoContainer>
+        <Logo />
+      </GlobalLogoContainer>
+      <GlobalFormContainer
+        key="signUpKey"
+        initial={{ x: 1000, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{
+          type: "spring",
+          stiffness: 250,
+          damping: 20,
         }}
+        exit={{ x: 1000, opacity: 0 }}
       >
-        <LabelTitle>S'inscrire</LabelTitle>
-        <ContainerInput>
-          <SignUpLeft>
-            <LabelForm>
-              <TextLabel> Prénom</TextLabel>
-              <InputForm
-                type="text"
-                required
-                id="firstName"
-                name="firstName"
-                value={firstName}
-                onChange={(event) => {
-                  setFirstName(event.target.value);
-                }}
-              />
-            </LabelForm>
-            <LabelForm>
-              <TextLabel>Nom</TextLabel>
+        <FormContainer
+          onSubmit={async (event) => {
+            event.preventDefault();
+            await submit();
+          }}
+        >
+          <LabelTitle>S'inscrire</LabelTitle>
+          <ContainerInput>
+            <SignUpLeft>
+              <LabelForm>
+                <TextLabel> Prénom</TextLabel>
+                <InputForm
+                  type="text"
+                  required
+                  id="firstName"
+                  name="firstName"
+                  value={firstName}
+                  onChange={(event) => {
+                    setFirstName(event.target.value);
+                  }}
+                />
+              </LabelForm>
+              <LabelForm>
+                <TextLabel>Nom</TextLabel>
 
-              <InputForm
-                type="text"
-                required
-                id="lastName"
-                name="lastName"
-                value={lastName}
-                onChange={(event) => {
-                  setLastName(event.target.value);
-                }}
-              />
-            </LabelForm>
+                <InputForm
+                  type="text"
+                  required
+                  id="lastName"
+                  name="lastName"
+                  value={lastName}
+                  onChange={(event) => {
+                    setLastName(event.target.value);
+                  }}
+                />
+              </LabelForm>
 
-            <LabelForm>
-              <TextLabel>Adresse email</TextLabel>
+              <LabelForm>
+                <TextLabel>Adresse email</TextLabel>
 
-              <InputForm
-                type="email"
-                required
-                autoComplete="email"
-                id="emailAddress"
-                name="emailAddress"
-                value={emailAddress}
-                onChange={(event) => {
-                  setEmailAddress(event.target.value);
-                }}
-              />
-            </LabelForm>
-          </SignUpLeft>
-          <SignUpRight>
-            <LabelForm>
-              <TextLabel>Mot de passe</TextLabel>
+                <InputForm
+                  type="email"
+                  required
+                  autoComplete="email"
+                  id="emailAddress"
+                  name="emailAddress"
+                  value={emailAddress}
+                  onChange={(event) => {
+                    setEmailAddress(event.target.value);
+                  }}
+                />
+              </LabelForm>
+            </SignUpLeft>
+            <SignUpRight>
+              <LabelForm>
+                <TextLabel>Mot de passe</TextLabel>
 
-              <InputForm
-                type="password"
-                required
-                autoComplete="new-password"
-                id="password"
-                name="confirmed-password"
-                value={confirmedPassword}
-                onChange={(event) => {
-                  setconfirmedPassword(event.target.value);
-                }}
-              />
-            </LabelForm>
-            <LabelForm>
-              <TextLabel>Confirmer le mot de passe</TextLabel>
+                <InputForm
+                  type="password"
+                  required
+                  autoComplete="new-password"
+                  id="password"
+                  name="confirmed-password"
+                  value={confirmedPassword}
+                  onChange={(event) => {
+                    setconfirmedPassword(event.target.value);
+                  }}
+                />
+              </LabelForm>
+              <LabelForm>
+                <TextLabel>Confirmer le mot de passe</TextLabel>
 
-              <InputForm
-                type="password"
-                required
-                autoComplete="new-password"
-                id="sign-up-password"
-                name="sign-up-password"
-                value={password}
-                onChange={(event) => {
-                  setPassword(event.target.value);
-                }}
-              />
-            </LabelForm>
-            <FooterForm>
-              Déjà un compte ?{" "}
-              <Link to={SIGN_IN_PATH}>
-                <LinkFooter> Se connecter</LinkFooter>
-              </Link>{" "}
-            </FooterForm>
-          </SignUpRight>
-        </ContainerInput>
-        <ButtonLabel>S'enregistrer</ButtonLabel>
-      </FormContainer>
-    </GlobalFormContainer>
+                <InputForm
+                  type="password"
+                  required
+                  autoComplete="new-password"
+                  id="sign-up-password"
+                  name="sign-up-password"
+                  value={password}
+                  onChange={(event) => {
+                    setPassword(event.target.value);
+                  }}
+                />
+              </LabelForm>
+              <FooterForm>
+                Déjà un compte ?{" "}
+                <Link to={SIGN_IN_PATH}>
+                  <LinkFooter> Se connecter</LinkFooter>
+                </Link>{" "}
+              </FooterForm>
+            </SignUpRight>
+          </ContainerInput>
+          <ButtonLabel>S'enregistrer</ButtonLabel>
+        </FormContainer>
+      </GlobalFormContainer>
+    </SignContainer>
   );
 };
 

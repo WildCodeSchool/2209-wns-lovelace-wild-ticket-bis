@@ -18,8 +18,11 @@ import {
   LabelTitle,
   LinkFooter,
   TextLabel,
+  SignContainer,
+  GlobalLogoContainer,
 } from "./SignIn.styled";
 import "./SignIn.styled.tsx";
+import Logo from "components/Logo/Logo";
 
 const SIGN_IN = gql`
   mutation SignIn($emailAddress: String!, $password: String!) {
@@ -63,62 +66,74 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
   });
 
   return (
-    <GlobalFormContainer
-      initial={{ x: -1000, opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }}
-      transition={{
-        type: "spring",
-        stiffness: 250,
-        damping: 20,
-      }}
-      exit={{ x: -1000, opacity: 0 }}
-    >
-      <FormContainer
-        onSubmit={async (event) => {
-          event.preventDefault();
-          await submit();
+    <SignContainer>
+      {isSignInSuccess ? (
+        <GlobalLogoContainer initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <Logo />
+        </GlobalLogoContainer>
+      ) : (
+        <GlobalLogoContainer>
+          <Logo />
+        </GlobalLogoContainer>
+      )}
+      <GlobalFormContainer
+        key="signInKey"
+        initial={{ x: -1000, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{
+          type: "spring",
+          stiffness: 250,
+          damping: 20,
         }}
+        exit={{ x: -1000, opacity: 0 }}
       >
-        <LabelTitle>Bonjour</LabelTitle>
-        <ContainerInput>
-          <LabelForm>
-            <TextLabel>Adresse email</TextLabel>
-            <InputForm
-              type="email"
-              required
-              autoComplete="email"
-              id="emailAddress"
-              name="emailAddress"
-              value={emailAddress}
-              onChange={(event) => {
-                setEmailAddress(event.target.value);
-              }}
-            />
-          </LabelForm>
-          <LabelForm>
-            <TextLabel>Mot de passe</TextLabel>
-            <InputForm
-              type="password"
-              required
-              autoComplete="current-password"
-              id="sign-in-password"
-              name="sign-in-password"
-              value={password}
-              onChange={(event) => {
-                setPassword(event.target.value);
-              }}
-            />
-          </LabelForm>
-        </ContainerInput>
-        <ButtonLabel>Se connecter</ButtonLabel>
-        <FooterForm>
-          Pas encore de compte ?{" "}
-          <Link to={SIGN_UP_PATH}>
-            <LinkFooter> S'inscrire</LinkFooter>
-          </Link>{" "}
-        </FooterForm>
-      </FormContainer>
-    </GlobalFormContainer>
+        <FormContainer
+          onSubmit={async (event) => {
+            event.preventDefault();
+            await submit();
+          }}
+        >
+          <LabelTitle>Bonjour</LabelTitle>
+          <ContainerInput>
+            <LabelForm>
+              <TextLabel>Adresse email</TextLabel>
+              <InputForm
+                type="email"
+                required
+                autoComplete="email"
+                id="emailAddress"
+                name="emailAddress"
+                value={emailAddress}
+                onChange={(event) => {
+                  setEmailAddress(event.target.value);
+                }}
+              />
+            </LabelForm>
+            <LabelForm>
+              <TextLabel>Mot de passe</TextLabel>
+              <InputForm
+                type="password"
+                required
+                autoComplete="current-password"
+                id="sign-in-password"
+                name="sign-in-password"
+                value={password}
+                onChange={(event) => {
+                  setPassword(event.target.value);
+                }}
+              />
+            </LabelForm>
+          </ContainerInput>
+          <ButtonLabel>Se connecter</ButtonLabel>
+          <FooterForm>
+            Pas encore de compte ?{" "}
+            <Link to={SIGN_UP_PATH}>
+              <LinkFooter> S'inscrire</LinkFooter>
+            </Link>{" "}
+          </FooterForm>
+        </FormContainer>
+      </GlobalFormContainer>
+    </SignContainer>
   );
 };
 

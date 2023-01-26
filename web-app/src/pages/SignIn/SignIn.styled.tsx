@@ -11,7 +11,22 @@ import {
   TITLE_FONT_WEIGHT,
 } from "../../styles/style-constants";
 
+export const SignContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: 100vh;
+`;
+
+export const GlobalLogoContainer = styled(motion.div)`
+  grid-column: 2;
+  grid-row: 1;
+  display: flex;
+  justify-content: center;
+`;
+
 export const GlobalFormContainer = styled(motion.div)`
+  grid-column: 2;
   display: flex;
   justify-content: center;
 `;
