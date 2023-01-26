@@ -3,6 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { AnimatePresence } from 'framer-motion';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
+import styled from 'styled-components';
 import { MyprofileQuery } from '../gql/graphql';
 
 import Navbar from '../components/Navbar/Navbar';
@@ -26,8 +27,9 @@ import {
   QR_CODE_CLIENT_PATH,
   TICKET_CLIENT_PATH,
 } from '../pages/paths';
-import { AppContainer } from './App.styled';
 import ButtonContainer from 'components/ButtonContainer/ButtonContainer';
+import { baseContainerStyles } from 'styles/base-styles';
+import { AppContainer } from './App.styled';
 
 const MY_PROFILE = gql`
   query Myprofile {
@@ -56,7 +58,7 @@ function App() {
   console.log(data);
   return (
     <>
-      <AppContainer >
+      <AppContainer className={isNavbarDisplayed ? 'yes' : 'no'}>
         {isNavbarDisplayed ? <Header data={data} /> : null}
         {isNavbarDisplayed ? <Navbar /> : null}
         {isNavbarDisplayed ? <ButtonContainer data={data} /> : null}
@@ -73,7 +75,7 @@ function App() {
                 <SignIn displayNavbar={displayNavbar} onSuccess={refetch} />
               }
             />
-            <Route path={MES_FLUX_PATH} element={<MesFlux />} />
+            <Route path={MES_FLUX_PATH} element={<MesFlux data={data} />} />
             <Route path={TICKETS_PATH} element={<Tickets />} />
             <Route path={QR_CODE_PATH} element={<QRCode />} />
             <Route path={CORBEILLE_PATH} element={<Corbeille />} />
