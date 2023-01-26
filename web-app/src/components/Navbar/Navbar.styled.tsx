@@ -7,9 +7,7 @@ import {
 } from '../../styles/style-constants';
 
 export const ContainerNavbar = styled.div`
-  grid-area: 2 / 1 / 5 / 2;
-  width: 20%;
-  height: 70%;
+  grid-area: 2 / 1 / 6 / 2;
   margin: 0;
 `;
 

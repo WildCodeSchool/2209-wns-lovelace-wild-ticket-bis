@@ -2,12 +2,11 @@ import styled from 'styled-components';
 import { BUTTON_LOGOUT_COLOR, FONT_FAMILY } from '../../styles/style-constants';
 
 export const ContainerHeader = styled.div`
-  width: 100%;
-  height: 15%;
   grid-area: 1 / 1 / 2 / 6;
   display: flex;
   align-items: center;
   gap: 5%;
+  justify-content: space-between;
 `;
 
 export const Logo = styled.img`
@@ -31,6 +30,13 @@ export const SelectActualFlu = styled.select`
   width: 60%;
   border: 0;
   border-radius: 15px;
+  font-family: ${FONT_FAMILY};
+  font-size: 1.2rem;
+`;
+
+export const OptionSelect = styled.option`
+  font-family: ${FONT_FAMILY};
+  font-size: 1.2rem;
 `;
 
 export const ContainerButtonLogout = styled.div`
@@ -51,12 +57,11 @@ export const ButtonLogout = styled.button`
   font-family: ${FONT_FAMILY};
   font-size: 1.2rem;
   gap: 20px;
+  justify-content: space-evenly;
 `;
 
 export const LogoLogout = styled.img`
   margin: 3px 3px 3px 3px;
-  height: 80%;
-  width: 80%;
 `;
 
 export const ContainerLogoLogout = styled.div`

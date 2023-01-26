@@ -11,6 +11,7 @@ import { getSessionIdInCookie } from './http-utils';
 import AppUser from './models/AppUser/AppUser.entity';
 import FlowRepository from './models/Flow/Flow.repository';
 import TicketRepository from './models/Ticket/Ticket.repository';
+import AddFlowResolver from './resolvers/Flow/Flow.resolver';
 
 export type GlobalContext = ExpressContext & {
   user: AppUser | null;
@@ -19,7 +20,7 @@ export type GlobalContext = ExpressContext & {
 const startServer = async () => {
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [AppUserResolver],
+      resolvers: [AppUserResolver, AddFlowResolver],
       authChecker: async ({ context }) => {
         return Boolean(context.user);
       },

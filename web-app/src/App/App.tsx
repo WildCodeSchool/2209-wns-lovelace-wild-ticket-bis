@@ -3,8 +3,7 @@ import { gql, useQuery } from '@apollo/client';
 import { AnimatePresence } from 'framer-motion';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { MyProfileQuery } from '../gql/graphql';
-import { MainContainer } from './App.styled';
+import { MyprofileQuery } from '../gql/graphql';
 
 import Navbar from '../components/Navbar/Navbar';
 import QRCode from '../pages/QRCode/QRCode';
@@ -27,6 +26,8 @@ import {
   QR_CODE_CLIENT_PATH,
   TICKET_CLIENT_PATH,
 } from '../pages/paths';
+import { AppContainer } from './App.styled';
+import ButtonContainer from 'components/ButtonContainer/ButtonContainer';
 
 const MY_PROFILE = gql`
   query Myprofile {
@@ -45,7 +46,7 @@ const MY_PROFILE = gql`
 `;
 
 function App() {
-  const { data, refetch } = useQuery<MyProfileQuery>(MY_PROFILE);
+  const { data, refetch } = useQuery<MyprofileQuery>(MY_PROFILE);
   const [isNavbarDisplayed, setIsNavbarDisplayed] = useState(true);
   const location = useLocation();
 
@@ -55,9 +56,10 @@ function App() {
   console.log(data);
   return (
     <>
-      <MainContainer>
-        {isNavbarDisplayed ? <Header /> : null}
+      <AppContainer >
+        {isNavbarDisplayed ? <Header data={data} /> : null}
         {isNavbarDisplayed ? <Navbar /> : null}
+        {isNavbarDisplayed ? <ButtonContainer data={data} /> : null}
         <AnimatePresence mode='wait'>
           <Routes location={location} key={location.key}>
             <Route
@@ -79,7 +81,7 @@ function App() {
             <Route path={TICKET_CLIENT_PATH} element={<TicketClient />} />
           </Routes>
         </AnimatePresence>
-      </MainContainer>
+      </AppContainer>
       <ToastContainer />
     </>
   );

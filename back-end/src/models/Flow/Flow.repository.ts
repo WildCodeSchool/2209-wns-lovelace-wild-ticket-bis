@@ -1,25 +1,34 @@
-import AppUser from '../AppUser/AppUser.entity'
-import AppUserRepository from '../AppUser/AppUser.repository'
-import FlowDb from './Flow.db'
-import Flow from './Flow.entity'
+import AppUser from '../AppUser/AppUser.entity';
+import AppUserRepository from '../AppUser/AppUser.repository';
+import FlowDb from './Flow.db';
+import Flow from './Flow.entity';
 
 export default class FlowRepository extends FlowDb {
   static async initializeFlow(): Promise<void> {
-    const user = await AppUserRepository.findOneByEmail('harrypotter@email.com')
+    const user = await AppUserRepository.findOneByEmail(
+      'harrypotter@email.com'
+    );
     if (user) {
-      await this.createFlow('Le camion vert', user)
+      await this.createFlow('Le camion vert', user.id);
+      await this.createFlow("Pas d'idée de nom", user.id);
+      await this.createFlow('Le van a Harry Potter', user.id);
     }
   }
   static async clearRepository(): Promise<void> {
-    this.repository.delete({})
+    this.repository.delete({});
   }
 
-  static async createFlow(flowName: string, appUser: AppUser): Promise<Flow> {
-    const flow = new Flow(flowName, appUser)
-    return this.saveFlow(flow)
+  static async createFlow(flowName: string, id: string): Promise<Flow> {
+    const appUser = await AppUserRepository.findOneById(id);
+    if (appUser) {
+      const flow = new Flow(flowName, appUser);
+      return this.saveFlow(flow);
+    } else {
+      throw new Error('Aucun utilisateur');
+    }
   }
 
-  static async getFlowByName(flowName: string): Promise<Flow | null> {
-    return this.repository.findOneBy({ flowName })
+    static async getFlowByName(flowName: string): Promise<Flow | null> {
+    return this.repository.findOneBy({ flowName });
   }
 }
