@@ -53,7 +53,7 @@ function App() {
       <MainContainer>
         {isNavbarDisplayed ? <Navbar /> : null}
         {isLogoDisplayed ? <Logo /> : null}
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
           <Routes location={location} key={location.key}>
             <Route
               key="signUpKey"
