@@ -1,11 +1,12 @@
-import { gql, useMutation } from '@apollo/client'
-import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast, ToastContainer } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import { SignInMutation, SignInMutationVariables } from '../../gql/graphql'
-import { getErrorMessage } from '../../utils'
-import { MES_FLUX_PATH, SIGN_UP_PATH } from '../paths'
+import React from "react";
+import { gql, useMutation } from "@apollo/client";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { SignInMutation, SignInMutationVariables } from "../../gql/graphql";
+import { getErrorMessage } from "../../utils";
+import { MES_FLUX_PATH, SIGN_UP_PATH } from "../paths";
 import {
   GlobalFormContainer,
   ButtonLabel,
@@ -16,13 +17,12 @@ import {
   LabelForm,
   LabelTitle,
   LinkFooter,
-  SignContainer,
   TextLabel,
-  Logo,
+  SignContainer,
   GlobalLogoContainer,
-} from './SignIn.styled'
-import './SignIn.styled.tsx'
-import imglogo from '../../logo_flu.png'
+} from "./SignIn.styled";
+import "./SignIn.styled.tsx";
+import Logo from "components/Logo/Logo";
 
 const SIGN_IN = gql`
   mutation SignIn($emailAddress: String!, $password: String!) {
@@ -33,43 +33,64 @@ const SIGN_IN = gql`
       lastName
     }
   }
-`
+`;
 const SignIn = ({ onSuccess, displayNavbar }: any) => {
-  const [emailAddress, setEmailAddress] = useState('')
-  const [password, setPassword] = useState('')
+  const [emailAddress, setEmailAddress] = useState("");
+  const [password, setPassword] = useState("");
+  const [isSignInSuccess, setIsSignInSuccess] = useState(false);
 
-  const [signIn] = useMutation<SignInMutation, SignInMutationVariables>(SIGN_IN)
-  const navigate = useNavigate()
+  const [signIn] = useMutation<SignInMutation, SignInMutationVariables>(
+    SIGN_IN
+  );
+  const navigate = useNavigate();
 
   const submit = async () => {
     try {
       await signIn({
         variables: { emailAddress, password },
-      })
-      toast.success(`Vous vous êtes connecté avec succès.`)
-      onSuccess()
-      navigate(MES_FLUX_PATH)
-      displayNavbar(true)
+      });
+      setIsSignInSuccess(true);
+      toast.success(`Vous vous êtes connecté avec succès.`);
+      onSuccess();
+      navigate(MES_FLUX_PATH);
     } catch (error) {
-      displayNavbar(false)
-      toast.error(getErrorMessage(error))
+      toast.error(getErrorMessage(error));
     }
-  }
+  };
 
   useEffect(() => {
-    displayNavbar(false)
-  })
+    displayNavbar(false);
+    return () => {
+      isSignInSuccess ? displayNavbar(true) : displayNavbar(false);
+    };
+  });
 
   return (
     <SignContainer>
-      <GlobalLogoContainer>
-        <Logo src={imglogo} />
-      </GlobalLogoContainer>
-      <GlobalFormContainer>
+      {isSignInSuccess ? (
+        <GlobalLogoContainer initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <Logo />
+        </GlobalLogoContainer>
+      ) : (
+        <GlobalLogoContainer>
+          <Logo />
+        </GlobalLogoContainer>
+      )}
+      <GlobalFormContainer
+        key="signInKey"
+        initial={{ x: -1000, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{
+          type: "spring",
+          stiffness: 250,
+          damping: 20,
+        }}
+        exit={{ x: -1000, opacity: 0 }}
+      >
         <FormContainer
           onSubmit={async (event) => {
-            event.preventDefault()
-            await submit()
+            event.preventDefault();
+            await submit();
           }}
         >
           <LabelTitle>Bonjour</LabelTitle>
@@ -84,7 +105,7 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
                 name="emailAddress"
                 value={emailAddress}
                 onChange={(event) => {
-                  setEmailAddress(event.target.value)
+                  setEmailAddress(event.target.value);
                 }}
               />
             </LabelForm>
@@ -94,27 +115,27 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
                 type="password"
                 required
                 autoComplete="current-password"
-                id="password"
-                name="password"
+                id="sign-in-password"
+                name="sign-in-password"
                 value={password}
                 onChange={(event) => {
-                  setPassword(event.target.value)
+                  setPassword(event.target.value);
                 }}
               />
             </LabelForm>
           </ContainerInput>
           <ButtonLabel>Se connecter</ButtonLabel>
           <FooterForm>
-            Pas encore de compte ?{' '}
+            Pas encore de compte ?{" "}
             <Link to={SIGN_UP_PATH}>
               <LinkFooter> S'inscrire</LinkFooter>
-            </Link>{' '}
+            </Link>{" "}
           </FooterForm>
         </FormContainer>
       </GlobalFormContainer>
-      <ToastContainer />
     </SignContainer>
-  )
-}
+  );
+};
 
-export default SignIn
+export default SignIn;
+
