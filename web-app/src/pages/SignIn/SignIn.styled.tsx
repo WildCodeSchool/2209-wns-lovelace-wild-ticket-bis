@@ -14,7 +14,6 @@ import {
 export const GlobalFormContainer = styled(motion.div)`
   display: flex;
   justify-content: center;
-  align-items: center;
 `;
 
 export const FormContainer = styled.form`
