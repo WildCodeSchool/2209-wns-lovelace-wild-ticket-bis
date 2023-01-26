@@ -1,38 +1,39 @@
-import 'reflect-metadata'
-import { ApolloServer } from 'apollo-server'
-import { ExpressContext } from 'apollo-server-express'
-import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core'
-import { buildSchema } from 'type-graphql'
+import 'reflect-metadata';
+import { ApolloServer } from 'apollo-server';
+import { ExpressContext } from 'apollo-server-express';
+import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core';
+import { buildSchema } from 'type-graphql';
 
-import AppUserResolver from './resolvers/AppUser/AppUser.resolver'
-import AppUserRepository from './models/AppUser/AppUser.repository'
-import SessionRepository from './models/AppUser/Session.repository'
-import { getSessionIdInCookie } from './http-utils'
-import AppUser from './models/AppUser/AppUser.entity'
-import FlowRepository from './models/Flow/Flow.repository'
-import TicketRepository from './models/Ticket/Ticket.repository'
+import AppUserResolver from './resolvers/AppUser/AppUser.resolver';
+import AppUserRepository from './models/AppUser/AppUser.repository';
+import SessionRepository from './models/AppUser/Session.repository';
+import { getSessionIdInCookie } from './http-utils';
+import AppUser from './models/AppUser/AppUser.entity';
+import FlowRepository from './models/Flow/Flow.repository';
+import TicketRepository from './models/Ticket/Ticket.repository';
+import AddFlowResolver from './resolvers/Flow/Flow.resolver';
 
 export type GlobalContext = ExpressContext & {
-  user: AppUser | null
-}
+  user: AppUser | null;
+};
 
 const startServer = async () => {
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [AppUserResolver],
+      resolvers: [AppUserResolver, AddFlowResolver],
       authChecker: async ({ context }) => {
-        return Boolean(context.user)
+        return Boolean(context.user);
       },
     }),
     context: async (context): Promise<GlobalContext> => {
-      const sessionId = getSessionIdInCookie(context)
+      const sessionId = getSessionIdInCookie(context);
       const user = !sessionId
         ? null
-        : await AppUserRepository.findBySessionId(sessionId)
+        : await AppUserRepository.findBySessionId(sessionId);
 
-      return { res: context.res, req: context.req, user }
+      return { res: context.res, req: context.req, user };
     },
-    csrfPrevention: true,
+    csrfPrevention: false,
     cors: false,
     cache: 'bounded',
     /**
@@ -43,21 +44,21 @@ const startServer = async () => {
      * ApolloServerPluginLandingPageProductionDefault instead.
      **/
     plugins: [ApolloServerPluginLandingPageLocalDefault({ embed: true })],
-  })
+  });
 
   // The `listen` method launches a web server.
-  const { url } = await server.listen()
+  const { url } = await server.listen();
 
-  await AppUserRepository.initializeRepository()
-  await SessionRepository.initializeRepository()
-  await FlowRepository.initializeRepository()
-  await TicketRepository.initializeRepository()
+  await AppUserRepository.initializeRepository();
+  await SessionRepository.initializeRepository();
+  await FlowRepository.initializeRepository();
+  await TicketRepository.initializeRepository();
 
-  await AppUserRepository.initializeUser()
-  await FlowRepository.initializeFlow()
-  await TicketRepository.initializeTicket()
+  await AppUserRepository.initializeUser();
+  await FlowRepository.initializeFlow();
+  await TicketRepository.initializeTicket();
 
-  console.log(`🚀  Server ready at ${url}`)
-}
+  console.log(`🚀  Server ready at ${url}`);
+};
 
-startServer()
+startServer();

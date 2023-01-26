@@ -14,4 +14,11 @@ export const BOX_OPACITY = '0.1'
 export const BOX_SHADOW = 'rgba(99, 99, 99, 0.2) 1px 2px 5px 0px;'
 export const BOX_BORDER = '1px solid rgba(42, 42, 42, 0.04)'
 
-export const APP_FUNCTIONAL_WIDTH = '800px'
+export const APP_FUNCTIONAL_WIDTH = '800px';
+export const SELECT_LINK_COLOR = '#D3D3D3';
+export const BUTTON_LOGOUT_COLOR = '#E7E7E7';
+export const PRIMARY_COLOR_BUTTON = '#FF9442';
+export const COLOR_VALIDATE_TICKET = '#2BC016';
+export const COLOR_NOSCAN_TICKET = '#F0D472';
+export const COLOR_ERROR_TICKET = '#D93737';
+export const COLOR_WAITING_TICKET = '#2E8DC2';
