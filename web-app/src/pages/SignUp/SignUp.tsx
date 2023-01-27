@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { SignUpMutation, SignUpMutationVariables } from "../../gql/graphql";
-import { getErrorMessage } from "../../utils";
 import { SIGN_IN_PATH } from "../paths";
 import "./SignUp.styled.tsx";
 import {
@@ -15,6 +14,8 @@ import {
   FooterForm,
   InputForm,
   LabelForm,
+  TextWrongPassword,
+  TextGoodPassword,
 } from "./SignUp.styled";
 import {
   GlobalFormContainer,
@@ -59,16 +60,22 @@ const SignUp = ({ displayNavbar }: any) => {
   const navigate = useNavigate();
 
   const submit = async () => {
-    try {
-      await signUp({
-        variables: { firstName, lastName, emailAddress, password },
-      });
-      toast.success(
-        `Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.`
-      );
-      navigate(SIGN_IN_PATH);
-    } catch (error) {
-      toast.error(getErrorMessage(error));
+    if (password !== confirmedPassword) {
+      toast.warning("Confirmation du mot de passe erronée");
+    } else {
+      try {
+        await signUp({
+          variables: { firstName, lastName, emailAddress, password },
+        });
+        toast.success(
+          "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter."
+        );
+        navigate(SIGN_IN_PATH);
+      } catch (error) {
+        toast.error(
+          "Un problème est survenue. Veuillez réessayer ultérieurement. "
+        );
+      }
     }
   };
 
@@ -157,10 +164,10 @@ const SignUp = ({ displayNavbar }: any) => {
                   required
                   autoComplete="new-password"
                   id="password"
-                  name="confirmed-password"
-                  value={confirmedPassword}
+                  name="password"
+                  value={password}
                   onChange={(event) => {
-                    setconfirmedPassword(event.target.value);
+                    setPassword(event.target.value);
                   }}
                 />
               </LabelForm>
@@ -171,13 +178,18 @@ const SignUp = ({ displayNavbar }: any) => {
                   type="password"
                   required
                   autoComplete="new-password"
-                  id="sign-up-password"
-                  name="sign-up-password"
-                  value={password}
+                  id="confirmed-password"
+                  name="confirmed-password"
+                  value={confirmedPassword}
                   onChange={(event) => {
-                    setPassword(event.target.value);
+                    setconfirmedPassword(event.target.value);
                   }}
                 />
+                {password !== confirmedPassword ? (
+                  <TextWrongPassword>Mot de passe incorrect</TextWrongPassword>
+                ) : (
+                  <TextGoodPassword></TextGoodPassword>
+                )}
               </LabelForm>
               <FooterForm>
                 Déjà un compte ?{" "}
