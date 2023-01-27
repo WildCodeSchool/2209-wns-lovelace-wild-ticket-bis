@@ -14,6 +14,8 @@ import {
   FooterForm,
   InputForm,
   LabelForm,
+  TextWrongPassword,
+  TextGoodPassword,
 } from "./SignUp.styled";
 import {
   GlobalFormContainer,
@@ -51,7 +53,6 @@ const SignUp = ({ displayNavbar }: any) => {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [confirmedPassword, setconfirmedPassword] = useState("");
-  const [wrongPassword, setWrongPassword] = useState("");
 
   const [signUp] = useMutation<SignUpMutation, SignUpMutationVariables>(
     SIGN_UP
@@ -60,7 +61,7 @@ const SignUp = ({ displayNavbar }: any) => {
 
   const submit = async () => {
     if (password !== confirmedPassword) {
-      setWrongPassword("Les mots de passe ne correspondent pas.");
+      toast.warning("Confirmation du mot de passe erronée");
     } else {
       try {
         await signUp({
@@ -185,8 +186,10 @@ const SignUp = ({ displayNavbar }: any) => {
                   }}
                 />
                 {password !== confirmedPassword ? (
-                  <TextLabel>{wrongPassword}</TextLabel>
-                ) : null}
+                  <TextWrongPassword>Mot de passe incorrect</TextWrongPassword>
+                ) : (
+                  <TextGoodPassword></TextGoodPassword>
+                )}
               </LabelForm>
               <FooterForm>
                 Déjà un compte ?{" "}
