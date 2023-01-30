@@ -6,6 +6,7 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import "./index.css";
 import App from "./App/App";
 import reportWebVitals from "./reportWebVitals";
+import { ContextProvider } from "context/AppContext";
 
 const client = new ApolloClient({
   uri: "/",
@@ -18,9 +19,11 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <ContextProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </ContextProvider>
     </ApolloProvider>
   </React.StrictMode>
 );
@@ -29,3 +32,4 @@ root.render(
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
+

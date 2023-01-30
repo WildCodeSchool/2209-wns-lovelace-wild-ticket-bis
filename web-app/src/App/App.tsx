@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { AnimatePresence } from "framer-motion";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import styled from "styled-components";
 import { MyprofileQuery } from "../gql/graphql";
 
 import Navbar from "../components/Navbar/Navbar";
@@ -28,7 +27,6 @@ import {
   TICKET_CLIENT_PATH,
 } from "../pages/paths";
 import ButtonContainer from "components/ButtonContainer/ButtonContainer";
-import { baseContainerStyles } from "styles/base-styles";
 import { AppContainer } from "./App.styled";
 
 const MY_PROFILE = gql`
