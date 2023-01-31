@@ -13,11 +13,14 @@ const displayNavbar = () => {
 
 jest.mock("react-toastify");
 
-const renderSignIn = (mocks: MockedResponse<SignInMutation>[] = []) => {
+const renderSignIn = (
+  mocks: MockedResponse<SignInMutation>[] = [],
+  onSuccess: jest.Mock<any, any, any>
+) => {
   return render(
     <MockedProvider mocks={mocks}>
       <div data-testid="wrapper">
-        <SignIn displayNavbar={displayNavbar} />
+        <SignIn displayNavbar={displayNavbar} onSuccess={onSuccess} />
       </div>
     </MockedProvider>,
     { wrapper: BrowserRouter }
@@ -36,7 +39,8 @@ const fillFormAndSubmit = () => {
 
 describe("When the app mount SignIn component", () => {
   it("renders correctly", () => {
-    renderSignIn();
+    const onSuccess = jest.fn();
+    renderSignIn([], onSuccess);
 
     expect(screen.getByTestId("wrapper")).toMatchInlineSnapshot(signInSnapshot);
   });
@@ -64,7 +68,8 @@ describe("When SignIn form is submited with fields filled-in", () => {
       },
     };
     it("shows toast with success message", async () => {
-      renderSignIn([mockSignInSuccess]);
+      const onSuccess = jest.fn();
+      renderSignIn([mockSignInSuccess], onSuccess);
       fillFormAndSubmit();
 
       await waitFor(() => {
@@ -90,7 +95,8 @@ describe("When SignIn form is submited with fields filled-in", () => {
     };
 
     it("shows toast with error message", async () => {
-      renderSignIn([mockSignInError]);
+      const onSuccess = jest.fn();
+      renderSignIn([mockSignInError], onSuccess);
       fillFormAndSubmit();
 
       await waitFor(() => {

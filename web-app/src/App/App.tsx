@@ -64,7 +64,9 @@ function App() {
           <Routes location={location} key={location.key}>
             <Route
               path={SIGN_UP_PATH}
-              element={<SignUp displayNavbar={displayNavbar} />}
+              element={
+                <SignUp displayNavbar={displayNavbar} onSuccess={refetch} />
+              }
             />
 
             <Route

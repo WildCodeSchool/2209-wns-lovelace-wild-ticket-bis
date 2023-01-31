@@ -47,7 +47,7 @@ export const SIGN_UP = gql`
   }
 `;
 
-const SignUp = ({ displayNavbar }: any) => {
+const SignUp = ({ displayNavbar, onSuccess }: any) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
@@ -70,10 +70,11 @@ const SignUp = ({ displayNavbar }: any) => {
         toast.success(
           "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter."
         );
+        onSuccess();
         navigate(SIGN_IN_PATH);
       } catch (error) {
         toast.error(
-          "Un problème est survenue. Veuillez réessayer ultérieurement. "
+          "Un problème est survenue. Veuillez réessayer ultérieurement."
         );
       }
     }
@@ -103,6 +104,7 @@ const SignUp = ({ displayNavbar }: any) => {
         exit={{ x: 1000, opacity: 0 }}
       >
         <FormContainer
+          aria-label="form"
           onSubmit={async (event) => {
             event.preventDefault();
             await submit();

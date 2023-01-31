@@ -22,6 +22,7 @@ export const signUpSnapshot = `
       style="opacity: 0; transform: translateX(1000px) translateZ(0);"
     >
       <form
+        aria-label="form"
         class="sc-bcXHqe bxIaMR"
       >
         <h1
