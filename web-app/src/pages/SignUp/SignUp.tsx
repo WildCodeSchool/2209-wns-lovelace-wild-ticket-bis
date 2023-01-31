@@ -28,7 +28,7 @@ import {
 } from "../SignIn/SignIn.styled";
 import Logo from "components/Logo/Logo";
 
-const SIGN_UP = gql`
+export const SIGN_UP = gql`
   mutation SignUp(
     $firstName: String!
     $lastName: String!
@@ -185,10 +185,10 @@ const SignUp = ({ displayNavbar }: any) => {
                     setconfirmedPassword(event.target.value);
                   }}
                 />
-                {password !== confirmedPassword ? (
-                  <TextWrongPassword>Mot de passe incorrect</TextWrongPassword>
-                ) : (
+                {password === confirmedPassword || confirmedPassword === "" ? (
                   <TextGoodPassword></TextGoodPassword>
+                ) : (
+                  <TextWrongPassword>Mot de passe différents</TextWrongPassword>
                 )}
               </LabelForm>
               <FooterForm>
