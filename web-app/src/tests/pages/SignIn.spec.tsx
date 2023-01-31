@@ -1,0 +1,199 @@
+/* eslint-disable testing-library/no-wait-for-multiple-assertions */
+import { BrowserRouter } from "react-router-dom";
+import { MockedProvider, MockedResponse } from "@apollo/client/testing";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import { SignInMutation } from "gql/graphql";
+import SignIn, { SIGN_IN } from "pages/SignIn/SignIn";
+import * as toastify from "react-toastify";
+
+const displayNavbar = () => {
+  return false;
+};
+
+jest.mock("react-toastify");
+
+const renderSignIn = (mocks: MockedResponse<SignInMutation>[] = []) => {
+  return render(
+    <MockedProvider mocks={mocks}>
+      <div data-testid="wrapper">
+        <SignIn displayNavbar={displayNavbar} />
+      </div>
+    </MockedProvider>,
+    { wrapper: BrowserRouter }
+  );
+};
+
+const fillFormAndSubmit = () => {
+  fireEvent.change(screen.getByRole("textbox", { name: "Adresse email" }), {
+    target: { value: "jeanjean@email.com" },
+  });
+  fireEvent.change(screen.getByLabelText(/Mot de passe/i), {
+    target: { value: "Jeanjeanbon1!" },
+  });
+  fireEvent.submit(screen.getByRole("form"));
+};
+
+describe("When the app mount SignIn component", () => {
+  it("renders correctly", () => {
+    renderSignIn();
+
+    expect(screen.getByTestId("wrapper")).toMatchInlineSnapshot(`
+<div
+  data-testid="wrapper"
+>
+  <div
+    class="sc-bcXHqe fEPBGP"
+  >
+    <div
+      class="sc-gswNZR KpODG"
+    >
+      <div
+        class="sc-ipEyDJ gPWbgT"
+      >
+        <img
+          class="sc-csuSiG kACrFh"
+          src="logo_flu.png"
+        />
+      </div>
+    </div>
+    <div
+      class="sc-dkrFOg jPmEVR"
+      style="opacity: 0; transform: translateX(-1000px) translateZ(0);"
+    >
+      <form
+        aria-label="form"
+        class="sc-hLBbgP lhBvdg"
+      >
+        <h1
+          class="sc-ftTHYK dqTwHy"
+        >
+          Bonjour
+        </h1>
+        <div
+          class="sc-pyfCe UOPDj"
+        >
+          <label
+            class="sc-eDvSVe iwHvPs"
+          >
+            <p
+              class="sc-gKPRtg hUrEQS"
+            >
+              Adresse email
+            </p>
+            <input
+              autocomplete="email"
+              class="sc-jSUZER cxlunb"
+              id="emailAddress"
+              name="emailAddress"
+              required=""
+              type="email"
+              value=""
+            />
+          </label>
+          <label
+            class="sc-eDvSVe iwHvPs"
+          >
+            <p
+              class="sc-gKPRtg hUrEQS"
+            >
+              Mot de passe
+            </p>
+            <input
+              autocomplete="current-password"
+              class="sc-jSUZER cxlunb"
+              id="password"
+              name="password"
+              required=""
+              type="password"
+              value=""
+            />
+          </label>
+        </div>
+        <button
+          class="sc-iBYQkv bcYDlq"
+        >
+          Se connecter
+        </button>
+        <div
+          class="sc-jrcTuL gTbhbD"
+        >
+          Pas encore de compte ?
+           
+          <a
+            href="/s'enregistrer"
+          >
+            <p
+              class="sc-kDvujY hsjWCY"
+            >
+               S'inscrire
+            </p>
+          </a>
+           
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+`);
+  });
+});
+
+describe("When SignIn form is submited with fields filled-in", () => {
+  describe("when server respond with success", () => {
+    const mockSignInSuccess: MockedResponse<SignInMutation> = {
+      request: {
+        query: SIGN_IN,
+        variables: {
+          emailAddress: "jeanjean@email.com",
+          password: "Jeanjeanbon1!",
+        },
+      },
+      result: {
+        data: {
+          signIn: {
+            emailAddress: "jeanjean@email.com",
+            id: "1234",
+            firstName: "Jeanjean",
+            lastName: "Bon",
+          },
+        },
+      },
+    };
+    it("shows toast with success message", async () => {
+      renderSignIn([mockSignInSuccess]);
+      fillFormAndSubmit();
+
+      await waitFor(() => {
+        expect(toastify.toast.success).toHaveBeenCalledTimes(1);
+        expect(toastify.toast.success).toHaveBeenCalledWith(
+          "Vous vous êtes connecté avec succès."
+        );
+      });
+    });
+  });
+
+  describe("When server respond with error", () => {
+    const ERROR_MESSAGE = "ERROR_MESSAGE";
+    const mockSignInError: MockedResponse<SignInMutation> = {
+      request: {
+        query: SIGN_IN,
+        variables: {
+          emailAddress: "jeanjean@email.com",
+          password: "Jeanjeanbon1!",
+        },
+      },
+      error: new Error(ERROR_MESSAGE),
+    };
+
+    it("shows toast with error message", async () => {
+      renderSignIn([mockSignInError]);
+      fillFormAndSubmit();
+
+      await waitFor(() => {
+        expect(toastify.toast.error).toHaveBeenCalledTimes(1);
+        expect(toastify.toast.error).toHaveBeenCalledWith(ERROR_MESSAGE);
+      });
+    });
+  });
+});
+

@@ -24,7 +24,7 @@ import {
 import "./SignIn.styled.tsx";
 import Logo from "components/Logo/Logo";
 
-const SIGN_IN = gql`
+export const SIGN_IN = gql`
   mutation SignIn($emailAddress: String!, $password: String!) {
     signIn(emailAddress: $emailAddress, password: $password) {
       id
@@ -88,6 +88,7 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
         exit={{ x: -1000, opacity: 0 }}
       >
         <FormContainer
+          aria-label="form"
           onSubmit={async (event) => {
             event.preventDefault();
             await submit();
@@ -115,8 +116,8 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
                 type="password"
                 required
                 autoComplete="current-password"
-                id="sign-in-password"
-                name="sign-in-password"
+                id="password"
+                name="password"
                 value={password}
                 onChange={(event) => {
                   setPassword(event.target.value);
