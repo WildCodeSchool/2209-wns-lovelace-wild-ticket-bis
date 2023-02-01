@@ -3,12 +3,14 @@ import {
   ContainerActualFlu,
   ContainerButtonLogout,
   ContainerHeader,
+  ContainerLogo,
   ContainerLogoLogout,
   LabelActualFlu,
   Logo,
   LogoLogout,
   OptionSelect,
   SelectActualFlu,
+  TextHello,
 } from './Header.styled';
 
 import logoFlu from '../../assets/logo_flu.png';
@@ -23,7 +25,12 @@ const Header = (data: any | null) => {
 
   return (
     <ContainerHeader>
-      <Logo src={logoFlu}></Logo>
+      <ContainerLogo>
+        <Logo src={logoFlu}></Logo>
+        {hasData ?? (
+          <TextHello>Bonjour, {data.data.myProfile.firstName}</TextHello>
+        )}
+      </ContainerLogo>
       <ContainerActualFlu>
         <LabelActualFlu> Actuel Flu : </LabelActualFlu>
         <SelectActualFlu>

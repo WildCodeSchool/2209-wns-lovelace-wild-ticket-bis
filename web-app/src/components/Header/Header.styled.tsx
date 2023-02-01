@@ -9,8 +9,22 @@ export const ContainerHeader = styled.div`
   justify-content: space-between;
 `;
 
+export const ContainerLogo = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+export const TextHello = styled.h2`
+  font-family: ${FONT_FAMILY};
+  font-size: 1.5rem;
+  font-weight: bold;
+  width: 80%;
+  align-self: center;
+`;
+
 export const Logo = styled.img`
   margin: 20px 0 0 20px;
+  width: 50%;
 `;
 export const ContainerActualFlu = styled.div`
   height: 30%;
@@ -18,7 +32,7 @@ export const ContainerActualFlu = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  gap: 2rem;
+  gap: 15px;
 `;
 export const LabelActualFlu = styled.label`
   font-family: ${FONT_FAMILY};
@@ -57,6 +71,7 @@ export const ButtonLogout = styled.button`
   font-family: ${FONT_FAMILY};
   font-size: 1.2rem;
   gap: 20px;
+  min-width: fit-content;
   justify-content: space-evenly;
 `;
 

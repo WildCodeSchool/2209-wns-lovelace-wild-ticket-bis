@@ -28,7 +28,7 @@ import {
   TICKET_CLIENT_PATH,
 } from '../pages/paths';
 
-const MY_PROFILE = gql`
+export const MY_PROFILE = gql`
   query Myprofile {
     myProfile {
       id
