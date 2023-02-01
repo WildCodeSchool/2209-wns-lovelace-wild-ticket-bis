@@ -28,7 +28,7 @@ import {
 } from "../SignIn/SignIn.styled";
 import Logo from "components/Logo/Logo";
 
-const SIGN_UP = gql`
+export const SIGN_UP = gql`
   mutation SignUp(
     $firstName: String!
     $lastName: String!
@@ -47,7 +47,7 @@ const SIGN_UP = gql`
   }
 `;
 
-const SignUp = ({ displayNavbar }: any) => {
+const SignUp = ({ displayNavbar, onSuccess }: any) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
@@ -70,10 +70,11 @@ const SignUp = ({ displayNavbar }: any) => {
         toast.success(
           "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter."
         );
+        onSuccess();
         navigate(SIGN_IN_PATH);
       } catch (error) {
         toast.error(
-          "Un problème est survenue. Veuillez réessayer ultérieurement. "
+          "Un problème est survenue. Veuillez réessayer ultérieurement."
         );
       }
     }
@@ -103,6 +104,7 @@ const SignUp = ({ displayNavbar }: any) => {
         exit={{ x: 1000, opacity: 0 }}
       >
         <FormContainer
+          aria-label="form"
           onSubmit={async (event) => {
             event.preventDefault();
             await submit();
@@ -185,10 +187,10 @@ const SignUp = ({ displayNavbar }: any) => {
                     setconfirmedPassword(event.target.value);
                   }}
                 />
-                {password !== confirmedPassword ? (
-                  <TextWrongPassword>Mot de passe incorrect</TextWrongPassword>
-                ) : (
+                {password === confirmedPassword || confirmedPassword === "" ? (
                   <TextGoodPassword></TextGoodPassword>
+                ) : (
+                  <TextWrongPassword>Mot de passe différents</TextWrongPassword>
                 )}
               </LabelForm>
               <FooterForm>
