@@ -56,7 +56,7 @@ function App() {
   const displayNavbar = (isItDisplayed: boolean) => {
     setIsNavbarDisplayed(isItDisplayed);
   };
-  console.log(data);
+
   return (
     <>
       <AppContainer className={isNavbarDisplayed ? "yes" : "no"}>
