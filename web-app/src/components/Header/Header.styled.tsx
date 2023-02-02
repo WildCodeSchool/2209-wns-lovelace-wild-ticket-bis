@@ -2,6 +2,7 @@ import styled from "styled-components";
 import {
   BUTTON_BOX_SHADOW,
   BUTTON_LOGOUT_COLOR,
+  BUTTON_LOGOUT_COLOR_ACTION,
   FONT_FAMILY,
   TITLE_FONT_WEIGHT,
 } from "../../styles/style-constants";
@@ -71,6 +72,11 @@ export const ButtonLogout = styled.button`
   font-weight: ${TITLE_FONT_WEIGHT};
   gap: 10px;
   padding: 3px 15px 3px 15px;
+  transition: 0.3s ease-out;
+
+  &:active {
+    background-color: ${BUTTON_LOGOUT_COLOR_ACTION};
+  }
 `;
 
 export const LogoLogout = styled.img`

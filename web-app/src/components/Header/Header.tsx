@@ -16,9 +16,24 @@ import logoFlu from "../../assets/logo_flu.png";
 import logout from "../../assets/logout.png";
 import { useNavigate } from "react-router-dom";
 import { SIGN_IN_PATH } from "pages/paths";
+import { gql, useMutation } from "@apollo/client";
+import { LogOutMutation } from "gql/graphql";
+import { toast } from "react-toastify";
+
+const LOGOUT = gql`
+  mutation LogOut {
+    logOut {
+      id
+    }
+    removeCookie
+  }
+`;
 
 const Header = (data: any | null) => {
   const navigate = useNavigate();
+
+  const [logOut] = useMutation<LogOutMutation>(LOGOUT);
+
   let flows: Array<any> = [];
   let hasData: boolean = false;
   if (data.data) {
@@ -26,8 +41,13 @@ const Header = (data: any | null) => {
     hasData = true;
   }
 
-  const logOut = () => {
+  const logOutNavigation = async () => {
     navigate(SIGN_IN_PATH);
+    try {
+      await logOut();
+    } catch (error) {
+      toast.error("Une Erreur est survenue lors de la déconnexion.");
+    }
   };
 
   return (
@@ -48,7 +68,7 @@ const Header = (data: any | null) => {
             : null}
         </SelectActualFlu>
       </ContainerActualFlu>
-      <ButtonLogout onClick={() => logOut()}>
+      <ButtonLogout onClick={() => logOutNavigation()}>
         <ContainerLogoLogout>
           <LogoLogout src={logout}></LogoLogout>
         </ContainerLogoLogout>

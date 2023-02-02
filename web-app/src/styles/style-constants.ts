@@ -18,6 +18,7 @@ export const BOX_BORDER = "1px solid rgba(42, 42, 42, 0.04)";
 export const APP_FUNCTIONAL_WIDTH = "800px";
 export const SELECT_LINK_COLOR = "#D3D3D3";
 export const BUTTON_LOGOUT_COLOR = "#E7E7E7";
+export const BUTTON_LOGOUT_COLOR_ACTION = "#D2D2D2";
 export const PRIMARY_COLOR_BUTTON = "#FF9442";
 export const COLOR_VALIDATE_TICKET = "#2BC016";
 export const COLOR_NOSCAN_TICKET = "#F0D472";
