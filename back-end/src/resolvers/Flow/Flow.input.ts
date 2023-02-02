@@ -1,6 +1,6 @@
-import { IsUUID, MinLength } from 'class-validator';
-import { ArgsType, Field, InputType } from 'type-graphql';
-import AppUser from '../../models/AppUser/AppUser.entity';
+import { MinLength } from 'class-validator';
+import { ArgsType, Field } from 'type-graphql';
+import Flow from '../../models/Flow/Flow.entity';
 
 @ArgsType()
 export class AddFlowArgs {
