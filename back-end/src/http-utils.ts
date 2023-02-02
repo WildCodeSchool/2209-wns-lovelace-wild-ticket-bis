@@ -15,6 +15,10 @@ export const setSessionIdInCookie = (
   });
 };
 
+export const removeCookie = (ctx: ExpressContext, sessionId: string) => {
+  ctx.res.clearCookie(sessionId, { domain: "localhost", path: "/" });
+};
+
 export const getSessionIdInCookie = (
   ctx: ExpressContext
 ): string | undefined => {
@@ -25,3 +29,4 @@ export const getSessionIdInCookie = (
   const parsedCookies = parse(rawCookies);
   return parsedCookies.sessionId;
 };
+

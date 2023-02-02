@@ -8,14 +8,15 @@ export default class SessionRepository extends SessionDb {
     return this.saveSession(session);
   }
 
-  static async deleteSession(session: Session): Promise<Session> {
-    const existingSession = await this.findById(session.id);
+  static async deleteSession(sessionId: string): Promise<Session> {
+    const existingSession = await this.findById(sessionId);
     if (!existingSession) {
       throw new Error("No existing session for this User");
     }
     await this.repository.remove(existingSession);
     // resetting ID because existingSession loses ID after calling remove
-    existingSession.id = session.id;
+    existingSession.id = sessionId;
+
     return existingSession;
   }
 
