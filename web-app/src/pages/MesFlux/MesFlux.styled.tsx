@@ -11,8 +11,17 @@ import {
   PRIMARY_COLOR_BUTTON,
 } from '../../styles/style-constants';
 
+export const MainContainer = styled.div`
+  grid-area: 2 / 2 / 6 / 6;
+  width: 95%;
+  display: grid;
+  height: 95%;
+  grid-template-columns: 1fr;
+  grid-template-rows: 10% 90%;
+`;
+
 export const HeaderList = styled.div`
-  grid-area: 2 / 1 / 3 / 2;
+  grid-area: 1 / 1 / 2 / 2;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr;
@@ -24,38 +33,28 @@ export const HeaderList = styled.div`
 `;
 
 export const Divider = styled.hr`
-  grid-area: 3 / 1 / 4 / 2;
-  width: 100%;
-  margin: 0;
+  grid-area: 2 / 1 / 3 / 2;
+  width: 90%;
+`;
+
+export const ArrayContainer = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 10% 1% 89%;
+  border-radius: 0 0 20px 20px;
+  background: ${BOX_BACKGROUND_COLOR};
+  box-shadow: ${BOX_SHADOW};
 `;
 
 export const ListContainer = styled.div`
-  grid-area: 4 / 1 / 5 / 2;
+  grid-area: 3 / 1 / 4 / 2;
   display: flex;
   flex-direction: column;
   gap: 15px;
   overflow: auto;
-  height: 80%;
+  height: 100%;
 `;
 
-export const MainContainer = styled.div`
-  grid-area: 2 / 2 / 6 / 6;
-  width: 95%;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 10% 10% 1% 79%;
-  & > ${HeaderList} {
-    background: ${BOX_BACKGROUND_COLOR};
-    box-shadow: ${BOX_SHADOW};
-    border-radius: 20px;
-  }
-
-  & > ${ListContainer} {
-    background: ${BOX_BACKGROUND_COLOR};
-    box-shadow: ${BOX_SHADOW};
-    border-radius: 20px;
-  }
-`;
 export const ItemList = styled.div`
   height: 10%;
   display: grid;
@@ -85,10 +84,14 @@ export const TextElement = styled.h2`
   justify-content: center;
   font-weight: lighter;
 `;
+export const ContainerInputItem = styled.div`
+  display: flex;
+  justify-content: flex-end;
+`;
 
 export const InputItem = styled.input`
   align-self: center;
-  width: 50%;
+  width: 100%;
   height: 50%;
 `;
 
@@ -167,7 +170,7 @@ export const ButtonDelete = styled.button`
   font-size: 1.2rem;
   gap: 20px;
 `;
-export const AddFluContainer = styled.div`
+export const ModalContainer = styled.div`
   height: 35vh;
   width: 35vw;
   display: grid;
@@ -242,6 +245,59 @@ export const ButtonValidate = styled.button`
   border: 0;
   border-radius: 15px;
   background-color: ${PRIMARY_COLOR_BUTTON};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ${FONT_FAMILY};
+  font-weight: bold;
+  font-size: 1.4rem;
+  gap: 20px;
+`;
+
+export const ContainerAskDelete = styled.div`
+  grid-area: 2 / 1 / 3 / 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+`;
+
+export const QuestionElement = styled.div`
+  font-family: ${FONT_FAMILY};
+  font-size: 1.5rem;
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: lighter;
+`;
+
+export const ContainerButtonDeleteFlu = styled.div`
+  height: 20%;
+  display: flex;
+  justify-content: space-around;
+`;
+
+export const ButtonValidateDelete = styled.button`
+  height: 100%;
+  width: 40%;
+  border: 0;
+  border-radius: 15px;
+  background-color: ${PRIMARY_COLOR_BUTTON};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ${FONT_FAMILY};
+  font-weight: bold;
+  font-size: 1.4rem;
+  gap: 20px;
+`;
+
+export const ButtonCancelDelete = styled.button`
+  height: 100%;
+  width: 40%;
+  border: 0;
+  border-radius: 15px;
+  background-color: ${BUTTON_LOGOUT_COLOR};
   display: flex;
   align-items: center;
   justify-content: center;
