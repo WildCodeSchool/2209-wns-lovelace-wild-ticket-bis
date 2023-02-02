@@ -59,7 +59,6 @@ export const OptionSelect = styled.option`
   font-size: 1.2rem;
 `;
 
-export const ContainerButtonLogout = styled.div``;
 export const ButtonLogout = styled.button`
   display: flex;
   align-items: center;
@@ -70,7 +69,8 @@ export const ButtonLogout = styled.button`
   box-shadow: ${BUTTON_BOX_SHADOW};
   font-family: ${FONT_FAMILY};
   font-weight: ${TITLE_FONT_WEIGHT};
-  gap: 8px;
+  gap: 10px;
+  padding: 3px 15px 3px 15px;
 `;
 
 export const LogoLogout = styled.img`
