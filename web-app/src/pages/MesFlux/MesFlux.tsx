@@ -22,6 +22,7 @@ import {
   ItemList,
   LabelElement,
   ListContainer,
+  LogoLinkButton,
   LogotTitle,
   MainContainer,
   ModalContainer,
@@ -49,6 +50,7 @@ import {
 import { toast } from 'react-toastify';
 import { getErrorMessage } from 'utils';
 import { MY_PROFILE } from 'App/App';
+import Corbeille from '../../assets/corbeille.png';
 
 const MesFlux = (data: any) => {
   const [id, setId] = useState('');
@@ -175,7 +177,8 @@ const MesFlux = (data: any) => {
           onClick={openModalDelete}
           disabled={allFlowSelected.length > 0 ? false : true}
         >
-          Supprimer un flu
+          <LogoLinkButton src={Corbeille}></LogoLinkButton>
+          Supprimer
         </ButtonDelete>
         <ButtonAdd onClick={openModal}>Ajouter un flu</ButtonAdd>
       </ContainerButton>

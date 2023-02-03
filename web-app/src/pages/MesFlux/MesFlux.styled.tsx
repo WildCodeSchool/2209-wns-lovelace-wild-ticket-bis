@@ -2,17 +2,22 @@ import styled from 'styled-components';
 import {
   BOX_BACKGROUND_COLOR,
   BOX_SHADOW,
-  BUTTON_LOGOUT_COLOR,
+  BUTTON_BOX_SHADOW,
   COLOR_ERROR_TICKET,
   COLOR_NOSCAN_TICKET,
   COLOR_VALIDATE_TICKET,
   COLOR_WAITING_TICKET,
   FONT_FAMILY,
-  PRIMARY_COLOR_BUTTON,
+  PRIMARY_BUTTON_COLOR,
+  PRIMARY_BUTTON_COLOR_ACTION,
+  PRIMARY_BUTTON_SIZE,
+  SECONDARY_BUTTON_COLOR,
+  TEXT_FONT_WEIGHT,
+  TITLE_FONT_WEIGHT,
 } from '../../styles/style-constants';
 
 export const MainContainer = styled.div`
-  grid-area: 2 / 2 / 6 / 6;
+  grid-area: 2 / 2 / 3 / 3;
   width: 95%;
   display: grid;
   height: 95%;
@@ -141,34 +146,38 @@ export const ContainerButton = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 40px 0 40px;
 `;
 
 export const ButtonAdd = styled.button`
-  height: 50%;
-  width: 20%;
+  padding: ${PRIMARY_BUTTON_SIZE};
   border: 0;
-  border-radius: 15px;
-  background-color: ${PRIMARY_COLOR_BUTTON};
+  border-radius: 50px;
+  background-color: ${PRIMARY_BUTTON_COLOR};
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: ${FONT_FAMILY};
+  font-weight: ${TITLE_FONT_WEIGHT};
+  box-shadow: ${BUTTON_BOX_SHADOW};
   font-size: 1.2rem;
-  gap: 20px;
+  transition: 0.3s ease-out;
+  &:active {
+    background-color: ${PRIMARY_BUTTON_COLOR_ACTION};
+  }
 `;
+
 export const ButtonDelete = styled.button`
-  height: 50%;
-  width: 20%;
+  padding: 5px 25px;
   border: 0;
-  border-radius: 15px;
-  background-color: ${BUTTON_LOGOUT_COLOR};
+  border-radius: 50px;
+  background-color: ${SECONDARY_BUTTON_COLOR};
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: ${FONT_FAMILY};
+  font-weight: ${TEXT_FONT_WEIGHT};
+  box-shadow: ${BUTTON_BOX_SHADOW};
   font-size: 1.2rem;
-  gap: 20px;
 `;
 export const ModalContainer = styled.div`
   height: 35vh;
@@ -244,7 +253,7 @@ export const ButtonValidate = styled.button`
   width: 40%;
   border: 0;
   border-radius: 15px;
-  background-color: ${PRIMARY_COLOR_BUTTON};
+  background-color: ${PRIMARY_BUTTON_COLOR};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -277,12 +286,17 @@ export const ContainerButtonDeleteFlu = styled.div`
   justify-content: space-around;
 `;
 
+export const LogoLinkButton = styled.img`
+  width: 25px;
+  margin-right: 8px;
+`;
+
 export const ButtonValidateDelete = styled.button`
   height: 100%;
   width: 40%;
   border: 0;
   border-radius: 15px;
-  background-color: ${PRIMARY_COLOR_BUTTON};
+  background-color: ${PRIMARY_BUTTON_COLOR};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -297,7 +311,7 @@ export const ButtonCancelDelete = styled.button`
   width: 40%;
   border: 0;
   border-radius: 15px;
-  background-color: ${BUTTON_LOGOUT_COLOR};
+  background-color: ${SECONDARY_BUTTON_COLOR};
   display: flex;
   align-items: center;
   justify-content: center;

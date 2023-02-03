@@ -30,6 +30,7 @@ import {
 import ProtectedRoutes from 'components/layout/ProtectedRoutes';
 import DashboardLayout from 'components/layout/DashboardLayout';
 import { AppContext } from 'context/AppContext';
+import Logo from 'components/Logo/Logo';
 
 export const MY_PROFILE = gql`
   query Myprofile {
@@ -60,6 +61,7 @@ function App() {
   return (
     <>
       <AppContainer className={isNavbarDisplayed ? 'yes' : 'no'}>
+        {isNavbarDisplayed ? <Logo /> : null}
         {isNavbarDisplayed ? <Header data={data} /> : null}
         {isNavbarDisplayed ? <Navbar /> : null}
         <AnimatePresence mode="wait">

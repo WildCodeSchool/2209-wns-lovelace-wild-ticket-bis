@@ -2,17 +2,13 @@ import {
   ButtonLogout,
   ContainerActualFlu,
   ContainerHeader,
-  ContainerLogo,
   ContainerLogoLogout,
   LabelActualFlu,
-  Logo,
   LogoLogout,
   OptionSelect,
   SelectActualFlu,
-  TextHello,
 } from './Header.styled';
 
-import logoFlu from '../../assets/logo_flu.png';
 import logout from '../../assets/logout.png';
 import { useNavigate } from 'react-router-dom';
 import { SIGN_IN_PATH } from 'pages/paths';
@@ -52,14 +48,8 @@ const Header = (data: any | null) => {
 
   return (
     <ContainerHeader>
-      <ContainerLogo>
-        <Logo src={logoFlu}></Logo>
-        {hasData ?? (
-          <TextHello>Bonjour, {data.data.myProfile.firstName}</TextHello>
-        )}
-      </ContainerLogo>
       <ContainerActualFlu>
-        <LabelActualFlu> Actuel Flu : </LabelActualFlu>
+        <LabelActualFlu> Flu Actuel : </LabelActualFlu>
         <SelectActualFlu>
           {hasData
             ? flows.map((e) => {

@@ -3,8 +3,6 @@ import {
   MES_FLUX_PATH,
   QR_CODE_CLIENT_PATH,
   QR_CODE_PATH,
-  SIGN_IN_PATH,
-  SIGN_UP_PATH,
   TICKETS_PATH,
   TICKET_CLIENT_PATH,
 } from '../../pages/paths';
@@ -39,8 +37,6 @@ const Navbar = (props: any) => {
         </StyledLink>
         <StyledLink to={QR_CODE_CLIENT_PATH}>QR code client</StyledLink>
         <StyledLink to={TICKET_CLIENT_PATH}>Ticket client</StyledLink>
-        {/* <StyledLink to={SIGN_IN_PATH}>Se connecter</StyledLink>
-        <StyledLink to={SIGN_UP_PATH}>S'inscrire</StyledLink> */}
       </ContainerLink>
     </ContainerNavbar>
   );
