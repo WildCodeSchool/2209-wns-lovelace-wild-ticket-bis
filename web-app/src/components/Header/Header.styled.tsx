@@ -12,6 +12,8 @@ export const ContainerHeader = styled.div`
 export const ContainerLogo = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  height: 100%;
 `;
 
 export const TextHello = styled.h2`
@@ -23,7 +25,7 @@ export const TextHello = styled.h2`
 `;
 
 export const Logo = styled.img`
-  margin: 20px 0 0 20px;
+  margin: 0 0 0 20px;
   width: 50%;
 `;
 export const ContainerActualFlu = styled.div`

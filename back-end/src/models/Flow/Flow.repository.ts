@@ -28,7 +28,18 @@ export default class FlowRepository extends FlowDb {
     }
   }
 
-    static async getFlowByName(flowName: string): Promise<Flow | null> {
+  static async getFlowByName(flowName: string): Promise<Flow | null> {
     return this.repository.findOneBy({ flowName });
+  }
+  static async getFlowById(id: string): Promise<Flow | null> {
+    return this.repository.findOneBy({ id });
+  }
+
+  static async deleteFlow(arrayId: string[]): Promise<number> {
+    const result = await this.repository.delete(arrayId);
+    if (!result.affected) {
+      throw new Error('No matching flows with id');
+    }
+    return result.affected;
   }
 }

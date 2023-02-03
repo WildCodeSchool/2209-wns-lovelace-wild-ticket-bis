@@ -1,6 +1,8 @@
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 import {
+  BOX_BACKGROUND_COLOR,
+  BOX_SHADOW,
   FONT_FAMILY,
   SELECT_LINK_COLOR,
   TEXT_FONT_COLOR,
@@ -12,7 +14,7 @@ export const ContainerNavbar = styled.div`
 `;
 
 export const ContainerLink = styled.div`
-  height: 100%;
+  height: 80%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -24,7 +26,6 @@ export const StyledLink = styled(NavLink)`
   font-weight: bold;
   border-radius: 0 10px 10px 0;
   text-decoration: none;
-  border: 0.5px solid black;
   width: 80%;
   height: 3.5rem;
   display: flex;
@@ -34,7 +35,8 @@ export const StyledLink = styled(NavLink)`
   align-items: center;
   font-family: ${FONT_FAMILY};
   font-size: 20px;
-  background-color: #ecedf0;
+  background: ${BOX_BACKGROUND_COLOR};
+  box-shadow: ${BOX_SHADOW};
   padding-left: 5px;
   &:focus {
     width: 90%;

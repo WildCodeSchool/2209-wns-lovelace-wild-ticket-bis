@@ -22,4 +22,19 @@ export default class TicketRepository {
       this.repository.save(ticket2);
     }
   }
+
+  static async getTicketById(id: string): Promise<Ticket | null> {
+    return this.repository.findOneBy({ id });
+  }
+
+  static async deleteTicket(id: string): Promise<Ticket> {
+    const existingTicket = await this.getTicketById(id);
+    if (!existingTicket) {
+      throw Error('No existing Ticket matching ID.');
+    }
+    await this.repository.remove(existingTicket);
+    // resetting ID because existingWilder loses ID after calling remove
+    existingTicket.id = id;
+    return existingTicket;
+  }
 }
