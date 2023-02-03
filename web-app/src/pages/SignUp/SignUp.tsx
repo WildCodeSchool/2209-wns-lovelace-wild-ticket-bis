@@ -1,11 +1,11 @@
-import React from "react";
-import { gql, useMutation } from "@apollo/client";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import { SignUpMutation, SignUpMutationVariables } from "../../gql/graphql";
-import { SIGN_IN_PATH } from "../paths";
-import "./SignUp.styled.tsx";
+import React from 'react';
+import { gql, useMutation } from '@apollo/client';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { SignUpMutation, SignUpMutationVariables } from '../../gql/graphql';
+import { SIGN_IN_PATH } from '../paths';
+import './SignUp.styled.tsx';
 import {
   ContainerInput,
   FormContainer,
@@ -16,7 +16,7 @@ import {
   LabelForm,
   TextWrongPassword,
   TextGoodPassword,
-} from "./SignUp.styled";
+} from './SignUp.styled';
 import {
   GlobalFormContainer,
   LinkFooter,
@@ -25,8 +25,8 @@ import {
   TextLabel,
   SignContainer,
   GlobalLogoContainer,
-} from "../SignIn/SignIn.styled";
-import Logo from "components/Logo/Logo";
+} from '../SignIn/SignIn.styled';
+import Logo from 'components/Logo/Logo';
 
 export const SIGN_UP = gql`
   mutation SignUp(
@@ -48,11 +48,11 @@ export const SIGN_UP = gql`
 `;
 
 const SignUp = ({ displayNavbar, onSuccess }: any) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmedPassword, setconfirmedPassword] = useState("");
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [emailAddress, setEmailAddress] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmedPassword, setconfirmedPassword] = useState('');
 
   const [signUp] = useMutation<SignUpMutation, SignUpMutationVariables>(
     SIGN_UP
@@ -61,20 +61,20 @@ const SignUp = ({ displayNavbar, onSuccess }: any) => {
 
   const submit = async () => {
     if (password !== confirmedPassword) {
-      toast.warning("Confirmation du mot de passe erronée");
+      toast.warning('Confirmation du mot de passe erronée');
     } else {
       try {
         await signUp({
           variables: { firstName, lastName, emailAddress, password },
         });
         toast.success(
-          "Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter."
+          'Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.'
         );
         onSuccess();
         navigate(SIGN_IN_PATH);
       } catch (error) {
         toast.error(
-          "Un problème est survenue. Veuillez réessayer ultérieurement."
+          'Un problème est survenue. Veuillez réessayer ultérieurement.'
         );
       }
     }
@@ -97,7 +97,7 @@ const SignUp = ({ displayNavbar, onSuccess }: any) => {
         initial={{ x: 1000, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{
-          type: "spring",
+          type: 'spring',
           stiffness: 250,
           damping: 20,
         }}
@@ -187,17 +187,17 @@ const SignUp = ({ displayNavbar, onSuccess }: any) => {
                     setconfirmedPassword(event.target.value);
                   }}
                 />
-                {password === confirmedPassword || confirmedPassword === "" ? (
+                {password === confirmedPassword || confirmedPassword === '' ? (
                   <TextGoodPassword></TextGoodPassword>
                 ) : (
                   <TextWrongPassword>Mot de passe différents</TextWrongPassword>
                 )}
               </LabelForm>
               <FooterForm>
-                Déjà un compte ?{" "}
+                Déjà un compte ?{' '}
                 <Link to={SIGN_IN_PATH}>
                   <LinkFooter> Se connecter</LinkFooter>
-                </Link>{" "}
+                </Link>{' '}
               </FooterForm>
             </SignUpRight>
           </ContainerInput>
@@ -209,4 +209,3 @@ const SignUp = ({ displayNavbar, onSuccess }: any) => {
 };
 
 export default SignUp;
-

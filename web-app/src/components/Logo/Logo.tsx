@@ -1,6 +1,6 @@
-import React from "react";
-import logo from "../../assets/logo_flu.png";
-import { GlobalLogoContainer, LogoImg } from "./Logo.styled";
+import React from 'react';
+import logo from '../../assets/logo_flu.png';
+import { GlobalLogoContainer, LogoImg } from './Logo.styled';
 
 const Logo = () => {
   return (
@@ -11,4 +11,3 @@ const Logo = () => {
 };
 
 export default Logo;
-

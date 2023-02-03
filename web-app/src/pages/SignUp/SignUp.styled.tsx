@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BOX_BACKGROUND_COLOR,
   BOX_BORDER,
@@ -6,7 +6,7 @@ import {
   COLOR_ERROR_TICKET,
   FONT_FAMILY,
   TEXT_FONT_WEIGHT,
-} from "../../styles/style-constants";
+} from '../../styles/style-constants';
 
 export const FormContainer = styled.form`
   display: flex;
@@ -65,4 +65,3 @@ export const TextWrongPassword = styled.p`
 `;
 
 export const TextGoodPassword = styled.p``;
-

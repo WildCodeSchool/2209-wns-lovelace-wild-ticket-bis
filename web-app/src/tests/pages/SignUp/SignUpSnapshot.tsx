@@ -159,4 +159,3 @@ export const signUpSnapshot = `
   </div>
 </div>
 `;
-

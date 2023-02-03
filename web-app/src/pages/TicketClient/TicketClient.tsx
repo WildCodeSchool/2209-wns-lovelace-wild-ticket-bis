@@ -1,5 +1,5 @@
 const TicketClient = () => {
-  return <div>Ticket client</div>
-}
+  return <div>Ticket client</div>;
+};
 
-export default TicketClient
+export default TicketClient;

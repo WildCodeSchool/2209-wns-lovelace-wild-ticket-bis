@@ -1,20 +1,20 @@
 export const disablePageScroll = () => {
-  document.body.style.overflow = "hidden";
+  document.body.style.overflow = 'hidden';
 };
 export const enablePageScroll = () => {
-  document.body.style.overflow = "unset";
+  document.body.style.overflow = 'unset';
 };
 
 export const actOnEscapeKeydown = (act: () => void, enable: boolean) => {
   const onKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
+    if (event.key === 'Escape') {
       act();
     }
   };
 
   if (enable) {
-    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
   } else {
-    window.removeEventListener("keydown", onKeyDown);
+    window.removeEventListener('keydown', onKeyDown);
   }
 };

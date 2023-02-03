@@ -10,15 +10,15 @@ import {
   OptionSelect,
   SelectActualFlu,
   TextHello,
-} from "./Header.styled";
+} from './Header.styled';
 
-import logoFlu from "../../assets/logo_flu.png";
-import logout from "../../assets/logout.png";
-import { useNavigate } from "react-router-dom";
-import { SIGN_IN_PATH } from "pages/paths";
-import { gql, useMutation } from "@apollo/client";
-import { LogOutMutation } from "gql/graphql";
-import { toast } from "react-toastify";
+import logoFlu from '../../assets/logo_flu.png';
+import logout from '../../assets/logout.png';
+import { useNavigate } from 'react-router-dom';
+import { SIGN_IN_PATH } from 'pages/paths';
+import { gql, useMutation } from '@apollo/client';
+import { LogOutMutation } from 'gql/graphql';
+import { toast } from 'react-toastify';
 
 const LOGOUT = gql`
   mutation LogOut {
@@ -46,7 +46,7 @@ const Header = (data: any | null) => {
     try {
       await logOut();
     } catch (error) {
-      toast.error("Une Erreur est survenue lors de la déconnexion.");
+      toast.error('Une Erreur est survenue lors de la déconnexion.');
     }
   };
 
@@ -78,4 +78,3 @@ const Header = (data: any | null) => {
   );
 };
 export default Header;
-

@@ -1,5 +1,5 @@
 const Corbeille = () => {
-  return <div>Corbeille</div>
-}
+  return <div>Corbeille</div>;
+};
 
-export default Corbeille
+export default Corbeille;
