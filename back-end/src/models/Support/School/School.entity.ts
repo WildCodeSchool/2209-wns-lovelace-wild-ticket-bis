@@ -1,26 +1,27 @@
-import { Field, ID, ObjectType } from 'type-graphql'
+import { Field, ID, ObjectType } from "type-graphql";
 import {
   Column,
   Entity,
   Index,
   OneToMany,
   PrimaryGeneratedColumn,
-} from 'typeorm'
-import Wilder from '../Wilder/Wilder.entity'
+} from "typeorm";
+import Wilder from "../Wilder/Wilder.entity";
 
 @Entity()
 @ObjectType()
 export default class School {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn("uuid")
   @Field(() => ID)
-  id: string
+  id: string;
 
   @Column()
   @Index({ unique: true })
   @Field()
-  schoolName: string
+  schoolName: string;
 
   @OneToMany(() => Wilder, (wilder) => wilder.school)
   @Field(() => [Wilder])
-  wilders: Wilder[]
+  wilders: Wilder[];
 }
+

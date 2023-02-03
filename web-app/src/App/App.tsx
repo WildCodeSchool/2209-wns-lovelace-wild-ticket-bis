@@ -1,21 +1,21 @@
-import React, { useContext, useState } from "react";
-import { gql, useQuery } from "@apollo/client";
-import { AnimatePresence } from "framer-motion";
-import { Routes, Route, useLocation } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
-import { MyprofileQuery } from "../gql/graphql";
-import { AppContainer } from "./App.styled";
+import React, { useContext, useState } from 'react';
+import { gql, useQuery } from '@apollo/client';
+import { AnimatePresence } from 'framer-motion';
+import { Routes, Route, useLocation } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import { MyprofileQuery } from '../gql/graphql';
+import { AppContainer } from './App.styled';
 
-import Navbar from "../components/Navbar/Navbar";
-import QRCode from "../pages/QRCode/QRCode";
-import QRCodeClient from "../pages/QRCodeClient/QRCodeClient";
-import SignIn from "../pages/SignIn/SignIn";
-import SignUp from "../pages/SignUp/SignUp";
-import TicketClient from "../pages/TicketClient/TicketClient";
-import Tickets from "../pages/Tickets/Tickets";
-import Corbeille from "../pages/Corbeille/Corbeille";
-import MesFlux from "../pages/MesFlux/MesFlux";
-import Header from "../components/Header/Header";
+import Navbar from '../components/Navbar/Navbar';
+import QRCode from '../pages/QRCode/QRCode';
+import QRCodeClient from '../pages/QRCodeClient/QRCodeClient';
+import SignIn from '../pages/SignIn/SignIn';
+import SignUp from '../pages/SignUp/SignUp';
+import TicketClient from '../pages/TicketClient/TicketClient';
+import Tickets from '../pages/Tickets/Tickets';
+import Corbeille from '../pages/Corbeille/Corbeille';
+import MesFlux from '../pages/MesFlux/MesFlux';
+import Header from '../components/Header/Header';
 
 import {
   SIGN_IN_PATH,
@@ -26,10 +26,10 @@ import {
   CORBEILLE_PATH,
   QR_CODE_CLIENT_PATH,
   TICKET_CLIENT_PATH,
-} from "../pages/paths";
-import ProtectedRoutes from "components/layout/ProtectedRoutes";
-import DashboardLayout from "components/layout/DashboardLayout";
-import { AppContext } from "context/AppContext";
+} from '../pages/paths';
+import ProtectedRoutes from 'components/layout/ProtectedRoutes';
+import DashboardLayout from 'components/layout/DashboardLayout';
+import { AppContext } from 'context/AppContext';
 
 export const MY_PROFILE = gql`
   query Myprofile {
@@ -59,7 +59,7 @@ function App() {
 
   return (
     <>
-      <AppContainer className={isNavbarDisplayed ? "yes" : "no"}>
+      <AppContainer className={isNavbarDisplayed ? 'yes' : 'no'}>
         {isNavbarDisplayed ? <Header data={data} /> : null}
         {isNavbarDisplayed ? <Navbar /> : null}
         <AnimatePresence mode="wait">
@@ -100,4 +100,3 @@ function App() {
 }
 
 export default App;
-

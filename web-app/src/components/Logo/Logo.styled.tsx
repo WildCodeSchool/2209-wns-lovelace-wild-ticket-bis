@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const GlobalLogoContainer = styled.div`
   display: flex;
@@ -10,4 +10,3 @@ export const LogoImg = styled.img`
   height: fit-content;
   padding: 10px;
 `;
-

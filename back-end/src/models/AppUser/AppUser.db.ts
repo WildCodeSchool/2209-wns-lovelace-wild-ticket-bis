@@ -1,6 +1,6 @@
-import { Repository } from "typeorm";
-import { getRepository } from "../../database/utils";
-import AppUser from "./AppUser.entity";
+import { Repository } from 'typeorm';
+import { getRepository } from '../../database/utils';
+import AppUser from './AppUser.entity';
 
 export default class AppUserDb {
   protected static repository: Repository<AppUser>;

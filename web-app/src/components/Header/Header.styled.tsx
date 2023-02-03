@@ -1,11 +1,11 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 import {
   BUTTON_BOX_SHADOW,
   BUTTON_LOGOUT_COLOR,
   BUTTON_LOGOUT_COLOR_ACTION,
   FONT_FAMILY,
   TITLE_FONT_WEIGHT,
-} from "../../styles/style-constants";
+} from '../../styles/style-constants';
 
 export const ContainerHeader = styled.div`
   grid-area: 1 / 1 / 2 / 6;
@@ -87,4 +87,3 @@ export const LogoLogout = styled.img`
 export const ContainerLogoLogout = styled.div`
   display: flex;
 `;
-

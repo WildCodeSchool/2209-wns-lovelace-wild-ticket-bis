@@ -1,12 +1,12 @@
-import React from "react";
-import { gql, useMutation } from "@apollo/client";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { SignInMutation, SignInMutationVariables } from "../../gql/graphql";
-import { getErrorMessage } from "../../utils";
-import { MES_FLUX_PATH, SIGN_UP_PATH } from "../paths";
+import React from 'react';
+import { gql, useMutation } from '@apollo/client';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { SignInMutation, SignInMutationVariables } from '../../gql/graphql';
+import { getErrorMessage } from '../../utils';
+import { MES_FLUX_PATH, SIGN_UP_PATH } from '../paths';
 import {
   GlobalFormContainer,
   ButtonLabel,
@@ -20,9 +20,9 @@ import {
   TextLabel,
   SignContainer,
   GlobalLogoContainer,
-} from "./SignIn.styled";
-import "./SignIn.styled.tsx";
-import Logo from "components/Logo/Logo";
+} from './SignIn.styled';
+import './SignIn.styled.tsx';
+import Logo from 'components/Logo/Logo';
 
 export const SIGN_IN = gql`
   mutation SignIn($emailAddress: String!, $password: String!) {
@@ -35,8 +35,8 @@ export const SIGN_IN = gql`
   }
 `;
 const SignIn = ({ onSuccess, displayNavbar }: any) => {
-  const [emailAddress, setEmailAddress] = useState("");
-  const [password, setPassword] = useState("");
+  const [emailAddress, setEmailAddress] = useState('');
+  const [password, setPassword] = useState('');
   const [isSignInSuccess, setIsSignInSuccess] = useState(false);
 
   const [signIn] = useMutation<SignInMutation, SignInMutationVariables>(
@@ -81,7 +81,7 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
         initial={{ x: -1000, opacity: 0 }}
         animate={{ x: 0, opacity: 1 }}
         transition={{
-          type: "spring",
+          type: 'spring',
           stiffness: 250,
           damping: 20,
         }}
@@ -127,10 +127,10 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
           </ContainerInput>
           <ButtonLabel>Se connecter</ButtonLabel>
           <FooterForm>
-            Pas encore de compte ?{" "}
+            Pas encore de compte ?{' '}
             <Link to={SIGN_UP_PATH}>
               <LinkFooter> S'inscrire</LinkFooter>
-            </Link>{" "}
+            </Link>{' '}
           </FooterForm>
         </FormContainer>
       </GlobalFormContainer>
@@ -139,4 +139,3 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
 };
 
 export default SignIn;
-

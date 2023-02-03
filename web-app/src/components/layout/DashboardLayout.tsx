@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
 
 const DashboardLayout = () => {
   return (
@@ -9,4 +9,3 @@ const DashboardLayout = () => {
 };
 
 export default DashboardLayout;
-

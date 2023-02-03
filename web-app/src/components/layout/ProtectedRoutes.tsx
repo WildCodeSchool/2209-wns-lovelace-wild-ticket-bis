@@ -1,5 +1,5 @@
-import { SIGN_IN_PATH } from "pages/paths";
-import { Navigate } from "react-router-dom";
+import { SIGN_IN_PATH } from 'pages/paths';
+import { Navigate } from 'react-router-dom';
 
 const ProtectedRoutes = ({ user, children }: any) => {
   if (!user) {
@@ -9,4 +9,3 @@ const ProtectedRoutes = ({ user, children }: any) => {
 };
 
 export default ProtectedRoutes;
-

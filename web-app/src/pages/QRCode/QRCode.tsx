@@ -1,5 +1,5 @@
 const QRCode = () => {
-  return <div>QR Code</div>
-}
+  return <div>QR Code</div>;
+};
 
-export default QRCode
+export default QRCode;

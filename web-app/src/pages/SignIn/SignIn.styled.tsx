@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import styled from "styled-components";
+import { motion } from 'framer-motion';
+import styled from 'styled-components';
 import {
   BOX_BACKGROUND_COLOR,
   BOX_BORDER,
@@ -9,7 +9,7 @@ import {
   MAIN_THEME_COLOR,
   TEXT_FONT_WEIGHT,
   TITLE_FONT_WEIGHT,
-} from "../../styles/style-constants";
+} from '../../styles/style-constants';
 
 export const SignContainer = styled.div`
   display: grid;
@@ -110,4 +110,3 @@ export const LinkFooter = styled.p`
   color: ${MAIN_THEME_COLOR};
   text-decoration: underline;
 `;
-

@@ -193,8 +193,8 @@ const MesFlux = (data: any) => {
                   <ItemList>
                     <ContainerInputItem>
                       <InputItem
-                        className='checkbox'
-                        type='checkbox'
+                        className="checkbox"
+                        type="checkbox"
                         onChange={(e) => flowSelected(flow.id, e)}
                       ></InputItem>
                     </ContainerInputItem>
@@ -226,7 +226,7 @@ const MesFlux = (data: any) => {
         onRequestClose={closeModal}
         style={customStyles}
         onAfterClose={afterCloseModal}
-        contentLabel='Example Modal'
+        contentLabel="Example Modal"
       >
         <ModalContainer>
           <TitleContainer>
@@ -257,7 +257,7 @@ const MesFlux = (data: any) => {
         onRequestClose={closeModalDelete}
         onAfterClose={afterCloseModalDelete}
         style={customStyles}
-        contentLabel='Example Modal'
+        contentLabel="Example Modal"
       >
         <ModalContainer>
           <TitleContainer>
