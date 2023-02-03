@@ -1,70 +1,100 @@
 import styled from 'styled-components';
 import {
   BOX_BACKGROUND_COLOR,
+  BOX_BORDER,
   BOX_SHADOW,
-  BUTTON_LOGOUT_COLOR,
+  BUTTON_BOX_SHADOW,
   COLOR_ERROR_TICKET,
   COLOR_NOSCAN_TICKET,
   COLOR_VALIDATE_TICKET,
   COLOR_WAITING_TICKET,
   FONT_FAMILY,
-  PRIMARY_COLOR_BUTTON,
+  PRIMARY_BUTTON_COLOR,
+  PRIMARY_BUTTON_COLOR_ACTION,
+  PRIMARY_BUTTON_SIZE,
+  SECONDARY_BUTTON_COLOR,
+  TEXT_FONT_WEIGHT,
+  TITLE_FONT_WEIGHT,
 } from '../../styles/style-constants';
 
 export const MainContainer = styled.div`
-  grid-area: 2 / 2 / 6 / 6;
-  width: 95%;
-  display: grid;
+  grid-area: 2 / 2 / 3 / 3;
   height: 95%;
-  grid-template-columns: 1fr;
-  grid-template-rows: 10% 90%;
-`;
-
-export const HeaderList = styled.div`
-  grid-area: 1 / 1 / 2 / 2;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1fr;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
-  font-family: ${FONT_FAMILY};
-  font-size: 1.2rem;
-  padding: 0 3% 0 3%;
+  grid-template-rows: 10% 90%;
+  width: 95%;
 `;
 
-export const Divider = styled.hr`
-  grid-area: 2 / 1 / 3 / 2;
-  width: 90%;
+export const ContainerButton = styled.div`
+  grid-area: 1 / 1 / 2 / 2;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 20px;
+`;
+
+export const ButtonDelete = styled.button`
+  padding: 5px 25px;
+  border: 0;
+  border-radius: 50px;
+  background-color: ${SECONDARY_BUTTON_COLOR};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${TEXT_FONT_WEIGHT};
+  box-shadow: ${BUTTON_BOX_SHADOW};
+  font-size: 1.2rem;
+`;
+
+export const LogoLinkButton = styled.img`
+  width: 25px;
+  margin-right: 8px;
+`;
+
+export const LogoLinkButtonDisabled = styled.img`
+  width: 25px;
+  margin-right: 8px;
+  opacity: 25%;
+`;
+
+export const ButtonAdd = styled.button`
+  padding: ${PRIMARY_BUTTON_SIZE};
+  border: 0;
+  border-radius: 50px;
+  background-color: ${PRIMARY_BUTTON_COLOR};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${TITLE_FONT_WEIGHT};
+  box-shadow: ${BUTTON_BOX_SHADOW};
+  font-size: 1.2rem;
+  transition: 0.3s ease-out;
+  &:active {
+    background-color: ${PRIMARY_BUTTON_COLOR_ACTION};
+  }
 `;
 
 export const ArrayContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 10% 1% 89%;
-  border-radius: 0 0 20px 20px;
+  border-radius: 10px;
+  border: ${BOX_BORDER};
   background: ${BOX_BACKGROUND_COLOR};
   box-shadow: ${BOX_SHADOW};
 `;
 
-export const ListContainer = styled.div`
-  grid-area: 3 / 1 / 4 / 2;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  overflow: auto;
-  height: 100%;
-`;
-
-export const ItemList = styled.div`
-  height: 10%;
+export const HeaderList = styled.div`
+  grid-area: 1 / 1 / 2 / 2;
   display: grid;
-  grid-template-columns: 3% 32.3% 32.3% 32.3%;
+  grid-template-columns: 1fr 2fr 2fr 3fr 0.5fr;
   grid-template-rows: 1fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
   font-family: ${FONT_FAMILY};
   font-size: 1.2rem;
-  margin: 0 3% 0 0;
 `;
 
 export const TextElementHeader = styled.h2`
@@ -73,7 +103,36 @@ export const TextElementHeader = styled.h2`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-weight: ${TITLE_FONT_WEIGHT};
+`;
+
+export const Divider = styled.hr`
+  width: 90%;
+`;
+
+export const ListContainer = styled.div`
+  grid-area: 3 / 1 / 4 / 2;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  overflow: auto;
+  margin: 20px;
+`;
+
+export const ItemList = styled.div`
+  height: 10%;
+  display: grid;
+  grid-template-columns: 1fr 2fr 2fr 3fr 0.5fr;
+  grid-template-rows: 1fr;
+  grid-column-gap: 0px;
+  grid-row-gap: 0px;
+  font-family: ${FONT_FAMILY};
+  font-size: 1.2rem;
+`;
+
+export const ContainerInputItem = styled.div`
+  display: flex;
+  justify-content: flex-end;
 `;
 
 export const TextElement = styled.h2`
@@ -84,15 +143,11 @@ export const TextElement = styled.h2`
   justify-content: center;
   font-weight: lighter;
 `;
-export const ContainerInputItem = styled.div`
-  display: flex;
-  justify-content: flex-end;
-`;
 
 export const InputItem = styled.input`
   align-self: center;
   width: 100%;
-  height: 50%;
+  height: 24px;
 `;
 
 export const AllStatusContainer = styled.div`
@@ -136,40 +191,6 @@ export const StatusError = styled.div`
   border-radius: 50%;
 `;
 
-export const ContainerButton = styled.div`
-  grid-area: 1 / 1 / 2 / 2;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 40px 0 40px;
-`;
-
-export const ButtonAdd = styled.button`
-  height: 50%;
-  width: 20%;
-  border: 0;
-  border-radius: 15px;
-  background-color: ${PRIMARY_COLOR_BUTTON};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: ${FONT_FAMILY};
-  font-size: 1.2rem;
-  gap: 20px;
-`;
-export const ButtonDelete = styled.button`
-  height: 50%;
-  width: 20%;
-  border: 0;
-  border-radius: 15px;
-  background-color: ${BUTTON_LOGOUT_COLOR};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: ${FONT_FAMILY};
-  font-size: 1.2rem;
-  gap: 20px;
-`;
 export const ModalContainer = styled.div`
   height: 35vh;
   width: 35vw;
@@ -177,6 +198,7 @@ export const ModalContainer = styled.div`
   grid-template-columns: 1fr;
   grid-template-rows: 30% 1fr;
 `;
+
 export const TitleContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr 30px;
@@ -184,13 +206,7 @@ export const TitleContainer = styled.div`
   padding: 0 0 0 15%;
   grid-area: 1 / 1 / 2 / 2;
 `;
-export const ButtonClose = styled.button`
-  height: 30px;
-  grid-area: 1 / 2 / 2 / 3;
-  background-color: transparent;
-  border: 0;
-  font-size: medium;
-`;
+
 export const ContainerLogo = styled.div`
   width: 100%;
   display: flex;
@@ -206,28 +222,19 @@ export const LogotTitle = styled.img`
 export const TitleElement = styled.h1`
   font-family: ${FONT_FAMILY};
   font-size: 1.6rem;
-  font-weight: bolder;
+  font-weight: ${TITLE_FONT_WEIGHT};
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: lighter;
   grid-area: 1 / 1 / 2 / 2;
 `;
-export const InputElement = styled.input`
-  height: 30px;
 
-  &:focus {
-    outline: none;
-  }
-`;
-export const LabelElement = styled.label`
-  display: flex;
-  flex-direction: column;
-  font-family: ${FONT_FAMILY};
-  font-size: 1.3rem;
-  height: 30%;
-  width: 50%;
-  gap: 5px;
+export const ButtonClose = styled.button`
+  height: 30px;
+  grid-area: 1 / 2 / 2 / 3;
+  background-color: transparent;
+  border: 0;
+  font-size: medium;
 `;
 
 export const FormContainer = styled.div`
@@ -239,12 +246,29 @@ export const FormContainer = styled.div`
   flex-direction: column;
 `;
 
+export const LabelElement = styled.label`
+  display: flex;
+  flex-direction: column;
+  font-family: ${FONT_FAMILY};
+  font-size: 1.3rem;
+  height: 30%;
+  width: 50%;
+  gap: 5px;
+`;
+
+export const InputElement = styled.input`
+  height: 30px;
+  &:focus {
+    outline: none;
+  }
+`;
+
 export const ButtonValidate = styled.button`
-  height: 20%;
-  width: 40%;
+  padding: ${PRIMARY_BUTTON_SIZE};
   border: 0;
-  border-radius: 15px;
-  background-color: ${PRIMARY_COLOR_BUTTON};
+  border-radius: 50px;
+  background-color: ${PRIMARY_BUTTON_COLOR};
+  box-shadow: ${BUTTON_BOX_SHADOW};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -252,6 +276,10 @@ export const ButtonValidate = styled.button`
   font-weight: bold;
   font-size: 1.4rem;
   gap: 20px;
+
+  &:active {
+    background-color: ${PRIMARY_BUTTON_COLOR_ACTION};
+  }
 `;
 
 export const ContainerAskDelete = styled.div`
@@ -282,7 +310,7 @@ export const ButtonValidateDelete = styled.button`
   width: 40%;
   border: 0;
   border-radius: 15px;
-  background-color: ${PRIMARY_COLOR_BUTTON};
+  background-color: ${PRIMARY_BUTTON_COLOR};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -297,7 +325,7 @@ export const ButtonCancelDelete = styled.button`
   width: 40%;
   border: 0;
   border-radius: 15px;
-  background-color: ${BUTTON_LOGOUT_COLOR};
+  background-color: ${SECONDARY_BUTTON_COLOR};
   display: flex;
   align-items: center;
   justify-content: center;

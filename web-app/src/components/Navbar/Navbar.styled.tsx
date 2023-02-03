@@ -9,15 +9,14 @@ import {
 } from '../../styles/style-constants';
 
 export const ContainerNavbar = styled.div`
-  grid-area: 2 / 1 / 6 / 2;
-  margin: 0;
+  grid-area: 2 / 1 / 3 / 2;
+  margin-top: 60px;
 `;
 
 export const ContainerLink = styled.div`
   height: 80%;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   justify-content: space-evenly;
 `;
 
@@ -49,5 +48,4 @@ export const StyledLink = styled(NavLink)`
 `;
 export const LogoLink = styled.img`
   height: 90%;
-  widht: 90%;
 `;

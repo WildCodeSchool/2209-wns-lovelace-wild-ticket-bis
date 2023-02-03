@@ -1,38 +1,20 @@
 import styled from 'styled-components';
 import {
   BUTTON_BOX_SHADOW,
-  BUTTON_LOGOUT_COLOR,
-  BUTTON_LOGOUT_COLOR_ACTION,
   FONT_FAMILY,
+  SECONDARY_BUTTON_COLOR,
+  SECONDARY_BUTTON_COLOR_ACTION,
   TITLE_FONT_WEIGHT,
 } from '../../styles/style-constants';
 
 export const ContainerHeader = styled.div`
-  grid-area: 1 / 1 / 2 / 6;
+  grid-area: 1 / 2 / 2 / 3;
   display: flex;
   align-items: center;
-  gap: 5%;
+  justify-content: space-between;
+  width: 95%;
 `;
 
-export const ContainerLogo = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: 100%;
-`;
-
-export const TextHello = styled.h2`
-  font-family: ${FONT_FAMILY};
-  font-size: 1.5rem;
-  font-weight: bold;
-  width: 80%;
-  align-self: center;
-`;
-
-export const Logo = styled.img`
-  margin: 0 0 0 20px;
-  width: 50%;
-`;
 export const ContainerActualFlu = styled.div`
   height: 30%;
   width: 30rem;
@@ -43,14 +25,14 @@ export const ContainerActualFlu = styled.div`
 `;
 export const LabelActualFlu = styled.label`
   font-family: ${FONT_FAMILY};
-  font-size: 2em;
+  font-size: 1.4em;
 `;
 
 export const SelectActualFlu = styled.select`
-  height: 90%;
-  width: 60%;
-  border: 0;
-  border-radius: 15px;
+  height: 80%;
+  width: 50%;
+  border: 0.5px solid rgba(13, 13, 13, 0.2);
+  border-radius: 10px;
   font-family: ${FONT_FAMILY};
   font-size: 1.2rem;
 `;
@@ -66,7 +48,7 @@ export const ButtonLogout = styled.button`
   justify-content: space-evenly;
   border: none;
   border-radius: 10px;
-  background-color: ${BUTTON_LOGOUT_COLOR};
+  background-color: ${SECONDARY_BUTTON_COLOR};
   box-shadow: ${BUTTON_BOX_SHADOW};
   font-family: ${FONT_FAMILY};
   font-weight: ${TITLE_FONT_WEIGHT};
@@ -75,7 +57,7 @@ export const ButtonLogout = styled.button`
   transition: 0.3s ease-out;
 
   &:active {
-    background-color: ${BUTTON_LOGOUT_COLOR_ACTION};
+    background-color: ${SECONDARY_BUTTON_COLOR_ACTION};
   }
 `;
 

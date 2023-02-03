@@ -22,6 +22,8 @@ import {
   ItemList,
   LabelElement,
   ListContainer,
+  LogoLinkButton,
+  LogoLinkButtonDisabled,
   LogotTitle,
   MainContainer,
   ModalContainer,
@@ -49,6 +51,7 @@ import {
 import { toast } from 'react-toastify';
 import { getErrorMessage } from 'utils';
 import { MY_PROFILE } from 'App/App';
+import Corbeille from '../../assets/corbeille.png';
 
 const MesFlux = (data: any) => {
   const [id, setId] = useState('');
@@ -175,25 +178,31 @@ const MesFlux = (data: any) => {
           onClick={openModalDelete}
           disabled={allFlowSelected.length > 0 ? false : true}
         >
-          Supprimer un flu
+          {allFlowSelected.length > 0 ? (
+            <LogoLinkButton src={Corbeille}></LogoLinkButton>
+          ) : (
+            <LogoLinkButtonDisabled src={Corbeille}></LogoLinkButtonDisabled>
+          )}
+          Supprimer
         </ButtonDelete>
         <ButtonAdd onClick={openModal}>Ajouter un flu</ButtonAdd>
       </ContainerButton>
       <ArrayContainer>
         <HeaderList>
+          <TextElementHeader></TextElementHeader>
           <TextElementHeader>Date</TextElementHeader>
           <TextElementHeader>Nom de flu</TextElementHeader>
           <TextElementHeader>Nombre de tickets</TextElementHeader>
+          <TextElementHeader></TextElementHeader>
         </HeaderList>
         <Divider />
         <ListContainer>
           {data.data
             ? flows.map((flow: any) => {
                 return (
-                  <ItemList>
+                  <ItemList key={flow.id}>
                     <ContainerInputItem>
                       <InputItem
-                        className="checkbox"
                         type="checkbox"
                         onChange={(e) => flowSelected(flow.id, e)}
                       ></InputItem>
@@ -202,7 +211,7 @@ const MesFlux = (data: any) => {
                     <TextElement>{flow.flowName}</TextElement>
                     <AllStatusContainer>
                       <StatusContainer>
-                        <StatusNoScan> </StatusNoScan>0
+                        <StatusNoScan></StatusNoScan>0
                       </StatusContainer>
                       <StatusContainer>
                         <StatusWaiting></StatusWaiting>0
@@ -263,13 +272,13 @@ const MesFlux = (data: any) => {
           <TitleContainer>
             <ContainerLogo>
               <LogotTitle src={logo}></LogotTitle>
-              <TitleElement>Supprimer flu</TitleElement>
+              <TitleElement>Supprimer flux</TitleElement>
             </ContainerLogo>
             <ButtonClose onClick={() => closeModalDelete()}>X</ButtonClose>
           </TitleContainer>
           <ContainerAskDelete>
             <QuestionElement>
-              Voulez-vous vraiment supprimer les flu ?{' '}
+              Voulez-vous vraiment supprimer les flux ?{' '}
             </QuestionElement>
             <ContainerButtonDeleteFlu>
               <ButtonValidateDelete onClick={() => submitDelete()}>

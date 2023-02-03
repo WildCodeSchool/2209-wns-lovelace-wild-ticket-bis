@@ -9,10 +9,10 @@ export const signInSnapshot = `
       class="sc-gswNZR KpODG"
     >
       <div
-        class="sc-ipEyDJ gPWbgT"
+        class="sc-ipEyDJ kQFbJt"
       >
         <img
-          class="sc-csuSiG kACrFh"
+          class="sc-csuSiG bkaCGd"
           src="logo_flu.png"
         />
       </div>
@@ -71,7 +71,7 @@ export const signInSnapshot = `
           </label>
         </div>
         <button
-          class="sc-iBYQkv bcYDlq"
+          class="sc-iBYQkv kQciNK"
         >
           Se connecter
         </button>

@@ -4,9 +4,9 @@ import {
   BOX_BACKGROUND_COLOR,
   BOX_BORDER,
   BOX_SHADOW,
-  BUTTON_COLOR_ACTION,
   FONT_FAMILY,
   MAIN_THEME_COLOR,
+  PRIMARY_BUTTON_COLOR_ACTION,
   TEXT_FONT_WEIGHT,
   TITLE_FONT_WEIGHT,
 } from '../../styles/style-constants';
@@ -76,7 +76,7 @@ export const ButtonLabel = styled.button`
   font-weight: ${TITLE_FONT_WEIGHT};
   box-shadow: ${BOX_SHADOW};
   &:active {
-    background-color: ${BUTTON_COLOR_ACTION};
+    background-color: ${PRIMARY_BUTTON_COLOR_ACTION};
   }
 `;
 

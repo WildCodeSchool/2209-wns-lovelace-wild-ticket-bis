@@ -9,10 +9,10 @@ export const signUpSnapshot = `
       class="sc-jrcTuL heIYTt"
     >
       <div
-        class="sc-idXgbr hbUQoK"
+        class="sc-idXgbr lfHbGg"
       >
         <img
-          class="sc-dIfARi iPhXbM"
+          class="sc-dIfARi seVvw"
           src="logo_flu.png"
         />
       </div>
@@ -150,7 +150,7 @@ export const signUpSnapshot = `
           </div>
         </div>
         <button
-          class="sc-ksBlkl bgMVGd"
+          class="sc-ksBlkl bgUBGp"
         >
           S'enregistrer
         </button>
