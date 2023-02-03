@@ -18,11 +18,10 @@ import {
 
 export const MainContainer = styled.div`
   grid-area: 2 / 2 / 3 / 3;
-  width: 95%;
-  display: grid;
   height: 95%;
-  grid-template-columns: 1fr;
+  display: grid;
   grid-template-rows: 10% 90%;
+  width: 95%;
 `;
 
 export const HeaderList = styled.div`
@@ -57,7 +56,7 @@ export const ListContainer = styled.div`
   flex-direction: column;
   gap: 15px;
   overflow: auto;
-  height: 100%;
+  width: 95%;
 `;
 
 export const ItemList = styled.div`
@@ -69,7 +68,6 @@ export const ItemList = styled.div`
   grid-row-gap: 0px;
   font-family: ${FONT_FAMILY};
   font-size: 1.2rem;
-  margin: 0 3% 0 0;
 `;
 
 export const TextElementHeader = styled.h2`
@@ -144,8 +142,9 @@ export const StatusError = styled.div`
 export const ContainerButton = styled.div`
   grid-area: 1 / 1 / 2 / 2;
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
+  margin-bottom: 20px;
 `;
 
 export const ButtonAdd = styled.button`
@@ -215,16 +214,14 @@ export const LogotTitle = styled.img`
 export const TitleElement = styled.h1`
   font-family: ${FONT_FAMILY};
   font-size: 1.6rem;
-  font-weight: bolder;
+  font-weight: ${TITLE_FONT_WEIGHT};
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: lighter;
   grid-area: 1 / 1 / 2 / 2;
 `;
 export const InputElement = styled.input`
   height: 30px;
-
   &:focus {
     outline: none;
   }
@@ -249,11 +246,11 @@ export const FormContainer = styled.div`
 `;
 
 export const ButtonValidate = styled.button`
-  height: 20%;
-  width: 40%;
+  padding: ${PRIMARY_BUTTON_SIZE};
   border: 0;
-  border-radius: 15px;
+  border-radius: 50px;
   background-color: ${PRIMARY_BUTTON_COLOR};
+  box-shadow: ${BUTTON_BOX_SHADOW};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -261,6 +258,10 @@ export const ButtonValidate = styled.button`
   font-weight: bold;
   font-size: 1.4rem;
   gap: 20px;
+
+  &:active {
+    background-color: ${PRIMARY_BUTTON_COLOR_ACTION};
+  }
 `;
 
 export const ContainerAskDelete = styled.div`
@@ -289,6 +290,12 @@ export const ContainerButtonDeleteFlu = styled.div`
 export const LogoLinkButton = styled.img`
   width: 25px;
   margin-right: 8px;
+`;
+
+export const LogoLinkButtonDisabled = styled.img`
+  width: 25px;
+  margin-right: 8px;
+  opacity: 25%;
 `;
 
 export const ButtonValidateDelete = styled.button`

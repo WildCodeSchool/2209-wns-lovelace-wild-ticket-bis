@@ -12,6 +12,7 @@ export const ContainerHeader = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 95%;
 `;
 
 export const ContainerActualFlu = styled.div`

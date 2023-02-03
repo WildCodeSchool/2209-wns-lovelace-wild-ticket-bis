@@ -23,6 +23,7 @@ import {
   LabelElement,
   ListContainer,
   LogoLinkButton,
+  LogoLinkButtonDisabled,
   LogotTitle,
   MainContainer,
   ModalContainer,
@@ -177,7 +178,11 @@ const MesFlux = (data: any) => {
           onClick={openModalDelete}
           disabled={allFlowSelected.length > 0 ? false : true}
         >
-          <LogoLinkButton src={Corbeille}></LogoLinkButton>
+          {allFlowSelected.length > 0 ? (
+            <LogoLinkButton src={Corbeille}></LogoLinkButton>
+          ) : (
+            <LogoLinkButtonDisabled src={Corbeille}></LogoLinkButtonDisabled>
+          )}
           Supprimer
         </ButtonDelete>
         <ButtonAdd onClick={openModal}>Ajouter un flu</ButtonAdd>
@@ -193,7 +198,7 @@ const MesFlux = (data: any) => {
           {data.data
             ? flows.map((flow: any) => {
                 return (
-                  <ItemList>
+                  <ItemList key={flow.id}>
                     <ContainerInputItem>
                       <InputItem
                         className="checkbox"
@@ -266,13 +271,13 @@ const MesFlux = (data: any) => {
           <TitleContainer>
             <ContainerLogo>
               <LogotTitle src={logo}></LogotTitle>
-              <TitleElement>Supprimer flu</TitleElement>
+              <TitleElement>Supprimer flux</TitleElement>
             </ContainerLogo>
             <ButtonClose onClick={() => closeModalDelete()}>X</ButtonClose>
           </TitleContainer>
           <ContainerAskDelete>
             <QuestionElement>
-              Voulez-vous vraiment supprimer les flu ?{' '}
+              Voulez-vous vraiment supprimer les flux ?{' '}
             </QuestionElement>
             <ContainerButtonDeleteFlu>
               <ButtonValidateDelete onClick={() => submitDelete()}>
