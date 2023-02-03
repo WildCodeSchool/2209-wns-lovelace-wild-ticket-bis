@@ -35,6 +35,8 @@ export type Mutation = {
   __typename?: 'Mutation';
   addFlow: Flow;
   deleteFlow: Scalars['Int'];
+  logOut: Session;
+  removeCookie: Scalars['String'];
   signIn: AppUser;
   signUp: AppUser;
 };
@@ -69,6 +71,11 @@ export type Query = {
   myProfile: AppUser;
 };
 
+export type Session = {
+  __typename?: 'Session';
+  id: Scalars['ID'];
+};
+
 export type Ticket = {
   __typename?: 'Ticket';
   flow: Flow;
@@ -82,6 +89,11 @@ export type MyprofileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type MyprofileQuery = { __typename?: 'Query', myProfile: { __typename?: 'AppUser', id: string, firstName: string, flows: Array<{ __typename?: 'Flow', flowName: string, id: string, tickets: Array<{ __typename?: 'Ticket', orderNumber: number }> }> } };
+
+export type LogOutMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogOutMutation = { __typename?: 'Mutation', removeCookie: string, logOut: { __typename?: 'Session', id: string } };
 
 export type MyProfileQueryQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -123,6 +135,7 @@ export type SignUpMutation = { __typename?: 'Mutation', signUp: { __typename?: '
 
 
 export const MyprofileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Myprofile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myProfile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"flows"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flowName"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"tickets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"orderNumber"}}]}}]}}]}}]}}]} as unknown as DocumentNode<MyprofileQuery, MyprofileQueryVariables>;
+export const LogOutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LogOut"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logOut"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"removeCookie"}}]}}]} as unknown as DocumentNode<LogOutMutation, LogOutMutationVariables>;
 export const MyProfileQueryDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"MyProfileQuery"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myProfile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"emailAddress"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"lastName"}}]}}]}}]} as unknown as DocumentNode<MyProfileQueryQuery, MyProfileQueryQueryVariables>;
 export const AddFlowDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"addFlow"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"id"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"flowName"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"addFlow"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"id"},"value":{"kind":"Variable","name":{"kind":"Name","value":"id"}}},{"kind":"Argument","name":{"kind":"Name","value":"flowName"},"value":{"kind":"Variable","name":{"kind":"Name","value":"flowName"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"flowName"}}]}}]}}]} as unknown as DocumentNode<AddFlowMutation, AddFlowMutationVariables>;
 export const DeleteFlowDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"deleteFlow"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"arrayId"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteFlow"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"arrayId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"arrayId"}}}]}]}}]} as unknown as DocumentNode<DeleteFlowMutation, DeleteFlowMutationVariables>;

@@ -1,12 +1,17 @@
-import styled from 'styled-components';
-import { BUTTON_LOGOUT_COLOR, FONT_FAMILY } from '../../styles/style-constants';
+import styled from "styled-components";
+import {
+  BUTTON_BOX_SHADOW,
+  BUTTON_LOGOUT_COLOR,
+  BUTTON_LOGOUT_COLOR_ACTION,
+  FONT_FAMILY,
+  TITLE_FONT_WEIGHT,
+} from "../../styles/style-constants";
 
 export const ContainerHeader = styled.div`
   grid-area: 1 / 1 / 2 / 6;
   display: flex;
   align-items: center;
   gap: 5%;
-  justify-content: space-between;
 `;
 
 export const ContainerLogo = styled.div`
@@ -55,32 +60,31 @@ export const OptionSelect = styled.option`
   font-size: 1.2rem;
 `;
 
-export const ContainerButtonLogout = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  width: 40%;
-`;
 export const ButtonLogout = styled.button`
-  height: 30%;
-  width: 40%;
-  border: 0;
-  border-radius: 15px;
-  background-color: ${BUTTON_LOGOUT_COLOR};
   display: flex;
   align-items: center;
-  font-family: ${FONT_FAMILY};
-  font-size: 1.2rem;
-  gap: 20px;
-  min-width: fit-content;
   justify-content: space-evenly;
+  border: none;
+  border-radius: 10px;
+  background-color: ${BUTTON_LOGOUT_COLOR};
+  box-shadow: ${BUTTON_BOX_SHADOW};
+  font-family: ${FONT_FAMILY};
+  font-weight: ${TITLE_FONT_WEIGHT};
+  gap: 10px;
+  padding: 3px 15px 3px 15px;
+  transition: 0.3s ease-out;
+
+  &:active {
+    background-color: ${BUTTON_LOGOUT_COLOR_ACTION};
+  }
 `;
 
 export const LogoLogout = styled.img`
-  margin: 3px 3px 3px 3px;
+  margin: 5px 0px 5px 0px;
+  width: 20px;
 `;
 
 export const ContainerLogoLogout = styled.div`
   display: flex;
 `;
+
