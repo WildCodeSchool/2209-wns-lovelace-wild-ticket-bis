@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import {
   BOX_BACKGROUND_COLOR,
+  BOX_BORDER,
   BOX_SHADOW,
   BUTTON_BOX_SHADOW,
   COLOR_ERROR_TICKET,
@@ -45,7 +46,8 @@ export const ArrayContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 10% 1% 89%;
-  border-radius: 0 0 20px 20px;
+  border-radius: 10px;
+  border: ${BOX_BORDER};
   background: ${BOX_BACKGROUND_COLOR};
   box-shadow: ${BOX_SHADOW};
 `;
@@ -56,7 +58,6 @@ export const ListContainer = styled.div`
   flex-direction: column;
   gap: 15px;
   overflow: auto;
-  width: 95%;
 `;
 
 export const ItemList = styled.div`
