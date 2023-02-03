@@ -189,9 +189,11 @@ const MesFlux = (data: any) => {
       </ContainerButton>
       <ArrayContainer>
         <HeaderList>
+          <TextElementHeader></TextElementHeader>
           <TextElementHeader>Date</TextElementHeader>
           <TextElementHeader>Nom de flu</TextElementHeader>
           <TextElementHeader>Nombre de tickets</TextElementHeader>
+          <TextElementHeader></TextElementHeader>
         </HeaderList>
         <Divider />
         <ListContainer>
@@ -201,7 +203,6 @@ const MesFlux = (data: any) => {
                   <ItemList key={flow.id}>
                     <ContainerInputItem>
                       <InputItem
-                        className="checkbox"
                         type="checkbox"
                         onChange={(e) => flowSelected(flow.id, e)}
                       ></InputItem>
@@ -210,7 +211,7 @@ const MesFlux = (data: any) => {
                     <TextElement>{flow.flowName}</TextElement>
                     <AllStatusContainer>
                       <StatusContainer>
-                        <StatusNoScan> </StatusNoScan>0
+                        <StatusNoScan></StatusNoScan>0
                       </StatusContainer>
                       <StatusContainer>
                         <StatusWaiting></StatusWaiting>0
