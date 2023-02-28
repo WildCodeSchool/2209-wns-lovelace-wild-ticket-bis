@@ -53,6 +53,15 @@ import { getErrorMessage } from 'utils';
 import { MY_PROFILE } from 'App/App';
 import Corbeille from '../../assets/corbeille.png';
 
+export const ADD_FLOW = gql`
+  mutation addFlow($id: String!, $flowName: String!) {
+    addFlow(id: $id, flowName: $flowName) {
+      id
+      flowName
+    }
+  }
+`;
+
 const MesFlux = (data: any) => {
   const [id, setId] = useState('');
   const [flowName, setFlowName] = useState('');
@@ -60,8 +69,6 @@ const MesFlux = (data: any) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
   const [allFlowSelected, setAllFlowSelected] = useState<Array<string>>([]);
-
-  ReactModal.setAppElement('#root');
 
   useEffect(() => {
     if (data.data) {
@@ -121,15 +128,6 @@ const MesFlux = (data: any) => {
       }
     }
   };
-
-  const ADD_FLOW = gql`
-    mutation addFlow($id: String!, $flowName: String!) {
-      addFlow(id: $id, flowName: $flowName) {
-        id
-        flowName
-      }
-    }
-  `;
 
   const DELETE_FLOW = gql`
     mutation deleteFlow($arrayId: [String!]!) {
@@ -203,6 +201,7 @@ const MesFlux = (data: any) => {
                   <ItemList key={flow.id}>
                     <ContainerInputItem>
                       <InputItem
+                        id="flow_value"
                         type="checkbox"
                         onChange={(e) => flowSelected(flow.id, e)}
                       ></InputItem>
@@ -267,6 +266,7 @@ const MesFlux = (data: any) => {
         onAfterClose={afterCloseModalDelete}
         style={customStyles}
         contentLabel="Example Modal"
+        testId="modal"
       >
         <ModalContainer>
           <TitleContainer>
