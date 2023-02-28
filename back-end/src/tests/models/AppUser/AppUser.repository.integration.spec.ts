@@ -1,3 +1,4 @@
+/// <reference types="@types/jest" />;
 import {
   closeConnection,
   getDatabase,
