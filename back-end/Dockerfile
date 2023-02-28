@@ -11,4 +11,4 @@ FROM base as dev
 CMD npm run start:watch & npx nodemon -w package.json --exec 'npm install'
 
 FROM base as ci
-CMD npm run build && npm run test
+CMD npm run build && docker-compose -f docker-compose.dev.yml exec back-end npm run test
