@@ -88,7 +88,7 @@ describe('AppUserRepository integration', () => {
       });
     });
   });
-  describe('signOut', () => {
+  describe('SignOut', () => {
     const emailAddress = 'jean@user.com';
     describe('When user passed does not exists', () => {
       it('Return error message', async () => {
