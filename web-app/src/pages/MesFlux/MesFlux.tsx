@@ -39,7 +39,6 @@ import {
   TitleElement,
 } from './MesFlux.styled';
 import Modal from 'react-modal';
-import ReactModal from 'react-modal';
 import logo from '../../assets/Flu-icone_4.png';
 import { gql, useMutation } from '@apollo/client';
 import {
@@ -50,10 +49,29 @@ import {
 } from 'gql/graphql';
 import { toast } from 'react-toastify';
 import { getErrorMessage } from 'utils';
-import { MY_PROFILE } from 'App/App';
 import Corbeille from '../../assets/corbeille.png';
 
-const MesFlux = (data: any) => {
+export const ADD_FLOW = gql`
+  mutation addFlow($id: String!, $flowName: String!) {
+    addFlow(id: $id, flowName: $flowName) {
+      id
+      flowName
+    }
+  }
+`;
+
+export const DELETE_FLOW = gql`
+  mutation deleteFlow($arrayId: [String!]!) {
+    deleteFlow(arrayId: $arrayId)
+  }
+`;
+
+interface props {
+  data: any;
+  refetch: () => void;
+}
+
+const MesFlux = ({ data, refetch }: props) => {
   const [id, setId] = useState('');
   const [flowName, setFlowName] = useState('');
   const [flows, setFlows] = useState([]);
@@ -61,12 +79,10 @@ const MesFlux = (data: any) => {
   const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
   const [allFlowSelected, setAllFlowSelected] = useState<Array<string>>([]);
 
-  ReactModal.setAppElement('#root');
-
   useEffect(() => {
-    if (data.data) {
-      setFlows(data.data.myProfile.flows);
-      setId(data.data.myProfile.id);
+    if (data) {
+      setFlows(data.myProfile.flows);
+      setId(data.myProfile.id);
     }
   }, [data]);
 
@@ -81,19 +97,11 @@ const MesFlux = (data: any) => {
     },
   };
 
-  function openModal() {
-    setIsOpen(true);
+  function toggleModal() {
+    setIsOpen(!modalIsOpen);
   }
-  function openModalDelete() {
-    setModalDeleteIsOpen(true);
-  }
-
-  function closeModal() {
-    setIsOpen(false);
-  }
-
-  function closeModalDelete() {
-    setModalDeleteIsOpen(false);
+  function toggleModalDelete() {
+    setModalDeleteIsOpen(!modalDeleteIsOpen);
   }
 
   const afterCloseModal = () => {
@@ -122,30 +130,14 @@ const MesFlux = (data: any) => {
     }
   };
 
-  const ADD_FLOW = gql`
-    mutation addFlow($id: String!, $flowName: String!) {
-      addFlow(id: $id, flowName: $flowName) {
-        id
-        flowName
-      }
-    }
-  `;
-
-  const DELETE_FLOW = gql`
-    mutation deleteFlow($arrayId: [String!]!) {
-      deleteFlow(arrayId: $arrayId)
-    }
-  `;
-
   const [addFlow] = useMutation<AddFlowMutation, AddFlowMutationVariables>(
-    ADD_FLOW,
-    { refetchQueries: [{ query: MY_PROFILE }] }
+    ADD_FLOW
   );
 
   const [deleteFlow] = useMutation<
     DeleteFlowMutation,
     DeleteFlowMutationVariables
-  >(DELETE_FLOW, { refetchQueries: [{ query: MY_PROFILE }] });
+  >(DELETE_FLOW);
 
   const submit = async () => {
     try {
@@ -153,7 +145,8 @@ const MesFlux = (data: any) => {
         variables: { id, flowName },
       });
       toast.success(`Creation reussi.`);
-      closeModal();
+      toggleModal();
+      refetch();
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -165,7 +158,8 @@ const MesFlux = (data: any) => {
         variables: { arrayId: allFlowSelected },
       });
       toast.success(`Suppresion reussi.`);
-      closeModalDelete();
+      refetch();
+      toggleModalDelete();
       afterCloseModalDelete();
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -175,7 +169,7 @@ const MesFlux = (data: any) => {
     <MainContainer>
       <ContainerButton>
         <ButtonDelete
-          onClick={openModalDelete}
+          onClick={toggleModalDelete}
           disabled={allFlowSelected.length > 0 ? false : true}
         >
           {allFlowSelected.length > 0 ? (
@@ -185,7 +179,7 @@ const MesFlux = (data: any) => {
           )}
           Supprimer
         </ButtonDelete>
-        <ButtonAdd onClick={openModal}>Ajouter un flu</ButtonAdd>
+        <ButtonAdd onClick={toggleModal}>Ajouter un flu</ButtonAdd>
       </ContainerButton>
       <ArrayContainer>
         <HeaderList>
@@ -197,7 +191,7 @@ const MesFlux = (data: any) => {
         </HeaderList>
         <Divider />
         <ListContainer>
-          {data.data
+          {data
             ? flows.map((flow: any) => {
                 return (
                   <ItemList key={flow.id}>
@@ -232,7 +226,7 @@ const MesFlux = (data: any) => {
       <Modal
         ariaHideApp={false}
         isOpen={modalIsOpen}
-        onRequestClose={closeModal}
+        onRequestClose={toggleModal}
         style={customStyles}
         onAfterClose={afterCloseModal}
         contentLabel="Example Modal"
@@ -243,7 +237,7 @@ const MesFlux = (data: any) => {
               <LogotTitle src={logo}></LogotTitle>
               <TitleElement>Nouveau flu</TitleElement>
             </ContainerLogo>
-            <ButtonClose onClick={() => closeModal()}>X</ButtonClose>
+            <ButtonClose onClick={() => toggleModal()}>X</ButtonClose>
           </TitleContainer>
           <FormContainer>
             <LabelElement>
@@ -263,10 +257,11 @@ const MesFlux = (data: any) => {
       <Modal
         ariaHideApp={false}
         isOpen={modalDeleteIsOpen}
-        onRequestClose={closeModalDelete}
+        onRequestClose={toggleModalDelete}
         onAfterClose={afterCloseModalDelete}
         style={customStyles}
         contentLabel="Example Modal"
+        testId="modal"
       >
         <ModalContainer>
           <TitleContainer>
@@ -274,7 +269,7 @@ const MesFlux = (data: any) => {
               <LogotTitle src={logo}></LogotTitle>
               <TitleElement>Supprimer flux</TitleElement>
             </ContainerLogo>
-            <ButtonClose onClick={() => closeModalDelete()}>X</ButtonClose>
+            <ButtonClose onClick={() => toggleModalDelete()}>X</ButtonClose>
           </TitleContainer>
           <ContainerAskDelete>
             <QuestionElement>

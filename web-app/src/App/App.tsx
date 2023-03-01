@@ -86,7 +86,7 @@ function App() {
                 </ProtectedRoutes>
               }
             >
-              <Route path={MES_FLUX_PATH} element={<MesFlux data={data} />} />
+              <Route path={MES_FLUX_PATH} element={<MesFlux data={data} refetch={refetch} />} />
               <Route path={TICKETS_PATH} element={<Tickets />} />
               <Route path={QR_CODE_PATH} element={<QRCode />} />
               <Route path={CORBEILLE_PATH} element={<Corbeille />} />
