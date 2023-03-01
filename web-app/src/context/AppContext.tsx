@@ -23,6 +23,21 @@ type ValueType = {
   refetch: (
     variables?: Partial<OperationVariables> | undefined
   ) => Promise<ApolloQueryResult<MyprofileQuery | null>>;
+  selectedFlow:
+    | {
+        value: string;
+        label: string;
+      }
+    | undefined;
+  setSelectedFlow: React.Dispatch<
+    React.SetStateAction<
+      | {
+          value: string;
+          label: string;
+        }
+      | undefined
+    >
+  >;
 };
 
 export const AppContext = createContext<ValueType | null>(null);
@@ -33,14 +48,22 @@ export function ContextProvider({ children }: any) {
   );
   const [userProfile, setUserProfile] = useState<MyprofileQuery | null>(null);
 
+  const [selectedFlow, setSelectedFlow] = useState<{
+    value: string;
+    label: string;
+  }>();
+
   useEffect(() => {
     if (data) {
       setUserProfile(data);
     }
   }, [data, error]);
+  console.log(selectedFlow);
 
   return (
-    <AppContext.Provider value={{ userProfile, refetch }}>
+    <AppContext.Provider
+      value={{ userProfile, refetch, selectedFlow, setSelectedFlow }}
+    >
       {children}
     </AppContext.Provider>
   );

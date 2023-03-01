@@ -5,7 +5,6 @@ import {
   ContainerLogoLogout,
   LabelActualFlu,
   LogoLogout,
-  OptionSelect,
   SelectActualFlu,
 } from './Header.styled';
 
@@ -13,8 +12,11 @@ import logout from '../../assets/logout.png';
 import { useNavigate } from 'react-router-dom';
 import { SIGN_IN_PATH } from 'pages/paths';
 import { gql, useMutation } from '@apollo/client';
-import { LogOutMutation } from 'gql/graphql';
+import { Flow, LogOutMutation } from 'gql/graphql';
 import { toast } from 'react-toastify';
+import { useContext, useEffect, useState } from 'react';
+import { AppContext } from 'context/AppContext';
+import Select from 'react-select';
 
 const LOGOUT = gql`
   mutation LogOut {
@@ -29,13 +31,22 @@ const Header = (data: any | null) => {
   const navigate = useNavigate();
 
   const [logOut] = useMutation<LogOutMutation>(LOGOUT);
+  const [flows, setFlows] = useState<Flow[] | undefined>();
+  const [defaultFlow, setDefaultFlow] = useState<{
+    value: string;
+    label: string;
+  }>();
 
-  let flows: Array<any> = [];
-  let hasData: boolean = false;
-  if (data.data) {
-    flows = data.data.myProfile.flows;
-    hasData = true;
-  }
+  useEffect(() => {
+    if (data.data) {
+      setFlows(data.data.myProfile.flows);
+      if (flows) {
+        setDefaultFlow({ value: flows[0].flowName, label: flows[0].flowName });
+      }
+    }
+  }, [data, flows]);
+
+  const appContext = useContext(AppContext);
 
   const logOutNavigation = async () => {
     navigate(SIGN_IN_PATH);
@@ -46,16 +57,26 @@ const Header = (data: any | null) => {
     }
   };
 
+  const handleChangeSelectedFlow = (selectedOption: any) => {
+    appContext?.setSelectedFlow(selectedOption);
+  };
+
+  const flowOptions = flows?.map((flow: any) => ({
+    value: flow.flowName,
+    label: flow.flowName,
+  }));
+
   return (
     <ContainerHeader>
       <ContainerActualFlu>
         <LabelActualFlu> Flu Actuel : </LabelActualFlu>
         <SelectActualFlu>
-          {hasData
-            ? flows.map((e) => {
-                return <OptionSelect key={e.id}>{e.flowName}</OptionSelect>;
-              })
-            : null}
+          <Select
+            defaultValue={defaultFlow}
+            onChange={handleChangeSelectedFlow}
+            autoFocus={true}
+            options={flowOptions}
+          />
         </SelectActualFlu>
       </ContainerActualFlu>
       <ButtonLogout onClick={() => logOutNavigation()}>
