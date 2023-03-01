@@ -6,12 +6,13 @@ import { buildSchema } from 'type-graphql';
 
 import AppUserResolver from './resolvers/AppUser/AppUser.resolver';
 import AppUserRepository from './models/AppUser/AppUser.repository';
-import SessionRepository from './models/AppUser/Session.repository';
 import { getSessionIdInCookie } from './http-utils';
 import AppUser from './models/AppUser/AppUser.entity';
 import FlowRepository from './models/Flow/Flow.repository';
 import TicketRepository from './models/Ticket/Ticket.repository';
 import FlowResolver from './resolvers/Flow/Flow.resolver';
+
+import { initializeDatabaseRepositories } from './database/utils';
 
 export type GlobalContext = ExpressContext & {
   user: AppUser | null;
@@ -49,10 +50,7 @@ const startServer = async () => {
   // The `listen` method launches a web server.
   const { url } = await server.listen();
 
-  await AppUserRepository.initializeRepository();
-  await SessionRepository.initializeRepository();
-  await FlowRepository.initializeRepository();
-  await TicketRepository.initializeRepository();
+  await initializeDatabaseRepositories();
 
   await AppUserRepository.initializeUser();
   await FlowRepository.initializeFlow();

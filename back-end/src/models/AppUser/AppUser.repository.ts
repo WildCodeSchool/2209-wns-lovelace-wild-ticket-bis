@@ -7,6 +7,8 @@ import Session from './Session.entity';
 import FlowRepository from '../Flow/Flow.repository';
 import TicketRepository from '../Ticket/Ticket.repository';
 
+export const INVALID_CREDENTIALS_ERROR_MESSAGE = 'Identifiants incorrects.';
+
 export default class AppUserRepository extends AppUserDb {
   static async initializeUser(): Promise<void> {
     await TicketRepository.clearRepository();
@@ -43,7 +45,7 @@ export default class AppUserRepository extends AppUserDb {
     const user = await this.findByEmailAddress(emailAddress);
 
     if (!user || !compareSync(password, user.hashedPassword)) {
-      throw new Error('Identifiants incorrects.');
+      throw new Error(INVALID_CREDENTIALS_ERROR_MESSAGE);
     }
     const session = await SessionRepository.createSession(user);
     return { user, session };
