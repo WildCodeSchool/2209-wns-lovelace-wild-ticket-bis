@@ -88,4 +88,34 @@ describe('AppUserRepository integration', () => {
       });
     });
   });
+  describe('signOut', () => {
+    const emailAddress = 'jean@user.com';
+    describe('When user passed does not exists', () => {
+      it('Return error message', async () => {
+        expect(
+          SessionRepository.deleteSession('wrong-session-id')
+        ).rejects.toThrowError('No existing session for this User');
+      });
+    });
+    describe('When passed existing user', () => {
+      it('Deletes session in database', async () => {
+        await AppUserRepository.createUser(
+          'Jean',
+          'User',
+          emailAddress,
+          'mot-de-passe-de-jean'
+        );
+        const signInResult = await AppUserRepository.signIn(
+          emailAddress,
+          'mot-de-passe-de-jean'
+        );
+
+        const result = await SessionRepository.deleteSession(
+          signInResult.session.id
+        );
+
+        expect(result.id).toContain(signInResult.session.id);
+      });
+    });
+  });
 });
