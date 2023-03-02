@@ -12,7 +12,7 @@ import logout from '../../assets/logout.png';
 import { useNavigate } from 'react-router-dom';
 import { SIGN_IN_PATH } from 'pages/paths';
 import { gql, useMutation } from '@apollo/client';
-import { Flow, LogOutMutation } from 'gql/graphql';
+import { LogOutMutation } from 'gql/graphql';
 import { toast } from 'react-toastify';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'context/AppContext';
@@ -28,18 +28,18 @@ const LOGOUT = gql`
   }
 `;
 
-const Header = (data: any | null) => {
+const Header = () => {
   const navigate = useNavigate();
 
   const [logOut] = useMutation<LogOutMutation>(LOGOUT);
-  const [flows, setFlows] = useState<Flow[] | undefined>();
+  const [flows, setFlows] = useState([{}]);
   const appContext = useContext(AppContext);
 
   useEffect(() => {
-    if (data.data) {
-      setFlows(data.data.myProfile.flows);
+    if (appContext?.userProfile?.myProfile.flows) {
+      setFlows(appContext.userProfile.myProfile.flows);
     }
-  }, [data]);
+  }, [appContext]);
 
   const logOutNavigation = async () => {
     navigate(SIGN_IN_PATH);

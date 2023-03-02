@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import {
   AllStatusContainer,
   ArrayContainer,
@@ -50,6 +50,7 @@ import {
 import { toast } from 'react-toastify';
 import { getErrorMessage } from 'utils';
 import Corbeille from '../../assets/corbeille.png';
+import { AppContext } from 'context/AppContext';
 
 export const ADD_FLOW = gql`
   mutation addFlow($id: String!, $flowName: String!) {
@@ -66,25 +67,21 @@ export const DELETE_FLOW = gql`
   }
 `;
 
-interface props {
-  data: any;
-  refetch: () => void;
-}
-
-const MesFlux = ({ data, refetch }: props) => {
+const MesFlux = () => {
+  const appContext = useContext(AppContext);
   const [id, setId] = useState('');
   const [flowName, setFlowName] = useState('');
-  const [flows, setFlows] = useState([]);
+  const [flows, setFlows] = useState([{}]);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
   const [allFlowSelected, setAllFlowSelected] = useState<Array<string>>([]);
 
   useEffect(() => {
-    if (data) {
-      setFlows(data.myProfile.flows);
-      setId(data.myProfile.id);
+    if (appContext?.userProfile) {
+      setFlows(appContext.userProfile.myProfile.flows);
+      setId(appContext.userProfile.myProfile.id);
     }
-  }, [data]);
+  }, [appContext]);
 
   const customStyles = {
     content: {
@@ -146,7 +143,7 @@ const MesFlux = ({ data, refetch }: props) => {
       });
       toast.success(`Creation reussi.`);
       toggleModal();
-      refetch();
+      appContext?.refetch();
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -158,7 +155,7 @@ const MesFlux = ({ data, refetch }: props) => {
         variables: { arrayId: allFlowSelected },
       });
       toast.success(`Suppresion reussi.`);
-      refetch();
+      appContext?.refetch();
       toggleModalDelete();
       afterCloseModalDelete();
     } catch (error) {
@@ -191,7 +188,7 @@ const MesFlux = ({ data, refetch }: props) => {
         </HeaderList>
         <Divider />
         <ListContainer>
-          {data
+          {flows
             ? flows.map((flow: any) => {
                 return (
                   <ItemList key={flow.id}>

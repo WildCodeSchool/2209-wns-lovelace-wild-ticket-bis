@@ -1,9 +1,7 @@
 import React, { useContext, useState } from 'react';
-import { gql, useQuery } from '@apollo/client';
 import { AnimatePresence } from 'framer-motion';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import { MyprofileQuery } from '../gql/graphql';
 import { AppContainer } from './App.styled';
 
 import Navbar from '../components/Navbar/Navbar';
@@ -32,24 +30,7 @@ import DashboardLayout from 'components/layout/DashboardLayout';
 import { AppContext } from 'context/AppContext';
 import Logo from 'components/Logo/Logo';
 
-export const MY_PROFILE = gql`
-  query Myprofile {
-    myProfile {
-      id
-      firstName
-      flows {
-        flowName
-        id
-        tickets {
-          orderNumber
-        }
-      }
-    }
-  }
-`;
-
 function App() {
-  const { data, refetch } = useQuery<MyprofileQuery>(MY_PROFILE);
   const [isNavbarDisplayed, setIsNavbarDisplayed] = useState(true);
   const location = useLocation();
   const appContext = useContext(AppContext);
@@ -62,21 +43,27 @@ function App() {
     <>
       <AppContainer className={isNavbarDisplayed ? 'yes' : 'no'}>
         {isNavbarDisplayed ? <Logo /> : null}
-        {isNavbarDisplayed ? <Header data={data} /> : null}
+        {isNavbarDisplayed ? <Header /> : null}
         {isNavbarDisplayed ? <Navbar /> : null}
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.key}>
             <Route
               path={SIGN_UP_PATH}
               element={
-                <SignUp displayNavbar={displayNavbar} onSuccess={refetch} />
+                <SignUp
+                  displayNavbar={displayNavbar}
+                  onSuccess={appContext?.refetch}
+                />
               }
             />
 
             <Route
               path={SIGN_IN_PATH}
               element={
-                <SignIn displayNavbar={displayNavbar} onSuccess={refetch} />
+                <SignIn
+                  displayNavbar={displayNavbar}
+                  onSuccess={appContext?.refetch}
+                />
               }
             />
             <Route
@@ -86,7 +73,7 @@ function App() {
                 </ProtectedRoutes>
               }
             >
-              <Route path={MES_FLUX_PATH} element={<MesFlux data={data} refetch={refetch} />} />
+              <Route path={MES_FLUX_PATH} element={<MesFlux />} />
               <Route path={TICKETS_PATH} element={<Tickets />} />
               <Route path={QR_CODE_PATH} element={<QRCode />} />
               <Route path={CORBEILLE_PATH} element={<Corbeille />} />
