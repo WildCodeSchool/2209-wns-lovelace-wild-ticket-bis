@@ -189,12 +189,13 @@ const MesFlux = () => {
         <Divider />
         <ListContainer>
           {flows
-            ? flows.map((flow: any) => {
+            ? flows.map((flow: any, index) => {
                 return (
-                  <ItemList key={flow.id}>
+                  <ItemList key={index}>
                     <ContainerInputItem>
                       <InputItem
                         type="checkbox"
+                        data-testid={flow.flowName}
                         onChange={(e) => flowSelected(flow.id, e)}
                       ></InputItem>
                     </ContainerInputItem>

@@ -58,7 +58,7 @@ export function ContextProvider({ children }: any) {
       setUserProfile(data);
     }
   }, [data]);
-  console.log(selectedFlow);
+
   return (
     <AppContext.Provider
       value={{ userProfile, refetch, selectedFlow, setSelectedFlow }}
