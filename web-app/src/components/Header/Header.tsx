@@ -17,6 +17,7 @@ import { toast } from 'react-toastify';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'context/AppContext';
 import Select from 'react-select';
+import Loader from 'components/Loader';
 
 const LOGOUT = gql`
   mutation LogOut {
@@ -32,21 +33,13 @@ const Header = (data: any | null) => {
 
   const [logOut] = useMutation<LogOutMutation>(LOGOUT);
   const [flows, setFlows] = useState<Flow[] | undefined>();
-  const [defaultFlow, setDefaultFlow] = useState<{
-    value: string;
-    label: string;
-  }>();
+  const appContext = useContext(AppContext);
 
   useEffect(() => {
     if (data.data) {
       setFlows(data.data.myProfile.flows);
-      if (flows) {
-        setDefaultFlow({ value: flows[0].flowName, label: flows[0].flowName });
-      }
     }
-  }, [data, flows]);
-
-  const appContext = useContext(AppContext);
+  }, [data]);
 
   const logOutNavigation = async () => {
     navigate(SIGN_IN_PATH);
@@ -71,12 +64,15 @@ const Header = (data: any | null) => {
       <ContainerActualFlu>
         <LabelActualFlu> Flu Actuel : </LabelActualFlu>
         <SelectActualFlu>
-          <Select
-            defaultValue={defaultFlow}
-            onChange={handleChangeSelectedFlow}
-            autoFocus={true}
-            options={flowOptions}
-          />
+          {flowOptions ? (
+            <Select
+              onChange={handleChangeSelectedFlow}
+              defaultValue={flowOptions[0]}
+              options={flowOptions}
+            />
+          ) : (
+            <Loader />
+          )}
         </SelectActualFlu>
       </ContainerActualFlu>
       <ButtonLogout onClick={() => logOutNavigation()}>
