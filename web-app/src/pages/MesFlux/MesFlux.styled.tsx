@@ -136,8 +136,9 @@ export const TextElement = styled.h2`
 
 export const InputItem = styled.input`
   align-self: center;
-  width: 100%;
-  height: 24px;
+  width: 1em;
+  height: 1em;
+  margin-right: 20px;
 `;
 
 export const AllStatusContainer = styled.div`
