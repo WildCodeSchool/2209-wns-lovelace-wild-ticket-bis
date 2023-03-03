@@ -31,9 +31,14 @@ import {
   COLOR_VALIDATE_TICKET,
   COLOR_WAITING_TICKET,
 } from 'styles/style-constants';
-import { gql, useQuery } from '@apollo/client';
-import { GetTicketsByFlowIdQuery } from 'gql/graphql';
+import { gql, useMutation, useQuery } from '@apollo/client';
+import {
+  AddTicketByFlowIdMutation,
+  AddTicketByFlowIdMutationVariables,
+  GetTicketsByFlowIdQuery,
+} from 'gql/graphql';
 import { AppContext } from 'context/AppContext';
+import { toast } from 'react-toastify';
 
 const GET_TICKETS_BY_FLOW_ID = gql`
   query GetTicketsByFlowId($flowId: String!) {
@@ -46,6 +51,17 @@ const GET_TICKETS_BY_FLOW_ID = gql`
         isTrash
         status
       }
+    }
+  }
+`;
+
+const ADD_MUTATION_BY_FLOW_ID = gql`
+  mutation AddTicketByFlowId($flowId: String!) {
+    addTicketByFlowId(flowId: $flowId) {
+      date
+      id
+      isTrash
+      status
     }
   }
 `;
@@ -68,6 +84,11 @@ const Tickets = () => {
   const { data, refetch } = useQuery<GetTicketsByFlowIdQuery>(
     GET_TICKETS_BY_FLOW_ID
   );
+  const [addTicketByFlowId] = useMutation<
+    AddTicketByFlowIdMutation,
+    AddTicketByFlowIdMutationVariables
+  >(ADD_MUTATION_BY_FLOW_ID);
+
   const [flowTickets, setFlowTickets] = useState<Flow>();
   const [allTicketsSelected] = useState<Array<string>>([]);
 
@@ -81,6 +102,23 @@ const Tickets = () => {
   const convertDateFormat = (isoDate: string) => {
     const date = new Date(isoDate);
     return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  };
+
+  const addNewTicket = async () => {
+    if (!flowTickets?.id) {
+      toast.warning('Veuillez sélectionner un flu valide.');
+    } else {
+      try {
+        await addTicketByFlowId({
+          variables: { flowId: flowTickets?.id },
+        });
+        refetch();
+      } catch (error) {
+        toast.error(
+          'Un problème est survenue. Veuillez réessayer ultérieurement.'
+        );
+      }
+    }
   };
 
   return (
@@ -115,7 +153,7 @@ const Tickets = () => {
             &ensp;Incident
           </ButtonAction>
         </ContainerButtonAction>
-        <ButtonAdd>Ajouter un ticket</ButtonAdd>
+        <ButtonAdd onClick={addNewTicket}>Ajouter un ticket</ButtonAdd>
       </ContainerButton>
       <ArrayContainer>
         <HeaderList>
