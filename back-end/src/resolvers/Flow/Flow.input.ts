@@ -15,7 +15,7 @@ export class AddFlowArgs {
 }
 
 @ArgsType()
-export class getFlowWithTicketsArgs {
+export class getTicketsByFlowIdArgs {
   @Field()
   flowId: string;
 }
