@@ -1,35 +1,16 @@
 /* eslint-disable testing-library/no-wait-for-multiple-assertions */
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
-import { AddFlowMutation, DeleteFlowMutation } from 'gql/graphql';
+import { AppContext } from 'context/AppContext';
+import {
+  AddFlowMutation,
+  DeleteFlowMutation,
+  MyprofileQuery,
+} from 'gql/graphql';
 import MesFlux, { ADD_FLOW, DELETE_FLOW } from 'pages/MesFlux/MesFlux';
 import * as toastify from 'react-toastify';
 
 jest.mock('react-toastify');
-
-const data = {
-  myProfile: {
-    id: '1000',
-    firstName: 'Harry',
-    flows: [
-      {
-        flowName: 'Le camion vert',
-        id: 'f4-3535g',
-        urlId: 3,
-        tickets: [
-          {
-            __typename: 'Ticket',
-            orderNumber: 2052,
-          },
-          {
-            __typename: 'Ticket',
-            orderNumber: 2053,
-          },
-        ],
-      },
-    ],
-  },
-};
 
 const fillFormForAddFluAndSubmit = () => {
   fireEvent.click(screen.getByRole('button', { name: /Ajouter un flu/i }));
@@ -40,18 +21,22 @@ const fillFormForAddFluAndSubmit = () => {
 };
 
 const ActionForDeleteAndSubmit = () => {
-  fireEvent.click(screen.getByRole('checkbox'));
+  fireEvent.click(screen.getByTestId('Le camion vert'));
   fireEvent.click(screen.getByRole('button', { name: /Supprimer/i }));
   fireEvent.click(screen.getByRole('button', { name: /Confirmer/i }));
 };
 
 const renderMesFlux = (
-  mocks: MockedResponse<AddFlowMutation | DeleteFlowMutation>[] = [],
-  refetch: jest.Mock<any, any, any>
+  mocks: MockedResponse<
+    AddFlowMutation | DeleteFlowMutation | MyprofileQuery
+  >[] = [],
+  providerProps: any
 ) => {
   return render(
     <MockedProvider mocks={mocks}>
-      <MesFlux data={data} refetch={refetch} />
+      <AppContext.Provider value={{ ...providerProps }}>
+        <MesFlux />
+      </AppContext.Provider>
     </MockedProvider>
   );
 };
@@ -62,7 +47,7 @@ describe('When MesFlux form for add a new flux is submited', () => {
       request: {
         query: ADD_FLOW,
         variables: {
-          id: '1000',
+          id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
           flowName: 'Taverne de Hagrid',
         },
       },
@@ -75,9 +60,26 @@ describe('When MesFlux form for add a new flux is submited', () => {
         },
       },
     };
+    const userProfile = {
+      myProfile: {
+        id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
+        firstName: 'Harry',
+        flows: [
+          {
+            flowName: 'Le camion vert',
+            id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+          },
+          {
+            flowName: "Pas d'idée de nom",
+            id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+          },
+        ],
+      },
+    };
     it('shows toast with success message', async () => {
       const refetch = jest.fn();
-      renderMesFlux([mockAddFlowSuccess], refetch);
+      const providerProps = { userProfile, refetch };
+      renderMesFlux([mockAddFlowSuccess], providerProps);
       fillFormForAddFluAndSubmit();
 
       await waitFor(() => {
@@ -93,16 +95,33 @@ describe('When MesFlux form for add a new flux is submited', () => {
       request: {
         query: ADD_FLOW,
         variables: {
-          id: '1000',
+          id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
           flowName: 'Taverne de Hagrid',
         },
       },
       error: new Error(ERROR_MESSAGE),
     };
+    const userProfile = {
+      myProfile: {
+        id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
+        firstName: 'Harry',
+        flows: [
+          {
+            flowName: 'Le camion vert',
+            id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+          },
+          {
+            flowName: "Pas d'idée de nom",
+            id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+          },
+        ],
+      },
+    };
 
     it('shows toast with error message', async () => {
       const refetch = jest.fn();
-      renderMesFlux([mockAddFlowError], refetch);
+      const providerProps = { userProfile, refetch };
+      renderMesFlux([mockAddFlowError], providerProps);
       fillFormForAddFluAndSubmit();
 
       await waitFor(() => {
@@ -119,7 +138,7 @@ describe('When trying to delete a flu', () => {
       request: {
         query: DELETE_FLOW,
         variables: {
-          arrayId: ['8888'],
+          arrayId: ['86b13f3f-389d-4c4b-b50a-fd00a484673c'],
         },
       },
       result: {
@@ -128,9 +147,28 @@ describe('When trying to delete a flu', () => {
         },
       },
     };
+
+    const userProfile = {
+      myProfile: {
+        id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
+        firstName: 'Harry',
+        flows: [
+          {
+            flowName: 'Le camion vert',
+            id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+          },
+          {
+            flowName: "Pas d'idée de nom",
+            id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+          },
+        ],
+      },
+    };
+
     it('show toast with success message', async () => {
       const refetch = jest.fn();
-      renderMesFlux([mockDeleteSuccess], refetch);
+      const providerProps = { userProfile, refetch };
+      renderMesFlux([mockDeleteSuccess], providerProps);
       ActionForDeleteAndSubmit();
 
       await waitFor(() => {
@@ -148,15 +186,33 @@ describe('When trying to delete a flu', () => {
       request: {
         query: DELETE_FLOW,
         variables: {
-          arrayId: ['8888'],
+          arrayId: ['86b13f3f-389d-4c4b-b50a-fd00a484673c'],
         },
       },
       error: new Error(ERROR_MESSAGE),
     };
 
+    const userProfile = {
+      myProfile: {
+        id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
+        firstName: 'Harry',
+        flows: [
+          {
+            flowName: 'Le camion vert',
+            id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+          },
+          {
+            flowName: "Pas d'idée de nom",
+            id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+          },
+        ],
+      },
+    };
+
     it('shows toast with error message', async () => {
       const refetch = jest.fn();
-      renderMesFlux([mockDeletedError], refetch);
+      const providerProps = { userProfile, refetch };
+      renderMesFlux([mockDeletedError], providerProps);
       ActionForDeleteAndSubmit();
 
       await waitFor(() => {

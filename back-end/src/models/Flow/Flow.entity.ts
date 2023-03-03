@@ -6,7 +6,6 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-  Unique,
 } from 'typeorm';
 import AppUser from '../AppUser/AppUser.entity';
 import Ticket from '../Ticket/Ticket.entity';
@@ -31,6 +30,7 @@ export default class Flow {
   flowName: string;
 
   @CreateDateColumn()
+  @Field()
   date: Date;
 
   @ManyToOne(() => AppUser, (appUser) => appUser.flows)

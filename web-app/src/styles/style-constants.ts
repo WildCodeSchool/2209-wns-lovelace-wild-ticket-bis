@@ -25,4 +25,4 @@ export const BUTTON_BOX_SHADOW = '0px 2px 2px rgba(69, 69, 69, 0.25)';
 export const COLOR_VALIDATE_TICKET = '#2BC016';
 export const COLOR_NOSCAN_TICKET = '#F0D472';
 export const COLOR_ERROR_TICKET = '#D93737';
-export const COLOR_WAITING_TICKET = '#2E8DC2';
+export const COLOR_WAITING_TICKET = '#61A7CE';

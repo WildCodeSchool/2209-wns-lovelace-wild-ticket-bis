@@ -5,7 +5,6 @@ import {
   ContainerLogoLogout,
   LabelActualFlu,
   LogoLogout,
-  OptionSelect,
   SelectActualFlu,
 } from './Header.styled';
 
@@ -15,6 +14,9 @@ import { SIGN_IN_PATH } from 'pages/paths';
 import { gql, useMutation } from '@apollo/client';
 import { LogOutMutation } from 'gql/graphql';
 import { toast } from 'react-toastify';
+import { useContext, useEffect, useState } from 'react';
+import { AppContext } from 'context/AppContext';
+import Select from 'react-select';
 
 const LOGOUT = gql`
   mutation LogOut {
@@ -25,17 +27,20 @@ const LOGOUT = gql`
   }
 `;
 
-const Header = (data: any | null) => {
+const Header = () => {
   const navigate = useNavigate();
 
   const [logOut] = useMutation<LogOutMutation>(LOGOUT);
+  const [flows, setFlows] = useState([{}]);
+  const [isLoading, setIsLoading] = useState(true);
+  const appContext = useContext(AppContext);
 
-  let flows: Array<any> = [];
-  let hasData: boolean = false;
-  if (data.data) {
-    flows = data.data.myProfile.flows;
-    hasData = true;
-  }
+  useEffect(() => {
+    if (appContext?.userProfile?.myProfile.flows) {
+      setFlows(appContext.userProfile.myProfile.flows);
+      setIsLoading(false);
+    }
+  }, [appContext]);
 
   const logOutNavigation = async () => {
     navigate(SIGN_IN_PATH);
@@ -46,16 +51,25 @@ const Header = (data: any | null) => {
     }
   };
 
+  const handleChangeSelectedFlow = (selectedOption: any) => {
+    appContext?.setSelectedFlow(selectedOption);
+  };
+
+  const flowOptions = flows?.map((flow: any) => ({
+    value: flow.flowName,
+    label: flow.flowName,
+  }));
+
   return (
     <ContainerHeader>
       <ContainerActualFlu>
         <LabelActualFlu> Flu Actuel : </LabelActualFlu>
         <SelectActualFlu>
-          {hasData
-            ? flows.map((e) => {
-                return <OptionSelect key={e.id}>{e.flowName}</OptionSelect>;
-              })
-            : null}
+          <Select
+            onChange={handleChangeSelectedFlow}
+            options={flowOptions}
+            isLoading={isLoading}
+          />
         </SelectActualFlu>
       </ContainerActualFlu>
       <ButtonLogout onClick={() => logOutNavigation()}>
