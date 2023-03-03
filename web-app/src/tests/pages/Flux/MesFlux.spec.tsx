@@ -14,7 +14,8 @@ const data = {
     flows: [
       {
         flowName: 'Le camion vert',
-        id: '8888',
+        id: 'f4-3535g',
+        urlId: 3,
         tickets: [
           {
             __typename: 'Ticket',

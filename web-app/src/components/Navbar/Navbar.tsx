@@ -35,7 +35,10 @@ const Navbar = (props: any) => {
         <StyledLink to={CORBEILLE_PATH}>
           <LogoLink src={Corbeille}></LogoLink>Corbeille
         </StyledLink>
-        <StyledLink to={QR_CODE_CLIENT_PATH}>QR code client</StyledLink>
+        {/* Sujet a modification !!!*/}
+        <StyledLink to={`${QR_CODE_CLIENT_PATH}/camion-vert`}>
+          QR code client
+        </StyledLink>
         <StyledLink to={TICKET_CLIENT_PATH}>Ticket client</StyledLink>
       </ContainerLink>
     </ContainerNavbar>

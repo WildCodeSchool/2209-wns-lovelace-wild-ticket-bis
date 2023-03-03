@@ -34,7 +34,6 @@ export default class FlowRepository extends FlowDb {
   static async getFlowById(id: string): Promise<Flow | null> {
     return this.repository.findOneBy({ id });
   }
-
   static async deleteFlow(arrayId: string[]): Promise<number> {
     const result = await this.repository.delete(arrayId);
     if (!result.affected) {
