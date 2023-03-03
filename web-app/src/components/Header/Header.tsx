@@ -17,7 +17,6 @@ import { toast } from 'react-toastify';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'context/AppContext';
 import Select from 'react-select';
-import Loader from 'components/Loader';
 
 const LOGOUT = gql`
   mutation LogOut {
@@ -33,11 +32,13 @@ const Header = () => {
 
   const [logOut] = useMutation<LogOutMutation>(LOGOUT);
   const [flows, setFlows] = useState([{}]);
+  const [isLoading, setIsLoading] = useState(true);
   const appContext = useContext(AppContext);
 
   useEffect(() => {
     if (appContext?.userProfile?.myProfile.flows) {
       setFlows(appContext.userProfile.myProfile.flows);
+      setIsLoading(false);
     }
   }, [appContext]);
 
@@ -64,15 +65,11 @@ const Header = () => {
       <ContainerActualFlu>
         <LabelActualFlu> Flu Actuel : </LabelActualFlu>
         <SelectActualFlu>
-          {flowOptions ? (
-            <Select
-              onChange={handleChangeSelectedFlow}
-              defaultValue={flowOptions[0]}
-              options={flowOptions}
-            />
-          ) : (
-            <Loader />
-          )}
+          <Select
+            onChange={handleChangeSelectedFlow}
+            options={flowOptions}
+            isLoading={isLoading}
+          />
         </SelectActualFlu>
       </ContainerActualFlu>
       <ButtonLogout onClick={() => logOutNavigation()}>

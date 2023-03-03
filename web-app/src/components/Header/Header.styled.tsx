@@ -30,9 +30,8 @@ export const LabelActualFlu = styled.label`
 
 export const SelectActualFlu = styled.div`
   width: 50%;
-  border-radius: 10px;
   font-family: ${FONT_FAMILY};
-  font-size: 1.2rem;
+  font-size: 1rem;
 `;
 
 export const ButtonLogout = styled.button`
