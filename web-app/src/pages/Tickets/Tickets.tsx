@@ -2,21 +2,24 @@ import { useState, useContext, useEffect } from 'react';
 import {
   MainContainer,
   ButtonAdd,
-  AllStatusContainer,
   ArrayContainer,
   ContainerInputItem,
   Divider,
   HeaderList,
   InputItem,
-  ItemList,
   ListContainer,
-  StatusContainer,
   StatusNoScan,
   TextElement,
   TextElementHeader,
   ButtonDelete,
+  ItemList,
+  StatusWaiting,
+  StatusError,
+  StatusValidate,
 } from 'pages/MesFlux/MesFlux.styled';
 import {
+  AllStatusContainer,
+  StatusContainer,
   ButtonAction,
   ContainerButton,
   ContainerButtonAction,
@@ -48,24 +51,26 @@ const GET_TICKETS_BY_FLOW_ID = gql`
   }
 `;
 
+type Flow = {
+  __typename?: 'Flow' | undefined;
+  flowName: string;
+  id: string;
+  tickets: {
+    __typename?: 'Ticket' | undefined;
+    date: any;
+    id: string;
+    isTrash: boolean;
+    orderNumber: number;
+    status: string;
+  }[];
+};
+
 const Tickets = () => {
   const appContext = useContext(AppContext);
   const { data, refetch } = useQuery<GetTicketsByFlowIdQuery>(
     GET_TICKETS_BY_FLOW_ID
   );
-  const [flowTickets, setFlowTickets] = useState<{
-    __typename?: 'Flow' | undefined;
-    flowName: string;
-    id: string;
-    tickets: {
-      __typename?: 'Ticket' | undefined;
-      date: any;
-      id: string;
-      isTrash: boolean;
-      orderNumber: number;
-      status: string;
-    }[];
-  }>();
+  const [flowTickets, setFlowTickets] = useState<Flow>();
   const [allTicketsSelected] = useState<Array<string>>([]);
 
   useEffect(() => {
@@ -74,6 +79,13 @@ const Tickets = () => {
       setFlowTickets(data.getTicketsByFlowId);
     }
   }, [appContext?.selectedFlow?.value, data, refetch]);
+
+  const convertDateFormat = (isoDate: string) => {
+    const date = new Date(isoDate);
+    return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  };
+
+  console.log(console.log(flowTickets));
 
   return (
     <MainContainer>
@@ -128,12 +140,23 @@ const Tickets = () => {
                       <ContainerInputItem>
                         <InputItem></InputItem>
                       </ContainerInputItem>
-                      <TextElement>15/10/22 11:35:56</TextElement>
+                      <TextElement>
+                        {convertDateFormat(ticket.date)}
+                      </TextElement>
                       <TextElement>{ticket.orderNumber}</TextElement>
                       <AllStatusContainer>
                         <StatusContainer>
-                          <StatusNoScan></StatusNoScan>0
+                          {ticket.status === 'Ticket non scanné' ? (
+                            <StatusNoScan />
+                          ) : ticket.status === 'En attente' ? (
+                            <StatusWaiting />
+                          ) : ticket.status === 'Incident' ? (
+                            <StatusError />
+                          ) : ticket.status === 'Ticket validé' ? (
+                            <StatusValidate />
+                          ) : null}
                         </StatusContainer>
+                        <StatusContainer>{ticket.status}</StatusContainer>
                       </AllStatusContainer>
                     </ItemList>
                   );

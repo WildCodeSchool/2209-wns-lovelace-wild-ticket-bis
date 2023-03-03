@@ -34,3 +34,18 @@ export const ContainerButton = styled.div`
 export const ContainerButtonAction = styled.div`
   display: flex;
 `;
+
+export const AllStatusContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
+export const StatusContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:first-child {
+    margin-right: 20px;
+  }
+`;
