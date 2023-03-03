@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, ID, Int, ObjectType } from 'type-graphql';
 import {
   Column,
   CreateDateColumn,
@@ -18,23 +18,18 @@ enum Status {
 @Entity()
 @ObjectType()
 export default class Ticket {
-  constructor(orderNumber: number, flow: Flow) {
-    this.orderNumber = orderNumber;
+  constructor(flow: Flow) {
     if (flow) {
       this.flow = flow;
     }
   }
-  @PrimaryGeneratedColumn('uuid')
-  @Field(() => ID)
-  id: string;
+  @PrimaryGeneratedColumn('increment')
+  @Field(() => Int)
+  id: number;
 
   @Column('text', { default: Status.TICKET_NON_SCANNE })
   @Field()
   status: Status;
-
-  @Column()
-  @Field()
-  orderNumber: number;
 
   @CreateDateColumn()
   @Field()

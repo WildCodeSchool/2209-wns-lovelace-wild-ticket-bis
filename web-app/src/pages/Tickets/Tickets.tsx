@@ -44,7 +44,6 @@ const GET_TICKETS_BY_FLOW_ID = gql`
         date
         id
         isTrash
-        orderNumber
         status
       }
     }
@@ -58,9 +57,8 @@ type Flow = {
   tickets: {
     __typename?: 'Ticket' | undefined;
     date: any;
-    id: string;
+    id: number;
     isTrash: boolean;
-    orderNumber: number;
     status: string;
   }[];
 };
@@ -138,13 +136,13 @@ const Tickets = () => {
                       <ContainerInputItem>
                         <InputItem
                           type="checkbox"
-                          data-testid={ticket.orderNumber}
+                          data-testid={ticket.id}
                         ></InputItem>
                       </ContainerInputItem>
                       <TextElement>
                         {convertDateFormat(ticket.date)}
                       </TextElement>
-                      <TextElement>{ticket.orderNumber}</TextElement>
+                      <TextElement>{ticket.id}</TextElement>
                       <AllStatusContainer>
                         <StatusContainer>
                           {ticket.status === 'Ticket non scanné' ? (

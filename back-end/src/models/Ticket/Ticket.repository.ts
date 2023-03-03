@@ -16,18 +16,29 @@ export default class TicketRepository {
   static async initializeTicket() {
     const flow = await FlowRepository.getFlowByName('Le camion vert');
     if (flow) {
-      const ticket1 = new Ticket(2052, flow);
+      const ticket1 = new Ticket(flow);
       this.repository.save(ticket1);
-      const ticket2 = new Ticket(2053, flow);
+      const ticket2 = new Ticket(flow);
       this.repository.save(ticket2);
     }
   }
 
-  static async getTicketById(id: string): Promise<Ticket | null> {
+  static async getTicketById(id: number): Promise<Ticket | null> {
     return this.repository.findOneBy({ id });
   }
 
-  static async deleteTicket(id: string): Promise<Ticket> {
+  static async createTicketByFlowId(flowId: string) {
+    const flow = await FlowRepository.getFlowById(flowId);
+    if (!flow) {
+      throw Error('No existing Flow matching ID');
+    } else {
+      const ticket = new Ticket(flow);
+      this.repository.save(ticket);
+      return ticket;
+    }
+  }
+
+  static async deleteTicket(id: number): Promise<Ticket> {
     const existingTicket = await this.getTicketById(id);
     if (!existingTicket) {
       throw Error('No existing Ticket matching ID.');
