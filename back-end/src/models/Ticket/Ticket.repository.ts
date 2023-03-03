@@ -2,9 +2,10 @@ import { Repository } from 'typeorm';
 import { getRepository } from '../../database/utils';
 import FlowRepository from '../Flow/Flow.repository';
 import Ticket from './Ticket.entity';
+import TicketDb from './TicketDb';
 
-export default class TicketRepository {
-  private static repository: Repository<Ticket>;
+export default class TicketRepository extends TicketDb {
+  static repository: Repository<Ticket>;
   static async initializeRepository() {
     this.repository = await getRepository(Ticket);
   }
@@ -33,8 +34,7 @@ export default class TicketRepository {
       throw Error('No existing Flow matching ID');
     } else {
       const ticket = new Ticket(flow);
-      this.repository.save(ticket);
-      return ticket;
+      return this.saveTicket(ticket);
     }
   }
 
