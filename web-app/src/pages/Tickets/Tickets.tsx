@@ -85,8 +85,6 @@ const Tickets = () => {
     return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
   };
 
-  console.log(console.log(flowTickets));
-
   return (
     <MainContainer>
       <ContainerButton>
@@ -138,7 +136,10 @@ const Tickets = () => {
                   return (
                     <ItemList key={ticket.id}>
                       <ContainerInputItem>
-                        <InputItem></InputItem>
+                        <InputItem
+                          type="checkbox"
+                          data-testid={ticket.orderNumber}
+                        ></InputItem>
                       </ContainerInputItem>
                       <TextElement>
                         {convertDateFormat(ticket.date)}
