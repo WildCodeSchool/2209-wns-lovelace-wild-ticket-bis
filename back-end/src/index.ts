@@ -13,6 +13,7 @@ import TicketRepository from './models/Ticket/Ticket.repository';
 import FlowResolver from './resolvers/Flow/Flow.resolver';
 
 import { initializeDatabaseRepositories } from './database/utils';
+import TicketResolver from './resolvers/Tickets/Tickets.resolver';
 
 export type GlobalContext = ExpressContext & {
   user: AppUser | null;
@@ -21,7 +22,7 @@ export type GlobalContext = ExpressContext & {
 const startServer = async () => {
   const server = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [AppUserResolver, FlowResolver],
+      resolvers: [AppUserResolver, FlowResolver, TicketResolver],
       authChecker: async ({ context }) => {
         return Boolean(context.user);
       },
