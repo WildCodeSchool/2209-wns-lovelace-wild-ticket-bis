@@ -14,6 +14,7 @@ import {
   StatusNoScan,
   TextElement,
   TextElementHeader,
+  ButtonDelete,
 } from 'pages/MesFlux/MesFlux.styled';
 import {
   ButtonAction,
@@ -35,9 +36,9 @@ const Tickets = () => {
     <MainContainer>
       <ContainerButton>
         <ContainerButtonAction>
-          <ButtonAction disabled={allTicketsSelected.length > 0 ? false : true}>
+          <ButtonDelete disabled={allTicketsSelected.length > 0 ? false : true}>
             <GoTrashcan size={25} /> &ensp;Supprimer
-          </ButtonAction>
+          </ButtonDelete>
           <ButtonAction disabled={allTicketsSelected.length > 0 ? false : true}>
             {allTicketsSelected.length > 0 ? (
               <IoIosPlay size={25} style={{ color: COLOR_WAITING_TICKET }} />

@@ -22,8 +22,6 @@ import {
   ItemList,
   LabelElement,
   ListContainer,
-  LogoLinkButton,
-  LogoLinkButtonDisabled,
   LogotTitle,
   MainContainer,
   ModalContainer,
@@ -49,8 +47,8 @@ import {
 } from 'gql/graphql';
 import { toast } from 'react-toastify';
 import { getErrorMessage } from 'utils';
-import Corbeille from '../../assets/corbeille.png';
 import { AppContext } from 'context/AppContext';
+import { GoTrashcan } from 'react-icons/go';
 
 export const ADD_FLOW = gql`
   mutation addFlow($id: String!, $flowName: String!) {
@@ -169,12 +167,8 @@ const MesFlux = () => {
           onClick={toggleModalDelete}
           disabled={allFlowSelected.length > 0 ? false : true}
         >
-          {allFlowSelected.length > 0 ? (
-            <LogoLinkButton src={Corbeille}></LogoLinkButton>
-          ) : (
-            <LogoLinkButtonDisabled src={Corbeille}></LogoLinkButtonDisabled>
-          )}
-          Supprimer
+          <GoTrashcan size={25} />
+          &ensp;Supprimer
         </ButtonDelete>
         <ButtonAdd onClick={toggleModal}>Ajouter un flu</ButtonAdd>
       </ContainerButton>

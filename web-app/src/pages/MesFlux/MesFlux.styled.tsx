@@ -37,6 +37,7 @@ export const ButtonDelete = styled.button`
   padding: 5px 25px;
   border: 0;
   border-radius: 50px;
+  margin-right: 20px;
   background-color: ${SECONDARY_BUTTON_COLOR};
   display: flex;
   align-items: center;
@@ -45,17 +46,6 @@ export const ButtonDelete = styled.button`
   font-weight: ${TEXT_FONT_WEIGHT};
   box-shadow: ${BUTTON_BOX_SHADOW};
   font-size: 1.2rem;
-`;
-
-export const LogoLinkButton = styled.img`
-  width: 25px;
-  margin-right: 8px;
-`;
-
-export const LogoLinkButtonDisabled = styled.img`
-  width: 25px;
-  margin-right: 8px;
-  opacity: 25%;
 `;
 
 export const ButtonAdd = styled.button`
