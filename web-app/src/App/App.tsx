@@ -77,7 +77,10 @@ function App() {
               <Route path={TICKETS_PATH} element={<Tickets />} />
               <Route path={QR_CODE_PATH} element={<QRCode />} />
               <Route path={CORBEILLE_PATH} element={<Corbeille />} />
-              <Route path={QR_CODE_CLIENT_PATH} element={<QRCodeClient />} />
+              <Route
+                path={`${QR_CODE_CLIENT_PATH}/:flowName`}
+                element={<QRCodeClient />}
+              />
             </Route>
             <Route path={TICKET_CLIENT_PATH} element={<TicketClient />} />
           </Routes>

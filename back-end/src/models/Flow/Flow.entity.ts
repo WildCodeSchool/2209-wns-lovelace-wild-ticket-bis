@@ -6,6 +6,7 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
+  Unique,
 } from 'typeorm';
 import AppUser from '../AppUser/AppUser.entity';
 import Ticket from '../Ticket/Ticket.entity';
@@ -21,7 +22,7 @@ export default class Flow {
     }
   }
 
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('increment')
   @Field(() => ID)
   id: string;
 
