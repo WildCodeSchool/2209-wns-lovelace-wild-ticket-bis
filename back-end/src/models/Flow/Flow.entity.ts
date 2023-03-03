@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from "type-graphql";
+import { Field, ID, ObjectType } from 'type-graphql';
 import {
   Column,
   CreateDateColumn,
@@ -6,9 +6,9 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-} from "typeorm";
-import AppUser from "../AppUser/AppUser.entity";
-import Ticket from "../Ticket/Ticket.entity";
+} from 'typeorm';
+import AppUser from '../AppUser/AppUser.entity';
+import Ticket from '../Ticket/Ticket.entity';
 
 @Entity()
 @ObjectType()
@@ -21,7 +21,7 @@ export default class Flow {
     }
   }
 
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
   id: string;
 
@@ -30,6 +30,7 @@ export default class Flow {
   flowName: string;
 
   @CreateDateColumn()
+  @Field()
   date: Date;
 
   @ManyToOne(() => AppUser, (appUser) => appUser.flows)
@@ -40,4 +41,3 @@ export default class Flow {
   @Field(() => [Ticket])
   tickets: Promise<Ticket[]>;
 }
-

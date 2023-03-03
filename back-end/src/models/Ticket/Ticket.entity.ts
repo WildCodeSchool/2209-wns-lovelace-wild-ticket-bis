@@ -37,6 +37,7 @@ export default class Ticket {
   orderNumber: number;
 
   @CreateDateColumn()
+  @Field()
   date: Date;
 
   @Column('boolean', { default: false })

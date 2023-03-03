@@ -28,18 +28,10 @@ export const LabelActualFlu = styled.label`
   font-size: 1.4em;
 `;
 
-export const SelectActualFlu = styled.select`
-  height: 80%;
+export const SelectActualFlu = styled.div`
   width: 50%;
-  border: 0.5px solid rgba(13, 13, 13, 0.2);
-  border-radius: 10px;
   font-family: ${FONT_FAMILY};
-  font-size: 1.2rem;
-`;
-
-export const OptionSelect = styled.option`
-  font-family: ${FONT_FAMILY};
-  font-size: 1.2rem;
+  font-size: 1rem;
 `;
 
 export const ButtonLogout = styled.button`
