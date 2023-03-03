@@ -32,7 +32,11 @@ export default class FlowRepository extends FlowDb {
     return this.repository.findOneBy({ flowName });
   }
   static async getFlowById(id: string): Promise<Flow | null> {
-    return this.repository.findOneBy({ id });
+    if (id) {
+      return this.repository.findOneBy({ id });
+    } else {
+      throw new Error(`Aucun Flu n'a été trouvé`);
+    }
   }
   static async deleteFlow(arrayId: string[]): Promise<number> {
     const result = await this.repository.delete(arrayId);
