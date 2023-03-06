@@ -107,6 +107,16 @@ export const ListContainer = styled.div`
   gap: 15px;
   overflow: auto;
   margin: 20px;
+  overflow-y: auto;
+  height: 410px;
+
+  @media (min-width: 1024px) {
+    height: 410px;
+  }
+
+  @media (min-width: 1365px) {
+    height: 480px;
+  }
 `;
 
 export const ItemList = styled.div`
