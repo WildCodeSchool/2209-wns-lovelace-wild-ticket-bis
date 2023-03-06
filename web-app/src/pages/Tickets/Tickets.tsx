@@ -35,6 +35,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   AddTicketByFlowIdMutation,
   AddTicketByFlowIdMutationVariables,
+  DeleteTicketsMutation,
   GetTicketsByFlowIdQuery,
 } from 'gql/graphql';
 import { AppContext } from 'context/AppContext';
@@ -55,7 +56,7 @@ const GET_TICKETS_BY_FLOW_ID = gql`
   }
 `;
 
-const ADD_MUTATION_BY_FLOW_ID = gql`
+const ADD_TICKET_BY_FLOW_ID = gql`
   mutation AddTicketByFlowId($flowId: String!) {
     addTicketByFlowId(flowId: $flowId) {
       date
@@ -63,6 +64,12 @@ const ADD_MUTATION_BY_FLOW_ID = gql`
       isTrash
       status
     }
+  }
+`;
+
+const DELETE_TICKETS_BY_ID = gql`
+  mutation DeleteTickets($arrayId: [String!]!) {
+    deleteTickets(arrayId: $arrayId)
   }
 `;
 
@@ -87,7 +94,10 @@ const Tickets = () => {
   const [addTicketByFlowId] = useMutation<
     AddTicketByFlowIdMutation,
     AddTicketByFlowIdMutationVariables
-  >(ADD_MUTATION_BY_FLOW_ID);
+  >(ADD_TICKET_BY_FLOW_ID);
+
+  const [deleteTicketInTicketListMutation] =
+    useMutation<DeleteTicketsMutation>(DELETE_TICKETS_BY_ID);
 
   const [flowTickets, setFlowTickets] = useState<Flow>();
   const [allTicketsSelected, setAllTicketsSelected] = useState<Array<string>>(
@@ -145,11 +155,26 @@ const Tickets = () => {
     }
   };
 
+  const deleteTicketsInTicketList = async () => {
+    try {
+      await deleteTicketInTicketListMutation({
+        variables: { arrayId: allTicketsSelected },
+      });
+      refetch();
+      toast.success('Tickets supprimés avec succès');
+    } catch {
+      toast.error('Un problème est survenue. Veuillez réessayer');
+    }
+  };
+
   return (
     <MainContainer>
       <ContainerButton>
         <ContainerButtonAction>
-          <ButtonDelete disabled={allTicketsSelected.length > 0 ? false : true}>
+          <ButtonDelete
+            disabled={allTicketsSelected.length > 0 ? false : true}
+            onClick={deleteTicketsInTicketList}
+          >
             <GoTrashcan size={25} /> &ensp;Supprimer
           </ButtonDelete>
           <ButtonAction disabled={allTicketsSelected.length > 0 ? false : true}>
