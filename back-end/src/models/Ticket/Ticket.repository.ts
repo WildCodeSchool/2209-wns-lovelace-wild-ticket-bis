@@ -38,13 +38,11 @@ export default class TicketRepository extends TicketDb {
     }
   }
 
-  static async deleteTicket(id: string): Promise<Ticket> {
-    const existingTicket = await this.getTicketById(id);
-    if (!existingTicket) {
+  static async deleteTicket(arrayId: string[]): Promise<number> {
+    const result = await this.repository.delete(arrayId);
+    if (!result.affected) {
       throw Error('No existing Ticket matching ID.');
     }
-    await this.repository.remove(existingTicket);
-    existingTicket.id = id;
-    return existingTicket;
+    return result.affected;
   }
 }
