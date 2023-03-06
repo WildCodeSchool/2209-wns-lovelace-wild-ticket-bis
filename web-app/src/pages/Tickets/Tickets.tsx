@@ -103,13 +103,16 @@ const Tickets = () => {
   const [allTicketsSelected, setAllTicketsSelected] = useState<Array<string>>(
     []
   );
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
   const ticketsSelected = (id: string, e: any) => {
     if (e.target.checked) {
+      setIsButtonDisabled(false);
       if (!allTicketsSelected.includes(id)) {
         setAllTicketsSelected([...allTicketsSelected, id]);
       }
     } else {
+      setIsButtonDisabled(true);
       if (allTicketsSelected.includes(id)) {
         setAllTicketsSelected(
           allTicketsSelected.filter((ticket) => {
@@ -161,6 +164,7 @@ const Tickets = () => {
         variables: { arrayId: allTicketsSelected },
       });
       refetch();
+      setIsButtonDisabled(true);
       toast.success('Tickets supprimés avec succès');
     } catch {
       toast.error('Un problème est survenue. Veuillez réessayer');
@@ -172,33 +176,21 @@ const Tickets = () => {
       <ContainerButton>
         <ContainerButtonAction>
           <ButtonDelete
-            disabled={allTicketsSelected.length > 0 ? false : true}
+            disabled={isButtonDisabled}
             onClick={deleteTicketsInTicketList}
           >
             <GoTrashcan size={25} /> &ensp;Supprimer
           </ButtonDelete>
-          <ButtonAction disabled={allTicketsSelected.length > 0 ? false : true}>
-            {allTicketsSelected.length > 0 ? (
-              <IoIosPlay size={25} style={{ color: COLOR_WAITING_TICKET }} />
-            ) : (
-              <IoIosPlay size={25} />
-            )}
+          <ButtonAction disabled={isButtonDisabled}>
+            <IoIosPlay size={25} style={{ color: COLOR_WAITING_TICKET }} />
             &ensp;En attente
           </ButtonAction>
-          <ButtonAction disabled={allTicketsSelected.length > 0 ? false : true}>
-            {allTicketsSelected.length > 0 ? (
-              <IoIosPlay size={25} style={{ color: COLOR_VALIDATE_TICKET }} />
-            ) : (
-              <IoIosPlay size={25} />
-            )}
+          <ButtonAction disabled={isButtonDisabled}>
+            <IoIosPlay size={25} style={{ color: COLOR_VALIDATE_TICKET }} />
             &ensp;Valider
           </ButtonAction>
-          <ButtonAction disabled={allTicketsSelected.length > 0 ? false : true}>
-            {allTicketsSelected.length > 0 ? (
-              <IoIosPlay size={25} style={{ color: COLOR_ERROR_TICKET }} />
-            ) : (
-              <IoIosPlay size={25} />
-            )}
+          <ButtonAction disabled={isButtonDisabled}>
+            <IoIosPlay size={25} style={{ color: COLOR_ERROR_TICKET }} />
             &ensp;Incident
           </ButtonAction>
         </ContainerButtonAction>
