@@ -165,7 +165,6 @@ const Tickets = () => {
       });
       refetch();
       setIsButtonDisabled(true);
-      toast.success('Tickets supprimés avec succès');
     } catch {
       toast.error('Un problème est survenue. Veuillez réessayer');
     }
