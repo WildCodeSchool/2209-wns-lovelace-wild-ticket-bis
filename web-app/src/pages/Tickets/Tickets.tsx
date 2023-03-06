@@ -73,7 +73,7 @@ type Flow = {
   tickets: {
     __typename?: 'Ticket' | undefined;
     date: any;
-    id: number;
+    id: string;
     isTrash: boolean;
     status: string;
   }[];
@@ -102,6 +102,12 @@ const Tickets = () => {
   const convertDateFormat = (isoDate: string) => {
     const date = new Date(isoDate);
     return `${date.getDay()}/${date.getMonth()}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+  };
+
+  const convertIdFormat = (id: string) => {
+    const shortId = id.toUpperCase().split('');
+    shortId.splice(5, shortId.length).join('');
+    return shortId;
   };
 
   const addNewTicket = async () => {
@@ -180,7 +186,7 @@ const Tickets = () => {
                       <TextElement>
                         {convertDateFormat(ticket.date)}
                       </TextElement>
-                      <TextElement>{ticket.id}</TextElement>
+                      <TextElement>{convertIdFormat(ticket.id)}</TextElement>
                       <AllStatusContainer>
                         <StatusContainer>
                           {ticket.status === 'Ticket non scanné' ? (

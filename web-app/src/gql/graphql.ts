@@ -95,7 +95,7 @@ export type Ticket = {
   __typename?: 'Ticket';
   date: Scalars['DateTime'];
   flow: Flow;
-  id: Scalars['Int'];
+  id: Scalars['ID'];
   isTrash: Scalars['Boolean'];
   status: Scalars['String'];
 };
@@ -148,14 +148,14 @@ export type GetTicketsByFlowIdQueryVariables = Exact<{
 }>;
 
 
-export type GetTicketsByFlowIdQuery = { __typename?: 'Query', getTicketsByFlowId: { __typename?: 'Flow', flowName: string, id: string, tickets: Array<{ __typename?: 'Ticket', date: any, id: number, isTrash: boolean, status: string }> } };
+export type GetTicketsByFlowIdQuery = { __typename?: 'Query', getTicketsByFlowId: { __typename?: 'Flow', flowName: string, id: string, tickets: Array<{ __typename?: 'Ticket', date: any, id: string, isTrash: boolean, status: string }> } };
 
 export type AddTicketByFlowIdMutationVariables = Exact<{
   flowId: Scalars['String'];
 }>;
 
 
-export type AddTicketByFlowIdMutation = { __typename?: 'Mutation', addTicketByFlowId: { __typename?: 'Ticket', date: any, id: number, isTrash: boolean, status: string } };
+export type AddTicketByFlowIdMutation = { __typename?: 'Mutation', addTicketByFlowId: { __typename?: 'Ticket', date: any, id: string, isTrash: boolean, status: string } };
 
 
 export const LogOutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LogOut"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logOut"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"removeCookie"}}]}}]} as unknown as DocumentNode<LogOutMutation, LogOutMutationVariables>;
