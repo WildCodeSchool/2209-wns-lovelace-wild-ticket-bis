@@ -90,7 +90,25 @@ const Tickets = () => {
   >(ADD_MUTATION_BY_FLOW_ID);
 
   const [flowTickets, setFlowTickets] = useState<Flow>();
-  const [allTicketsSelected] = useState<Array<string>>([]);
+  const [allTicketsSelected, setAllTicketsSelected] = useState<Array<string>>(
+    []
+  );
+
+  const ticketsSelected = (id: string, e: any) => {
+    if (e.target.checked) {
+      if (!allTicketsSelected.includes(id)) {
+        setAllTicketsSelected([...allTicketsSelected, id]);
+      }
+    } else {
+      if (allTicketsSelected.includes(id)) {
+        setAllTicketsSelected(
+          allTicketsSelected.filter((ticket) => {
+            return ticket !== id;
+          })
+        );
+      }
+    }
+  };
 
   useEffect(() => {
     refetch({ flowId: appContext?.selectedFlow?.value });
@@ -181,6 +199,7 @@ const Tickets = () => {
                         <InputItem
                           type="checkbox"
                           data-testid={ticket.id}
+                          onChange={(e) => ticketsSelected(ticket.id, e)}
                         ></InputItem>
                       </ContainerInputItem>
                       <TextElement>
