@@ -23,9 +23,9 @@ export default class Ticket {
       this.flow = flow;
     }
   }
-  @PrimaryGeneratedColumn('increment')
-  @Field(() => Int)
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  @Field(() => ID)
+  id: string;
 
   @Column('text', { default: Status.TICKET_NON_SCANNE })
   @Field()

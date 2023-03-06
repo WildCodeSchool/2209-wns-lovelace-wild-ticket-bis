@@ -24,7 +24,7 @@ export default class TicketRepository extends TicketDb {
     }
   }
 
-  static async getTicketById(id: number): Promise<Ticket | null> {
+  static async getTicketById(id: string): Promise<Ticket | null> {
     return this.repository.findOneBy({ id });
   }
 
@@ -38,13 +38,12 @@ export default class TicketRepository extends TicketDb {
     }
   }
 
-  static async deleteTicket(id: number): Promise<Ticket> {
+  static async deleteTicket(id: string): Promise<Ticket> {
     const existingTicket = await this.getTicketById(id);
     if (!existingTicket) {
       throw Error('No existing Ticket matching ID.');
     }
     await this.repository.remove(existingTicket);
-    // resetting ID because existingWilder loses ID after calling remove
     existingTicket.id = id;
     return existingTicket;
   }
