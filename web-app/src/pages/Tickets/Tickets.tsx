@@ -23,13 +23,17 @@ import {
   ButtonAction,
   ContainerButton,
   ContainerButtonAction,
+  ButtonQuickChange,
+  TextElementBold,
 } from './Tickets.styled';
 import { GoTrashcan } from 'react-icons/go';
 import { IoIosPlay } from 'react-icons/io';
+import { CiPlay1 } from 'react-icons/ci';
 import {
   COLOR_ERROR_TICKET,
   COLOR_VALIDATE_TICKET,
   COLOR_WAITING_TICKET,
+  TITLE_FONT_COLOR,
 } from 'styles/style-constants';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import {
@@ -221,7 +225,9 @@ const Tickets = () => {
                       <TextElement>
                         {convertDateFormat(ticket.date)}
                       </TextElement>
-                      <TextElement>{convertIdFormat(ticket.id)}</TextElement>
+                      <TextElementBold>
+                        {convertIdFormat(ticket.id)}
+                      </TextElementBold>
                       <AllStatusContainer>
                         <StatusContainer>
                           {ticket.status === 'Ticket non scanné' ? (
@@ -236,6 +242,12 @@ const Tickets = () => {
                         </StatusContainer>
                         <StatusContainer>{ticket.status}</StatusContainer>
                       </AllStatusContainer>
+                      <ButtonQuickChange>
+                        <CiPlay1
+                          size={25}
+                          style={{ color: TITLE_FONT_COLOR }}
+                        />
+                      </ButtonQuickChange>
                     </ItemList>
                   );
                 })
