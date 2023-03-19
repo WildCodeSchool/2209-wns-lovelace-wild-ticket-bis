@@ -3,6 +3,7 @@ import {
   BUTTON_BOX_SHADOW,
   FONT_FAMILY,
   SECONDARY_BUTTON_COLOR,
+  SECONDARY_BUTTON_COLOR_ACTION,
   TEXT_FONT_WEIGHT,
   TITLE_FONT_WEIGHT,
 } from 'styles/style-constants';
@@ -23,6 +24,10 @@ export const ButtonAction = styled.button`
   padding-bottom: 5px;
   padding-left: 10px;
   padding-right: 10px;
+  transition: 0.3s ease-out;
+  &:active {
+    background-color: ${SECONDARY_BUTTON_COLOR_ACTION};
+  }
 `;
 
 export const ContainerButton = styled.div`
