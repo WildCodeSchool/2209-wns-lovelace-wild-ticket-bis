@@ -4,6 +4,7 @@ import {
   FONT_FAMILY,
   SECONDARY_BUTTON_COLOR,
   TEXT_FONT_WEIGHT,
+  TITLE_FONT_WEIGHT,
 } from 'styles/style-constants';
 
 export const ButtonAction = styled.button`
@@ -31,6 +32,15 @@ export const ContainerButton = styled.div`
   margin-bottom: 20px;
 `;
 
+export const ButtonQuickChange = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  border: none;
+  background-color: unset;
+  padding: 0px;
+`;
+
 export const ContainerButtonAction = styled.div`
   display: flex;
 `;
@@ -48,4 +58,13 @@ export const StatusContainer = styled.div`
   &:first-child {
     margin-right: 20px;
   }
+`;
+
+export const TextElementBold = styled.p`
+  font-family: ${FONT_FAMILY};
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: ${TITLE_FONT_WEIGHT};
 `;
