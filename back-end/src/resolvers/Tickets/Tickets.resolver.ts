@@ -2,6 +2,7 @@ import { Arg, Args, Int, Mutation } from 'type-graphql';
 import Ticket from '../../models/Ticket/Ticket.entity';
 import TicketRepository from '../../models/Ticket/Ticket.repository';
 import { getTicketsByFlowIdArgs } from '../Flow/Flow.input';
+import { changeTicketStatusArgs } from './Tickets.input';
 
 export default class TicketResolver {
   @Mutation(() => Ticket)
@@ -16,5 +17,12 @@ export default class TicketResolver {
     @Arg('arrayId', () => [String]) arrayId: string[]
   ): Promise<number> {
     return TicketRepository.deleteTicket(arrayId);
+  }
+
+  @Mutation(() => Ticket)
+  changeTicketStatus(
+    @Args() { id, status }: changeTicketStatusArgs
+  ): Promise<Ticket | null> {
+    return TicketRepository.updateTicketStatus(id, status);
   }
 }
