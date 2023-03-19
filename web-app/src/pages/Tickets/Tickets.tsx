@@ -220,6 +220,7 @@ const Tickets = () => {
           {flowTickets
             ? flowTickets.tickets
                 .filter((ticket) => ticket.isTrash === false)
+                .reverse()
                 .map((ticket) => {
                   return (
                     <ItemList key={ticket.id}>
