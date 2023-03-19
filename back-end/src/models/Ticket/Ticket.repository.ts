@@ -1,7 +1,7 @@
 import { Repository } from 'typeorm';
 import { getRepository } from '../../database/utils';
 import FlowRepository from '../Flow/Flow.repository';
-import Ticket from './Ticket.entity';
+import Ticket, { Status } from './Ticket.entity';
 import TicketDb from './TicketDb';
 
 export default class TicketRepository extends TicketDb {
@@ -44,5 +44,14 @@ export default class TicketRepository extends TicketDb {
       throw Error('No existing Ticket matching ID.');
     }
     return result.affected;
+  }
+
+  static async updateTicketStatus(id: string, status: Status): Promise<Ticket> {
+    const ticket = await this.getTicketById(id);
+    if (!ticket) {
+      throw Error('No existing Ticket matching ID.');
+    }
+    ticket.status = status;
+    return await this.repository.save(ticket);
   }
 }

@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import Flow from '../Flow/Flow.entity';
 
-enum Status {
+export enum Status {
   TICKET_NON_SCANNE = 'Ticket non scanné',
   EN_ATTENTE = 'En attente',
   INCIDENT = 'Incident',
