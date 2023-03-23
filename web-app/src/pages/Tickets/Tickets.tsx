@@ -39,6 +39,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   AddTicketByFlowIdMutation,
   AddTicketByFlowIdMutationVariables,
+  ChangeTicketStatusMutation,
   DeleteTicketsMutation,
   GetTicketsByFlowIdQuery,
 } from 'gql/graphql';
@@ -77,6 +78,16 @@ const DELETE_TICKETS_BY_ID = gql`
   }
 `;
 
+const CHANGE_TICKET_STATUS_BY_ID = gql`
+  mutation ChangeTicketStatus($id: String!, $status: String!) {
+    changeTicketStatus(id: $id, status: $status) {
+      date
+      id
+      status
+    }
+  }
+`;
+
 type Flow = {
   __typename?: 'Flow' | undefined;
   flowName: string;
@@ -102,6 +113,10 @@ const Tickets = () => {
 
   const [deleteTicketInTicketListMutation] =
     useMutation<DeleteTicketsMutation>(DELETE_TICKETS_BY_ID);
+
+  const [changeticketStatus] = useMutation<ChangeTicketStatusMutation>(
+    CHANGE_TICKET_STATUS_BY_ID
+  );
 
   const [flowTickets, setFlowTickets] = useState<Flow>();
   const [allTicketsSelected, setAllTicketsSelected] = useState<Array<string>>(
@@ -182,6 +197,26 @@ const Tickets = () => {
     }
   };
 
+  const quicklyChangeStatus = async (
+    ticketId: string,
+    ticketStatus: string
+  ) => {
+    try {
+      if (ticketStatus === 'Ticket non scanné') {
+        await changeticketStatus({
+          variables: { id: ticketId, status: 'En attente' },
+        });
+      }
+      if (ticketStatus === 'En attente') {
+        await changeticketStatus({
+          variables: { id: ticketId, status: 'Ticket validé' },
+        });
+      }
+    } catch {
+      toast.error('Un problème est survenue, veuillez réessayer');
+    }
+  };
+
   return (
     <MainContainer>
       <ContainerButton>
@@ -251,12 +286,18 @@ const Tickets = () => {
                         </StatusContainer>
                         <StatusContainer>{ticket.status}</StatusContainer>
                       </AllStatusContainer>
-                      <ButtonQuickChange>
-                        <CiPlay1
-                          size={25}
-                          style={{ color: TITLE_FONT_COLOR }}
-                        />
-                      </ButtonQuickChange>
+                      {ticket.status === 'Ticket non scanné' ||
+                      ticket.status === 'En attente' ? (
+                        <ButtonQuickChange>
+                          <CiPlay1
+                            size={25}
+                            style={{ color: TITLE_FONT_COLOR }}
+                            onClick={() =>
+                              quicklyChangeStatus(ticket.id, ticket.status)
+                            }
+                          />
+                        </ButtonQuickChange>
+                      ) : null}
                     </ItemList>
                   );
                 })
