@@ -268,12 +268,11 @@ const Tickets = () => {
             <IoIosPlay size={25} style={{ color: COLOR_VALIDATE_TICKET }} />
             &ensp;Valider
           </ButtonAction>
-          <ButtonAction disabled={isButtonDisabled}>
-            <IoIosPlay
-              size={25}
-              style={{ color: COLOR_ERROR_TICKET }}
-              onClick={() => changeTicketsStatus('Incident')}
-            />
+          <ButtonAction
+            disabled={isButtonDisabled}
+            onClick={() => changeTicketsStatus('Incident')}
+          >
+            <IoIosPlay size={25} style={{ color: COLOR_ERROR_TICKET }} />
             &ensp;Incident
           </ButtonAction>
         </ContainerButtonAction>
