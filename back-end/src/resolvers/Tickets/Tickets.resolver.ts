@@ -2,7 +2,10 @@ import { Arg, Args, Int, Mutation } from 'type-graphql';
 import Ticket from '../../models/Ticket/Ticket.entity';
 import TicketRepository from '../../models/Ticket/Ticket.repository';
 import { getTicketsByFlowIdArgs } from '../Flow/Flow.input';
-import { changeTicketStatusArgs } from './Tickets.input';
+import {
+  changeTicketsStatusArgs,
+  changeTicketStatusArgs,
+} from './Tickets.input';
 
 export default class TicketResolver {
   @Mutation(() => Ticket)
@@ -24,5 +27,12 @@ export default class TicketResolver {
     @Args() { id, status }: changeTicketStatusArgs
   ): Promise<Ticket | null> {
     return TicketRepository.updateTicketStatus(id, status);
+  }
+
+  @Mutation(() => [Ticket])
+  changeTicketsStatus(
+    @Args() { arrayId, status }: changeTicketsStatusArgs
+  ): Promise<Ticket[] | null> {
+    return TicketRepository.updateTicketsStatus(arrayId, status);
   }
 }

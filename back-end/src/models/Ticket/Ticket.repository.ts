@@ -54,4 +54,24 @@ export default class TicketRepository extends TicketDb {
     ticket.status = status;
     return await this.repository.save(ticket);
   }
+
+  static async updateTicketsStatus(
+    arrayId: string[],
+    status: Status
+  ): Promise<Ticket[]> {
+    const tickets = await this.repository
+      .createQueryBuilder('ticket')
+      .whereInIds(arrayId)
+      .getMany();
+
+    if (!tickets) {
+      throw Error('No existing Tickets matching IDs.');
+    }
+
+    tickets.forEach((ticket) => {
+      ticket.status = status;
+    });
+
+    return this.repository.save(tickets);
+  }
 }
