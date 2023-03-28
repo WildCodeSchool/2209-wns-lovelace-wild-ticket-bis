@@ -39,6 +39,7 @@ import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   AddTicketByFlowIdMutation,
   AddTicketByFlowIdMutationVariables,
+  ChangeTicketsStatusMutation,
   ChangeTicketStatusMutation,
   DeleteTicketsMutation,
   GetTicketsByFlowIdQuery,
@@ -88,6 +89,16 @@ const CHANGE_TICKET_STATUS_BY_ID = gql`
   }
 `;
 
+const CHANGE_TICKETS_STATUS_BY_IDS = gql`
+  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {
+    changeTicketsStatus(arrayId: $arrayId, status: $status) {
+      id
+      date
+      status
+    }
+  }
+`;
+
 type Flow = {
   __typename?: 'Flow' | undefined;
   flowName: string;
@@ -116,6 +127,10 @@ const Tickets = () => {
 
   const [changeticketStatus] = useMutation<ChangeTicketStatusMutation>(
     CHANGE_TICKET_STATUS_BY_ID
+  );
+
+  const [changeTicketsStatusbyIds] = useMutation<ChangeTicketsStatusMutation>(
+    CHANGE_TICKETS_STATUS_BY_IDS
   );
 
   const [flowTickets, setFlowTickets] = useState<Flow>();
@@ -217,6 +232,8 @@ const Tickets = () => {
     }
   };
 
+  const changeTicketsStatus = (status: string) => {};
+
   return (
     <MainContainer>
       <ContainerButton>
@@ -227,16 +244,26 @@ const Tickets = () => {
           >
             <GoTrashcan size={25} /> &ensp;Supprimer
           </ButtonDelete>
-          <ButtonAction disabled={isButtonDisabled}>
+          <ButtonAction
+            disabled={isButtonDisabled}
+            onClick={() => changeTicketsStatus('En attente')}
+          >
             <IoIosPlay size={25} style={{ color: COLOR_WAITING_TICKET }} />
             &ensp;En attente
           </ButtonAction>
-          <ButtonAction disabled={isButtonDisabled}>
+          <ButtonAction
+            disabled={isButtonDisabled}
+            onClick={() => changeTicketsStatus('Ticket validé')}
+          >
             <IoIosPlay size={25} style={{ color: COLOR_VALIDATE_TICKET }} />
             &ensp;Valider
           </ButtonAction>
           <ButtonAction disabled={isButtonDisabled}>
-            <IoIosPlay size={25} style={{ color: COLOR_ERROR_TICKET }} />
+            <IoIosPlay
+              size={25}
+              style={{ color: COLOR_ERROR_TICKET }}
+              onClick={() => changeTicketsStatus('Incident')}
+            />
             &ensp;Incident
           </ButtonAction>
         </ContainerButtonAction>
