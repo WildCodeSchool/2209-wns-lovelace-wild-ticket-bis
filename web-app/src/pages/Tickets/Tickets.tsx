@@ -324,7 +324,7 @@ const Tickets = () => {
                       </AllStatusContainer>
                       {ticket.status === 'Ticket non scanné' ||
                       ticket.status === 'En attente' ? (
-                        <ButtonQuickChange>
+                        <ButtonQuickChange whileTap={{ scale: 0.9 }}>
                           <CiPlay1
                             size={25}
                             style={{ color: TITLE_FONT_COLOR }}
