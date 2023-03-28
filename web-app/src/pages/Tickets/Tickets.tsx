@@ -232,7 +232,17 @@ const Tickets = () => {
     }
   };
 
-  const changeTicketsStatus = (status: string) => {};
+  const changeTicketsStatus = async (status: string) => {
+    try {
+      await changeTicketsStatusbyIds({
+        variables: { arrayId: allTicketsSelected, status: status },
+      });
+      refetch();
+      setIsButtonDisabled(true);
+    } catch {
+      toast.error('Un problème est survenue, veuillez réessayer');
+    }
+  };
 
   return (
     <MainContainer>
