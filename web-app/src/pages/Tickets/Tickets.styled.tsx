@@ -1,3 +1,4 @@
+import { motion } from 'framer-motion';
 import styled from 'styled-components';
 import {
   BUTTON_BOX_SHADOW,
@@ -37,7 +38,7 @@ export const ContainerButton = styled.div`
   margin-bottom: 20px;
 `;
 
-export const ButtonQuickChange = styled.button`
+export const ButtonQuickChange = styled(motion.button)`
   display: flex;
   align-items: center;
   justify-content: flex-start;
