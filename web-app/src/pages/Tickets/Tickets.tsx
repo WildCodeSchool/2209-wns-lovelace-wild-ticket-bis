@@ -26,16 +26,12 @@ import {
   ButtonQuickChange,
   TextElementBold,
 } from './Tickets.styled';
-import { GoTrashcan } from 'react-icons/go';
-import { IoIosPlay } from 'react-icons/io';
-import { CiPlay1 } from 'react-icons/ci';
 import {
   COLOR_ERROR_TICKET,
   COLOR_VALIDATE_TICKET,
   COLOR_WAITING_TICKET,
   TITLE_FONT_COLOR,
 } from 'styles/style-constants';
-import { gql, useMutation, useQuery } from '@apollo/client';
 import {
   AddTicketByFlowIdMutation,
   AddTicketByFlowIdMutationVariables,
@@ -44,8 +40,13 @@ import {
   DeleteTicketsMutation,
   GetTicketsByFlowIdQuery,
 } from 'gql/graphql';
+import { GoTrashcan } from 'react-icons/go';
+import { IoIosPlay } from 'react-icons/io';
+import { CiPlay1 } from 'react-icons/ci';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import { AppContext } from 'context/AppContext';
 import { toast } from 'react-toastify';
+import { convertDateFormat } from 'utils';
 
 const GET_TICKETS_BY_FLOW_ID = gql`
   query GetTicketsByFlowId($flowId: String!) {
@@ -139,6 +140,13 @@ const Tickets = () => {
   );
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
 
+  useEffect(() => {
+    refetch({ flowId: appContext?.selectedFlow?.value });
+    if (data) {
+      setFlowTickets(data.getTicketsByFlowId);
+    }
+  }, [appContext?.selectedFlow?.value, data, refetch]);
+
   const ticketsSelected = (id: string, e: any) => {
     if (e.target.checked) {
       setIsButtonDisabled(false);
@@ -155,26 +163,6 @@ const Tickets = () => {
         );
       }
     }
-  };
-
-  useEffect(() => {
-    refetch({ flowId: appContext?.selectedFlow?.value });
-    if (data) {
-      setFlowTickets(data.getTicketsByFlowId);
-    }
-  }, [appContext?.selectedFlow?.value, data, refetch]);
-
-  const convertDateFormat = (isoDate: string) => {
-    const date = new Date(isoDate);
-    const dateResult = date.toLocaleDateString('en-Gb', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    });
-    return dateResult;
   };
 
   const convertIdFormat = (id: string) => {
