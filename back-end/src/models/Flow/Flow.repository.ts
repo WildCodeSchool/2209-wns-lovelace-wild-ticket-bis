@@ -32,7 +32,16 @@ export default class FlowRepository extends FlowDb {
     return this.repository.findOneBy({ flowName });
   }
   static async getFlowById(id: string): Promise<Flow | null> {
-    return this.repository.findOneBy({ id });
+    if (id) {
+      //return flow with tickets order by descending date
+      const flow = await this.repository.findOneBy({ id });
+      (await flow?.tickets)?.sort(
+        (a, b) => a.date.getTime() - b.date.getTime()
+      );
+      return flow;
+    } else {
+      throw new Error(`Aucun Flu n'a été trouvé`);
+    }
   }
 
   static async deleteFlow(arrayId: string[]): Promise<number> {

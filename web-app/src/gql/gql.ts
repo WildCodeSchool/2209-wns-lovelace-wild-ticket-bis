@@ -19,6 +19,11 @@ const documents = {
     "\n  mutation deleteFlow($arrayId: [String!]!) {\n    deleteFlow(arrayId: $arrayId)\n  }\n": types.DeleteFlowDocument,
     "\n  mutation SignIn($emailAddress: String!, $password: String!) {\n    signIn(emailAddress: $emailAddress, password: $password) {\n      id\n      emailAddress\n      firstName\n      lastName\n    }\n  }\n": types.SignInDocument,
     "\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $emailAddress: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      emailAddress: $emailAddress\n      password: $password\n    ) {\n      id\n      emailAddress\n    }\n  }\n": types.SignUpDocument,
+    "\n  query GetTicketsByFlowId($flowId: String!) {\n    getTicketsByFlowId(flowId: $flowId) {\n      flowName\n      id\n      tickets {\n        date\n        id\n        isTrash\n        status\n      }\n    }\n  }\n": types.GetTicketsByFlowIdDocument,
+    "\n  mutation AddTicketByFlowId($flowId: String!) {\n    addTicketByFlowId(flowId: $flowId) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n": types.AddTicketByFlowIdDocument,
+    "\n  mutation DeleteTickets($arrayId: [String!]!) {\n    deleteTickets(arrayId: $arrayId)\n  }\n": types.DeleteTicketsDocument,
+    "\n  mutation ChangeTicketStatus($id: String!, $status: String!) {\n    changeTicketStatus(id: $id, status: $status) {\n      date\n      id\n      status\n    }\n  }\n": types.ChangeTicketStatusDocument,
+    "\n  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {\n    changeTicketsStatus(arrayId: $arrayId, status: $status) {\n      id\n      date\n      status\n    }\n  }\n": types.ChangeTicketsStatusDocument,
 };
 
 /**
@@ -59,6 +64,26 @@ export function graphql(source: "\n  mutation SignIn($emailAddress: String!, $pa
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $emailAddress: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      emailAddress: $emailAddress\n      password: $password\n    ) {\n      id\n      emailAddress\n    }\n  }\n"): (typeof documents)["\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $emailAddress: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      emailAddress: $emailAddress\n      password: $password\n    ) {\n      id\n      emailAddress\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetTicketsByFlowId($flowId: String!) {\n    getTicketsByFlowId(flowId: $flowId) {\n      flowName\n      id\n      tickets {\n        date\n        id\n        isTrash\n        status\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetTicketsByFlowId($flowId: String!) {\n    getTicketsByFlowId(flowId: $flowId) {\n      flowName\n      id\n      tickets {\n        date\n        id\n        isTrash\n        status\n      }\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation AddTicketByFlowId($flowId: String!) {\n    addTicketByFlowId(flowId: $flowId) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation AddTicketByFlowId($flowId: String!) {\n    addTicketByFlowId(flowId: $flowId) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation DeleteTickets($arrayId: [String!]!) {\n    deleteTickets(arrayId: $arrayId)\n  }\n"): (typeof documents)["\n  mutation DeleteTickets($arrayId: [String!]!) {\n    deleteTickets(arrayId: $arrayId)\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation ChangeTicketStatus($id: String!, $status: String!) {\n    changeTicketStatus(id: $id, status: $status) {\n      date\n      id\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation ChangeTicketStatus($id: String!, $status: String!) {\n    changeTicketStatus(id: $id, status: $status) {\n      date\n      id\n      status\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {\n    changeTicketsStatus(arrayId: $arrayId, status: $status) {\n      id\n      date\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {\n    changeTicketsStatus(arrayId: $arrayId, status: $status) {\n      id\n      date\n      status\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};

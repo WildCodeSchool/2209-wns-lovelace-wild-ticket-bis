@@ -13,3 +13,9 @@ export class AddFlowArgs {
   })
   flowName: string;
 }
+
+@ArgsType()
+export class getTicketsByFlowIdArgs {
+  @Field()
+  flowId: string;
+}

@@ -1,4 +1,4 @@
-import { Field, ID, ObjectType } from 'type-graphql';
+import { Field, ID, Int, ObjectType } from 'type-graphql';
 import {
   Column,
   CreateDateColumn,
@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import Flow from '../Flow/Flow.entity';
 
-enum Status {
+export enum Status {
   TICKET_NON_SCANNE = 'Ticket non scanné',
   EN_ATTENTE = 'En attente',
   INCIDENT = 'Incident',
@@ -18,8 +18,7 @@ enum Status {
 @Entity()
 @ObjectType()
 export default class Ticket {
-  constructor(orderNumber: number, flow: Flow) {
-    this.orderNumber = orderNumber;
+  constructor(flow: Flow) {
     if (flow) {
       this.flow = flow;
     }
@@ -31,10 +30,6 @@ export default class Ticket {
   @Column('text', { default: Status.TICKET_NON_SCANNE })
   @Field()
   status: Status;
-
-  @Column()
-  @Field()
-  orderNumber: number;
 
   @CreateDateColumn()
   @Field()

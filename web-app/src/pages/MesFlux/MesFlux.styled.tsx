@@ -13,6 +13,7 @@ import {
   PRIMARY_BUTTON_COLOR_ACTION,
   PRIMARY_BUTTON_SIZE,
   SECONDARY_BUTTON_COLOR,
+  SECONDARY_BUTTON_COLOR_ACTION,
   TEXT_FONT_WEIGHT,
   TITLE_FONT_WEIGHT,
 } from '../../styles/style-constants';
@@ -46,6 +47,10 @@ export const ButtonDelete = styled.button`
   font-weight: ${TEXT_FONT_WEIGHT};
   box-shadow: ${BUTTON_BOX_SHADOW};
   font-size: 1.2rem;
+  transition: 0.3s ease-out;
+  &:active {
+    background-color: ${SECONDARY_BUTTON_COLOR_ACTION};
+  }
 `;
 
 export const ButtonAdd = styled.button`
@@ -107,6 +112,16 @@ export const ListContainer = styled.div`
   gap: 15px;
   overflow: auto;
   margin: 20px;
+  overflow-y: auto;
+  height: 410px;
+
+  @media (min-width: 1024px) {
+    height: 410px;
+  }
+
+  @media (min-width: 1365px) {
+    height: 480px;
+  }
 `;
 
 export const ItemList = styled.div`
