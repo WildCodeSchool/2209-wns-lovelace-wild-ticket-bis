@@ -106,7 +106,7 @@ type Flow = {
   id: string;
   tickets: {
     __typename?: 'Ticket' | undefined;
-    date: any;
+    date: string;
     id: string;
     isTrash: boolean;
     status: string;
@@ -147,7 +147,10 @@ const Tickets = () => {
     }
   }, [appContext?.selectedFlow?.value, data, refetch]);
 
-  const ticketsSelected = (id: string, e: any) => {
+  const ticketsSelected = (
+    id: string,
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (e.target.checked) {
       setIsButtonDisabled(false);
       if (!allTicketsSelected.includes(id)) {
