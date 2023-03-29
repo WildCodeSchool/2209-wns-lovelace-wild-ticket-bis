@@ -56,7 +56,7 @@ const Header = () => {
   };
 
   const flowOptions = flows?.map((flow: any) => ({
-    value: flow.flowName,
+    value: flow.id,
     label: flow.flowName,
   }));
 
