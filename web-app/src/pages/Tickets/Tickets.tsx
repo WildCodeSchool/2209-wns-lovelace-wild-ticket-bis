@@ -81,7 +81,7 @@ const CHANGE_TICKETS_STATUS_BY_IDS = gql`
   }
 `;
 
-type Flow = {
+export type Flow = {
   __typename?: 'Flow' | undefined;
   flowName: string;
   id: string;
@@ -128,7 +128,7 @@ const Tickets = () => {
     }
   }, [appContext?.selectedFlow?.value, data, refetch]);
 
-  const setListOfTickets = (
+  const updateListOfTickets = (
     id: string,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -248,7 +248,7 @@ const Tickets = () => {
       <TicketsArray
         flowTickets={flowTickets}
         allTicketsSelected={allTicketsSelected}
-        setListOfTickets={setListOfTickets}
+        updateListOfTickets={updateListOfTickets}
         quicklyChangeStatus={quicklyChangeStatus}
       />
     </MainContainer>
