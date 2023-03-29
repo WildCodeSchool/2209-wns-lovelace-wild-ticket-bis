@@ -238,6 +238,7 @@ const Tickets = () => {
         variables: { arrayId: allTicketsSelected, status: status },
       });
       refetch();
+      setAllTicketsSelected([]);
       setIsButtonDisabled(true);
     } catch {
       toast.error('Un problème est survenue, veuillez réessayer');
@@ -299,6 +300,7 @@ const Tickets = () => {
                         <InputItem
                           type="checkbox"
                           data-testid={ticket.id}
+                          checked={allTicketsSelected.includes(ticket.id)}
                           onChange={(e) => ticketsSelected(ticket.id, e)}
                         ></InputItem>
                       </ContainerInputItem>
