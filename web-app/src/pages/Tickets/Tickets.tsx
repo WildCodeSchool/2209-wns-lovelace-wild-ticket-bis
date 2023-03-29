@@ -2,35 +2,17 @@ import { useState, useContext, useEffect } from 'react';
 import {
   MainContainer,
   ButtonAdd,
-  ArrayContainer,
-  ContainerInputItem,
-  Divider,
-  HeaderList,
-  InputItem,
-  ListContainer,
-  StatusNoScan,
-  TextElement,
-  TextElementHeader,
   ButtonDelete,
-  ItemList,
-  StatusWaiting,
-  StatusError,
-  StatusValidate,
 } from 'pages/MesFlux/MesFlux.styled';
 import {
-  AllStatusContainer,
-  StatusContainer,
   ButtonAction,
   ContainerButton,
   ContainerButtonAction,
-  ButtonQuickChange,
-  TextElementBold,
 } from './Tickets.styled';
 import {
   COLOR_ERROR_TICKET,
   COLOR_VALIDATE_TICKET,
   COLOR_WAITING_TICKET,
-  TITLE_FONT_COLOR,
 } from 'styles/style-constants';
 import {
   AddTicketByFlowIdMutation,
@@ -42,11 +24,10 @@ import {
 } from 'gql/graphql';
 import { GoTrashcan } from 'react-icons/go';
 import { IoIosPlay } from 'react-icons/io';
-import { CiPlay1 } from 'react-icons/ci';
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { AppContext } from 'context/AppContext';
 import { toast } from 'react-toastify';
-import { convertDateFormat } from 'utils';
+import TicketsArray from 'components/TicketsArray/TicketsArray';
 
 const GET_TICKETS_BY_FLOW_ID = gql`
   query GetTicketsByFlowId($flowId: String!) {
@@ -147,7 +128,7 @@ const Tickets = () => {
     }
   }, [appContext?.selectedFlow?.value, data, refetch]);
 
-  const ticketsSelected = (
+  const setListOfTickets = (
     id: string,
     e: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -166,12 +147,6 @@ const Tickets = () => {
         );
       }
     }
-  };
-
-  const convertIdFormat = (id: string) => {
-    const shortId = id.toUpperCase().split('');
-    shortId.splice(5, shortId.length).join('');
-    return shortId;
   };
 
   const addNewTicket = async () => {
@@ -270,69 +245,12 @@ const Tickets = () => {
         </ContainerButtonAction>
         <ButtonAdd onClick={addNewTicket}>Ajouter un ticket</ButtonAdd>
       </ContainerButton>
-      <ArrayContainer>
-        <HeaderList>
-          <TextElementHeader></TextElementHeader>
-          <TextElementHeader>Date</TextElementHeader>
-          <TextElementHeader>Numéro</TextElementHeader>
-          <TextElementHeader>Statut</TextElementHeader>
-          <TextElementHeader></TextElementHeader>
-        </HeaderList>
-        <Divider />
-        <ListContainer>
-          {flowTickets
-            ? flowTickets.tickets
-                .filter((ticket) => ticket.isTrash === false)
-                .reverse()
-                .map((ticket) => {
-                  return (
-                    <ItemList key={ticket.id}>
-                      <ContainerInputItem>
-                        <InputItem
-                          type="checkbox"
-                          data-testid={ticket.id}
-                          checked={allTicketsSelected.includes(ticket.id)}
-                          onChange={(e) => ticketsSelected(ticket.id, e)}
-                        ></InputItem>
-                      </ContainerInputItem>
-                      <TextElement>
-                        {convertDateFormat(ticket.date)}
-                      </TextElement>
-                      <TextElementBold>
-                        {convertIdFormat(ticket.id)}
-                      </TextElementBold>
-                      <AllStatusContainer>
-                        <StatusContainer>
-                          {ticket.status === 'Ticket non scanné' ? (
-                            <StatusNoScan />
-                          ) : ticket.status === 'En attente' ? (
-                            <StatusWaiting />
-                          ) : ticket.status === 'Incident' ? (
-                            <StatusError />
-                          ) : ticket.status === 'Ticket validé' ? (
-                            <StatusValidate />
-                          ) : null}
-                        </StatusContainer>
-                        <StatusContainer>{ticket.status}</StatusContainer>
-                      </AllStatusContainer>
-                      {ticket.status === 'Ticket non scanné' ||
-                      ticket.status === 'En attente' ? (
-                        <ButtonQuickChange whileTap={{ scale: 0.9 }}>
-                          <CiPlay1
-                            size={25}
-                            style={{ color: TITLE_FONT_COLOR }}
-                            onClick={() =>
-                              quicklyChangeStatus(ticket.id, ticket.status)
-                            }
-                          />
-                        </ButtonQuickChange>
-                      ) : null}
-                    </ItemList>
-                  );
-                })
-            : null}
-        </ListContainer>
-      </ArrayContainer>
+      <TicketsArray
+        flowTickets={flowTickets}
+        allTicketsSelected={allTicketsSelected}
+        setListOfTickets={setListOfTickets}
+        quicklyChangeStatus={quicklyChangeStatus}
+      />
     </MainContainer>
   );
 };
