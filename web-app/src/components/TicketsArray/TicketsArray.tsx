@@ -1,5 +1,4 @@
 import {
-  AllStatusContainer,
   ArrayContainer,
   ContainerInputItem,
   Divider,
@@ -7,7 +6,6 @@ import {
   InputItem,
   ItemList,
   ListContainer,
-  StatusContainer,
   StatusError,
   StatusNoScan,
   StatusValidate,
@@ -19,6 +17,8 @@ import { Flow } from 'pages/Tickets/Tickets';
 import {
   TextElementBold,
   ButtonQuickChange,
+  StatusContainer,
+  AllStatusContainer,
 } from 'pages/Tickets/Tickets.styled';
 import { CiPlay1 } from 'react-icons/ci';
 import { TITLE_FONT_COLOR } from 'styles/style-constants';
