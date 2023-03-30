@@ -3,8 +3,7 @@ name: deploy-dev-on-staging
 on:
   workflow_run:
     workflows: ['build-and-test']
-    types:
-      - completed
+    types: [completed]
     branches:
       - 'dev'
 
