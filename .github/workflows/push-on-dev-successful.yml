@@ -1,11 +1,6 @@
 name: deploy-dev-on-staging
 
-on:
-  workflow_run:
-    workflows: ['build-and-test']
-    branch: dev
-    types:
-      - completed
+on: push
 
 jobs:
   deploy-dev-on-staging:
