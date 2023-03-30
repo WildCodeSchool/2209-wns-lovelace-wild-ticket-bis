@@ -15,4 +15,4 @@ jobs:
     needs: build-and-test
     steps:
       - name: Call webhook to deploy dev branch on staging environment server
-        run: echo 'Hello from github'
+        run: echo 'Hello from github coucou'
