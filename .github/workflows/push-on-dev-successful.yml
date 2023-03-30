@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: ['build-and-test']
     branches:
-      - dev
+      - 'dev'
     types:
       - completed
 
