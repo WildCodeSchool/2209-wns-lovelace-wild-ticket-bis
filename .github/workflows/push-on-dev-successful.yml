@@ -11,7 +11,7 @@ on:
 jobs:
   deploy-dev-on-staging:
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    if: ${{ github.event.workflow_run.conclusion == 0 }}
     needs: build-and-test
     steps:
       - name: Call webhook to deploy dev branch on staging environment server
