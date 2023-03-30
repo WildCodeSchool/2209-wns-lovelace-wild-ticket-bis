@@ -2,16 +2,15 @@ name: deploy-dev-on-staging
 
 on:
   workflow_run:
-    workflows:
-      - build-and-test
+    workflows: ['build-and-test']
+    branches: [dev]
     types:
       - completed
-    branches:
-      - dev
 
 jobs:
   deploy-dev-on-staging:
     runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Call webhook to deploy dev branch on staging environment server
         run: echo 'Hello from github'
