@@ -3,11 +3,11 @@ name: deploy-dev-on-staging
 on:
   workflow_run:
     workflows:
-      - 'build-and-test'
+      - build-and-test
     types:
-      - 'completed'
+      - completed
     branches:
-      - 'dev'
+      - dev
 
 jobs:
   deploy-dev-on-staging:
