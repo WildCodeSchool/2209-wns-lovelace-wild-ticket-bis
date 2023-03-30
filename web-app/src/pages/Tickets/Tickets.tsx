@@ -29,7 +29,7 @@ import { AppContext } from 'context/AppContext';
 import { toast } from 'react-toastify';
 import TicketsArray from 'components/TicketsArray/TicketsArray';
 
-const GET_TICKETS_BY_FLOW_ID = gql`
+export const GET_TICKETS_BY_FLOW_ID = gql`
   query GetTicketsByFlowId($flowId: String!) {
     getTicketsByFlowId(flowId: $flowId) {
       flowName
@@ -44,7 +44,7 @@ const GET_TICKETS_BY_FLOW_ID = gql`
   }
 `;
 
-const ADD_TICKET_BY_FLOW_ID = gql`
+export const ADD_TICKET_BY_FLOW_ID = gql`
   mutation AddTicketByFlowId($flowId: String!) {
     addTicketByFlowId(flowId: $flowId) {
       date
@@ -55,13 +55,13 @@ const ADD_TICKET_BY_FLOW_ID = gql`
   }
 `;
 
-const DELETE_TICKETS_BY_ID = gql`
+export const DELETE_TICKETS_BY_ID = gql`
   mutation DeleteTickets($arrayId: [String!]!) {
     deleteTickets(arrayId: $arrayId)
   }
 `;
 
-const CHANGE_TICKET_STATUS_BY_ID = gql`
+export const CHANGE_TICKET_STATUS_BY_ID = gql`
   mutation ChangeTicketStatus($id: String!, $status: String!) {
     changeTicketStatus(id: $id, status: $status) {
       date
@@ -71,7 +71,7 @@ const CHANGE_TICKET_STATUS_BY_ID = gql`
   }
 `;
 
-const CHANGE_TICKETS_STATUS_BY_IDS = gql`
+export const CHANGE_TICKETS_STATUS_BY_IDS = gql`
   mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {
     changeTicketsStatus(arrayId: $arrayId, status: $status) {
       id
@@ -123,11 +123,10 @@ const Tickets = () => {
 
   useEffect(() => {
     refetch({ flowId: appContext?.selectedFlow?.value });
-    if (data) {
+    if (data?.getTicketsByFlowId) {
       setFlowTickets(data.getTicketsByFlowId);
     }
   }, [appContext?.selectedFlow?.value, data, refetch]);
-
   const updateListOfTickets = (
     id: string,
     e: React.ChangeEvent<HTMLInputElement>
