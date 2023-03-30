@@ -1,4 +1,4 @@
-name: Deploy dev on staging
+name: deploy-dev-on-staging
 
 on:
   workflow_run:
@@ -13,4 +13,4 @@ jobs:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     steps:
       - name: Call webhook to deploy dev branch on staging environment server
-        run: curl ${{ secrets.URL_WEBHOOK_DEPLOY_DEV_ON_STAGING }}
+        run: echo 'Hello from github'
