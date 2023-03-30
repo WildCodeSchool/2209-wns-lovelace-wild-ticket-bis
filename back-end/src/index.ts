@@ -21,6 +21,7 @@ import TicketRepository from './models/Ticket/Ticket.repository';
 import FlowResolver from './resolvers/Flow/Flow.resolver';
 import { initializeDatabaseRepositories } from './database/utils';
 import TicketResolver from './resolvers/Tickets/Tickets.resolver';
+import { IS_PRODUCTION } from './config';
 
 export type GlobalContext = ExpressContext & {
   user: AppUser | null;
@@ -116,9 +117,13 @@ const startServer = async () => {
 
   await initializeDatabaseRepositories();
 
-  await AppUserRepository.initializeUser();
-  await FlowRepository.initializeFlow();
-  await TicketRepository.initializeTicket();
+  if (!IS_PRODUCTION) {
+    await AppUserRepository.initializeUser();
+    await FlowRepository.initializeFlow();
+    await TicketRepository.initializeTicket();
+  }
+
+  console.log(`🚀  Server ready at ${url}`);
 };
 
 startServer();
