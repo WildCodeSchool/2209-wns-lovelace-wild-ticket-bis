@@ -63,7 +63,7 @@ const Header = () => {
   return (
     <ContainerHeader>
       <ContainerActualFlu>
-        <LabelActualFlu> Flu Actuel Blabla: </LabelActualFlu>
+        <LabelActualFlu> Flu Actuel : </LabelActualFlu>
         <SelectActualFlu>
           <Select
             onChange={handleChangeSelectedFlow}
