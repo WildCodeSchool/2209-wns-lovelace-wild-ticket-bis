@@ -170,7 +170,7 @@ const MesFlux = () => {
           <GoTrashcan size={25} />
           &ensp;Supprimer
         </ButtonDelete>
-        <ButtonAdd onClick={toggleModal}>Ajouter un flu</ButtonAdd>
+        <ButtonAdd onClick={toggleModal}>Ajouter un flu blabla</ButtonAdd>
       </ContainerButton>
       <ArrayContainer>
         <HeaderList>
