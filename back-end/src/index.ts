@@ -123,7 +123,6 @@ const startServer = async () => {
     await TicketRepository.initializeTicket();
   }
 
-  console.log(`🚀  Server ready at ${url}`);
 };
 
 startServer();
