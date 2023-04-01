@@ -44,17 +44,12 @@ export default class Ticket {
   flow: Flow;
 }
 
-export interface NotificationPayload {
-  id: number;
-  message?: Promise<Ticket>;
-}
-
 @ObjectType()
 export class Notification {
-  @Field((type) => ID)
+  @Field(() => ID)
   id: number;
 
-  @Field({ nullable: true })
-  message?: Promise<Ticket>;
+  @Field()
+  message: Ticket;
   //pas ouf
 }

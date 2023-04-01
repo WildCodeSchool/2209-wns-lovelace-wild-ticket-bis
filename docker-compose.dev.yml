@@ -8,6 +8,7 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:password@database:5432/postgres
       TEST_DATABASE_URL: postgres://postgres:password@test-database:5432/postgres
+
     ports:
       - 4000:4000
     volumes:
@@ -15,7 +16,6 @@ services:
       - /app/node_modules
     depends_on:
       - database
-
   web-app:
     build:
       context: ./web-app
@@ -27,6 +27,15 @@ services:
       - /app/node_modules
     depends_on:
       - back-end
+
+  redis:
+    image: 'redis:alpine'
+    command: redis-server --requirepass ${REDIS_PASS:-password123}
+    expose:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+      - redis-conf:/usr/local/etc/redis/redis.conf
 
   database:
     image: postgres:14.5-alpine
@@ -52,3 +61,5 @@ services:
 
 volumes:
   database-content:
+  redis-data:
+  redis-conf:

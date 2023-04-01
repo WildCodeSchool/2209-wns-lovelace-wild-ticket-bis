@@ -24,7 +24,7 @@ export default class TicketRepository extends TicketDb {
     }
   }
 
-  static async createTicket(flowName: string , ticketNumber : number): Promise<Ticket> {
+  static async createTicket(flowName: string) {
     const flow = await FlowRepository.getFlowByName(flowName);
     if (flow) {
       const ticket = new Ticket(flow);
@@ -33,8 +33,6 @@ export default class TicketRepository extends TicketDb {
       throw new Error('Aucun flow trouvé');
     }
   }
-
-  
 
   static async getTicketById(id: string): Promise<Ticket | null> {
     return this.repository.findOneBy({ id });

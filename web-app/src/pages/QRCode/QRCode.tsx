@@ -12,11 +12,19 @@ import {
 } from './QRCode.styled';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'context/AppContext';
+import { gql } from '@apollo/client';
 
 interface Flows {
   value: string;
   label: string;
 }
+
+// export const Subscription = gql`
+// subscription AllNotifications {
+//   normalSubscription {
+//   }
+// }
+//  `;
 
 const QRCode = () => {
   const appContext = useContext(AppContext);
