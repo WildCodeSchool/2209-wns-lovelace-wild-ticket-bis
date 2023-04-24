@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType } from 'type-graphql';
+import { ArgsType, Field, ID, Int, ObjectType } from 'type-graphql';
 import {
   Column,
   CreateDateColumn,
@@ -42,4 +42,19 @@ export default class Ticket {
   @ManyToOne(() => Flow, (flow) => flow.tickets, { onDelete: 'CASCADE' })
   @Field(() => Flow)
   flow: Flow;
+}
+@ObjectType()
+export class Notification {
+  @Field(() => ID)
+  id: number;
+
+  @Field()
+  message: Ticket;
+  //pas ouf
+}
+
+@ArgsType()
+export class GetTicketsByIdType {
+  @Field()
+  id: string;
 }
