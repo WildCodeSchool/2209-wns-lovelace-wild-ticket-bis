@@ -1,4 +1,4 @@
-import { Field, ID, Int, ObjectType } from 'type-graphql';
+import { ArgsType, Field, ID, Int, ObjectType } from 'type-graphql';
 import {
   Column,
   CreateDateColumn,
@@ -52,4 +52,10 @@ export class Notification {
   @Field()
   message: Ticket;
   //pas ouf
+}
+
+@ArgsType()
+export class GetTicketsByIdType {
+  @Field()
+  id: string;
 }

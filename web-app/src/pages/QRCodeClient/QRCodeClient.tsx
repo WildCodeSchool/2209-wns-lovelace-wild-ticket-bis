@@ -1,5 +1,5 @@
 const QRCodeClient = () => {
-  return <div>QR code client</div>;
+  return <div> </div>;
 };
 
 export default QRCodeClient;

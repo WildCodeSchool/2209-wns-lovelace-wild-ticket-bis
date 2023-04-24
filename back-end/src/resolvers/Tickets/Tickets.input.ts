@@ -1,5 +1,5 @@
-import { ArgsType, Field, ID, ObjectType } from 'type-graphql';
-import Ticket, { Status } from '../../models/Ticket/Ticket.entity';
+import { ArgsType, Field, ID, InputType, ObjectType } from 'type-graphql';
+import { Status } from '../../models/Ticket/Ticket.entity';
 
 @ArgsType()
 export class changeTicketStatusArgs {
@@ -44,3 +44,10 @@ export interface NotificationPayload {
   id: string;
   message: string;
 }
+
+@ArgsType()
+export class SubscriptionFilter {
+  @Field({ nullable: true })
+  id?: string;
+}
+

@@ -16,8 +16,12 @@ import FluIcon from '../../assets/Flu-icone.png';
 import List from '../../assets/liste.png';
 import QrcodeLogo from '../../assets/logoQrcode.png';
 import Corbeille from '../../assets/corbeille.png';
+import { useContext } from 'react';
+import { AppContext } from 'context/AppContext';
 
 const Navbar = (props: any) => {
+  const appContext = useContext(AppContext);
+
   return (
     <ContainerNavbar>
       <ContainerLink>
@@ -36,7 +40,9 @@ const Navbar = (props: any) => {
           <LogoLink src={Corbeille}></LogoLink>Corbeille
         </StyledLink>
         {/* Sujet a modification !!!*/}
-        <StyledLink to={`${QR_CODE_CLIENT_PATH}/camion-vert`}>
+        <StyledLink
+          to={`${QR_CODE_CLIENT_PATH}/${appContext?.selectedFlow?.value}`}
+        >
           QR code client
         </StyledLink>
         <StyledLink to={TICKET_CLIENT_PATH}>Ticket client</StyledLink>

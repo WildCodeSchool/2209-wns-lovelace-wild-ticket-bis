@@ -19,12 +19,7 @@ interface Flows {
   label: string;
 }
 
-// export const Subscription = gql`
-// subscription AllNotifications {
-//   normalSubscription {
-//   }
-// }
-//  `;
+
 
 const QRCode = () => {
   const appContext = useContext(AppContext);

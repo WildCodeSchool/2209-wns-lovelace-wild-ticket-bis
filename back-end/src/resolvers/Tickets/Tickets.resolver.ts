@@ -3,11 +3,13 @@ import {
   Args,
   Int,
   Mutation,
-  PubSubEngine,
+  Query,
+  Resolver,
+  ResolverFilterData,
   Root,
   Subscription,
 } from 'type-graphql';
-import Ticket from '../../models/Ticket/Ticket.entity';
+import Ticket, { GetTicketsByIdType } from '../../models/Ticket/Ticket.entity';
 import TicketRepository from '../../models/Ticket/Ticket.repository';
 import { getTicketsByFlowIdArgs } from '../Flow/Flow.input';
 import {
@@ -15,10 +17,16 @@ import {
   changeTicketStatusArgs,
   Notification,
   NotificationPayload,
+  SubscriptionFilter,
 } from './Tickets.input';
 import { pubSub } from '../..';
 
 export default class TicketResolver {
+  @Query(() => Ticket)
+  getTicketById(@Args() {id}:  GetTicketsByIdType): Promise<Ticket | null> {
+    return TicketRepository.getTicketById(id);
+  }
+  
   @Mutation(() => Ticket)
   addTicketByFlowId(
     @Args() { flowId }: getTicketsByFlowIdArgs
@@ -42,7 +50,7 @@ export default class TicketResolver {
       id: ticket.id,
       message: ticket.status,
     };
-    await pubSub.publish('test', payload);
+    await pubSub.publish('STATUS_TICKET_CHANGE', payload);
     return ticket;
   }
 
@@ -53,9 +61,25 @@ export default class TicketResolver {
     return TicketRepository.updateTicketsStatus(arrayId, status);
   }
 
-  @Subscription(() => Notification, { topics: 'test' })
+  @Subscription(() => Notification, { topics: 'STATUS_TICKET_CHANGE' })
   normalSubscription(@Root() messagePayload: Notification): Notification {
-    console.log(messagePayload, 'ciicicicicicicicici');
     return messagePayload;
+  }
+
+  @Subscription(() => Notification, {
+    topics: 'STATUS_TICKET_CHANGE',
+    filter: ({
+      payload,
+      args,
+    }: ResolverFilterData<Notification, { id: string }>) => {
+      const { id } = args;
+      return !id || payload.id === id;
+    },
+  })
+  subscriptionWithId(
+    @Root() payload: Notification,
+    @Args() id: SubscriptionFilter
+  ): Notification {
+    return payload;
   }
 }

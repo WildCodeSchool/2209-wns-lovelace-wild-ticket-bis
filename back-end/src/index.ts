@@ -8,9 +8,6 @@ import { buildSchema } from 'type-graphql';
 import { createServer } from 'http';
 import { WebSocketServer } from 'ws';
 import { useServer } from 'graphql-ws/lib/use/ws';
-import { PubSub } from 'graphql-subscriptions';
-import { RedisPubSub } from 'graphql-redis-subscriptions';
-import Redis from 'ioredis';
 
 import AppUserResolver from './resolvers/AppUser/AppUser.resolver';
 import AppUserRepository from './models/AppUser/AppUser.repository';
@@ -22,24 +19,15 @@ import FlowResolver from './resolvers/Flow/Flow.resolver';
 import { initializeDatabaseRepositories } from './database/utils';
 import TicketResolver from './resolvers/Tickets/Tickets.resolver';
 import { IS_PRODUCTION } from './config';
+import { PubSub } from 'graphql-subscriptions';
 
 export type GlobalContext = ExpressContext & {
   user: AppUser | null;
 };
 const PORT = 4000;
 
-//default option for Redis
-const option = {
-  host: 'redis',
-  port: 6379,
-  password: 'password123',
-  //MOT DE PASSE A CHANGER , UNIQUEMENT POUR TEST !!!! 
-};
 //initialize pubsub with redis
-export const pubSub = new RedisPubSub({
-  publisher: new Redis(option),
-  subscriber: new Redis(option),
-});
+export const pubSub = new PubSub();
 const startServer = async () => {
   /**
    * Create express server
@@ -53,7 +41,7 @@ const startServer = async () => {
     server: httpServer,
     // Pass a different path here if your ApolloServer serves at
     // a different path.
-    path: '/graphql',
+    path: '/api',
   });
 
   const schema = await buildSchema({
@@ -105,13 +93,13 @@ const startServer = async () => {
     ],
   });
   await serverApollo.start();
-  serverApollo.applyMiddleware({ app });
+  serverApollo.applyMiddleware({ app, path: '/api' });
 
   // The `listen` method launches a web server.
 
   httpServer.listen(PORT, () => {
     console.log(
-      `🚀 Server is ready at http://localhost:${PORT}${serverApollo.graphqlPath}`
+      `🚀 Server is ready at http://localhost:${PORT}/${serverApollo.graphqlPath}`
     );
   });
 
@@ -122,7 +110,6 @@ const startServer = async () => {
     await FlowRepository.initializeFlow();
     await TicketRepository.initializeTicket();
   }
-
 };
 
 startServer();
