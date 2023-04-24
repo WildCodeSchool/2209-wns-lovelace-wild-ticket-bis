@@ -100,7 +100,7 @@ describe('When SignIn form is submited with fields filled-in', () => {
           firstName: 'Hermione',
           lastName: 'Granger',
           emailAddress: 'hermionegranger@email.com',
-          password: 'Hermione',
+          password: 'Hermionegranger1234@',
         },
       },
       error: new Error(ERROR_MESSAGE),
