@@ -1,11 +1,25 @@
-import { Arg, Args, Int, Mutation } from 'type-graphql';
-import Ticket from '../../models/Ticket/Ticket.entity';
+import {
+  Arg,
+  Args,
+  Int,
+  Mutation,
+  Query,
+  Resolver,
+  ResolverFilterData,
+  Root,
+  Subscription,
+} from 'type-graphql';
+import Ticket, { GetTicketsByIdType } from '../../models/Ticket/Ticket.entity';
 import TicketRepository from '../../models/Ticket/Ticket.repository';
 import { getTicketsByFlowIdArgs } from '../Flow/Flow.input';
 import {
   changeTicketsStatusArgs,
   changeTicketStatusArgs,
+  Notification,
+  NotificationPayload,
+  SubscriptionFilter,
 } from './Tickets.input';
+import { pubSub } from '../..';
 
 export default class TicketResolver {
   @Mutation(() => Ticket)
@@ -23,10 +37,16 @@ export default class TicketResolver {
   }
 
   @Mutation(() => Ticket)
-  changeTicketStatus(
+  async changeTicketStatus(
     @Args() { id, status }: changeTicketStatusArgs
   ): Promise<Ticket | null> {
-    return TicketRepository.updateTicketStatus(id, status);
+    const ticket = await TicketRepository.updateTicketStatus(id, status);
+    const payload: NotificationPayload = {
+      id: ticket.id,
+      message: ticket.status,
+    };
+    await pubSub.publish('STATUS_TICKET_CHANGE', payload);
+    return ticket;
   }
 
   @Mutation(() => [Ticket])
@@ -34,5 +54,27 @@ export default class TicketResolver {
     @Args() { arrayId, status }: changeTicketsStatusArgs
   ): Promise<Ticket[] | null> {
     return TicketRepository.updateTicketsStatus(arrayId, status);
+  }
+
+  @Subscription(() => Notification, { topics: 'STATUS_TICKET_CHANGE' })
+  normalSubscription(@Root() messagePayload: Notification): Notification {
+    return messagePayload;
+  }
+
+  @Subscription(() => Notification, {
+    topics: 'STATUS_TICKET_CHANGE',
+    filter: ({
+      payload,
+      args,
+    }: ResolverFilterData<Notification, { id: string }>) => {
+      const { id } = args;
+      return !id || payload.id === id;
+    },
+  })
+  subscriptionWithId(
+    @Root() payload: Notification,
+    @Args() id: SubscriptionFilter
+  ): Notification {
+    return payload;
   }
 }
