@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useParams } from 'react-router-dom';
 import { gql, useSubscription } from '@apollo/client';
 import { SubscriptionSubscriptionWithIdArgs } from 'gql/graphql';

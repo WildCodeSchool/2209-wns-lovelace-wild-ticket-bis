@@ -12,7 +12,7 @@ import {
 } from './QRCode.styled';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'context/AppContext';
-import { gql } from '@apollo/client';
+
 
 interface Flows {
   value: string;
