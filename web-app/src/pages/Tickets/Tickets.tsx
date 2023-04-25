@@ -123,6 +123,7 @@ const Tickets = () => {
 
   useEffect(() => {
     refetch({ flowId: appContext?.selectedFlow?.value });
+
     if (data?.getTicketsByFlowId) {
       setFlowTickets(data.getTicketsByFlowId);
     }
@@ -147,7 +148,6 @@ const Tickets = () => {
       }
     }
   };
-
   const addNewTicket = async () => {
     if (!flowTickets?.id) {
       toast.warning('Veuillez sélectionner un flu valide.');
@@ -158,6 +158,7 @@ const Tickets = () => {
         });
         refetch();
       } catch (error) {
+        console.log('error from addNewTicket last condition');
         toast.error(
           'Un problème est survenue. Veuillez réessayer ultérieurement.'
         );
@@ -211,7 +212,7 @@ const Tickets = () => {
   };
 
   return (
-    <MainContainer>
+    <MainContainer data-testid="ticket-container">
       <ContainerButton>
         <ContainerButtonAction>
           <ButtonDelete
