@@ -50,7 +50,7 @@ const TicketsArray = ({
   };
 
   return (
-    <ArrayContainer>
+    <ArrayContainer data-testid="tickets-array">
       <HeaderList>
         <TextElementHeader></TextElementHeader>
         <TextElementHeader>Date</TextElementHeader>
@@ -100,7 +100,6 @@ const TicketsArray = ({
                         onClick={() =>
                           quicklyChangeStatus(ticket.id, ticket.status)
                         }
-                        data-testid={ticket.id}
                       >
                         <IoPlayOutline
                           size={25}

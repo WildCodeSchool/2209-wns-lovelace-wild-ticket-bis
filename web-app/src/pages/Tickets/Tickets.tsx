@@ -158,7 +158,6 @@ const Tickets = () => {
         });
         refetch();
       } catch (error) {
-        console.log('error from addNewTicket last condition');
         toast.error(
           'Un problème est survenue. Veuillez réessayer ultérieurement.'
         );
