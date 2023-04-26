@@ -20,7 +20,7 @@ import {
   StatusContainer,
   AllStatusContainer,
 } from 'pages/Tickets/Tickets.styled';
-import { IoPlayOutline } from 'react-icons/io5';
+import { CiPlay1 } from 'react-icons/ci';
 import { TEXT_FONT_COLOR } from 'styles/style-constants';
 import { convertDateFormat } from 'utils';
 
@@ -95,15 +95,11 @@ const TicketsArray = ({
                       </StatusContainer>
                       <StatusContainer>{ticket.status}</StatusContainer>
                     </AllStatusContainer>
-                    {ticket.status === 'Ticket non scanné' ||
-                    ticket.status === 'En attente' ? (
-                      <ButtonQuickChange
-                        whileTap={{ scale: 0.9 }}
-                        onClick={() =>
-                          quicklyChangeStatus(ticket.id, ticket.status)
-                        }
-                      >
-                        <IoPlayOutline
+                    {(ticket.status === 'Ticket non scanné' ||
+                      ticket.status === 'En attente') &&
+                    !isTicketFromTrash ? (
+                      <ButtonQuickChange whileTap={{ scale: 0.9 }}>
+                        <CiPlay1
                           size={25}
                           style={{ color: TEXT_FONT_COLOR, opacity: 0.7 }}
                         />

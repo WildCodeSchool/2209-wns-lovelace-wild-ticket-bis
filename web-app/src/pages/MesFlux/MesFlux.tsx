@@ -167,7 +167,7 @@ const MesFlux = () => {
           onClick={toggleModalDelete}
           disabled={allFlowSelected.length > 0 ? false : true}
         >
-          <GoTrashcan size={25} />
+          <GoTrashcan size={25} opacity={0.7} />
           &ensp;Supprimer
         </SecondaryButton>
         <ButtonAdd onClick={toggleModal}>Ajouter un flu</ButtonAdd>
