@@ -1,7 +1,12 @@
-import { gql, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery } from '@apollo/client';
 import TicketsArray from 'components/TicketsArray/TicketsArray';
 import { AppContext } from 'context/AppContext';
-import { GetTicketsByFlowIdQuery } from 'gql/graphql';
+import {
+  ChangeTicketIsTrashMutation,
+  ChangeTicketIsTrashMutationVariables,
+  DeleteTicketsMutation,
+  GetTicketsByFlowIdQuery,
+} from 'gql/graphql';
 import {
   SecondaryButton,
   ContainerButton,
@@ -12,6 +17,7 @@ import { ContainerButtonAction } from 'pages/Tickets/Tickets.styled';
 import { useContext, useEffect, useState } from 'react';
 import { GoTrashcan } from 'react-icons/go';
 import { GrTransaction } from 'react-icons/gr';
+import { toast } from 'react-toastify';
 
 const GET_TICKETS_BY_FLOW_ID = gql`
   query GetTicketsByFlowId($flowId: String!) {
@@ -28,11 +34,35 @@ const GET_TICKETS_BY_FLOW_ID = gql`
   }
 `;
 
+const DELETE_TICKETS_BY_ID = gql`
+  mutation DeleteTickets($arrayId: [String!]!) {
+    deleteTickets(arrayId: $arrayId)
+  }
+`;
+
+const IS_TRASH_TICKETS_BY_IDS = gql`
+  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {
+    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {
+      date
+      id
+      isTrash
+      status
+    }
+  }
+`;
+
 const Corbeille = () => {
   const appContext = useContext(AppContext);
   const { data, refetch } = useQuery<GetTicketsByFlowIdQuery>(
     GET_TICKETS_BY_FLOW_ID
   );
+  const [isTrashTicketsByIds] = useMutation<
+    ChangeTicketIsTrashMutation,
+    ChangeTicketIsTrashMutationVariables
+  >(IS_TRASH_TICKETS_BY_IDS);
+  const [deleteTicketInTicketListMutation] =
+    useMutation<DeleteTicketsMutation>(DELETE_TICKETS_BY_ID);
+
   const [flowTickets, setFlowTickets] = useState<Flow>();
   const [allTicketsSelected, setAllTicketsSelected] = useState<Array<string>>(
     []
@@ -66,6 +96,30 @@ const Corbeille = () => {
     }
   };
 
+  const deleteTicketsInTicketList = async () => {
+    try {
+      await deleteTicketInTicketListMutation({
+        variables: { arrayId: allTicketsSelected },
+      });
+      refetch();
+      setIsButtonDisabled(true);
+    } catch {
+      toast.error('Un problème est survenue. Veuillez réessayer');
+    }
+  };
+
+  const changeIsTrashInTicketsList = async (isTrash: boolean) => {
+    try {
+      await isTrashTicketsByIds({
+        variables: { arrayId: allTicketsSelected, isTrash: isTrash },
+      });
+      refetch();
+      setIsButtonDisabled(false);
+    } catch {
+      toast.error('Un problème est survenue. Veuillez réessayer');
+    }
+  };
+
   const quicklyChangeStatus = (
     ticketId: string,
     ticketStatus: string
@@ -77,11 +131,17 @@ const Corbeille = () => {
     <MainContainer>
       <ContainerButton>
         <ContainerButtonAction>
-          <SecondaryButton disabled={isButtonDisabled}>
+          <SecondaryButton
+            disabled={isButtonDisabled}
+            onClick={deleteTicketsInTicketList}
+          >
             <GoTrashcan size={25} opacity={0.7} />
             &ensp;Supprimer définitivement
           </SecondaryButton>
-          <SecondaryButton disabled={isButtonDisabled}>
+          <SecondaryButton
+            disabled={isButtonDisabled}
+            onClick={() => changeIsTrashInTicketsList(false)}
+          >
             <GrTransaction size={20} opacity={isButtonDisabled ? 0.2 : 0.7} />
             &ensp;Transférer dans le flu
           </SecondaryButton>

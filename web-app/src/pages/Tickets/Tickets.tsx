@@ -17,9 +17,10 @@ import {
 import {
   AddTicketByFlowIdMutation,
   AddTicketByFlowIdMutationVariables,
+  ChangeTicketIsTrashMutation,
+  ChangeTicketIsTrashMutationVariables,
   ChangeTicketsStatusMutation,
   ChangeTicketStatusMutation,
-  DeleteTicketsMutation,
   GetTicketsByFlowIdQuery,
 } from 'gql/graphql';
 import { GoTrashcan } from 'react-icons/go';
@@ -81,6 +82,17 @@ export const CHANGE_TICKETS_STATUS_BY_IDS = gql`
   }
 `;
 
+const IS_TRASH_TICKETS_BY_IDS = gql`
+  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {
+    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {
+      date
+      id
+      isTrash
+      status
+    }
+  }
+`;
+
 export type Flow = {
   __typename?: 'Flow' | undefined;
   flowName: string;
@@ -104,9 +116,6 @@ const Tickets = () => {
     AddTicketByFlowIdMutationVariables
   >(ADD_TICKET_BY_FLOW_ID);
 
-  const [deleteTicketInTicketListMutation] =
-    useMutation<DeleteTicketsMutation>(DELETE_TICKETS_BY_ID);
-
   const [changeticketStatus] = useMutation<ChangeTicketStatusMutation>(
     CHANGE_TICKET_STATUS_BY_ID
   );
@@ -114,6 +123,10 @@ const Tickets = () => {
   const [changeTicketsStatusbyIds] = useMutation<ChangeTicketsStatusMutation>(
     CHANGE_TICKETS_STATUS_BY_IDS
   );
+  const [isTrashTicketsByIds] = useMutation<
+    ChangeTicketIsTrashMutation,
+    ChangeTicketIsTrashMutationVariables
+  >(IS_TRASH_TICKETS_BY_IDS);
 
   const [flowTickets, setFlowTickets] = useState<Flow>();
   const [allTicketsSelected, setAllTicketsSelected] = useState<Array<string>>(
@@ -165,18 +178,6 @@ const Tickets = () => {
     }
   };
 
-  const deleteTicketsInTicketList = async () => {
-    try {
-      await deleteTicketInTicketListMutation({
-        variables: { arrayId: allTicketsSelected },
-      });
-      refetch();
-      setIsButtonDisabled(true);
-    } catch {
-      toast.error('Un problème est survenue. Veuillez réessayer');
-    }
-  };
-
   const quicklyChangeStatus = async (
     ticketId: string,
     ticketStatus: string
@@ -210,13 +211,25 @@ const Tickets = () => {
     }
   };
 
+  const changeIsTrashInTicketsList = async (isTrash: boolean) => {
+    try {
+      await isTrashTicketsByIds({
+        variables: { arrayId: allTicketsSelected, isTrash: isTrash },
+      });
+      refetch();
+      setIsButtonDisabled(false);
+    } catch {
+      toast.error('Un problème est survenue. Veuillez réessayer');
+    }
+  };
+
   return (
     <MainContainer>
       <ContainerButton>
         <ContainerButtonAction>
           <SecondaryButton
             disabled={isButtonDisabled}
-            onClick={deleteTicketsInTicketList}
+            onClick={() => changeIsTrashInTicketsList(true)}
           >
             <GoTrashcan size={25} opacity={0.7} /> &ensp;Supprimer
           </SecondaryButton>
