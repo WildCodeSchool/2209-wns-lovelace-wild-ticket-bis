@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import {
   Card,
   ContainerCard,
+  ContainerIconStatus,
   ContainerLogoMobile,
   ContainerPages,
   ContainerTextMobile,
@@ -126,10 +127,12 @@ const PagesClient = ({ displayNavbar }: any) => {
               }`,
             }}
           >
-            <BsClockHistory size={'40%'} color="white" />
+            <ContainerIconStatus>
+              <BsClockHistory size={'80%'} color="white" />
+            </ContainerIconStatus>
             <TextCardMobile>Vous êtes toujours en attente !</TextCardMobile>
             <TextCardMobile>
-              Votre commande est en cours de preparation !
+              Votre commande est en cours de préparation !
             </TextCardMobile>
           </Card>
         );
@@ -143,10 +146,12 @@ const PagesClient = ({ displayNavbar }: any) => {
               }`,
             }}
           >
-            <HiOutlineCheck size={'40%'} color="white" />
+            <ContainerIconStatus>
+              <HiOutlineCheck size={'80%'} color="white" />
+            </ContainerIconStatus>
             <TextCardMobile>Votre commande est prête ! </TextCardMobile>
             <TextCardMobile>
-              Vous pouvez aller la recuperer à votre vendeur !
+              Vous pouvez recuperer à votre vendeur !
             </TextCardMobile>
           </Card>
         );
@@ -160,7 +165,9 @@ const PagesClient = ({ displayNavbar }: any) => {
               }`,
             }}
           >
-            <RiErrorWarningLine size={'40%'} color="white" />
+            <ContainerIconStatus>
+              <RiErrorWarningLine size={'80%'} color="white" />
+            </ContainerIconStatus>
             <TextCardMobile>
               On dirait qu’il y a un probleme avec votre commande !
             </TextCardMobile>

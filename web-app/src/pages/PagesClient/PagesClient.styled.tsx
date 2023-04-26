@@ -55,3 +55,11 @@ export const TextCardMobile = styled.h2`
   color: white;
   margin: 10px;
 `;
+
+export const ContainerIconStatus = styled.div`
+  height: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;

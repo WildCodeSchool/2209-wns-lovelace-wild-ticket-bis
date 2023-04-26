@@ -9,7 +9,6 @@ import QRCode from '../pages/QRCode/QRCode';
 import QRCodeClient from '../pages/QRCodeClient/QRCodeClient';
 import SignIn from '../pages/SignIn/SignIn';
 import SignUp from '../pages/SignUp/SignUp';
-import TicketClient from '../pages/PagesClient/PagesClient';
 import Tickets from '../pages/Tickets/Tickets';
 import Corbeille from '../pages/Corbeille/Corbeille';
 import MesFlux from '../pages/MesFlux/MesFlux';
