@@ -3,7 +3,7 @@ import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { AppContext } from 'context/AppContext';
 import {
   AddTicketByFlowIdMutation,
-  ChangeTicketStatusMutation,
+  ChangeTicketsStatusMutation,
   DeleteTicketsMutation,
   GetTicketsByFlowIdQuery,
 } from 'gql/graphql';
@@ -31,7 +31,7 @@ const renderTickets = async (
     | AddTicketByFlowIdMutation
     | GetTicketsByFlowIdQuery
     | DeleteTicketsMutation
-    | ChangeTicketStatusMutation
+    | ChangeTicketsStatusMutation
   >[] = [],
   providerProps: any
 ) => {
@@ -44,36 +44,7 @@ const renderTickets = async (
   );
 };
 
-const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
-  request: {
-    query: GET_TICKETS_BY_FLOW_ID,
-    variables: {
-      flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-    },
-  },
-  result: {
-    data: {
-      getTicketsByFlowId: {
-        flowName: 'Le camion vert',
-        id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-        tickets: [
-          {
-            date: '2023-03-29T13:00:36.184Z',
-            id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-            isTrash: false,
-            status: 'Ticket non scanné',
-          },
-          {
-            date: '2023-03-29T14:06:21.209Z',
-            id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-            isTrash: false,
-            status: 'En attente',
-          },
-        ],
-      },
-    },
-  },
-};
+let isRefetchCalled = false;
 
 const selectedFlow = {
   label: 'Le camion vert',
@@ -81,17 +52,40 @@ const selectedFlow = {
 };
 
 beforeEach(() => {
-  const initializeGetTicketMock = () => {
-    return mockGetTicketByFlowId;
-  };
-  const initializeContext = () => {
-    return selectedFlow;
-  };
-  initializeGetTicketMock();
-  initializeContext();
+  isRefetchCalled = false;
 });
 
 describe('When the app mount Ticket component', () => {
+  const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
+    request: {
+      query: GET_TICKETS_BY_FLOW_ID,
+      variables: {
+        flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+      },
+    },
+    result: {
+      data: {
+        getTicketsByFlowId: {
+          flowName: 'Le camion vert',
+          id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+          tickets: [
+            {
+              date: '2023-03-29T13:00:36.184Z',
+              id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
+              isTrash: false,
+              status: 'Ticket non scanné',
+            },
+            {
+              date: '2023-03-29T14:06:21.209Z',
+              id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+              isTrash: false,
+              status: 'En attente',
+            },
+          ],
+        },
+      },
+    },
+  };
   it('renders correctly', async () => {
     renderTickets([mockGetTicketByFlowId], { selectedFlow });
     await waitFor(() => {
@@ -101,8 +95,37 @@ describe('When the app mount Ticket component', () => {
 });
 
 describe('When user click on Add ticket button', () => {
+  const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
+    request: {
+      query: GET_TICKETS_BY_FLOW_ID,
+      variables: {
+        flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+      },
+    },
+    result: {
+      data: {
+        getTicketsByFlowId: {
+          flowName: 'Le camion vert',
+          id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+          tickets: [
+            {
+              date: '2023-03-29T14:06:21.209Z',
+              id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+              isTrash: false,
+              status: 'En attente',
+            },
+            {
+              date: '2023-03-29T13:00:36.184Z',
+              id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
+              isTrash: false,
+              status: 'Ticket non scanné',
+            },
+          ],
+        },
+      },
+    },
+  };
   it('add a new ticket in list', async () => {
-    let isRefetchCalled = false;
     const mockAddTicketByFlowId: MockedResponse<AddTicketByFlowIdMutation> = {
       request: {
         query: ADD_TICKET_BY_FLOW_ID,
@@ -147,8 +170,37 @@ describe('When user click on Add ticket button', () => {
 
 describe('When user click on tickets buttons', () => {
   describe('When user click on delete button', () => {
+    const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
+      request: {
+        query: GET_TICKETS_BY_FLOW_ID,
+        variables: {
+          flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+        },
+      },
+      result: {
+        data: {
+          getTicketsByFlowId: {
+            flowName: 'Le camion vert',
+            id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+            tickets: [
+              {
+                date: '2023-03-29T13:00:36.184Z',
+                id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
+                isTrash: false,
+                status: 'Ticket non scanné',
+              },
+              {
+                date: '2023-03-29T14:06:21.209Z',
+                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                isTrash: false,
+                status: 'En attente',
+              },
+            ],
+          },
+        },
+      },
+    };
     it(`delete ticket`, async () => {
-      let isRefetchCalled = false;
       const mockDeleteTicketByFlowId: MockedResponse<DeleteTicketsMutation> = {
         request: {
           query: DELETE_TICKETS_BY_ID,
@@ -165,6 +217,7 @@ describe('When user click on tickets buttons', () => {
           isRefetchCalled = true;
           return {
             data: {
+              deleteTickets: 1,
               getTicketsByFlowId: {
                 flowName: 'Le camion vert',
                 id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
@@ -193,9 +246,32 @@ describe('When user click on tickets buttons', () => {
     });
   });
   describe('When user click on waiting button', () => {
+    const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
+      request: {
+        query: GET_TICKETS_BY_FLOW_ID,
+        variables: {
+          flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+        },
+      },
+      result: {
+        data: {
+          getTicketsByFlowId: {
+            flowName: 'Le camion vert',
+            id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+            tickets: [
+              {
+                date: '2023-03-29T14:06:21.209Z',
+                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                isTrash: false,
+                status: 'Ticket non scanné',
+              },
+            ],
+          },
+        },
+      },
+    };
     it('Change ticket status to wait', async () => {
-      let isRefetchCalled = false;
-      const mockChangeWaitingStatusByTicketId: MockedResponse<ChangeTicketStatusMutation> =
+      const mockChangeWaitingStatusByTicketId: MockedResponse<ChangeTicketsStatusMutation> =
         {
           request: {
             query: CHANGE_TICKETS_STATUS_BY_IDS,
@@ -206,27 +282,30 @@ describe('When user click on tickets buttons', () => {
           },
           result: {
             data: {
-              changeTicketStatus: {
-                date: '2023-03-29T14:06:21.209Z',
-                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-                status: 'En attente',
-              },
+              changeTicketsStatus: [
+                {
+                  id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                  status: 'En attente',
+                  date: '2023-03-29T14:06:21.209Z',
+                },
+              ],
             },
           },
           newData: () => {
             isRefetchCalled = true;
             return {
               data: {
+                changeTicketsStatus: [
+                  {
+                    id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                    status: 'En attente',
+                    date: '2023-03-29T14:06:21.209Z',
+                  },
+                ],
                 getTicketsByFlowId: {
                   flowName: 'Le camion vert',
                   id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
                   tickets: [
-                    {
-                      date: '2023-03-29T13:00:36.184Z',
-                      id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                      isTrash: false,
-                      status: 'Ticket non scanné',
-                    },
                     {
                       date: '2023-03-29T14:06:21.209Z',
                       id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
@@ -252,10 +331,33 @@ describe('When user click on tickets buttons', () => {
       expect(isRefetchCalled).toBeTruthy();
     });
   });
-  describe('When user click on validate button', () => {
-    it('change status to validate', async () => {
-      let isRefetchCalled = false;
-      const mockChangeIncidentStatusByTicketId: MockedResponse<ChangeTicketStatusMutation> =
+  describe('When user click on Error button', () => {
+    const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
+      request: {
+        query: GET_TICKETS_BY_FLOW_ID,
+        variables: {
+          flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+        },
+      },
+      result: {
+        data: {
+          getTicketsByFlowId: {
+            flowName: 'Le camion vert',
+            id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+            tickets: [
+              {
+                date: '2023-03-29T14:06:21.209Z',
+                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                isTrash: false,
+                status: 'Ticket non scanné',
+              },
+            ],
+          },
+        },
+      },
+    };
+    it('change status to Error', async () => {
+      const mockChangeIncidentStatusByTicketId: MockedResponse<ChangeTicketsStatusMutation> =
         {
           request: {
             query: CHANGE_TICKETS_STATUS_BY_IDS,
@@ -266,27 +368,30 @@ describe('When user click on tickets buttons', () => {
           },
           result: {
             data: {
-              changeTicketStatus: {
-                date: '2023-03-29T14:06:21.209Z',
-                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-                status: 'Incident',
-              },
+              changeTicketsStatus: [
+                {
+                  id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                  status: 'Incident',
+                  date: '2023-03-29T14:06:21.209Z',
+                },
+              ],
             },
           },
           newData: () => {
             isRefetchCalled = true;
             return {
               data: {
+                changeTicketsStatus: [
+                  {
+                    id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                    status: 'Incident',
+                    date: '2023-03-29T14:06:21.209Z',
+                  },
+                ],
                 getTicketsByFlowId: {
                   flowName: 'Le camion vert',
                   id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
                   tickets: [
-                    {
-                      date: '2023-03-29T13:00:36.184Z',
-                      id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                      isTrash: false,
-                      status: 'Ticket non scanné',
-                    },
                     {
                       date: '2023-03-29T14:06:21.209Z',
                       id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
@@ -312,10 +417,33 @@ describe('When user click on tickets buttons', () => {
       expect(isRefetchCalled).toBeTruthy();
     });
   });
-  describe('When user click on error button', () => {
-    it('change ticket status to error', async () => {
-      let isRefetchCalled = false;
-      const mockChangeValidateStatusByTicketId: MockedResponse<ChangeTicketStatusMutation> =
+  describe('When user click on validate button', () => {
+    const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
+      request: {
+        query: GET_TICKETS_BY_FLOW_ID,
+        variables: {
+          flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+        },
+      },
+      result: {
+        data: {
+          getTicketsByFlowId: {
+            flowName: 'Le camion vert',
+            id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+            tickets: [
+              {
+                date: '2023-03-29T14:06:21.209Z',
+                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                isTrash: false,
+                status: 'Ticket non scanné',
+              },
+            ],
+          },
+        },
+      },
+    };
+    it('change ticket status to validate', async () => {
+      const mockChangeValidateStatusByTicketId: MockedResponse<ChangeTicketsStatusMutation> =
         {
           request: {
             query: CHANGE_TICKETS_STATUS_BY_IDS,
@@ -326,11 +454,13 @@ describe('When user click on tickets buttons', () => {
           },
           result: {
             data: {
-              changeTicketStatus: {
-                date: '2023-03-29T14:06:21.209Z',
-                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-                status: 'Ticket validé',
-              },
+              changeTicketsStatus: [
+                {
+                  id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                  status: 'Ticket validé',
+                  date: '2023-03-29T14:06:21.209Z',
+                },
+              ],
             },
           },
           newData: () => {
@@ -341,12 +471,6 @@ describe('When user click on tickets buttons', () => {
                   flowName: 'Le camion vert',
                   id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
                   tickets: [
-                    {
-                      date: '2023-03-29T13:00:36.184Z',
-                      id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                      isTrash: false,
-                      status: 'Ticket non scanné',
-                    },
                     {
                       date: '2023-03-29T14:06:21.209Z',
                       id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
