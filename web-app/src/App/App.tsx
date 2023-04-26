@@ -9,7 +9,7 @@ import QRCode from '../pages/QRCode/QRCode';
 import QRCodeClient from '../pages/QRCodeClient/QRCodeClient';
 import SignIn from '../pages/SignIn/SignIn';
 import SignUp from '../pages/SignUp/SignUp';
-import TicketClient from '../pages/TicketClient/TicketClient';
+import TicketClient from '../pages/PagesClient/PagesClient';
 import Tickets from '../pages/Tickets/Tickets';
 import Corbeille from '../pages/Corbeille/Corbeille';
 import MesFlux from '../pages/MesFlux/MesFlux';
@@ -29,6 +29,7 @@ import ProtectedRoutes from 'components/layout/ProtectedRoutes';
 import DashboardLayout from 'components/layout/DashboardLayout';
 import { AppContext } from 'context/AppContext';
 import Logo from 'components/Logo/Logo';
+import PagesClient from '../pages/PagesClient/PagesClient';
 
 function App() {
   const [isNavbarDisplayed, setIsNavbarDisplayed] = useState(true);
@@ -84,11 +85,12 @@ function App() {
             </Route>
             <Route
               path={`${TICKET_CLIENT_PATH}/:id`}
-              element={<TicketClient />}
+              element={<PagesClient displayNavbar={displayNavbar} />}
             />
           </Routes>
         </AnimatePresence>
       </AppContainer>
+
       <ToastContainer />
     </>
   );

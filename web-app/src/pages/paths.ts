@@ -5,4 +5,4 @@ export const TICKETS_PATH = '/tickets';
 export const QR_CODE_PATH = '/qr-code';
 export const CORBEILLE_PATH = '/corbeille';
 export const QR_CODE_CLIENT_PATH = '/qr-code-client';
-export const TICKET_CLIENT_PATH = '/ticket-client';
+export const TICKET_CLIENT_PATH = '/pages-client';
