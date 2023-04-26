@@ -211,7 +211,7 @@ const Tickets = () => {
   };
 
   return (
-    <MainContainer data-testid="ticket-container">
+    <MainContainer>
       <ContainerButton>
         <ContainerButtonAction>
           <ButtonDelete
