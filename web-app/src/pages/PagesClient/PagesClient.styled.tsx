@@ -29,6 +29,12 @@ export const TextMobile = styled.h2`
   font-weight: normal;
 `;
 
+export const TextLightMobile = styled.h2`
+  font-family: ${FONT_FAMILY};
+  font-size: 2.5vh;
+  font-weight: normal;
+`;
+
 export const ContainerCard = styled.div`
   height: 80%;
   display: flex;

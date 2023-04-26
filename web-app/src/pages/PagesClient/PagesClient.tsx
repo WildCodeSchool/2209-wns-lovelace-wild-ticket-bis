@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useParams } from 'react-router-dom';
 import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
 import {
@@ -17,6 +16,7 @@ import {
   ContainerTextMobile,
   LogoMobile,
   TextCardMobile,
+  TextLightMobile,
   TextMobile,
 } from './PagesClient.styled';
 import logoMobile from '../../assets/logo_mobile.png';
@@ -82,7 +82,6 @@ const PagesClient = ({ displayNavbar }: any) => {
   const {
     data: dataSub,
     loading,
-    error,
   } = useSubscription<Subscription, SubscriptionSubscriptionWithIdArgs>(
     SUBSCRIPTION_WITH_ID,
     {
@@ -116,7 +115,7 @@ const PagesClient = ({ displayNavbar }: any) => {
     }
   }, [dataQuery, dataSub, loading]);
 
-  const carddisplay = () => {
+  const cardDisplay = () => {
     switch (status) {
       case 'En attente':
         return (
@@ -151,7 +150,7 @@ const PagesClient = ({ displayNavbar }: any) => {
             </ContainerIconStatus>
             <TextCardMobile>Votre commande est prête ! </TextCardMobile>
             <TextCardMobile>
-              Vous pouvez recuperer à votre vendeur !
+              Vous pouvez la récupérer auprès de votre vendeur !
             </TextCardMobile>
           </Card>
         );
@@ -185,12 +184,12 @@ const PagesClient = ({ displayNavbar }: any) => {
         <LogoMobile src={logoMobile}></LogoMobile>
       </ContainerLogoMobile>
       <ContainerTextMobile>
-        <TextMobile>
-          Bienvenue sur <br></br> Flu ! 👋
-        </TextMobile>
-        <TextMobile>Merci de ne pas quittez cette page. </TextMobile>
+        <TextMobile>Bienvenue sur Flux ! 👋</TextMobile>
+        <TextLightMobile>
+          Ici, vous êtes informé(e) en direct de l'avancement de votre commande.
+        </TextLightMobile>
       </ContainerTextMobile>
-      <ContainerCard>{carddisplay()}</ContainerCard>
+      <ContainerCard>{cardDisplay()}</ContainerCard>
     </ContainerPages>
   );
 };
