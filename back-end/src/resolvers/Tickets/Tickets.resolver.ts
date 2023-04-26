@@ -18,10 +18,16 @@ import {
   Notification,
   NotificationPayload,
   SubscriptionFilter,
+  TicketId,
 } from './Tickets.input';
 import { pubSub } from '../..';
 
 export default class TicketResolver {
+  @Query(() => Ticket)
+  getTicketById(@Args() { id }: TicketId): Promise<Ticket | null> {
+    return TicketRepository.getTicketById(id);
+  }
+
   @Mutation(() => Ticket)
   addTicketByFlowId(
     @Args() { flowId }: getTicketsByFlowIdArgs

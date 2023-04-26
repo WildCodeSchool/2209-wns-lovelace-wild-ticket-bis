@@ -50,3 +50,9 @@ export class SubscriptionFilter {
   @Field({ nullable: true })
   id?: string;
 }
+
+@ArgsType()
+export class TicketId {
+  @Field()
+  id: string;
+}
