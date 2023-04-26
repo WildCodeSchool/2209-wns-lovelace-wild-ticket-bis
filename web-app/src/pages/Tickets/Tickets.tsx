@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from 'react';
 import {
   MainContainer,
   ButtonAdd,
-  ButtonDelete,
+  SecondaryButton,
 } from 'pages/MesFlux/MesFlux.styled';
 import {
   ButtonAction,
@@ -214,12 +214,12 @@ const Tickets = () => {
     <MainContainer>
       <ContainerButton>
         <ContainerButtonAction>
-          <ButtonDelete
+          <SecondaryButton
             disabled={isButtonDisabled}
             onClick={deleteTicketsInTicketList}
           >
-            <GoTrashcan size={25} /> &ensp;Supprimer
-          </ButtonDelete>
+            <GoTrashcan size={25} opacity={0.7} /> &ensp;Supprimer
+          </SecondaryButton>
           <ButtonAction
             disabled={isButtonDisabled}
             onClick={() => changeTicketsStatus('En attente')}
@@ -249,6 +249,7 @@ const Tickets = () => {
         allTicketsSelected={allTicketsSelected}
         updateListOfTickets={updateListOfTickets}
         quicklyChangeStatus={quicklyChangeStatus}
+        isTicketFromTrash={false}
       />
     </MainContainer>
   );

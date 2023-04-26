@@ -6,7 +6,7 @@ import {
   ButtonAdd,
   ButtonCancelDelete,
   ButtonClose,
-  ButtonDelete,
+  SecondaryButton,
   ButtonValidate,
   ButtonValidateDelete,
   ContainerAskDelete,
@@ -163,13 +163,13 @@ const MesFlux = () => {
   return (
     <MainContainer>
       <ContainerButton>
-        <ButtonDelete
+        <SecondaryButton
           onClick={toggleModalDelete}
           disabled={allFlowSelected.length > 0 ? false : true}
         >
           <GoTrashcan size={25} />
           &ensp;Supprimer
-        </ButtonDelete>
+        </SecondaryButton>
         <ButtonAdd onClick={toggleModal}>Ajouter un flu</ButtonAdd>
       </ContainerButton>
       <ArrayContainer>

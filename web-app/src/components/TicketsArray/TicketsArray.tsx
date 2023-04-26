@@ -35,6 +35,7 @@ type TicketsArrayProps = {
     ticketId: string,
     ticketStatus: string
   ) => Promise<void>;
+  isTicketFromTrash: boolean;
 };
 
 const TicketsArray = ({
@@ -42,6 +43,7 @@ const TicketsArray = ({
   allTicketsSelected,
   updateListOfTickets,
   quicklyChangeStatus,
+  isTicketFromTrash,
 }: TicketsArrayProps) => {
   const convertIdFormat = (id: string) => {
     const shortId = id.toUpperCase().split('');
@@ -62,7 +64,7 @@ const TicketsArray = ({
       <ListContainer>
         {flowTickets
           ? flowTickets.tickets
-              .filter((ticket) => ticket.isTrash === false)
+              .filter((ticket) => ticket.isTrash === isTicketFromTrash)
               .reverse()
               .map((ticket) => {
                 return (

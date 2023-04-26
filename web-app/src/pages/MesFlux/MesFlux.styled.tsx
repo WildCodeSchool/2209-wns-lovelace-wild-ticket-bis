@@ -34,7 +34,7 @@ export const ContainerButton = styled.div`
   margin-bottom: 20px;
 `;
 
-export const ButtonDelete = styled.button`
+export const SecondaryButton = styled.button`
   padding: 5px 25px;
   border: 0;
   border-radius: 50px;
