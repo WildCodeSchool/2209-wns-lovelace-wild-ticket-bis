@@ -24,6 +24,7 @@ import { toast } from 'react-toastify';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { BsClockHistory } from 'react-icons/bs';
 import { HiOutlineCheck } from 'react-icons/hi';
+import { log } from 'console';
 
 enum ColorStatus {
   'En attente' = '#61A7CE',
@@ -79,15 +80,12 @@ const PagesClient = ({ displayNavbar }: any) => {
     CHANGE_TICKET_STATUS_BY_ID
   );
 
-  const {
-    data: dataSub,
-    loading,
-  } = useSubscription<Subscription, SubscriptionSubscriptionWithIdArgs>(
-    SUBSCRIPTION_WITH_ID,
-    {
-      variables: { id },
-    }
-  );
+  const { data: dataSub, loading } = useSubscription<
+    Subscription,
+    SubscriptionSubscriptionWithIdArgs
+  >(SUBSCRIPTION_WITH_ID, {
+    variables: { id },
+  });
 
   const quicklyChangeStatus = async () => {
     try {
