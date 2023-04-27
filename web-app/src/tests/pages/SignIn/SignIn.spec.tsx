@@ -37,71 +37,75 @@ const fillFormAndSubmit = () => {
   fireEvent.submit(screen.getByRole('form'));
 };
 
-describe('When the app mount SignIn component', () => {
-  it('renders correctly', () => {
-    const onSuccess = jest.fn();
-    renderSignIn([], onSuccess);
-
-    expect(screen.getByTestId('wrapper')).toMatchInlineSnapshot(signInSnapshot);
-  });
-});
-
-describe('When SignIn form is submited with fields filled-in', () => {
-  describe('when server respond with success', () => {
-    const mockSignInSuccess: MockedResponse<SignInMutation> = {
-      request: {
-        query: SIGN_IN,
-        variables: {
-          emailAddress: 'jeanjean@email.com',
-          password: 'Jeanjeanbon1!',
-        },
-      },
-      result: {
-        data: {
-          signIn: {
-            emailAddress: 'jeanjean@email.com',
-            id: '1234',
-            firstName: 'Jeanjean',
-            lastName: 'Bon',
-          },
-        },
-      },
-    };
-    it('shows toast with success message', async () => {
+describe('SignIn :', () => {
+  describe('When the app mount SignIn component', () => {
+    it('renders correctly', () => {
       const onSuccess = jest.fn();
-      renderSignIn([mockSignInSuccess], onSuccess);
-      fillFormAndSubmit();
+      renderSignIn([], onSuccess);
 
-      await waitFor(() => {
-        expect(toastify.toast.success).toHaveBeenCalledTimes(1);
-        expect(toastify.toast.success).toHaveBeenCalledWith(
-          'Vous vous êtes connecté avec succès.'
-        );
-      });
+      expect(screen.getByTestId('wrapper')).toMatchInlineSnapshot(
+        signInSnapshot
+      );
     });
   });
 
-  describe('When server respond with error', () => {
-    const ERROR_MESSAGE = 'ERROR_MESSAGE';
-    const mockSignInError: MockedResponse<SignInMutation> = {
-      request: {
-        query: SIGN_IN,
-        variables: {
-          emailAddress: 'jeanjean@email.com',
-          password: 'Jeanjeanbon1!',
+  describe('When SignIn form is submited with fields filled-in', () => {
+    describe('when server respond with success', () => {
+      const mockSignInSuccess: MockedResponse<SignInMutation> = {
+        request: {
+          query: SIGN_IN,
+          variables: {
+            emailAddress: 'jeanjean@email.com',
+            password: 'Jeanjeanbon1!',
+          },
         },
-      },
-      error: new Error(ERROR_MESSAGE),
-    };
+        result: {
+          data: {
+            signIn: {
+              emailAddress: 'jeanjean@email.com',
+              id: '1234',
+              firstName: 'Jeanjean',
+              lastName: 'Bon',
+            },
+          },
+        },
+      };
+      it('shows toast with success message', async () => {
+        const onSuccess = jest.fn();
+        renderSignIn([mockSignInSuccess], onSuccess);
+        fillFormAndSubmit();
 
-    it('shows toast with error message', async () => {
-      const onSuccess = jest.fn();
-      renderSignIn([mockSignInError], onSuccess);
-      fillFormAndSubmit();
+        await waitFor(() => {
+          expect(toastify.toast.success).toHaveBeenCalledTimes(1);
+          expect(toastify.toast.success).toHaveBeenCalledWith(
+            'Vous vous êtes connecté avec succès.'
+          );
+        });
+      });
+    });
 
-      await waitFor(() => {
-        expect(toastify.toast.error).toHaveBeenCalledTimes(1);
-        expect(toastify.toast.error).toHaveBeenCalledWith(ERROR_MESSAGE);
+    describe('When server respond with error', () => {
+      const ERROR_MESSAGE = 'ERROR_MESSAGE';
+      const mockSignInError: MockedResponse<SignInMutation> = {
+        request: {
+          query: SIGN_IN,
+          variables: {
+            emailAddress: 'jeanjean@email.com',
+            password: 'Jeanjeanbon1!',
+          },
+        },
+        error: new Error(ERROR_MESSAGE),
+      };
+
+      it('shows toast with error message', async () => {
+        const onSuccess = jest.fn();
+        renderSignIn([mockSignInError], onSuccess);
+        fillFormAndSubmit();
+
+        await waitFor(() => {
+          expect(toastify.toast.error).toHaveBeenCalledTimes(1);
+          expect(toastify.toast.error).toHaveBeenCalledWith(ERROR_MESSAGE);
+        });
       });
     });
   });
