@@ -46,7 +46,7 @@ import {
   DeleteFlowMutationVariables,
 } from 'gql/graphql';
 import { toast } from 'react-toastify';
-import { getErrorMessage } from 'utils';
+import { convertDateFormat, getErrorMessage } from 'utils';
 import { AppContext } from 'context/AppContext';
 import { GoTrashcan } from 'react-icons/go';
 
@@ -193,7 +193,7 @@ const MesFlux = () => {
                         onChange={(e) => flowSelected(flow.id, e)}
                       ></InputItem>
                     </ContainerInputItem>
-                    <TextElement>15/10/22 11:35:56</TextElement>
+                    <TextElement>{convertDateFormat(flow.date)}</TextElement>
                     <TextElement>{flow.flowName}</TextElement>
                     <AllStatusContainer>
                       <StatusContainer>

@@ -15,6 +15,7 @@ export const MY_PROFILE = gql`
       flows {
         flowName
         id
+        date
       }
     }
   }
