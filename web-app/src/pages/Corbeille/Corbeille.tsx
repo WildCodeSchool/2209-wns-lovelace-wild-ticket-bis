@@ -19,7 +19,7 @@ import { GoTrashcan } from 'react-icons/go';
 import { GrTransaction } from 'react-icons/gr';
 import { toast } from 'react-toastify';
 
-const GET_TICKETS_BY_FLOW_ID = gql`
+export const GET_TICKETS_BY_FLOW_ID = gql`
   query GetTicketsByFlowId($flowId: String!) {
     getTicketsByFlowId(flowId: $flowId) {
       flowName
@@ -34,13 +34,13 @@ const GET_TICKETS_BY_FLOW_ID = gql`
   }
 `;
 
-const DELETE_TICKETS_BY_ID = gql`
+export const DELETE_TICKETS_BY_ID = gql`
   mutation DeleteTickets($arrayId: [String!]!) {
     deleteTickets(arrayId: $arrayId)
   }
 `;
 
-const IS_TRASH_TICKETS_BY_IDS = gql`
+export const IS_TRASH_TICKETS_BY_IDS = gql`
   mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {
     changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {
       date

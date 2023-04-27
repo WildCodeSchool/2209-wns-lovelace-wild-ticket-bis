@@ -98,7 +98,12 @@ const TicketsArray = ({
                     {(ticket.status === 'Ticket non scanné' ||
                       ticket.status === 'En attente') &&
                     !isTicketFromTrash ? (
-                      <ButtonQuickChange whileTap={{ scale: 0.9 }}>
+                      <ButtonQuickChange
+                        whileTap={{ scale: 0.9 }}
+                        onClick={() =>
+                          quicklyChangeStatus(ticket.id, ticket.status)
+                        }
+                      >
                         <CiPlay1
                           size={25}
                           style={{ color: TEXT_FONT_COLOR, opacity: 0.7 }}

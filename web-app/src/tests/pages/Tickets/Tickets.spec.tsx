@@ -3,14 +3,14 @@ import { fireEvent, render, waitFor, screen } from '@testing-library/react';
 import { AppContext } from 'context/AppContext';
 import {
   AddTicketByFlowIdMutation,
+  ChangeTicketIsTrashMutation,
   ChangeTicketsStatusMutation,
-  DeleteTicketsMutation,
   GetTicketsByFlowIdQuery,
 } from 'gql/graphql';
+import { IS_TRASH_TICKETS_BY_IDS } from 'pages/Corbeille/Corbeille';
 import Tickets, {
   ADD_TICKET_BY_FLOW_ID,
   CHANGE_TICKETS_STATUS_BY_IDS,
-  DELETE_TICKETS_BY_ID,
   GET_TICKETS_BY_FLOW_ID,
 } from 'pages/Tickets/Tickets';
 
@@ -30,8 +30,8 @@ const renderTickets = async (
   mocks: MockedResponse<
     | AddTicketByFlowIdMutation
     | GetTicketsByFlowIdQuery
-    | DeleteTicketsMutation
     | ChangeTicketsStatusMutation
+    | ChangeTicketIsTrashMutation
   >[] = [],
   providerProps: any
 ) => {
@@ -200,44 +200,63 @@ describe('When user click on tickets buttons', () => {
         },
       },
     };
-    it(`delete ticket`, async () => {
-      const mockDeleteTicketByFlowId: MockedResponse<DeleteTicketsMutation> = {
-        request: {
-          query: DELETE_TICKETS_BY_ID,
-          variables: {
-            arrayId: ['992146a1-7138-4782-9e53-555c6c8f6e7f'],
+    it('put ticket in trash', async () => {
+      const mockPutTicketInTrashTicketByFlowId: MockedResponse<ChangeTicketIsTrashMutation> =
+        {
+          request: {
+            query: IS_TRASH_TICKETS_BY_IDS,
+            variables: {
+              arrayId: ['992146a1-7138-4782-9e53-555c6c8f6e7f'],
+              isTrash: true,
+            },
           },
-        },
-        result: {
-          data: {
-            deleteTickets: 1,
-          },
-        },
-        newData: () => {
-          isRefetchCalled = true;
-          return {
+          result: {
             data: {
-              deleteTickets: 1,
-              getTicketsByFlowId: {
-                flowName: 'Le camion vert',
-                id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-                tickets: [
+              changeTicketIsTrash: [
+                {
+                  date: '2023-04-27T07:14:08.209Z',
+                  id: '4e57ed5d-98ef-4dd5-a392-4473a2464159',
+                  isTrash: true,
+                  status: 'Ticket non scanné',
+                },
+              ],
+            },
+          },
+          newData: () => {
+            isRefetchCalled = true;
+            return {
+              data: {
+                changeTicketIsTrash: [
                   {
-                    date: '2023-03-29T13:00:36.184Z',
-                    id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                    isTrash: false,
+                    date: '2023-04-27T07:14:08.209Z',
+                    id: '4e57ed5d-98ef-4dd5-a392-4473a2464159',
+                    isTrash: true,
                     status: 'Ticket non scanné',
                   },
                 ],
+                getTicketsByFlowId: {
+                  flowName: 'Le camion vert',
+                  id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+                  tickets: [
+                    {
+                      date: '2023-03-29T13:00:36.184Z',
+                      id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
+                      isTrash: true,
+                      status: 'Ticket non scanné',
+                    },
+                  ],
+                },
               },
-            },
-          };
-        },
-      };
+            };
+          },
+        };
 
-      renderTickets([mockGetTicketByFlowId, mockDeleteTicketByFlowId], {
-        selectedFlow,
-      });
+      renderTickets(
+        [mockGetTicketByFlowId, mockPutTicketInTrashTicketByFlowId],
+        {
+          selectedFlow,
+        }
+      );
       await waitFor(async () => {
         expect(screen.getByText('99214')).toBeInTheDocument();
       });
