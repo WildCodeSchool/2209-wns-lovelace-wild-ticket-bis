@@ -99,6 +99,7 @@ const TicketsArray = ({
                       ticket.status === 'En attente') &&
                     !isTicketFromTrash ? (
                       <ButtonQuickChange
+                        data-testid={`button-${ticket.id}`}
                         whileTap={{ scale: 0.9 }}
                         onClick={() =>
                           quicklyChangeStatus(ticket.id, ticket.status)
