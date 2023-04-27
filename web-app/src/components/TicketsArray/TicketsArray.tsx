@@ -20,7 +20,7 @@ import {
   StatusContainer,
   AllStatusContainer,
 } from 'pages/Tickets/Tickets.styled';
-import { CiPlay1 } from 'react-icons/ci';
+import { IoPlayOutline } from 'react-icons/io5';
 import { TEXT_FONT_COLOR } from 'styles/style-constants';
 import { convertDateFormat } from 'utils';
 
@@ -104,7 +104,7 @@ const TicketsArray = ({
                           quicklyChangeStatus(ticket.id, ticket.status)
                         }
                       >
-                        <CiPlay1
+                        <IoPlayOutline
                           size={25}
                           style={{ color: TEXT_FONT_COLOR, opacity: 0.7 }}
                         />
