@@ -40,6 +40,15 @@ export class Notification {
   message: string;
 }
 
+@ArgsType()
+export class ChangeTicketsIsTrash {
+  @Field(() => [ID])
+  arrayId: string[];
+
+  @Field()
+  isTrash: boolean;
+}
+
 export interface NotificationPayload {
   id: string;
   message: string;

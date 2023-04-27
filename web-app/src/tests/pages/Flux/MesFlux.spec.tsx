@@ -41,183 +41,187 @@ const renderMesFlux = (
   );
 };
 
-describe('When MesFlux form for add a new flux is submited', () => {
-  describe('When server respond with success', () => {
-    const mockAddFlowSuccess: MockedResponse<AddFlowMutation> = {
-      request: {
-        query: ADD_FLOW,
-        variables: {
-          id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
-          flowName: 'Taverne de Hagrid',
-        },
-      },
-      result: {
-        data: {
-          addFlow: {
+describe('Mes FLux :', () => {
+  describe('When MesFlux form for add a new flux is submited', () => {
+    describe('When server respond with success', () => {
+      const mockAddFlowSuccess: MockedResponse<AddFlowMutation> = {
+        request: {
+          query: ADD_FLOW,
+          variables: {
+            id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
             flowName: 'Taverne de Hagrid',
-            id: '9999',
           },
         },
-      },
-    };
-    const userProfile = {
-      myProfile: {
-        id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
-        firstName: 'Harry',
-        flows: [
-          {
-            flowName: 'Le camion vert',
-            id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+        result: {
+          data: {
+            addFlow: {
+              flowName: 'Taverne de Hagrid',
+              id: '9999',
+            },
           },
-          {
-            flowName: "Pas d'idée de nom",
-            id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
-          },
-        ],
-      },
-    };
-    it('shows toast with success message', async () => {
-      const refetch = jest.fn();
-      const providerProps = { userProfile, refetch };
-      renderMesFlux([mockAddFlowSuccess], providerProps);
-      fillFormForAddFluAndSubmit();
-
-      await waitFor(() => {
-        expect(toastify.toast.success).toHaveBeenCalledTimes(1);
-        expect(toastify.toast.success).toHaveBeenCalledWith('Creation reussi.');
-        expect(refetch).toHaveBeenCalledTimes(1);
-      });
-    });
-  });
-  describe('When server respond with error', () => {
-    const ERROR_MESSAGE = 'ERROR_MESSAGE';
-    const mockAddFlowError: MockedResponse<AddFlowMutation> = {
-      request: {
-        query: ADD_FLOW,
-        variables: {
+        },
+      };
+      const userProfile = {
+        myProfile: {
           id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
-          flowName: 'Taverne de Hagrid',
+          firstName: 'Harry',
+          flows: [
+            {
+              flowName: 'Le camion vert',
+              id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+            },
+            {
+              flowName: "Pas d'idée de nom",
+              id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+            },
+          ],
         },
-      },
-      error: new Error(ERROR_MESSAGE),
-    };
-    const userProfile = {
-      myProfile: {
-        id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
-        firstName: 'Harry',
-        flows: [
-          {
-            flowName: 'Le camion vert',
-            id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
-          },
-          {
-            flowName: "Pas d'idée de nom",
-            id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
-          },
-        ],
-      },
-    };
+      };
+      it('shows toast with success message', async () => {
+        const refetch = jest.fn();
+        const providerProps = { userProfile, refetch };
+        renderMesFlux([mockAddFlowSuccess], providerProps);
+        fillFormForAddFluAndSubmit();
 
-    it('shows toast with error message', async () => {
-      const refetch = jest.fn();
-      const providerProps = { userProfile, refetch };
-      renderMesFlux([mockAddFlowError], providerProps);
-      fillFormForAddFluAndSubmit();
+        await waitFor(() => {
+          expect(toastify.toast.success).toHaveBeenCalledTimes(1);
+          expect(toastify.toast.success).toHaveBeenCalledWith(
+            'Creation reussi.'
+          );
+          expect(refetch).toHaveBeenCalledTimes(1);
+        });
+      });
+    });
+    describe('When server respond with error', () => {
+      const ERROR_MESSAGE = 'ERROR_MESSAGE';
+      const mockAddFlowError: MockedResponse<AddFlowMutation> = {
+        request: {
+          query: ADD_FLOW,
+          variables: {
+            id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
+            flowName: 'Taverne de Hagrid',
+          },
+        },
+        error: new Error(ERROR_MESSAGE),
+      };
+      const userProfile = {
+        myProfile: {
+          id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
+          firstName: 'Harry',
+          flows: [
+            {
+              flowName: 'Le camion vert',
+              id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+            },
+            {
+              flowName: "Pas d'idée de nom",
+              id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+            },
+          ],
+        },
+      };
 
-      await waitFor(() => {
-        expect(toastify.toast.error).toHaveBeenCalledTimes(1);
-        expect(toastify.toast.error).toHaveBeenCalledWith(ERROR_MESSAGE);
+      it('shows toast with error message', async () => {
+        const refetch = jest.fn();
+        const providerProps = { userProfile, refetch };
+        renderMesFlux([mockAddFlowError], providerProps);
+        fillFormForAddFluAndSubmit();
+
+        await waitFor(() => {
+          expect(toastify.toast.error).toHaveBeenCalledTimes(1);
+          expect(toastify.toast.error).toHaveBeenCalledWith(ERROR_MESSAGE);
+        });
       });
     });
   });
-});
 
-describe('When trying to delete a flu', () => {
-  describe('Flu is deleted with success', () => {
-    const mockDeleteSuccess: MockedResponse<DeleteFlowMutation> = {
-      request: {
-        query: DELETE_FLOW,
-        variables: {
-          arrayId: ['86b13f3f-389d-4c4b-b50a-fd00a484673c'],
-        },
-      },
-      result: {
-        data: {
-          deleteFlow: 1,
-        },
-      },
-    };
-
-    const userProfile = {
-      myProfile: {
-        id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
-        firstName: 'Harry',
-        flows: [
-          {
-            flowName: 'Le camion vert',
-            id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+  describe('When trying to delete a flu', () => {
+    describe('Flu is deleted with success', () => {
+      const mockDeleteSuccess: MockedResponse<DeleteFlowMutation> = {
+        request: {
+          query: DELETE_FLOW,
+          variables: {
+            arrayId: ['86b13f3f-389d-4c4b-b50a-fd00a484673c'],
           },
-          {
-            flowName: "Pas d'idée de nom",
-            id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+        },
+        result: {
+          data: {
+            deleteFlow: 1,
           },
-        ],
-      },
-    };
+        },
+      };
 
-    it('show toast with success message', async () => {
-      const refetch = jest.fn();
-      const providerProps = { userProfile, refetch };
-      renderMesFlux([mockDeleteSuccess], providerProps);
-      ActionForDeleteAndSubmit();
+      const userProfile = {
+        myProfile: {
+          id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
+          firstName: 'Harry',
+          flows: [
+            {
+              flowName: 'Le camion vert',
+              id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+            },
+            {
+              flowName: "Pas d'idée de nom",
+              id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+            },
+          ],
+        },
+      };
 
-      await waitFor(() => {
-        expect(toastify.toast.success).toHaveBeenCalledTimes(1);
-        expect(toastify.toast.success).toHaveBeenCalledWith(
-          'Suppresion reussi.'
-        );
-        expect(refetch).toHaveBeenCalledTimes(1);
+      it('show toast with success message', async () => {
+        const refetch = jest.fn();
+        const providerProps = { userProfile, refetch };
+        renderMesFlux([mockDeleteSuccess], providerProps);
+        ActionForDeleteAndSubmit();
+
+        await waitFor(() => {
+          expect(toastify.toast.success).toHaveBeenCalledTimes(1);
+          expect(toastify.toast.success).toHaveBeenCalledWith(
+            'Suppresion reussi.'
+          );
+          expect(refetch).toHaveBeenCalledTimes(1);
+        });
       });
     });
-  });
-  describe('When server respond with error', () => {
-    const ERROR_MESSAGE = 'ERROR_MESSAGE';
-    const mockDeletedError: MockedResponse<DeleteFlowMutation> = {
-      request: {
-        query: DELETE_FLOW,
-        variables: {
-          arrayId: ['86b13f3f-389d-4c4b-b50a-fd00a484673c'],
+    describe('When server respond with error', () => {
+      const ERROR_MESSAGE = 'ERROR_MESSAGE';
+      const mockDeletedError: MockedResponse<DeleteFlowMutation> = {
+        request: {
+          query: DELETE_FLOW,
+          variables: {
+            arrayId: ['86b13f3f-389d-4c4b-b50a-fd00a484673c'],
+          },
         },
-      },
-      error: new Error(ERROR_MESSAGE),
-    };
+        error: new Error(ERROR_MESSAGE),
+      };
 
-    const userProfile = {
-      myProfile: {
-        id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
-        firstName: 'Harry',
-        flows: [
-          {
-            flowName: 'Le camion vert',
-            id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
-          },
-          {
-            flowName: "Pas d'idée de nom",
-            id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
-          },
-        ],
-      },
-    };
+      const userProfile = {
+        myProfile: {
+          id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
+          firstName: 'Harry',
+          flows: [
+            {
+              flowName: 'Le camion vert',
+              id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+            },
+            {
+              flowName: "Pas d'idée de nom",
+              id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+            },
+          ],
+        },
+      };
 
-    it('shows toast with error message', async () => {
-      const refetch = jest.fn();
-      const providerProps = { userProfile, refetch };
-      renderMesFlux([mockDeletedError], providerProps);
-      ActionForDeleteAndSubmit();
+      it('shows toast with error message', async () => {
+        const refetch = jest.fn();
+        const providerProps = { userProfile, refetch };
+        renderMesFlux([mockDeletedError], providerProps);
+        ActionForDeleteAndSubmit();
 
-      await waitFor(() => {
-        expect(toastify.toast.error).toHaveBeenCalledTimes(1);
-        expect(toastify.toast.error).toHaveBeenCalledWith(ERROR_MESSAGE);
+        await waitFor(() => {
+          expect(toastify.toast.error).toHaveBeenCalledTimes(1);
+          expect(toastify.toast.error).toHaveBeenCalledWith(ERROR_MESSAGE);
+        });
       });
     });
   });

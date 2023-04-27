@@ -1,6 +1,7 @@
 import {
   Arg,
   Args,
+  Authorized,
   Int,
   Mutation,
   Query,
@@ -13,6 +14,7 @@ import Ticket, { GetTicketsByIdType } from '../../models/Ticket/Ticket.entity';
 import TicketRepository from '../../models/Ticket/Ticket.repository';
 import { getTicketsByFlowIdArgs } from '../Flow/Flow.input';
 import {
+  ChangeTicketsIsTrash,
   changeTicketsStatusArgs,
   changeTicketStatusArgs,
   Notification,
@@ -28,6 +30,7 @@ export default class TicketResolver {
     return TicketRepository.getTicketById(id);
   }
 
+  @Authorized()
   @Mutation(() => Ticket)
   addTicketByFlowId(
     @Args() { flowId }: getTicketsByFlowIdArgs
@@ -35,6 +38,7 @@ export default class TicketResolver {
     return TicketRepository.createTicketByFlowId(flowId);
   }
 
+  @Authorized()
   @Mutation(() => Int)
   deleteTickets(
     @Arg('arrayId', () => [String]) arrayId: string[]
@@ -42,6 +46,7 @@ export default class TicketResolver {
     return TicketRepository.deleteTicket(arrayId);
   }
 
+  @Authorized()
   @Mutation(() => Ticket)
   async changeTicketStatus(
     @Args() { id, status }: changeTicketStatusArgs
@@ -55,11 +60,20 @@ export default class TicketResolver {
     return ticket;
   }
 
+  @Authorized()
   @Mutation(() => [Ticket])
   changeTicketsStatus(
     @Args() { arrayId, status }: changeTicketsStatusArgs
   ): Promise<Ticket[] | null> {
     return TicketRepository.updateTicketsStatus(arrayId, status);
+  }
+
+  @Authorized()
+  @Mutation(() => [Ticket])
+  changeTicketIsTrash(
+    @Args() { arrayId, isTrash }: ChangeTicketsIsTrash
+  ): Promise<Ticket[]> {
+    return TicketRepository.updateTicketsIsTrash(arrayId, isTrash);
   }
 
   @Subscription(() => Notification, { topics: 'STATUS_TICKET_CHANGE' })

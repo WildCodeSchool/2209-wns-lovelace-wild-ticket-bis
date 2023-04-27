@@ -74,4 +74,22 @@ export default class TicketRepository extends TicketDb {
 
     return this.repository.save(tickets);
   }
+
+  static async updateTicketsIsTrash(
+    arrayId: string[],
+    isTrash: boolean
+  ): Promise<Ticket[]> {
+    const tickets = await this.repository
+      .createQueryBuilder('ticket')
+      .whereInIds(arrayId)
+      .getMany();
+    if (!tickets) {
+      throw Error('No existing Tickets matching IDs.');
+    }
+    tickets.forEach((ticket) => {
+      ticket.isTrash = isTrash;
+    });
+
+    return this.repository.save(tickets);
+  }
 }
