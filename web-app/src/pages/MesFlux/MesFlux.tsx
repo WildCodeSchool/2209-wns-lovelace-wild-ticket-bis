@@ -290,7 +290,9 @@ const MesFlux = () => {
               <ButtonValidateDelete onClick={() => submitDelete()}>
                 Confirmer
               </ButtonValidateDelete>
-              <ButtonCancelDelete>Annuler</ButtonCancelDelete>
+              <ButtonCancelDelete onClick={() => setModalDeleteIsOpen(false)}>
+                Annuler
+              </ButtonCancelDelete>
             </ContainerButtonDeleteFlu>
           </ContainerAskDelete>
         </ModalContainer>
