@@ -93,6 +93,7 @@ const MesFlux = () => {
     if (appContext?.userProfile) {
       setFlows(appContext.userProfile.myProfile.flows);
       setId(appContext.userProfile.myProfile.id);
+      appContext.refetch();
     }
   }, [appContext?.userProfile]);
 
@@ -137,9 +138,7 @@ const MesFlux = () => {
             return item !== id;
           })
         );
-        if (allFlowSelected.length === 1) {
-          setIsButtonDeleteDisable(true);
-        }
+        setIsButtonDeleteDisable(false);
       }
     }
   };

@@ -102,7 +102,7 @@ describe('Mes FLux :', () => {
           expect(toastify.toast.success).toHaveBeenCalledWith(
             'Creation reussi.'
           );
-          expect(refetch).toHaveBeenCalledTimes(1);
+          expect(refetch).toHaveBeenCalledTimes(2);
         });
       });
     });
@@ -221,7 +221,7 @@ describe('Mes FLux :', () => {
           expect(toastify.toast.success).toHaveBeenCalledWith(
             'Suppresion reussi.'
           );
-          expect(refetch).toHaveBeenCalledTimes(1);
+          expect(refetch).toHaveBeenCalledTimes(2);
         });
       });
     });
