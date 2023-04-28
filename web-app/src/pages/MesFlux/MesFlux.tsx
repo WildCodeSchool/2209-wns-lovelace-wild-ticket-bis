@@ -88,6 +88,7 @@ const MesFlux = () => {
   const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
   const [allFlowSelected, setAllFlowSelected] = useState<Array<string>>([]);
   const [isButtonDeleteDisable, setIsButtonDeleteDisable] = useState(true);
+  const [isChecked, setIsChecked] = useState<boolean[]>([]);
 
   useEffect(() => {
     if (appContext?.userProfile) {
@@ -119,28 +120,26 @@ const MesFlux = () => {
     setFlowName('');
   };
   const afterCloseModalDelete = () => {
-    let allCheckbox = document.getElementsByClassName('checkbox');
-    for (var i = 0; i < allCheckbox.length; i++) {
-      let input = allCheckbox[i] as HTMLInputElement;
-      input.checked = false;
-    }
+    setIsChecked([]);
+    let allCheckbox = document.querySelectorAll('checkbox');
+    allCheckbox.forEach((checkbox) => {
+      (checkbox as HTMLInputElement).checked = false;
+    });
   };
-  const flowSelected = (id: string, e: any) => {
+  const flowSelected = (id: string, e: any, index: number) => {
+    const updatedChecked = { ...isChecked };
+
     if (e.target.checked) {
-      if (!allFlowSelected.includes(id)) {
-        setAllFlowSelected([...allFlowSelected, id]);
-        setIsButtonDeleteDisable(false);
-      }
+      updatedChecked[index] = true;
+      setAllFlowSelected([...allFlowSelected, id]);
+      setIsButtonDeleteDisable(false);
     } else {
-      if (allFlowSelected.includes(id)) {
-        setAllFlowSelected(
-          allFlowSelected.filter((item) => {
-            return item !== id;
-          })
-        );
-        setIsButtonDeleteDisable(false);
-      }
+      delete updatedChecked[index];
+      setAllFlowSelected(allFlowSelected.filter((item) => item !== id));
+      setIsButtonDeleteDisable(Object.keys(updatedChecked).length === 0);
     }
+
+    setIsChecked(updatedChecked);
   };
 
   const [addFlow] = useMutation<AddFlowMutation, AddFlowMutationVariables>(
@@ -209,7 +208,8 @@ const MesFlux = () => {
                       <InputItem
                         type="checkbox"
                         data-testid={flow.flowName}
-                        onChange={(e) => flowSelected(flow.id, e)}
+                        checked={isChecked[index]}
+                        onChange={(e) => flowSelected(flow.id, e, index)}
                       ></InputItem>
                     </ContainerInputItem>
                     <TextElement>{convertDateFormat(flow.date)}</TextElement>
