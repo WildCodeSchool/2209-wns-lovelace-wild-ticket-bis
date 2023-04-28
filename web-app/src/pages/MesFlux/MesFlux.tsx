@@ -87,6 +87,7 @@ const MesFlux = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
   const [allFlowSelected, setAllFlowSelected] = useState<Array<string>>([]);
+  const [isButtonDeleteDisable, setIsButtonDeleteDisable] = useState(true);
 
   useEffect(() => {
     if (appContext?.userProfile) {
@@ -128,6 +129,7 @@ const MesFlux = () => {
     if (e.target.checked) {
       if (!allFlowSelected.includes(id)) {
         setAllFlowSelected([...allFlowSelected, id]);
+        setIsButtonDeleteDisable(false);
       }
     } else {
       if (allFlowSelected.includes(id)) {
@@ -136,6 +138,7 @@ const MesFlux = () => {
             return item !== id;
           })
         );
+        setIsButtonDeleteDisable(true);
       }
     }
   };
@@ -171,6 +174,7 @@ const MesFlux = () => {
       appContext?.refetch();
       toggleModalDelete();
       afterCloseModalDelete();
+      setIsButtonDeleteDisable(true);
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -180,7 +184,7 @@ const MesFlux = () => {
       <ContainerButton>
         <SecondaryButton
           onClick={toggleModalDelete}
-          disabled={allFlowSelected.length > 0 ? false : true}
+          disabled={isButtonDeleteDisable}
         >
           <GoTrashcan size={25} opacity={0.7} />
           &ensp;Supprimer

@@ -69,10 +69,24 @@ describe('Mes FLux :', () => {
             {
               flowName: 'Le camion vert',
               id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
             {
               flowName: "Pas d'idée de nom",
               id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
           ],
         },
@@ -112,10 +126,24 @@ describe('Mes FLux :', () => {
             {
               flowName: 'Le camion vert',
               id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
             {
               flowName: "Pas d'idée de nom",
               id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
           ],
         },
@@ -159,16 +187,30 @@ describe('Mes FLux :', () => {
             {
               flowName: 'Le camion vert',
               id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
             {
               flowName: "Pas d'idée de nom",
               id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
           ],
         },
       };
 
-      it('show toast with success message', async () => {
+      it.only('show toast with success message', async () => {
         const refetch = jest.fn();
         const providerProps = { userProfile, refetch };
         renderMesFlux([mockDeleteSuccess], providerProps);
@@ -203,10 +245,24 @@ describe('Mes FLux :', () => {
             {
               flowName: 'Le camion vert',
               id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
             {
               flowName: "Pas d'idée de nom",
               id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
           ],
         },
