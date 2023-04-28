@@ -210,7 +210,7 @@ describe('Mes FLux :', () => {
         },
       };
 
-      it.only('show toast with success message', async () => {
+      it('show toast with success message', async () => {
         const refetch = jest.fn();
         const providerProps = { userProfile, refetch };
         renderMesFlux([mockDeleteSuccess], providerProps);

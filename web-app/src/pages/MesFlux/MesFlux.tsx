@@ -93,9 +93,8 @@ const MesFlux = () => {
     if (appContext?.userProfile) {
       setFlows(appContext.userProfile.myProfile.flows);
       setId(appContext.userProfile.myProfile.id);
-      appContext.refetch();
     }
-  }, [appContext?.userProfile, appContext?.refetch]);
+  }, [appContext?.userProfile]);
 
   const customStyles = {
     content: {
@@ -157,9 +156,9 @@ const MesFlux = () => {
       await addFlow({
         variables: { id, flowName },
       });
-      toast.success(`Creation reussi.`);
       toggleModal();
       appContext?.refetch();
+      toast.success(`Creation reussi.`);
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
