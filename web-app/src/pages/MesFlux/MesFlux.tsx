@@ -125,6 +125,7 @@ const MesFlux = () => {
     allCheckbox.forEach((checkbox) => {
       (checkbox as HTMLInputElement).checked = false;
     });
+    setIsButtonDeleteDisable(true);
   };
   const flowSelected = (id: string, e: any, index: number) => {
     const updatedChecked = { ...isChecked };
@@ -208,7 +209,7 @@ const MesFlux = () => {
                       <InputItem
                         type="checkbox"
                         data-testid={flow.flowName}
-                        checked={isChecked[index]}
+                        checked={isChecked[index] || false}
                         onChange={(e) => flowSelected(flow.id, e, index)}
                       ></InputItem>
                     </ContainerInputItem>
