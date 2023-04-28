@@ -34,7 +34,7 @@ export const QRCodeElementContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap:10px;
+  gap: 10px;
 `;
 
 export const QRCodeText = styled.h2`
@@ -49,7 +49,7 @@ export const Divider = styled.hr`
   width: 70%;
 `;
 
-export const QRCodeUrl = styled.h3`
+export const QRCodeUrl = styled.h2`
   font-family: ${FONT_FAMILY};
   font-weight: lighter;
   flex-direction: column;

@@ -41,7 +41,7 @@ const startServer = async () => {
     server: httpServer,
     // Pass a different path here if your ApolloServer serves at
     // a different path.
-    path: '/api',
+    path: '/ws',
   });
 
   const schema = await buildSchema({
@@ -92,6 +92,7 @@ const startServer = async () => {
       ApolloServerPluginLandingPageLocalDefault({ embed: true }),
     ],
   });
+
   await serverApollo.start();
   serverApollo.applyMiddleware({ app, path: '/api' });
 
@@ -99,7 +100,7 @@ const startServer = async () => {
 
   httpServer.listen(PORT, () => {
     console.log(
-      `🚀 Server is ready at http://localhost:${PORT}/${serverApollo.graphqlPath}`
+      `🚀 Server is ready at http://localhost:${PORT}${serverApollo.graphqlPath}`
     );
   });
 

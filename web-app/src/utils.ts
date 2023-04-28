@@ -15,3 +15,9 @@ export const convertDateFormat = (isoDate: string) => {
   });
   return dateResult;
 };
+
+export function addDashes(str: string) {
+  const words = str.split(' ');
+  const dashedString = words.join('-');
+  return dashedString;
+}

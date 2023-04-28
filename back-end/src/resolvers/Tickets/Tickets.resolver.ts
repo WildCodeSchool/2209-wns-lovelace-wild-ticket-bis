@@ -62,10 +62,21 @@ export default class TicketResolver {
 
   @Authorized()
   @Mutation(() => [Ticket])
-  changeTicketsStatus(
+  async changeTicketsStatus(
     @Args() { arrayId, status }: changeTicketsStatusArgs
   ): Promise<Ticket[] | null> {
-    return TicketRepository.updateTicketsStatus(arrayId, status);
+    const ticketsArray = await TicketRepository.updateTicketsStatus(
+      arrayId,
+      status
+    );
+    ticketsArray.forEach(async (element) => {
+      let payload: NotificationPayload = {
+        id: element.id,
+        message: element.status,
+      };
+      await pubSub.publish('STATUS_TICKET_CHANGE', payload);
+    });
+    return ticketsArray;
   }
 
   @Authorized()

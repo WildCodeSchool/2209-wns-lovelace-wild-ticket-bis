@@ -12,14 +12,12 @@ import {
 } from './QRCode.styled';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'context/AppContext';
-
+import { addDashes } from 'utils';
 
 interface Flows {
   value: string;
   label: string;
 }
-
-
 
 const QRCode = () => {
   const appContext = useContext(AppContext);
@@ -31,7 +29,8 @@ const QRCode = () => {
     }
   }, [appContext]);
 
-  console.log(flows);
+ 
+
 
   return (
     <QRCodeContainer>
@@ -45,16 +44,18 @@ const QRCode = () => {
         </QRCodeText>
       </QRCodeTextContainer>
       <QRCodeElementContainer>
-        {flows?.value ? (
+        {flows?.label ? (
           <>
             <QRCodeSVG
-              value={`https://localhost:3000/qr-code-client/${flows?.value}`}
+              value={`https://localhost:3000/qr-code-client/${addDashes(
+                flows?.label
+              )}`}
               bgColor={'transparent'}
               size={250}
             />
             <Divider />
             <QRCodeUrl>
-              https://localhost:3000/qr-code-client/{flows?.value}
+              https://localhost:3000/qr-code-client/{addDashes(flows?.label)}
             </QRCodeUrl>
           </>
         ) : (

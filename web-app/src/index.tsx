@@ -1,6 +1,3 @@
-
- 
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
@@ -19,17 +16,15 @@ import { ContextProvider } from 'context/AppContext';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
 
-
 const httpLink = new HttpLink({
-  uri: ' /api',
+  uri: '/api',
 });
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: 'ws://localhost:4000/api',
+    url: 'ws://localhost:4000/ws',
   })
 );
-
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
@@ -41,11 +36,17 @@ const splitLink = split(
   wsLink,
   httpLink
 );
+wsLink.client.on('connecting', () => {
+  console.log('connecting');
+});
+
+console.log(httpLink.options.uri);
 
 const client = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache(),
 });
+console.log(client);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
