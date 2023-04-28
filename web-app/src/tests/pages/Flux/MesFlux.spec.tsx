@@ -69,10 +69,24 @@ describe('Mes FLux :', () => {
             {
               flowName: 'Le camion vert',
               id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
             {
               flowName: "Pas d'idée de nom",
               id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
           ],
         },
@@ -88,7 +102,7 @@ describe('Mes FLux :', () => {
           expect(toastify.toast.success).toHaveBeenCalledWith(
             'Creation reussi.'
           );
-          expect(refetch).toHaveBeenCalledTimes(1);
+          expect(refetch).toHaveBeenCalledTimes(2);
         });
       });
     });
@@ -112,10 +126,24 @@ describe('Mes FLux :', () => {
             {
               flowName: 'Le camion vert',
               id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
             {
               flowName: "Pas d'idée de nom",
               id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
           ],
         },
@@ -159,10 +187,24 @@ describe('Mes FLux :', () => {
             {
               flowName: 'Le camion vert',
               id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
             {
               flowName: "Pas d'idée de nom",
               id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
           ],
         },
@@ -179,7 +221,7 @@ describe('Mes FLux :', () => {
           expect(toastify.toast.success).toHaveBeenCalledWith(
             'Suppresion reussi.'
           );
-          expect(refetch).toHaveBeenCalledTimes(1);
+          expect(refetch).toHaveBeenCalledTimes(2);
         });
       });
     });
@@ -203,10 +245,24 @@ describe('Mes FLux :', () => {
             {
               flowName: 'Le camion vert',
               id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
             {
               flowName: "Pas d'idée de nom",
               id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+              date: '2023-04-28T12:26:45.276Z',
+              calculateTicketCounts: {
+                incident: 0,
+                nonScanned: 0,
+                validate: 0,
+                waiting: 0,
+              },
             },
           ],
         },

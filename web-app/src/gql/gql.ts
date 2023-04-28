@@ -14,7 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  mutation LogOut {\n    logOut {\n      id\n    }\n    removeCookie\n  }\n": types.LogOutDocument,
-    "\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n      }\n    }\n  }\n": types.MyprofileDocument,
+    "\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n        date\n        calculateTicketCounts {\n          incident\n          nonScanned\n          validate\n          waiting\n        }\n      }\n    }\n  }\n": types.MyprofileDocument,
     "\n  query GetTicketsByFlowId($flowId: String!) {\n    getTicketsByFlowId(flowId: $flowId) {\n      flowName\n      id\n      tickets {\n        date\n        id\n        isTrash\n        status\n      }\n    }\n  }\n": types.GetTicketsByFlowIdDocument,
     "\n  mutation DeleteTickets($arrayId: [String!]!) {\n    deleteTickets(arrayId: $arrayId)\n  }\n": types.DeleteTicketsDocument,
     "\n  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {\n    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n": types.ChangeTicketIsTrashDocument,
@@ -50,7 +50,7 @@ export function graphql(source: "\n  mutation LogOut {\n    logOut {\n      id\n
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n      }\n    }\n  }\n"): (typeof documents)["\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n      }\n    }\n  }\n"];
+export function graphql(source: "\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n        date\n        calculateTicketCounts {\n          incident\n          nonScanned\n          validate\n          waiting\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n        date\n        calculateTicketCounts {\n          incident\n          nonScanned\n          validate\n          waiting\n        }\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */

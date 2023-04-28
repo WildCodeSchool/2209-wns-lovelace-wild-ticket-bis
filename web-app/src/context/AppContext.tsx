@@ -15,6 +15,13 @@ export const MY_PROFILE = gql`
       flows {
         flowName
         id
+        date
+        calculateTicketCounts {
+          incident
+          nonScanned
+          validate
+          waiting
+        }
       }
     }
   }

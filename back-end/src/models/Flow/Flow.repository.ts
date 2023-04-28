@@ -1,7 +1,15 @@
 import AppUser from '../AppUser/AppUser.entity';
 import AppUserRepository from '../AppUser/AppUser.repository';
+import { Status } from '../Ticket/Ticket.entity';
 import FlowDb from './Flow.db';
 import Flow from './Flow.entity';
+
+export type NumberOfTickets = {
+  nonScanned: number;
+  waiting: number;
+  incident: number;
+  validate: number;
+};
 
 export default class FlowRepository extends FlowDb {
   static async initializeFlow(): Promise<void> {
@@ -42,6 +50,44 @@ export default class FlowRepository extends FlowDb {
     } else {
       throw new Error(`Aucun Flu n'a été trouvé`);
     }
+  }
+
+  static async getTicketCountByStatus(
+    flowId: string
+  ): Promise<NumberOfTickets> {
+    const flow = await this.getFlowById(flowId);
+
+    if (!flow) {
+      throw Error(`Aucun Flu n'a été trouvé`);
+    }
+
+    const ticketCount = {
+      nonScanned: 0,
+      waiting: 0,
+      incident: 0,
+      validate: 0,
+    };
+
+    const tickets = await flow.tickets;
+    for (const ticket of tickets) {
+      switch (ticket.status) {
+        case Status.TICKET_NON_SCANNE:
+          ticketCount.nonScanned++;
+          break;
+        case Status.EN_ATTENTE:
+          ticketCount.waiting++;
+          break;
+        case Status.INCIDENT:
+          ticketCount.incident++;
+          break;
+        case Status.TICKET_VALIDE:
+          ticketCount.validate++;
+          break;
+        default:
+          break;
+      }
+    }
+    return ticketCount;
   }
 
   static async deleteFlow(arrayId: string[]): Promise<number> {

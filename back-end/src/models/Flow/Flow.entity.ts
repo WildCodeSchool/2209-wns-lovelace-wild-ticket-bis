@@ -9,6 +9,8 @@ import {
 } from 'typeorm';
 import AppUser from '../AppUser/AppUser.entity';
 import Ticket from '../Ticket/Ticket.entity';
+import FlowRepository from './Flow.repository';
+import { NumberOfTickets } from '../Ticket/NumberOfTickets';
 
 @Entity()
 @ObjectType()
@@ -40,4 +42,13 @@ export default class Flow {
   @OneToMany(() => Ticket, (ticket) => ticket.flow, { cascade: true })
   @Field(() => [Ticket])
   tickets: Promise<Ticket[]>;
+
+  @Field(() => NumberOfTickets)
+  async calculateTicketCounts(): Promise<NumberOfTickets> {
+    const ticketCounts = await FlowRepository.getTicketCountByStatus(this.id);
+    if (!ticketCounts) {
+      throw Error('Error occured when generated Flows');
+    }
+    return Promise.resolve(ticketCounts);
+  }
 }

@@ -46,7 +46,7 @@ import {
   DeleteFlowMutationVariables,
 } from 'gql/graphql';
 import { toast } from 'react-toastify';
-import { getErrorMessage } from 'utils';
+import { convertDateFormat, getErrorMessage } from 'utils';
 import { AppContext } from 'context/AppContext';
 import { GoTrashcan } from 'react-icons/go';
 
@@ -65,21 +65,38 @@ export const DELETE_FLOW = gql`
   }
 `;
 
+type Flow = {
+  __typename?: 'Flow';
+  flowName: string;
+  id: string;
+  date: any;
+  calculateTicketCounts: {
+    __typename?: 'NumberOfTickets';
+    incident?: number | null;
+    nonScanned?: number | null;
+    validate?: number | null;
+    waiting?: number | null;
+  };
+};
+
 const MesFlux = () => {
   const appContext = useContext(AppContext);
   const [id, setId] = useState('');
   const [flowName, setFlowName] = useState('');
-  const [flows, setFlows] = useState([{}]);
+  const [flows, setFlows] = useState<Flow[]>();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
   const [allFlowSelected, setAllFlowSelected] = useState<Array<string>>([]);
+  const [isButtonDeleteDisable, setIsButtonDeleteDisable] = useState(true);
+  const [isChecked, setIsChecked] = useState<boolean[]>([]);
 
   useEffect(() => {
     if (appContext?.userProfile) {
       setFlows(appContext.userProfile.myProfile.flows);
       setId(appContext.userProfile.myProfile.id);
+      appContext.refetch();
     }
-  }, [appContext]);
+  }, [appContext?.userProfile]);
 
   const customStyles = {
     content: {
@@ -103,26 +120,27 @@ const MesFlux = () => {
     setFlowName('');
   };
   const afterCloseModalDelete = () => {
-    let allCheckbox = document.getElementsByClassName('checkbox');
-    for (var i = 0; i < allCheckbox.length; i++) {
-      let input = allCheckbox[i] as HTMLInputElement;
-      input.checked = false;
-    }
+    setIsChecked([]);
+    let allCheckbox = document.querySelectorAll('checkbox');
+    allCheckbox.forEach((checkbox) => {
+      (checkbox as HTMLInputElement).checked = false;
+    });
+    setIsButtonDeleteDisable(true);
   };
-  const flowSelected = (id: string, e: any) => {
+  const flowSelected = (id: string, e: any, index: number) => {
+    const updatedChecked = { ...isChecked };
+
     if (e.target.checked) {
-      if (!allFlowSelected.includes(id)) {
-        setAllFlowSelected([...allFlowSelected, id]);
-      }
+      updatedChecked[index] = true;
+      setAllFlowSelected([...allFlowSelected, id]);
+      setIsButtonDeleteDisable(false);
     } else {
-      if (allFlowSelected.includes(id)) {
-        setAllFlowSelected(
-          allFlowSelected.filter((item) => {
-            return item !== id;
-          })
-        );
-      }
+      delete updatedChecked[index];
+      setAllFlowSelected(allFlowSelected.filter((item) => item !== id));
+      setIsButtonDeleteDisable(Object.keys(updatedChecked).length === 0);
     }
+
+    setIsChecked(updatedChecked);
   };
 
   const [addFlow] = useMutation<AddFlowMutation, AddFlowMutationVariables>(
@@ -139,9 +157,9 @@ const MesFlux = () => {
       await addFlow({
         variables: { id, flowName },
       });
-      toast.success(`Creation reussi.`);
       toggleModal();
       appContext?.refetch();
+      toast.success(`Creation reussi.`);
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -156,6 +174,7 @@ const MesFlux = () => {
       appContext?.refetch();
       toggleModalDelete();
       afterCloseModalDelete();
+      setIsButtonDeleteDisable(true);
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
@@ -165,7 +184,7 @@ const MesFlux = () => {
       <ContainerButton>
         <SecondaryButton
           onClick={toggleModalDelete}
-          disabled={allFlowSelected.length > 0 ? false : true}
+          disabled={isButtonDeleteDisable}
         >
           <GoTrashcan size={25} opacity={0.7} />
           &ensp;Supprimer
@@ -183,30 +202,35 @@ const MesFlux = () => {
         <Divider />
         <ListContainer>
           {flows
-            ? flows.map((flow: any, index) => {
+            ? flows.map((flow: Flow, index) => {
                 return (
                   <ItemList key={index}>
                     <ContainerInputItem>
                       <InputItem
                         type="checkbox"
                         data-testid={flow.flowName}
-                        onChange={(e) => flowSelected(flow.id, e)}
+                        checked={isChecked[index] || false}
+                        onChange={(e) => flowSelected(flow.id, e, index)}
                       ></InputItem>
                     </ContainerInputItem>
-                    <TextElement>15/10/22 11:35:56</TextElement>
+                    <TextElement>{convertDateFormat(flow.date)}</TextElement>
                     <TextElement>{flow.flowName}</TextElement>
                     <AllStatusContainer>
                       <StatusContainer>
-                        <StatusNoScan></StatusNoScan>0
+                        <StatusNoScan></StatusNoScan>
+                        {flow.calculateTicketCounts.nonScanned}
                       </StatusContainer>
                       <StatusContainer>
-                        <StatusWaiting></StatusWaiting>0
+                        <StatusWaiting></StatusWaiting>{' '}
+                        {flow.calculateTicketCounts.waiting}
                       </StatusContainer>
                       <StatusContainer>
-                        <StatusValidate></StatusValidate>0
+                        <StatusValidate></StatusValidate>{' '}
+                        {flow.calculateTicketCounts.validate}
                       </StatusContainer>
                       <StatusContainer>
-                        <StatusError></StatusError>0
+                        <StatusError></StatusError>{' '}
+                        {flow.calculateTicketCounts.incident}
                       </StatusContainer>
                     </AllStatusContainer>
                   </ItemList>
@@ -271,7 +295,9 @@ const MesFlux = () => {
               <ButtonValidateDelete onClick={() => submitDelete()}>
                 Confirmer
               </ButtonValidateDelete>
-              <ButtonCancelDelete>Annuler</ButtonCancelDelete>
+              <ButtonCancelDelete onClick={() => setModalDeleteIsOpen(false)}>
+                Annuler
+              </ButtonCancelDelete>
             </ContainerButtonDeleteFlu>
           </ContainerAskDelete>
         </ModalContainer>

@@ -28,6 +28,7 @@ export type AppUser = {
 export type Flow = {
   __typename?: 'Flow';
   appUser: AppUser;
+  calculateTicketCounts: NumberOfTickets;
   date: Scalars['DateTime'];
   flowName: Scalars['String'];
   id: Scalars['ID'];
@@ -108,6 +109,14 @@ export type Notification = {
   message: Scalars['String'];
 };
 
+export type NumberOfTickets = {
+  __typename?: 'NumberOfTickets';
+  incident?: Maybe<Scalars['Float']>;
+  nonScanned?: Maybe<Scalars['Float']>;
+  validate?: Maybe<Scalars['Float']>;
+  waiting?: Maybe<Scalars['Float']>;
+};
+
 export type Query = {
   __typename?: 'Query';
   getTicketById: Ticket;
@@ -158,7 +167,7 @@ export type LogOutMutation = { __typename?: 'Mutation', removeCookie: string, lo
 export type MyprofileQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MyprofileQuery = { __typename?: 'Query', myProfile: { __typename?: 'AppUser', id: string, firstName: string, flows: Array<{ __typename?: 'Flow', flowName: string, id: string }> } };
+export type MyprofileQuery = { __typename?: 'Query', myProfile: { __typename?: 'AppUser', id: string, firstName: string, flows: Array<{ __typename?: 'Flow', flowName: string, id: string, date: any, calculateTicketCounts: { __typename?: 'NumberOfTickets', incident?: number | null, nonScanned?: number | null, validate?: number | null, waiting?: number | null } }> } };
 
 export type GetTicketsByFlowIdQueryVariables = Exact<{
   flowId: Scalars['String'];
@@ -254,7 +263,7 @@ export type ChangeTicketsStatusMutation = { __typename?: 'Mutation', changeTicke
 
 
 export const LogOutDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"LogOut"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"logOut"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}}]}},{"kind":"Field","name":{"kind":"Name","value":"removeCookie"}}]}}]} as unknown as DocumentNode<LogOutMutation, LogOutMutationVariables>;
-export const MyprofileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Myprofile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myProfile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"flows"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flowName"}},{"kind":"Field","name":{"kind":"Name","value":"id"}}]}}]}}]}}]} as unknown as DocumentNode<MyprofileQuery, MyprofileQueryVariables>;
+export const MyprofileDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Myprofile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"myProfile"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"firstName"}},{"kind":"Field","name":{"kind":"Name","value":"flows"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flowName"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"calculateTicketCounts"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"incident"}},{"kind":"Field","name":{"kind":"Name","value":"nonScanned"}},{"kind":"Field","name":{"kind":"Name","value":"validate"}},{"kind":"Field","name":{"kind":"Name","value":"waiting"}}]}}]}}]}}]}}]} as unknown as DocumentNode<MyprofileQuery, MyprofileQueryVariables>;
 export const GetTicketsByFlowIdDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetTicketsByFlowId"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"flowId"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getTicketsByFlowId"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"flowId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"flowId"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"flowName"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"tickets"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"isTrash"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]}}]} as unknown as DocumentNode<GetTicketsByFlowIdQuery, GetTicketsByFlowIdQueryVariables>;
 export const DeleteTicketsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"DeleteTickets"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"arrayId"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"deleteTickets"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"arrayId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"arrayId"}}}]}]}}]} as unknown as DocumentNode<DeleteTicketsMutation, DeleteTicketsMutationVariables>;
 export const ChangeTicketIsTrashDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"ChangeTicketIsTrash"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"arrayId"}},"type":{"kind":"NonNullType","type":{"kind":"ListType","type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"ID"}}}}}},{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"isTrash"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"Boolean"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"changeTicketIsTrash"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"arrayId"},"value":{"kind":"Variable","name":{"kind":"Name","value":"arrayId"}}},{"kind":"Argument","name":{"kind":"Name","value":"isTrash"},"value":{"kind":"Variable","name":{"kind":"Name","value":"isTrash"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"date"}},{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"isTrash"}},{"kind":"Field","name":{"kind":"Name","value":"status"}}]}}]}}]} as unknown as DocumentNode<ChangeTicketIsTrashMutation, ChangeTicketIsTrashMutationVariables>;
