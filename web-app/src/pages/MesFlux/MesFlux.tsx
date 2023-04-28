@@ -65,11 +65,25 @@ export const DELETE_FLOW = gql`
   }
 `;
 
+type Flow = {
+  __typename?: 'Flow';
+  flowName: string;
+  id: string;
+  date: any;
+  calculateTicketCounts: {
+    __typename?: 'NumberOfTickets';
+    incident?: number | null;
+    nonScanned?: number | null;
+    validate?: number | null;
+    waiting?: number | null;
+  };
+};
+
 const MesFlux = () => {
   const appContext = useContext(AppContext);
   const [id, setId] = useState('');
   const [flowName, setFlowName] = useState('');
-  const [flows, setFlows] = useState([{}]);
+  const [flows, setFlows] = useState<Flow[]>();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
   const [allFlowSelected, setAllFlowSelected] = useState<Array<string>>([]);
@@ -78,8 +92,9 @@ const MesFlux = () => {
     if (appContext?.userProfile) {
       setFlows(appContext.userProfile.myProfile.flows);
       setId(appContext.userProfile.myProfile.id);
+      appContext.refetch();
     }
-  }, [appContext]);
+  }, [appContext?.userProfile, appContext?.refetch]);
 
   const customStyles = {
     content: {
@@ -183,7 +198,7 @@ const MesFlux = () => {
         <Divider />
         <ListContainer>
           {flows
-            ? flows.map((flow: any, index) => {
+            ? flows.map((flow: Flow, index) => {
                 return (
                   <ItemList key={index}>
                     <ContainerInputItem>
@@ -197,16 +212,20 @@ const MesFlux = () => {
                     <TextElement>{flow.flowName}</TextElement>
                     <AllStatusContainer>
                       <StatusContainer>
-                        <StatusNoScan></StatusNoScan>0
+                        <StatusNoScan></StatusNoScan>
+                        {flow.calculateTicketCounts.nonScanned}
                       </StatusContainer>
                       <StatusContainer>
-                        <StatusWaiting></StatusWaiting>0
+                        <StatusWaiting></StatusWaiting>{' '}
+                        {flow.calculateTicketCounts.waiting}
                       </StatusContainer>
                       <StatusContainer>
-                        <StatusValidate></StatusValidate>0
+                        <StatusValidate></StatusValidate>{' '}
+                        {flow.calculateTicketCounts.validate}
                       </StatusContainer>
                       <StatusContainer>
-                        <StatusError></StatusError>0
+                        <StatusError></StatusError>{' '}
+                        {flow.calculateTicketCounts.incident}
                       </StatusContainer>
                     </AllStatusContainer>
                   </ItemList>

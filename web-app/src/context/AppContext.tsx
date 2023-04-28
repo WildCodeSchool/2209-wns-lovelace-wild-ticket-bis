@@ -15,17 +15,12 @@ export const MY_PROFILE = gql`
       flows {
         flowName
         id
+        date
         calculateTicketCounts {
           incident
           nonScanned
           validate
           waiting
-        }
-        tickets {
-          date
-          id
-          isTrash
-          status
         }
       }
     }
