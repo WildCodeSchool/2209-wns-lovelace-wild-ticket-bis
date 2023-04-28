@@ -137,7 +137,9 @@ const MesFlux = () => {
             return item !== id;
           })
         );
-        setIsButtonDeleteDisable(true);
+        if (allFlowSelected.length === 1) {
+          setIsButtonDeleteDisable(true);
+        }
       }
     }
   };
