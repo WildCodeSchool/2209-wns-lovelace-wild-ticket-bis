@@ -5,7 +5,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { SignUpMutation, SignUpMutationVariables } from '../../gql/graphql';
 import { SIGN_IN_PATH } from '../paths';
-import './SignUp.styled.tsx';
 import {
   ContainerInput,
   FormContainer,
