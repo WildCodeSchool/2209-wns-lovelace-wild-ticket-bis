@@ -84,6 +84,7 @@ const PagesClient = ({ displayNavbar }: any) => {
     SubscriptionSubscriptionWithIdArgs
   >(SUBSCRIPTION_WITH_ID, {
     variables: { id },
+    shouldResubscribe: true,
   });
 
   const quicklyChangeStatus = async () => {

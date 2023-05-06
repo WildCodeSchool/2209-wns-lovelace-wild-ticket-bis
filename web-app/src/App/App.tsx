@@ -78,8 +78,8 @@ function App() {
               <Route path={QR_CODE_PATH} element={<QRCode />} />
               <Route path={CORBEILLE_PATH} element={<Corbeille />} />
               <Route
-                path={`${QR_CODE_CLIENT_PATH}/${appContext?.selectedFlow?.value}`}
-                element={<QRCodeClient />}
+                path={`${QR_CODE_CLIENT_PATH}/:flowName`}
+                element={<QRCodeClient displayNavbar={displayNavbar} />}
               />
             </Route>
             <Route
@@ -92,7 +92,7 @@ function App() {
 
       <ToastContainer />
     </>
-  );
+  )
 }
 
 export default App;
