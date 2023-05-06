@@ -22,10 +22,12 @@ import {
   ChangeTicketsStatusMutation,
   ChangeTicketStatusMutation,
   GetTicketsByFlowIdQuery,
+  Subscription,
+  SubscriptionSubscriptionWithIdArgs,
 } from 'gql/graphql';
 import { GoTrashcan } from 'react-icons/go';
 import { IoIosPlay } from 'react-icons/io';
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
 import { AppContext } from 'context/AppContext';
 import { toast } from 'react-toastify';
 import TicketsArray from 'components/TicketsArray/TicketsArray';
@@ -93,6 +95,15 @@ const IS_TRASH_TICKETS_BY_IDS = gql`
   }
 `;
 
+const SUBSCRIPTION_WITH_ID = gql`
+  subscription SubscriptionWithId($ids: [String!]) {
+    subscriptionWithId(ids: $ids) {
+      id
+      message
+    }
+  }
+`;
+
 export type Flow = {
   __typename?: 'Flow' | undefined;
   flowName: string;
@@ -108,6 +119,7 @@ export type Flow = {
 
 const Tickets = () => {
   const appContext = useContext(AppContext);
+  const [ids, setIds] = useState<string[] | null>();
   const { data, refetch } = useQuery<GetTicketsByFlowIdQuery>(
     GET_TICKETS_BY_FLOW_ID
   );
@@ -128,6 +140,14 @@ const Tickets = () => {
     ChangeTicketIsTrashMutationVariables
   >(IS_TRASH_TICKETS_BY_IDS);
 
+  const { data: dataSub, loading } = useSubscription<
+    Subscription,
+    SubscriptionSubscriptionWithIdArgs
+  >(SUBSCRIPTION_WITH_ID, {
+    variables: { ids },
+    shouldResubscribe: true,
+  });
+
   const [flowTickets, setFlowTickets] = useState<Flow>();
   const [allTicketsSelected, setAllTicketsSelected] = useState<Array<string>>(
     []
@@ -139,8 +159,22 @@ const Tickets = () => {
 
     if (data?.getTicketsByFlowId) {
       setFlowTickets(data.getTicketsByFlowId);
+      const ticketsIds = flowTickets?.tickets.map((ticket) => ticket.id);
+      setIds(ticketsIds);
     }
-  }, [appContext?.selectedFlow?.value, data, refetch]);
+
+    if (!loading && dataSub) {
+      refetch();
+    }
+  }, [
+    appContext?.selectedFlow?.value,
+    data,
+    refetch,
+    loading,
+    dataSub,
+    flowTickets?.tickets,
+  ]);
+
   const updateListOfTickets = (
     id: string,
     e: React.ChangeEvent<HTMLInputElement>

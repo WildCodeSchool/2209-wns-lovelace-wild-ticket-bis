@@ -58,6 +58,9 @@ export interface NotificationPayload {
 export class SubscriptionFilter {
   @Field({ nullable: true })
   id?: string;
+
+  @Field(() => [String], { nullable: true })
+  ids?: string[];
 }
 
 @ArgsType()
