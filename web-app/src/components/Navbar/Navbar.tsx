@@ -13,11 +13,10 @@ import {
   StyledLink,
 } from './Navbar.styled';
 import FluIcon from '../../assets/Flu-icone.png';
-import List from '../../assets/liste.png';
-import QrcodeLogo from '../../assets/logoQrcode.png';
-import Corbeille from '../../assets/corbeille.png';
 import { useContext } from 'react';
 import { AppContext } from 'context/AppContext';
+import { GoTrashcan } from 'react-icons/go';
+import { IoQrCodeOutline, IoReaderOutline } from 'react-icons/io5';
 import { addDashes } from 'utils';
 
 const Navbar = (props: any) => {
@@ -31,14 +30,16 @@ const Navbar = (props: any) => {
           Mes Flux
         </StyledLink>
         <StyledLink to={TICKETS_PATH}>
-          <LogoLink src={List}></LogoLink>
+          <IoReaderOutline size={40} />
           Tickets
         </StyledLink>
         <StyledLink to={QR_CODE_PATH}>
-          <LogoLink src={QrcodeLogo}></LogoLink>QR code
+          <IoQrCodeOutline size={40} />
+          QR code
         </StyledLink>
         <StyledLink to={CORBEILLE_PATH}>
-          <LogoLink src={Corbeille}></LogoLink>Corbeille
+          <GoTrashcan size={40} />
+          Corbeille
         </StyledLink>
         <StyledLink
           to={`${QR_CODE_CLIENT_PATH}/${

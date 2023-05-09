@@ -14,35 +14,35 @@ export const ContainerNavbar = styled.div`
 `;
 
 export const ContainerLink = styled.div`
-  height: 80%;
+  height: 60%;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
 `;
 
 export const StyledLink = styled(NavLink)`
+  font-family: ${FONT_FAMILY};
   color: ${TEXT_FONT_COLOR};
   font-weight: bold;
-  border-radius: 0 10px 10px 0;
-  text-decoration: none;
-  width: 80%;
-  height: 3.5rem;
+  background: ${BOX_BACKGROUND_COLOR};
+  box-shadow: ${BOX_SHADOW};
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  gap: 15%;
   align-items: center;
-  font-family: ${FONT_FAMILY};
+  border-radius: 0 8px 8px 0;
+  text-decoration: none;
   font-size: 20px;
-  background: ${BOX_BACKGROUND_COLOR};
-  box-shadow: ${BOX_SHADOW};
-  padding-left: 5px;
+  width: 80%;
+  height: 3.5rem;
+  gap: 15px;
+  padding-left: 15px;
+  transition: width 0.2s ease-in-out;
+  transition: padding-left 0.2s ease-in-out;
   &:focus {
-    width: 90%;
+    width: 83%;
+    padding-left: 20px;
     background-color: ${SELECT_LINK_COLOR};
-  }
-  &:active {
-    background-color: none;
   }
   -webkit-tap-highlight-color: transparent;
 `;
