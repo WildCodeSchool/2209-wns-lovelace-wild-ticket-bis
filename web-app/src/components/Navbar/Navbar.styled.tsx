@@ -20,7 +20,7 @@ export const ContainerLink = styled.div`
   justify-content: space-evenly;
 `;
 
-export const StyledLink = styled(NavLink)`
+export const StyledLink = styled(NavLink)<{ active: boolean }>`
   font-family: ${FONT_FAMILY};
   color: ${TEXT_FONT_COLOR};
   font-weight: bold;
@@ -44,6 +44,14 @@ export const StyledLink = styled(NavLink)`
     padding-left: 20px;
     background-color: ${SELECT_LINK_COLOR};
   }
+  ${({ active }) =>
+    active &&
+    `
+    width: 83%;
+    padding-left: 20px;
+    background-color: ${SELECT_LINK_COLOR};
+  `}
+
   -webkit-tap-highlight-color: transparent;
 `;
 export const LogoLink = styled.img`
