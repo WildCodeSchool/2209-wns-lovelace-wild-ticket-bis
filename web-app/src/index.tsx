@@ -22,9 +22,10 @@ const httpLink = new HttpLink({
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: 'ws://localhost:4000/ws',
+    url: 'ws://localhost:5000/ws',
   })
 );
+
 const splitLink = split(
   ({ query }) => {
     const definition = getMainDefinition(query);
