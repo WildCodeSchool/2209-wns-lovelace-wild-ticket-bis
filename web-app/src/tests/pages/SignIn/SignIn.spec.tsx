@@ -21,7 +21,7 @@ const renderSignIn = (
   return render(
     <MockedProvider mocks={mocks}>
       <div data-testid="wrapper">
-        <SignIn displayNavbar={displayNavbar} onSuccess={onSuccess} />
+        <SignIn displayNavbar={displayNavbar} />
       </div>
     </MockedProvider>,
     { wrapper: BrowserRouter }

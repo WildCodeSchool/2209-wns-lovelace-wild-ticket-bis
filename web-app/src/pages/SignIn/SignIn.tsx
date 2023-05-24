@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -22,11 +22,17 @@ import {
 } from './SignIn.styled';
 import Logo from 'components/Logo/Logo';
 import { SIGN_IN } from 'gql-store';
+import { AppContext } from 'context/AppContext';
 
-const SignIn = ({ onSuccess, displayNavbar }: any) => {
+type props = {
+  displayNavbar: (isItDisplayed: boolean) => void;
+};
+
+const SignIn = ({ displayNavbar }: props) => {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [isSignInSuccess, setIsSignInSuccess] = useState(false);
+  const appContext = useContext(AppContext);
 
   const [signIn] = useMutation<SignInMutation, SignInMutationVariables>(
     SIGN_IN
@@ -40,7 +46,7 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
       });
       setIsSignInSuccess(true);
       toast.success(`Vous vous êtes connecté avec succès.`);
-      onSuccess();
+      appContext?.refetch();
       navigate(MES_FLUX_PATH);
     } catch (error) {
       toast.error(getErrorMessage(error));

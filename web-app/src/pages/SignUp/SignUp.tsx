@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { SignUpMutation, SignUpMutationVariables } from '../../gql/graphql';
@@ -26,13 +26,19 @@ import {
 } from '../SignIn/SignIn.styled';
 import Logo from 'components/Logo/Logo';
 import { SIGN_UP } from 'gql-store';
+import { AppContext } from 'context/AppContext';
 
-const SignUp = ({ displayNavbar, onSuccess }: any) => {
+type props = {
+  displayNavbar: (isItDisplayed: boolean) => void;
+};
+
+const SignUp = ({ displayNavbar }: props) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [confirmedPassword, setconfirmedPassword] = useState('');
+  const appContext = useContext(AppContext);
 
   const [signUp] = useMutation<SignUpMutation, SignUpMutationVariables>(
     SIGN_UP
@@ -50,7 +56,7 @@ const SignUp = ({ displayNavbar, onSuccess }: any) => {
         toast.success(
           'Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.'
         );
-        onSuccess();
+        appContext?.refetch();
         navigate(SIGN_IN_PATH);
       } catch (error) {
         toast.error(

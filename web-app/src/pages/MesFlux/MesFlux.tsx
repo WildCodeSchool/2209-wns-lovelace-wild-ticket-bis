@@ -55,7 +55,7 @@ type Flow = {
   __typename?: 'Flow';
   flowName: string;
   id: string;
-  date: any;
+  date: string;
   calculateTicketCounts: {
     __typename?: 'NumberOfTickets';
     incident?: number | null;
