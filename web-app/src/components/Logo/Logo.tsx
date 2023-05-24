@@ -5,7 +5,7 @@ import { GlobalLogoContainer, LogoImg } from './Logo.styled';
 const Logo = () => {
   return (
     <GlobalLogoContainer>
-      <LogoImg src={logo}></LogoImg>
+      <LogoImg src={logo} alt="Flux Logo"></LogoImg>
     </GlobalLogoContainer>
   );
 };
