@@ -38,7 +38,7 @@ import {
 } from './MesFlux.styled';
 import Modal from 'react-modal';
 import logo from '../../assets/Flu-icone_4.png';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import {
   AddFlowMutation,
   AddFlowMutationVariables,
@@ -49,21 +49,7 @@ import { toast } from 'react-toastify';
 import { convertDateFormat, getErrorMessage } from 'utils';
 import { AppContext } from 'context/AppContext';
 import { GoTrashcan } from 'react-icons/go';
-
-export const ADD_FLOW = gql`
-  mutation addFlow($id: String!, $flowName: String!) {
-    addFlow(id: $id, flowName: $flowName) {
-      id
-      flowName
-    }
-  }
-`;
-
-export const DELETE_FLOW = gql`
-  mutation deleteFlow($arrayId: [String!]!) {
-    deleteFlow(arrayId: $arrayId)
-  }
-`;
+import { ADD_FLOW, DELETE_FLOW } from 'gql-store';
 
 type Flow = {
   __typename?: 'Flow';

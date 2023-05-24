@@ -2,12 +2,13 @@
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { AppContext } from 'context/AppContext';
+import { ADD_FLOW, DELETE_FLOW } from 'gql-store';
 import {
   AddFlowMutation,
   DeleteFlowMutation,
   MyprofileQuery,
 } from 'gql/graphql';
-import MesFlux, { ADD_FLOW, DELETE_FLOW } from 'pages/MesFlux/MesFlux';
+import MesFlux from 'pages/MesFlux/MesFlux';
 import * as toastify from 'react-toastify';
 
 jest.mock('react-toastify');

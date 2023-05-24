@@ -1,6 +1,11 @@
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import TicketsArray from 'components/TicketsArray/TicketsArray';
 import { AppContext } from 'context/AppContext';
+import {
+  DELETE_TICKETS_BY_ID,
+  GET_TICKETS_BY_FLOW_ID,
+  IS_TRASH_TICKETS_BY_IDS,
+} from 'gql-store';
 import {
   ChangeTicketIsTrashMutation,
   ChangeTicketIsTrashMutationVariables,
@@ -18,38 +23,6 @@ import { useContext, useEffect, useState } from 'react';
 import { GoTrashcan } from 'react-icons/go';
 import { GrTransaction } from 'react-icons/gr';
 import { toast } from 'react-toastify';
-
-export const GET_TICKETS_BY_FLOW_ID = gql`
-  query GetTicketsByFlowId($flowId: String!) {
-    getTicketsByFlowId(flowId: $flowId) {
-      flowName
-      id
-      tickets {
-        date
-        id
-        isTrash
-        status
-      }
-    }
-  }
-`;
-
-export const DELETE_TICKETS_BY_ID = gql`
-  mutation DeleteTickets($arrayId: [String!]!) {
-    deleteTickets(arrayId: $arrayId)
-  }
-`;
-
-export const IS_TRASH_TICKETS_BY_IDS = gql`
-  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {
-    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {
-      date
-      id
-      isTrash
-      status
-    }
-  }
-`;
 
 const Corbeille = () => {
   const appContext = useContext(AppContext);

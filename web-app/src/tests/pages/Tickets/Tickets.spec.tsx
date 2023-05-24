@@ -8,13 +8,14 @@ import {
   ChangeTicketsStatusMutation,
   GetTicketsByFlowIdQuery,
 } from 'gql/graphql';
-import { IS_TRASH_TICKETS_BY_IDS } from 'pages/Corbeille/Corbeille';
-import Tickets, {
+import Tickets from 'pages/Tickets/Tickets';
+import {
   ADD_TICKET_BY_FLOW_ID,
   CHANGE_TICKETS_STATUS_BY_IDS,
   CHANGE_TICKET_STATUS_BY_ID,
   GET_TICKETS_BY_FLOW_ID,
-} from 'pages/Tickets/Tickets';
+  IS_TRASH_TICKETS_BY_IDS,
+} from '../../../gql-store';
 
 jest.mock('react-toastify');
 

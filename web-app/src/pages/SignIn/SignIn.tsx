@@ -1,5 +1,4 @@
-import React from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -21,19 +20,9 @@ import {
   SignContainer,
   GlobalLogoContainer,
 } from './SignIn.styled';
-import './SignIn.styled.tsx';
 import Logo from 'components/Logo/Logo';
+import { SIGN_IN } from 'gql-store';
 
-export const SIGN_IN = gql`
-  mutation SignIn($emailAddress: String!, $password: String!) {
-    signIn(emailAddress: $emailAddress, password: $password) {
-      id
-      emailAddress
-      firstName
-      lastName
-    }
-  }
-`;
 const SignIn = ({ onSuccess, displayNavbar }: any) => {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');

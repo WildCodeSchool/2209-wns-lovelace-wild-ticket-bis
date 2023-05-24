@@ -3,9 +3,10 @@ import { BrowserRouter } from 'react-router-dom';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { SignInMutation } from 'gql/graphql';
-import SignIn, { SIGN_IN } from 'pages/SignIn/SignIn';
+import SignIn from 'pages/SignIn/SignIn';
 import * as toastify from 'react-toastify';
 import { signInSnapshot } from './SignInSnapshot';
+import { SIGN_IN } from 'gql-store';
 
 const displayNavbar = () => {
   return false;
