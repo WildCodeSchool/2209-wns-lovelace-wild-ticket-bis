@@ -22,7 +22,6 @@ import { addDashes } from 'utils';
 
 const Navbar = (props: any) => {
   const appContext = useContext(AppContext);
-  console.log(appContext?.selectedFlow?.label);
 
   return (
     <ContainerNavbar>
@@ -41,7 +40,13 @@ const Navbar = (props: any) => {
         <StyledLink to={CORBEILLE_PATH}>
           <LogoLink src={Corbeille}></LogoLink>Corbeille
         </StyledLink>
-        <StyledLink to={`${QR_CODE_CLIENT_PATH}/${appContext && appContext.selectedFlow ? addDashes(appContext.selectedFlow.label) : null}`}>
+        <StyledLink
+          to={`${QR_CODE_CLIENT_PATH}/${
+            appContext && appContext.selectedFlow
+              ? addDashes(appContext.selectedFlow.label)
+              : null
+          }`}
+        >
           QR code client
         </StyledLink>
         <StyledLink to={TICKET_CLIENT_PATH}>Ticket client</StyledLink>

@@ -40,13 +40,10 @@ wsLink.client.on('connecting', () => {
   console.log('connecting');
 });
 
-console.log(httpLink.options.uri);
-
 const client = new ApolloClient({
   link: splitLink,
   cache: new InMemoryCache(),
 });
-console.log(client);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
