@@ -15,6 +15,7 @@ import reportWebVitals from './reportWebVitals';
 import { ContextProvider } from 'context/AppContext';
 import { createClient } from 'graphql-ws';
 import { getMainDefinition } from '@apollo/client/utilities';
+import { IS_PRODUCTION, WS_DEV, WS_PROD } from 'config';
 
 const httpLink = new HttpLink({
   uri: '/api',
@@ -22,7 +23,7 @@ const httpLink = new HttpLink({
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: 'ws://localhost:5000/ws',
+    url: IS_PRODUCTION ? WS_PROD : WS_DEV,
   })
 );
 
