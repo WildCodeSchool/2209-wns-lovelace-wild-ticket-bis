@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SignInMutation, SignInMutationVariables } from '../../gql/graphql';
-import { getErrorMessage } from '../../utils';
+import { PropsDisplayNavbar, getErrorMessage } from '../../utils';
 import { MES_FLUX_PATH, SIGN_UP_PATH } from '../paths';
 import {
   GlobalFormContainer,
@@ -24,11 +24,7 @@ import Logo from 'components/Logo/Logo';
 import { SIGN_IN } from 'gql-store';
 import { AppContext } from 'context/AppContext';
 
-type props = {
-  displayNavbar: (isItDisplayed: boolean) => void;
-};
-
-const SignIn = ({ displayNavbar }: props) => {
+const SignIn = ({ displayNavbar }: PropsDisplayNavbar) => {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [isSignInSuccess, setIsSignInSuccess] = useState(false);

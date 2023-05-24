@@ -27,12 +27,9 @@ import {
 import Logo from 'components/Logo/Logo';
 import { SIGN_UP } from 'gql-store';
 import { AppContext } from 'context/AppContext';
+import { PropsDisplayNavbar } from 'utils';
 
-type props = {
-  displayNavbar: (isItDisplayed: boolean) => void;
-};
-
-const SignUp = ({ displayNavbar }: props) => {
+const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [emailAddress, setEmailAddress] = useState('');

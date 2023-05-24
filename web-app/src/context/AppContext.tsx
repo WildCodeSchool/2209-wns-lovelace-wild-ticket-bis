@@ -29,9 +29,13 @@ type ValueType = {
   >;
 };
 
+type Props = {
+  children: JSX.Element;
+};
+
 export const AppContext = createContext<ValueType | null>(null);
 
-export function ContextProvider({ children }: any) {
+export function ContextProvider({ children }: Props) {
   const { data, refetch } = useQuery<MyprofileQuery>(MY_PROFILE);
   const [userProfile, setUserProfile] = useState<MyprofileQuery | null>(null);
 

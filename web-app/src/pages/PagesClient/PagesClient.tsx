@@ -29,6 +29,7 @@ import {
   GET_TICKET_BY_ID,
   SUBSCRIPTION_WITH_ID,
 } from 'gql-store';
+import { PropsDisplayNavbar } from 'utils';
 
 enum ColorStatus {
   'En attente' = '#61A7CE',
@@ -36,7 +37,7 @@ enum ColorStatus {
   'Incident' = '#D93737',
 }
 
-const PagesClient = ({ displayNavbar }: any) => {
+const PagesClient = ({ displayNavbar }: PropsDisplayNavbar) => {
   const { id } = useParams();
   const [status, setStatus] = useState('');
 

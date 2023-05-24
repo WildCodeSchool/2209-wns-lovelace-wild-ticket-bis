@@ -21,3 +21,7 @@ export function addDashes(str: string) {
   const dashedString = words.join('-');
   return dashedString;
 }
+
+export type PropsDisplayNavbar = {
+  displayNavbar: (isItDisplayed: boolean) => void;
+};

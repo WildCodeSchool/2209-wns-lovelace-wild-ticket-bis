@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, ChangeEvent } from 'react';
 import {
   AllStatusContainer,
   ArrayContainer,
@@ -113,7 +113,11 @@ const MesFlux = () => {
     });
     setIsButtonDeleteDisable(true);
   };
-  const flowSelected = (id: string, e: any, index: number) => {
+  const flowSelected = (
+    id: string,
+    e: ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const updatedChecked = { ...isChecked };
 
     if (e.target.checked) {

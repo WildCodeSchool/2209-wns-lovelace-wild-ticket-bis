@@ -16,7 +16,7 @@ import { LogOutMutation } from 'gql/graphql';
 import { toast } from 'react-toastify';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'context/AppContext';
-import Select from 'react-select';
+import Select, { SingleValue } from 'react-select';
 
 const LOGOUT = gql`
   mutation LogOut {
@@ -26,12 +26,17 @@ const LOGOUT = gql`
     removeCookie
   }
 `;
+type Flow = {
+  __typename?: 'Flow' | undefined;
+  flowName: string;
+  id: string;
+};
 
 const Header = () => {
   const navigate = useNavigate();
 
   const [logOut] = useMutation<LogOutMutation>(LOGOUT);
-  const [flows, setFlows] = useState([{}]);
+  const [flows, setFlows] = useState<Flow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const appContext = useContext(AppContext);
 
@@ -51,11 +56,17 @@ const Header = () => {
     }
   };
 
-  const handleChangeSelectedFlow = (selectedOption: any) => {
-    appContext?.setSelectedFlow(selectedOption);
+  const handleChangeSelectedFlow = (
+    selectedOption: SingleValue<{ value: string; label: string }>
+  ) => {
+    if (selectedOption)
+      appContext?.setSelectedFlow({
+        label: selectedOption?.label,
+        value: selectedOption?.value,
+      });
   };
 
-  const flowOptions = flows?.map((flow: any) => ({
+  const flowOptions = flows?.map((flow: Flow) => ({
     value: flow.id,
     label: flow.flowName,
   }));
@@ -66,7 +77,12 @@ const Header = () => {
         <LabelActualFlu> Flu Actuel : </LabelActualFlu>
         <SelectActualFlu>
           <Select
-            onChange={handleChangeSelectedFlow}
+            onChange={(
+              selectedValue: SingleValue<{
+                value: string;
+                label: string;
+              }>
+            ) => handleChangeSelectedFlow(selectedValue)}
             options={flowOptions}
             isLoading={isLoading}
           />
