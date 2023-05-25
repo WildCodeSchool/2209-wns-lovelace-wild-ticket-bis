@@ -26,27 +26,7 @@ const Navbar = () => {
   const [selectedTab, setSelectedTab] = useState(SelectedState.MES_FLUX);
 
   const getSelectedTab = (selectedState: SelectedState) => {
-    switch (selectedState) {
-      case SelectedState.MES_FLUX: {
-        setSelectedTab(SelectedState.MES_FLUX);
-        break;
-      }
-      case SelectedState.TICKETS: {
-        setSelectedTab(SelectedState.TICKETS);
-        break;
-      }
-      case SelectedState.QRCODE: {
-        setSelectedTab(SelectedState.QRCODE);
-        break;
-      }
-      case SelectedState.CORBEILLE: {
-        setSelectedTab(SelectedState.CORBEILLE);
-        break;
-      }
-      default:
-        setSelectedTab(SelectedState.MES_FLUX);
-        break;
-    }
+    setSelectedTab(selectedState);
   };
 
   return (
@@ -55,7 +35,7 @@ const Navbar = () => {
         <StyledLink
           to={MES_FLUX_PATH}
           onClick={() => getSelectedTab(SelectedState.MES_FLUX)}
-          active={selectedTab === SelectedState.MES_FLUX}
+          active={selectedTab === SelectedState.MES_FLUX ? 1 : 0}
         >
           <LogoLink src={FluIcon}></LogoLink>
           Mes Flux
@@ -63,7 +43,7 @@ const Navbar = () => {
         <StyledLink
           to={TICKETS_PATH}
           onClick={() => getSelectedTab(SelectedState.TICKETS)}
-          active={selectedTab === SelectedState.TICKETS}
+          active={selectedTab === SelectedState.TICKETS ? 1 : 0}
         >
           <IoReaderOutline size={40} />
           Tickets
@@ -71,7 +51,7 @@ const Navbar = () => {
         <StyledLink
           to={QR_CODE_PATH}
           onClick={() => getSelectedTab(SelectedState.QRCODE)}
-          active={selectedTab === SelectedState.QRCODE}
+          active={selectedTab === SelectedState.QRCODE ? 1 : 0}
         >
           <IoQrCodeOutline size={40} />
           QR code
@@ -79,7 +59,7 @@ const Navbar = () => {
         <StyledLink
           to={CORBEILLE_PATH}
           onClick={() => getSelectedTab(SelectedState.CORBEILLE)}
-          active={selectedTab === SelectedState.CORBEILLE}
+          active={selectedTab === SelectedState.CORBEILLE ? 1 : 0}
         >
           <GoTrashcan size={40} />
           Corbeille

@@ -20,7 +20,7 @@ export const ContainerLink = styled.div`
   justify-content: space-evenly;
 `;
 
-export const StyledLink = styled(NavLink)<{ active: boolean }>`
+export const StyledLink = styled(NavLink)<{ active: number }>`
   font-family: ${FONT_FAMILY};
   color: ${TEXT_FONT_COLOR};
   font-weight: bold;
@@ -45,7 +45,7 @@ export const StyledLink = styled(NavLink)<{ active: boolean }>`
     background-color: ${SELECT_LINK_COLOR};
   }
   ${({ active }) =>
-    active &&
+    active === 1 &&
     `
     width: 83%;
     padding-left: 20px;
