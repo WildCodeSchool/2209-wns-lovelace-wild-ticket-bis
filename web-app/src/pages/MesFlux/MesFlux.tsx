@@ -14,7 +14,6 @@ import {
   ContainerButtonDeleteFlu,
   ContainerInputItem,
   ContainerLogo,
-  Divider,
   FormContainer,
   HeaderList,
   InputElement,
@@ -179,7 +178,7 @@ const MesFlux = () => {
           <GoTrashcan size={25} opacity={0.7} />
           &ensp;Supprimer
         </SecondaryButton>
-        <ButtonAdd onClick={toggleModal}>Ajouter un flu</ButtonAdd>
+        <ButtonAdd onClick={toggleModal}>Ajouter un flux</ButtonAdd>
       </ContainerButton>
       <ArrayContainer>
         <HeaderList>
@@ -189,7 +188,6 @@ const MesFlux = () => {
           <TextElementHeader>Nombre de tickets</TextElementHeader>
           <TextElementHeader></TextElementHeader>
         </HeaderList>
-        <Divider />
         <ListContainer>
           {flows
             ? flows.map((flow: Flow, index) => {

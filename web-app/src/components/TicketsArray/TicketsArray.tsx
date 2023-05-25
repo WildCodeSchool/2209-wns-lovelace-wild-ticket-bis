@@ -1,7 +1,6 @@
 import {
   ArrayContainer,
   ContainerInputItem,
-  Divider,
   HeaderList,
   InputItem,
   ItemList,
@@ -60,7 +59,6 @@ const TicketsArray = ({
         <TextElementHeader>Statut</TextElementHeader>
         <TextElementHeader></TextElementHeader>
       </HeaderList>
-      <Divider />
       <ListContainer>
         {flowTickets
           ? flowTickets.tickets
