@@ -42,7 +42,7 @@ const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
   );
   const navigate = useNavigate();
 
-  const submit = async () => {
+  const clickOnSignUp = async () => {
     if (password !== confirmedPassword) {
       toast.warning('Confirmation du mot de passe erronée');
     } else {
@@ -90,7 +90,7 @@ const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
           aria-label="form"
           onSubmit={async (event) => {
             event.preventDefault();
-            await submit();
+            await clickOnSignUp();
           }}
         >
           <LabelTitle>S'inscrire</LabelTitle>

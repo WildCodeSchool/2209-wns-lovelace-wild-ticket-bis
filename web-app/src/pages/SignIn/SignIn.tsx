@@ -35,7 +35,7 @@ const SignIn = ({ displayNavbar }: PropsDisplayNavbar) => {
   );
   const navigate = useNavigate();
 
-  const submit = async () => {
+  const clickOnLogin = async () => {
     try {
       await signIn({
         variables: { emailAddress, password },
@@ -82,7 +82,7 @@ const SignIn = ({ displayNavbar }: PropsDisplayNavbar) => {
           aria-label="form"
           onSubmit={async (event) => {
             event.preventDefault();
-            await submit();
+            await clickOnLogin();
           }}
         >
           <LabelTitle>Bonjour</LabelTitle>
