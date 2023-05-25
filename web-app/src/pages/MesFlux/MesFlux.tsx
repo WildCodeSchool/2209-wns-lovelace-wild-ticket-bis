@@ -37,7 +37,7 @@ import {
   TitleElement,
 } from './MesFlux.styled';
 import Modal from 'react-modal';
-import logo from '../../assets/Flu-icone_4.png';
+import logo from '../../assets/Flu-icone.png';
 import { useMutation } from '@apollo/client';
 import {
   AddFlowMutation,

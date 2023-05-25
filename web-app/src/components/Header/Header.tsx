@@ -2,13 +2,10 @@ import {
   ButtonLogout,
   ContainerActualFlu,
   ContainerHeader,
-  ContainerLogoLogout,
   LabelActualFlu,
-  LogoLogout,
   SelectActualFlu,
 } from './Header.styled';
 
-import logout from '../../assets/logout.png';
 import { useNavigate } from 'react-router-dom';
 import { SIGN_IN_PATH } from 'pages/paths';
 import { gql, useMutation } from '@apollo/client';
@@ -17,6 +14,7 @@ import { toast } from 'react-toastify';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'context/AppContext';
 import Select, { SingleValue } from 'react-select';
+import { SlLogout } from 'react-icons/sl';
 
 const LOGOUT = gql`
   mutation LogOut {
@@ -89,9 +87,7 @@ const Header = () => {
         </SelectActualFlu>
       </ContainerActualFlu>
       <ButtonLogout onClick={() => logOutNavigation()}>
-        <ContainerLogoLogout>
-          <LogoLogout src={logout}></LogoLogout>
-        </ContainerLogoLogout>
+        <SlLogout size={23} />
         Se déconnecter
       </ButtonLogout>
     </ContainerHeader>
