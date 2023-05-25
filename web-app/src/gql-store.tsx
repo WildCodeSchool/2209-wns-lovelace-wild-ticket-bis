@@ -32,6 +32,15 @@ export const SIGN_IN = gql`
   }
 `;
 
+export const LOGOUT = gql`
+  mutation LogOut {
+    logOut {
+      id
+    }
+    removeCookie
+  }
+`;
+
 /* Profile */
 
 export const MY_PROFILE = gql`

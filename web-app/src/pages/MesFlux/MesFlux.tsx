@@ -64,6 +64,17 @@ type Flow = {
   };
 };
 
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
 const MesFlux = () => {
   const appContext = useContext(AppContext);
   const [id, setId] = useState('');
@@ -75,35 +86,33 @@ const MesFlux = () => {
   const [isButtonDeleteDisable, setIsButtonDeleteDisable] = useState(true);
   const [isChecked, setIsChecked] = useState<boolean[]>([]);
 
+  const [addFlow] = useMutation<AddFlowMutation, AddFlowMutationVariables>(
+    ADD_FLOW
+  );
+
+  const [deleteFlow] = useMutation<
+    DeleteFlowMutation,
+    DeleteFlowMutationVariables
+  >(DELETE_FLOW);
+
   useEffect(() => {
     if (appContext?.userProfile) {
       setFlows(appContext.userProfile.myProfile.flows);
       setId(appContext.userProfile.myProfile.id);
-      appContext.refetch();
     }
   }, [appContext?.userProfile]);
 
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-    },
-  };
-
-  function toggleModal() {
+  const toggleModal = () => {
     setIsOpen(!modalIsOpen);
-  }
-  function toggleModalDelete() {
+  };
+  const toggleModalDelete = () => {
     setModalDeleteIsOpen(!modalDeleteIsOpen);
-  }
+  };
 
   const afterCloseModal = () => {
     setFlowName('');
   };
+
   const afterCloseModalDelete = () => {
     setIsChecked([]);
     let allCheckbox = document.querySelectorAll('checkbox');
@@ -112,6 +121,7 @@ const MesFlux = () => {
     });
     setIsButtonDeleteDisable(true);
   };
+
   const flowSelected = (
     id: string,
     e: ChangeEvent<HTMLInputElement>,
@@ -132,15 +142,6 @@ const MesFlux = () => {
     setIsChecked(updatedChecked);
   };
 
-  const [addFlow] = useMutation<AddFlowMutation, AddFlowMutationVariables>(
-    ADD_FLOW
-  );
-
-  const [deleteFlow] = useMutation<
-    DeleteFlowMutation,
-    DeleteFlowMutationVariables
-  >(DELETE_FLOW);
-
   const addNewFlow = async () => {
     try {
       await addFlow({
@@ -154,12 +155,34 @@ const MesFlux = () => {
     }
   };
 
+  const controlOnDeleteSelectedFlow = (): void => {
+    if (appContext?.selectedFlow && flows) {
+      if (allFlowSelected.includes(appContext?.selectedFlow?.value)) {
+        const remainingFlows = appContext.userProfile?.myProfile.flows.filter(
+          (flow: Flow) => !allFlowSelected.includes(flow.id)
+        );
+        if (remainingFlows && remainingFlows?.length > 0) {
+          const firstRemainingFlow: Flow = remainingFlows[0];
+          appContext.setSelectedFlow({
+            value: firstRemainingFlow.id,
+            label: firstRemainingFlow.flowName,
+          });
+        } else {
+          toast.warning('Veuilez ajouter un flux.');
+          appContext.setSelectedFlow({ value: '', label: '' });
+        }
+      }
+    }
+  };
+
   const deletedSelectedFlow = async () => {
     try {
+      controlOnDeleteSelectedFlow();
       await deleteFlow({
         variables: { arrayId: allFlowSelected },
       });
       toast.success(`Suppresion reussi.`);
+      setAllFlowSelected([]);
       appContext?.refetch();
       toggleModalDelete();
       afterCloseModalDelete();
@@ -168,6 +191,7 @@ const MesFlux = () => {
       toast.error(getErrorMessage(error));
     }
   };
+
   return (
     <MainContainer>
       <ContainerButton>

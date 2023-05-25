@@ -8,22 +8,15 @@ import {
 
 import { useNavigate } from 'react-router-dom';
 import { SIGN_IN_PATH } from 'pages/paths';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 import { LogOutMutation } from 'gql/graphql';
 import { toast } from 'react-toastify';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'context/AppContext';
 import Select, { SingleValue } from 'react-select';
 import { SlLogout } from 'react-icons/sl';
+import { LOGOUT } from 'gql-store';
 
-const LOGOUT = gql`
-  mutation LogOut {
-    logOut {
-      id
-    }
-    removeCookie
-  }
-`;
 type Flow = {
   __typename?: 'Flow' | undefined;
   flowName: string;
@@ -34,16 +27,24 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [logOut] = useMutation<LogOutMutation>(LOGOUT);
-  const [flows, setFlows] = useState<Flow[] | null>(null);
+  const [flowsOptions, setFlowsOptions] = useState<
+    { value: string; label: string }[] | null
+  >();
   const [isLoading, setIsLoading] = useState(true);
   const appContext = useContext(AppContext);
 
   useEffect(() => {
     if (appContext?.userProfile?.myProfile.flows) {
-      setFlows(appContext.userProfile.myProfile.flows);
+      const flowOptions = appContext.userProfile.myProfile.flows.map(
+        (flow: Flow) => ({
+          value: flow.id,
+          label: flow.flowName,
+        })
+      );
+      setFlowsOptions(flowOptions);
       setIsLoading(false);
     }
-  }, [appContext?.userProfile?.myProfile.flows]);
+  }, [appContext?.userProfile?.myProfile.flows, appContext?.selectedFlow]);
 
   const logOutNavigation = async () => {
     navigate(SIGN_IN_PATH);
@@ -63,18 +64,12 @@ const Header = () => {
         value: selectedOption?.value,
       });
   };
-
-  const flowOptions = flows?.map((flow: Flow) => ({
-    value: flow.id,
-    label: flow.flowName,
-  }));
-
   return (
     <ContainerHeader>
       <ContainerActualFlu>
         <LabelActualFlu> Flu Actuel : </LabelActualFlu>
         <SelectActualFlu>
-          {appContext?.userProfile?.myProfile.flows[0] ? (
+          {flowsOptions && flowsOptions.length > 0 ? (
             <Select
               onChange={(
                 selectedValue: SingleValue<{
@@ -82,14 +77,13 @@ const Header = () => {
                   label: string;
                 }>
               ) => handleChangeSelectedFlow(selectedValue)}
-              options={flowOptions}
+              options={flowsOptions}
               isLoading={isLoading}
-              defaultInputValue={
-                appContext?.userProfile?.myProfile.flows[0].flowName
-              }
+              value={appContext?.selectedFlow}
+              defaultInputValue={flowsOptions[0].label}
             />
           ) : (
-            <Select />
+            <Select value={null} />
           )}
         </SelectActualFlu>
       </ContainerActualFlu>
