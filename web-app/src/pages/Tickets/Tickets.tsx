@@ -39,6 +39,7 @@ import {
   IS_TRASH_TICKETS_BY_IDS,
   SUBSCRIPTION_WITH_ID,
 } from 'gql-store';
+import { updateListOfTickets } from 'utils';
 
 export type Flow = {
   __typename?: 'Flow' | undefined;
@@ -111,26 +112,6 @@ const Tickets = () => {
     flowTickets?.tickets,
   ]);
 
-  const updateListOfTickets = (
-    id: string,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (e.target.checked) {
-      setIsButtonDisabled(false);
-      if (!allTicketsSelected.includes(id)) {
-        setAllTicketsSelected([...allTicketsSelected, id]);
-      }
-    } else {
-      setIsButtonDisabled(true);
-      if (allTicketsSelected.includes(id)) {
-        setAllTicketsSelected(
-          allTicketsSelected.filter((ticket) => {
-            return ticket !== id;
-          })
-        );
-      }
-    }
-  };
   const addNewTicket = async () => {
     if (!flowTickets?.id) {
       toast.warning('Veuillez sélectionner un flu valide.');
@@ -230,9 +211,11 @@ const Tickets = () => {
       <TicketsArray
         flowTickets={flowTickets}
         allTicketsSelected={allTicketsSelected}
+        setAllTicketsSelected={setAllTicketsSelected}
         updateListOfTickets={updateListOfTickets}
         quicklyChangeStatus={quicklyChangeStatus}
         isTicketFromTrash={false}
+        setIsButtonDisabled={setIsButtonDisabled}
       />
     </MainContainer>
   );

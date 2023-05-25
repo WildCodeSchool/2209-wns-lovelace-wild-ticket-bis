@@ -141,7 +141,7 @@ const MesFlux = () => {
     DeleteFlowMutationVariables
   >(DELETE_FLOW);
 
-  const submit = async () => {
+  const addNewFlow = async () => {
     try {
       await addFlow({
         variables: { id, flowName },
@@ -154,7 +154,7 @@ const MesFlux = () => {
     }
   };
 
-  const submitDelete = async () => {
+  const deletedSelectedFlow = async () => {
     try {
       await deleteFlow({
         variables: { arrayId: allFlowSelected },
@@ -254,7 +254,9 @@ const MesFlux = () => {
                 }}
               ></InputElement>
             </LabelElement>
-            <ButtonValidate onClick={() => submit()}>Confirmer</ButtonValidate>
+            <ButtonValidate onClick={() => addNewFlow()}>
+              Confirmer
+            </ButtonValidate>
           </FormContainer>
         </ModalContainer>
       </Modal>
@@ -280,7 +282,7 @@ const MesFlux = () => {
               Voulez-vous vraiment supprimer les flux ?{' '}
             </QuestionElement>
             <ContainerButtonDeleteFlu>
-              <ButtonValidateDelete onClick={() => submitDelete()}>
+              <ButtonValidateDelete onClick={() => deletedSelectedFlow()}>
                 Confirmer
               </ButtonValidateDelete>
               <ButtonCancelDelete onClick={() => setModalDeleteIsOpen(false)}>
