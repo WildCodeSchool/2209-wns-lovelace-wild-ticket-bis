@@ -34,7 +34,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const [logOut] = useMutation<LogOutMutation>(LOGOUT);
-  const [flows, setFlows] = useState<Flow[]>([]);
+  const [flows, setFlows] = useState<Flow[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const appContext = useContext(AppContext);
 
@@ -43,7 +43,7 @@ const Header = () => {
       setFlows(appContext.userProfile.myProfile.flows);
       setIsLoading(false);
     }
-  }, [appContext]);
+  }, [appContext?.userProfile?.myProfile.flows]);
 
   const logOutNavigation = async () => {
     navigate(SIGN_IN_PATH);
@@ -74,16 +74,23 @@ const Header = () => {
       <ContainerActualFlu>
         <LabelActualFlu> Flu Actuel : </LabelActualFlu>
         <SelectActualFlu>
-          <Select
-            onChange={(
-              selectedValue: SingleValue<{
-                value: string;
-                label: string;
-              }>
-            ) => handleChangeSelectedFlow(selectedValue)}
-            options={flowOptions}
-            isLoading={isLoading}
-          />
+          {appContext?.userProfile?.myProfile.flows[0] ? (
+            <Select
+              onChange={(
+                selectedValue: SingleValue<{
+                  value: string;
+                  label: string;
+                }>
+              ) => handleChangeSelectedFlow(selectedValue)}
+              options={flowOptions}
+              isLoading={isLoading}
+              defaultInputValue={
+                appContext?.userProfile?.myProfile.flows[0].flowName
+              }
+            />
+          ) : (
+            <Select />
+          )}
         </SelectActualFlu>
       </ContainerActualFlu>
       <ButtonLogout onClick={() => logOutNavigation()}>
