@@ -31,6 +31,7 @@ const Header = () => {
     { value: string; label: string }[] | null
   >();
   const [isLoading, setIsLoading] = useState(true);
+  const [isInitialFlowSelected, setIsInitialFlowSelected] = useState(false);
   const appContext = useContext(AppContext);
 
   useEffect(() => {
@@ -43,8 +44,19 @@ const Header = () => {
       );
       setFlowsOptions(flowOptions);
       setIsLoading(false);
+
+      //If one flow is created: The first one flow is selected automaticaly
+      if (flowOptions.length > 0 && isInitialFlowSelected === false) {
+        appContext?.setSelectedFlow({
+          label: flowOptions[0].label,
+          value: flowOptions[0].value,
+        });
+        setIsInitialFlowSelected(true);
+      } else if (flowOptions.length === 0) {
+        setIsInitialFlowSelected(false);
+      }
     }
-  }, [appContext?.userProfile?.myProfile.flows, appContext?.selectedFlow]);
+  }, [appContext, isInitialFlowSelected]);
 
   const logOutNavigation = async () => {
     navigate(SIGN_IN_PATH);

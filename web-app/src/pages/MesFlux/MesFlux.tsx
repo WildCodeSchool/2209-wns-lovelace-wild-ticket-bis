@@ -99,6 +99,7 @@ const MesFlux = () => {
     if (appContext?.userProfile) {
       setFlows(appContext.userProfile.myProfile.flows);
       setId(appContext.userProfile.myProfile.id);
+      appContext.refetch();
     }
   }, [appContext?.userProfile]);
 
@@ -155,6 +156,7 @@ const MesFlux = () => {
     }
   };
 
+  //Check if current selected flow is deleted and automaticaly set a new selected flow
   const controlOnDeleteSelectedFlow = (): void => {
     if (appContext?.selectedFlow && flows) {
       if (allFlowSelected.includes(appContext?.selectedFlow?.value)) {
