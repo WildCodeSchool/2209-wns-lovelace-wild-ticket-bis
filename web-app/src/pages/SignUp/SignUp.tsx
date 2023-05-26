@@ -1,6 +1,5 @@
-import React from 'react';
-import { gql, useMutation } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { SignUpMutation, SignUpMutationVariables } from '../../gql/graphql';
@@ -26,39 +25,24 @@ import {
   GlobalLogoContainer,
 } from '../SignIn/SignIn.styled';
 import Logo from 'components/Logo/Logo';
+import { SIGN_UP } from 'gql-store';
+import { AppContext } from 'context/AppContext';
+import { PropsDisplayNavbar } from 'utils';
 
-export const SIGN_UP = gql`
-  mutation SignUp(
-    $firstName: String!
-    $lastName: String!
-    $emailAddress: String!
-    $password: String!
-  ) {
-    signUp(
-      firstName: $firstName
-      lastName: $lastName
-      emailAddress: $emailAddress
-      password: $password
-    ) {
-      id
-      emailAddress
-    }
-  }
-`;
-
-const SignUp = ({ displayNavbar, onSuccess }: any) => {
+const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [confirmedPassword, setconfirmedPassword] = useState('');
+  const appContext = useContext(AppContext);
 
   const [signUp] = useMutation<SignUpMutation, SignUpMutationVariables>(
     SIGN_UP
   );
   const navigate = useNavigate();
 
-  const submit = async () => {
+  const clickOnSignUp = async () => {
     if (password !== confirmedPassword) {
       toast.warning('Confirmation du mot de passe erronée');
     } else {
@@ -69,7 +53,7 @@ const SignUp = ({ displayNavbar, onSuccess }: any) => {
         toast.success(
           'Votre compte a été créé avec succès. Vous pouvez maintenant vous connecter.'
         );
-        onSuccess();
+        appContext?.refetch();
         navigate(SIGN_IN_PATH);
       } catch (error) {
         toast.error(
@@ -106,7 +90,7 @@ const SignUp = ({ displayNavbar, onSuccess }: any) => {
           aria-label="form"
           onSubmit={async (event) => {
             event.preventDefault();
-            await submit();
+            await clickOnSignUp();
           }}
         >
           <LabelTitle>S'inscrire</LabelTitle>

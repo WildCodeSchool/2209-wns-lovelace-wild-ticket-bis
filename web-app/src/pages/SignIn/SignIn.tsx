@@ -1,11 +1,10 @@
-import React from 'react';
-import { gql, useMutation } from '@apollo/client';
-import { useEffect, useState } from 'react';
+import { useMutation } from '@apollo/client';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SignInMutation, SignInMutationVariables } from '../../gql/graphql';
-import { getErrorMessage } from '../../utils';
+import { PropsDisplayNavbar, getErrorMessage } from '../../utils';
 import { MES_FLUX_PATH, SIGN_UP_PATH } from '../paths';
 import {
   GlobalFormContainer,
@@ -21,37 +20,29 @@ import {
   SignContainer,
   GlobalLogoContainer,
 } from './SignIn.styled';
-import './SignIn.styled.tsx';
 import Logo from 'components/Logo/Logo';
+import { SIGN_IN } from 'gql-store';
+import { AppContext } from 'context/AppContext';
 
-export const SIGN_IN = gql`
-  mutation SignIn($emailAddress: String!, $password: String!) {
-    signIn(emailAddress: $emailAddress, password: $password) {
-      id
-      emailAddress
-      firstName
-      lastName
-    }
-  }
-`;
-const SignIn = ({ onSuccess, displayNavbar }: any) => {
+const SignIn = ({ displayNavbar }: PropsDisplayNavbar) => {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [isSignInSuccess, setIsSignInSuccess] = useState(false);
+  const appContext = useContext(AppContext);
 
   const [signIn] = useMutation<SignInMutation, SignInMutationVariables>(
     SIGN_IN
   );
   const navigate = useNavigate();
 
-  const submit = async () => {
+  const clickOnLogin = async () => {
     try {
       await signIn({
         variables: { emailAddress, password },
       });
       setIsSignInSuccess(true);
       toast.success(`Vous vous êtes connecté avec succès.`);
-      onSuccess();
+      appContext?.refetch();
       navigate(MES_FLUX_PATH);
     } catch (error) {
       toast.error(getErrorMessage(error));
@@ -91,7 +82,7 @@ const SignIn = ({ onSuccess, displayNavbar }: any) => {
           aria-label="form"
           onSubmit={async (event) => {
             event.preventDefault();
-            await submit();
+            await clickOnLogin();
           }}
         >
           <LabelTitle>Bonjour</LabelTitle>

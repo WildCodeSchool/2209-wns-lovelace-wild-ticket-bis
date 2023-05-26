@@ -2,15 +2,16 @@ import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { fireEvent, waitFor, screen, render } from '@testing-library/react';
 import { AppContext } from 'context/AppContext';
 import {
+  DELETE_TICKETS_BY_ID,
+  GET_TICKETS_BY_FLOW_ID,
+  IS_TRASH_TICKETS_BY_IDS,
+} from 'gql-store';
+import {
   GetTicketsByFlowIdQuery,
   DeleteTicketsMutation,
   ChangeTicketIsTrashMutation,
 } from 'gql/graphql';
-import Corbeille, {
-  GET_TICKETS_BY_FLOW_ID,
-  DELETE_TICKETS_BY_ID,
-  IS_TRASH_TICKETS_BY_IDS,
-} from 'pages/Corbeille/Corbeille';
+import Corbeille from 'pages/Corbeille/Corbeille';
 
 jest.mock('react-toastify');
 

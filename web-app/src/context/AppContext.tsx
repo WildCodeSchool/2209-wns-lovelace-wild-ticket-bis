@@ -1,31 +1,11 @@
 import {
   ApolloQueryResult,
-  gql,
   OperationVariables,
   useQuery,
 } from '@apollo/client';
+import { MY_PROFILE } from 'gql-store';
 import { MyprofileQuery } from 'gql/graphql';
 import { createContext, useEffect, useState } from 'react';
-
-export const MY_PROFILE = gql`
-  query Myprofile {
-    myProfile {
-      id
-      firstName
-      flows {
-        flowName
-        id
-        date
-        calculateTicketCounts {
-          incident
-          nonScanned
-          validate
-          waiting
-        }
-      }
-    }
-  }
-`;
 
 type ValueType = {
   userProfile: MyprofileQuery | null;
@@ -49,9 +29,13 @@ type ValueType = {
   >;
 };
 
+type Props = {
+  children: JSX.Element;
+};
+
 export const AppContext = createContext<ValueType | null>(null);
 
-export function ContextProvider({ children }: any) {
+export function ContextProvider({ children }: Props) {
   const { data, refetch } = useQuery<MyprofileQuery>(MY_PROFILE);
   const [userProfile, setUserProfile] = useState<MyprofileQuery | null>(null);
 

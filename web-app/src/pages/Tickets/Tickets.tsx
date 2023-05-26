@@ -27,82 +27,19 @@ import {
 } from 'gql/graphql';
 import { GoTrashcan } from 'react-icons/go';
 import { IoIosPlay } from 'react-icons/io';
-import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
+import { useMutation, useQuery, useSubscription } from '@apollo/client';
 import { AppContext } from 'context/AppContext';
 import { toast } from 'react-toastify';
 import TicketsArray from 'components/TicketsArray/TicketsArray';
-
-export const GET_TICKETS_BY_FLOW_ID = gql`
-  query GetTicketsByFlowId($flowId: String!) {
-    getTicketsByFlowId(flowId: $flowId) {
-      flowName
-      id
-      tickets {
-        date
-        id
-        isTrash
-        status
-      }
-    }
-  }
-`;
-
-export const ADD_TICKET_BY_FLOW_ID = gql`
-  mutation AddTicketByFlowId($flowId: String!) {
-    addTicketByFlowId(flowId: $flowId) {
-      date
-      id
-      isTrash
-      status
-    }
-  }
-`;
-
-export const DELETE_TICKETS_BY_ID = gql`
-  mutation DeleteTickets($arrayId: [String!]!) {
-    deleteTickets(arrayId: $arrayId)
-  }
-`;
-
-export const CHANGE_TICKET_STATUS_BY_ID = gql`
-  mutation ChangeTicketStatus($id: String!, $status: String!) {
-    changeTicketStatus(id: $id, status: $status) {
-      date
-      id
-      status
-    }
-  }
-`;
-
-export const CHANGE_TICKETS_STATUS_BY_IDS = gql`
-  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {
-    changeTicketsStatus(arrayId: $arrayId, status: $status) {
-      id
-      date
-      status
-    }
-  }
-`;
-
-const IS_TRASH_TICKETS_BY_IDS = gql`
-  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {
-    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {
-      date
-      id
-      isTrash
-      status
-    }
-  }
-`;
-
-const SUBSCRIPTION_WITH_ID = gql`
-  subscription SubscriptionWithId($ids: [String!]) {
-    subscriptionWithId(ids: $ids) {
-      id
-      message
-    }
-  }
-`;
+import {
+  ADD_TICKET_BY_FLOW_ID,
+  CHANGE_TICKETS_STATUS_BY_IDS,
+  CHANGE_TICKET_STATUS_BY_ID,
+  GET_TICKETS_BY_FLOW_ID,
+  IS_TRASH_TICKETS_BY_IDS,
+  SUBSCRIPTION_WITH_ID,
+} from 'gql-store';
+import { updateListOfTickets } from 'utils';
 
 export type Flow = {
   __typename?: 'Flow' | undefined;
@@ -175,26 +112,6 @@ const Tickets = () => {
     flowTickets?.tickets,
   ]);
 
-  const updateListOfTickets = (
-    id: string,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (e.target.checked) {
-      setIsButtonDisabled(false);
-      if (!allTicketsSelected.includes(id)) {
-        setAllTicketsSelected([...allTicketsSelected, id]);
-      }
-    } else {
-      setIsButtonDisabled(true);
-      if (allTicketsSelected.includes(id)) {
-        setAllTicketsSelected(
-          allTicketsSelected.filter((ticket) => {
-            return ticket !== id;
-          })
-        );
-      }
-    }
-  };
   const addNewTicket = async () => {
     if (!flowTickets?.id) {
       toast.warning('Veuillez sélectionner un flu valide.');
@@ -294,9 +211,11 @@ const Tickets = () => {
       <TicketsArray
         flowTickets={flowTickets}
         allTicketsSelected={allTicketsSelected}
+        setAllTicketsSelected={setAllTicketsSelected}
         updateListOfTickets={updateListOfTickets}
         quicklyChangeStatus={quicklyChangeStatus}
         isTicketFromTrash={false}
+        setIsButtonDisabled={setIsButtonDisabled}
       />
     </MainContainer>
   );

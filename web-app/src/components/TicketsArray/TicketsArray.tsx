@@ -1,7 +1,6 @@
 import {
   ArrayContainer,
   ContainerInputItem,
-  Divider,
   HeaderList,
   InputItem,
   ItemList,
@@ -27,23 +26,30 @@ import { convertDateFormat } from 'utils';
 type TicketsArrayProps = {
   flowTickets: Flow | undefined;
   allTicketsSelected: string[];
+  setAllTicketsSelected: React.Dispatch<React.SetStateAction<string[]>>;
   updateListOfTickets: (
     id: string,
-    e: React.ChangeEvent<HTMLInputElement>
+    e: React.ChangeEvent<HTMLInputElement>,
+    setIsButtonDisabled: (value: React.SetStateAction<boolean>) => void,
+    allTicketsSelected: string[],
+    setAllTicketsSelected: (value: React.SetStateAction<string[]>) => void
   ) => void;
   quicklyChangeStatus: (
     ticketId: string,
     ticketStatus: string
   ) => Promise<void>;
   isTicketFromTrash: boolean;
+  setIsButtonDisabled: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 const TicketsArray = ({
   flowTickets,
   allTicketsSelected,
+  setAllTicketsSelected,
   updateListOfTickets,
   quicklyChangeStatus,
   isTicketFromTrash,
+  setIsButtonDisabled,
 }: TicketsArrayProps) => {
   const convertIdFormat = (id: string) => {
     const shortId = id.toUpperCase().split('');
@@ -60,7 +66,6 @@ const TicketsArray = ({
         <TextElementHeader>Statut</TextElementHeader>
         <TextElementHeader></TextElementHeader>
       </HeaderList>
-      <Divider />
       <ListContainer>
         {flowTickets
           ? flowTickets.tickets
@@ -74,7 +79,15 @@ const TicketsArray = ({
                         type="checkbox"
                         data-testid={ticket.id}
                         checked={allTicketsSelected.includes(ticket.id)}
-                        onChange={(e) => updateListOfTickets(ticket.id, e)}
+                        onChange={(e) =>
+                          updateListOfTickets(
+                            ticket.id,
+                            e,
+                            setIsButtonDisabled,
+                            allTicketsSelected,
+                            setAllTicketsSelected
+                          )
+                        }
                       ></InputItem>
                     </ContainerInputItem>
                     <TextElement>{convertDateFormat(ticket.date)}</TextElement>

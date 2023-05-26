@@ -49,22 +49,12 @@ function App() {
           <Routes location={location} key={location.key}>
             <Route
               path={SIGN_UP_PATH}
-              element={
-                <SignUp
-                  displayNavbar={displayNavbar}
-                  onSuccess={appContext?.refetch}
-                />
-              }
+              element={<SignUp displayNavbar={displayNavbar} />}
             />
 
             <Route
               path={SIGN_IN_PATH}
-              element={
-                <SignIn
-                  displayNavbar={displayNavbar}
-                  onSuccess={appContext?.refetch}
-                />
-              }
+              element={<SignIn displayNavbar={displayNavbar} />}
             />
             <Route
               element={
@@ -92,7 +82,7 @@ function App() {
 
       <ToastContainer />
     </>
-  )
+  );
 }
 
 export default App;

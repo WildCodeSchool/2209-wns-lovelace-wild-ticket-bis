@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { gql, useMutation, useQuery, useSubscription } from '@apollo/client';
+import { useMutation, useQuery, useSubscription } from '@apollo/client';
 import {
   ChangeTicketStatusMutation,
   GetTicketByIdQuery,
@@ -24,6 +24,12 @@ import { toast } from 'react-toastify';
 import { RiErrorWarningLine } from 'react-icons/ri';
 import { BsClockHistory } from 'react-icons/bs';
 import { HiOutlineCheck } from 'react-icons/hi';
+import {
+  CHANGE_TICKET_STATUS_BY_ID,
+  GET_TICKET_BY_ID,
+  SUBSCRIPTION_WITH_ID,
+} from 'gql-store';
+import { PropsDisplayNavbar } from 'utils';
 
 enum ColorStatus {
   'En attente' = '#61A7CE',
@@ -31,35 +37,7 @@ enum ColorStatus {
   'Incident' = '#D93737',
 }
 
-const GET_TICKET_BY_ID = gql`
-  query getTicketById($id: String!) {
-    getTicketById(id: $id) {
-      isTrash
-      id
-      status
-    }
-  }
-`;
-
-const CHANGE_TICKET_STATUS_BY_ID = gql`
-  mutation ChangeTicketStatus($id: String!, $status: String!) {
-    changeTicketStatus(id: $id, status: $status) {
-      date
-      id
-      status
-    }
-  }
-`;
-
-const SUBSCRIPTION_WITH_ID = gql`
-  subscription Subscription($id: String) {
-    subscriptionWithId(id: $id) {
-      message
-      id
-    }
-  }
-`;
-const PagesClient = ({ displayNavbar }: any) => {
+const PagesClient = ({ displayNavbar }: PropsDisplayNavbar) => {
   const { id } = useParams();
   const [status, setStatus] = useState('');
 

@@ -17,6 +17,7 @@ import {
   TEXT_FONT_WEIGHT,
   TITLE_FONT_WEIGHT,
 } from '../../styles/style-constants';
+import { SELECT_LINK_COLOR } from '../../styles/style-constants';
 
 export const MainContainer = styled.div`
   grid-area: 2 / 2 / 3 / 3;
@@ -90,6 +91,7 @@ export const HeaderList = styled.div`
   grid-row-gap: 0px;
   font-family: ${FONT_FAMILY};
   font-size: 1.2rem;
+  border-bottom: 1px solid ${SELECT_LINK_COLOR};
 `;
 
 export const TextElementHeader = styled.h2`
@@ -99,10 +101,6 @@ export const TextElementHeader = styled.h2`
   align-items: center;
   justify-content: center;
   font-weight: ${TITLE_FONT_WEIGHT};
-`;
-
-export const Divider = styled.hr`
-  width: 90%;
 `;
 
 export const ListContainer = styled.div`

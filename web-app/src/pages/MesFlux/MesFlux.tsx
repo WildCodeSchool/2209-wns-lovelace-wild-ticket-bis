@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, ChangeEvent } from 'react';
 import {
   AllStatusContainer,
   ArrayContainer,
@@ -14,7 +14,6 @@ import {
   ContainerButtonDeleteFlu,
   ContainerInputItem,
   ContainerLogo,
-  Divider,
   FormContainer,
   HeaderList,
   InputElement,
@@ -37,8 +36,8 @@ import {
   TitleElement,
 } from './MesFlux.styled';
 import Modal from 'react-modal';
-import logo from '../../assets/Flu-icone_4.png';
-import { gql, useMutation } from '@apollo/client';
+import logo from '../../assets/Flu-icone.png';
+import { useMutation } from '@apollo/client';
 import {
   AddFlowMutation,
   AddFlowMutationVariables,
@@ -49,27 +48,13 @@ import { toast } from 'react-toastify';
 import { convertDateFormat, getErrorMessage } from 'utils';
 import { AppContext } from 'context/AppContext';
 import { GoTrashcan } from 'react-icons/go';
-
-export const ADD_FLOW = gql`
-  mutation addFlow($id: String!, $flowName: String!) {
-    addFlow(id: $id, flowName: $flowName) {
-      id
-      flowName
-    }
-  }
-`;
-
-export const DELETE_FLOW = gql`
-  mutation deleteFlow($arrayId: [String!]!) {
-    deleteFlow(arrayId: $arrayId)
-  }
-`;
+import { ADD_FLOW, DELETE_FLOW } from 'gql-store';
 
 type Flow = {
   __typename?: 'Flow';
   flowName: string;
   id: string;
-  date: any;
+  date: string;
   calculateTicketCounts: {
     __typename?: 'NumberOfTickets';
     incident?: number | null;
@@ -77,6 +62,17 @@ type Flow = {
     validate?: number | null;
     waiting?: number | null;
   };
+};
+
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
 };
 
 const MesFlux = () => {
@@ -90,6 +86,15 @@ const MesFlux = () => {
   const [isButtonDeleteDisable, setIsButtonDeleteDisable] = useState(true);
   const [isChecked, setIsChecked] = useState<boolean[]>([]);
 
+  const [addFlow] = useMutation<AddFlowMutation, AddFlowMutationVariables>(
+    ADD_FLOW
+  );
+
+  const [deleteFlow] = useMutation<
+    DeleteFlowMutation,
+    DeleteFlowMutationVariables
+  >(DELETE_FLOW);
+
   useEffect(() => {
     if (appContext?.userProfile) {
       setFlows(appContext.userProfile.myProfile.flows);
@@ -98,27 +103,17 @@ const MesFlux = () => {
     }
   }, [appContext?.userProfile]);
 
-  const customStyles = {
-    content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-    },
-  };
-
-  function toggleModal() {
+  const toggleModal = () => {
     setIsOpen(!modalIsOpen);
-  }
-  function toggleModalDelete() {
+  };
+  const toggleModalDelete = () => {
     setModalDeleteIsOpen(!modalDeleteIsOpen);
-  }
+  };
 
   const afterCloseModal = () => {
     setFlowName('');
   };
+
   const afterCloseModalDelete = () => {
     setIsChecked([]);
     let allCheckbox = document.querySelectorAll('checkbox');
@@ -127,7 +122,12 @@ const MesFlux = () => {
     });
     setIsButtonDeleteDisable(true);
   };
-  const flowSelected = (id: string, e: any, index: number) => {
+
+  const flowSelected = (
+    id: string,
+    e: ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const updatedChecked = { ...isChecked };
 
     if (e.target.checked) {
@@ -143,16 +143,7 @@ const MesFlux = () => {
     setIsChecked(updatedChecked);
   };
 
-  const [addFlow] = useMutation<AddFlowMutation, AddFlowMutationVariables>(
-    ADD_FLOW
-  );
-
-  const [deleteFlow] = useMutation<
-    DeleteFlowMutation,
-    DeleteFlowMutationVariables
-  >(DELETE_FLOW);
-
-  const submit = async () => {
+  const addNewFlow = async () => {
     try {
       await addFlow({
         variables: { id, flowName },
@@ -165,12 +156,35 @@ const MesFlux = () => {
     }
   };
 
-  const submitDelete = async () => {
+  //Check if current selected flow is deleted and automaticaly set a new selected flow
+  const controlOnDeleteSelectedFlow = (): void => {
+    if (appContext?.selectedFlow && flows) {
+      if (allFlowSelected.includes(appContext?.selectedFlow?.value)) {
+        const remainingFlows = appContext.userProfile?.myProfile.flows.filter(
+          (flow: Flow) => !allFlowSelected.includes(flow.id)
+        );
+        if (remainingFlows && remainingFlows?.length > 0) {
+          const firstRemainingFlow: Flow = remainingFlows[0];
+          appContext.setSelectedFlow({
+            value: firstRemainingFlow.id,
+            label: firstRemainingFlow.flowName,
+          });
+        } else {
+          toast.warning('Veuilez ajouter un flux.');
+          appContext.setSelectedFlow({ value: '', label: '' });
+        }
+      }
+    }
+  };
+
+  const deletedSelectedFlow = async () => {
     try {
+      controlOnDeleteSelectedFlow();
       await deleteFlow({
         variables: { arrayId: allFlowSelected },
       });
       toast.success(`Suppresion reussi.`);
+      setAllFlowSelected([]);
       appContext?.refetch();
       toggleModalDelete();
       afterCloseModalDelete();
@@ -179,6 +193,7 @@ const MesFlux = () => {
       toast.error(getErrorMessage(error));
     }
   };
+
   return (
     <MainContainer>
       <ContainerButton>
@@ -189,7 +204,7 @@ const MesFlux = () => {
           <GoTrashcan size={25} opacity={0.7} />
           &ensp;Supprimer
         </SecondaryButton>
-        <ButtonAdd onClick={toggleModal}>Ajouter un flu</ButtonAdd>
+        <ButtonAdd onClick={toggleModal}>Ajouter un flux</ButtonAdd>
       </ContainerButton>
       <ArrayContainer>
         <HeaderList>
@@ -199,7 +214,6 @@ const MesFlux = () => {
           <TextElementHeader>Nombre de tickets</TextElementHeader>
           <TextElementHeader></TextElementHeader>
         </HeaderList>
-        <Divider />
         <ListContainer>
           {flows
             ? flows.map((flow: Flow, index) => {
@@ -266,7 +280,9 @@ const MesFlux = () => {
                 }}
               ></InputElement>
             </LabelElement>
-            <ButtonValidate onClick={() => submit()}>Confirmer</ButtonValidate>
+            <ButtonValidate onClick={() => addNewFlow()}>
+              Confirmer
+            </ButtonValidate>
           </FormContainer>
         </ModalContainer>
       </Modal>
@@ -292,7 +308,7 @@ const MesFlux = () => {
               Voulez-vous vraiment supprimer les flux ?{' '}
             </QuestionElement>
             <ContainerButtonDeleteFlu>
-              <ButtonValidateDelete onClick={() => submitDelete()}>
+              <ButtonValidateDelete onClick={() => deletedSelectedFlow()}>
                 Confirmer
               </ButtonValidateDelete>
               <ButtonCancelDelete onClick={() => setModalDeleteIsOpen(false)}>

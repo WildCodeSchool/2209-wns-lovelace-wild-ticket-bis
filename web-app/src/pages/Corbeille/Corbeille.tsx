@@ -1,6 +1,11 @@
-import { gql, useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 import TicketsArray from 'components/TicketsArray/TicketsArray';
 import { AppContext } from 'context/AppContext';
+import {
+  DELETE_TICKETS_BY_ID,
+  GET_TICKETS_BY_FLOW_ID,
+  IS_TRASH_TICKETS_BY_IDS,
+} from 'gql-store';
 import {
   ChangeTicketIsTrashMutation,
   ChangeTicketIsTrashMutationVariables,
@@ -18,38 +23,7 @@ import { useContext, useEffect, useState } from 'react';
 import { GoTrashcan } from 'react-icons/go';
 import { GrTransaction } from 'react-icons/gr';
 import { toast } from 'react-toastify';
-
-export const GET_TICKETS_BY_FLOW_ID = gql`
-  query GetTicketsByFlowId($flowId: String!) {
-    getTicketsByFlowId(flowId: $flowId) {
-      flowName
-      id
-      tickets {
-        date
-        id
-        isTrash
-        status
-      }
-    }
-  }
-`;
-
-export const DELETE_TICKETS_BY_ID = gql`
-  mutation DeleteTickets($arrayId: [String!]!) {
-    deleteTickets(arrayId: $arrayId)
-  }
-`;
-
-export const IS_TRASH_TICKETS_BY_IDS = gql`
-  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {
-    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {
-      date
-      id
-      isTrash
-      status
-    }
-  }
-`;
+import { updateListOfTickets } from 'utils';
 
 const Corbeille = () => {
   const appContext = useContext(AppContext);
@@ -68,33 +42,13 @@ const Corbeille = () => {
     []
   );
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
   useEffect(() => {
     refetch({ flowId: appContext?.selectedFlow?.value });
     if (data?.getTicketsByFlowId) {
       setFlowTickets(data.getTicketsByFlowId);
     }
   }, [appContext?.selectedFlow?.value, data, refetch]);
-
-  const updateListOfTickets = (
-    id: string,
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    if (e.target.checked) {
-      setIsButtonDisabled(false);
-      if (!allTicketsSelected.includes(id)) {
-        setAllTicketsSelected([...allTicketsSelected, id]);
-      }
-    } else {
-      setIsButtonDisabled(true);
-      if (allTicketsSelected.includes(id)) {
-        setAllTicketsSelected(
-          allTicketsSelected.filter((ticket) => {
-            return ticket !== id;
-          })
-        );
-      }
-    }
-  };
 
   const deleteTicketsInTicketList = async () => {
     try {
@@ -150,9 +104,11 @@ const Corbeille = () => {
       <TicketsArray
         flowTickets={flowTickets}
         allTicketsSelected={allTicketsSelected}
+        setAllTicketsSelected={setAllTicketsSelected}
         updateListOfTickets={updateListOfTickets}
-        isTicketFromTrash={true}
         quicklyChangeStatus={quicklyChangeStatus}
+        isTicketFromTrash={true}
+        setIsButtonDisabled={setIsButtonDisabled}
       />
     </MainContainer>
   );

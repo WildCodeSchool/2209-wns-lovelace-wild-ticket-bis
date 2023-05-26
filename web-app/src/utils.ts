@@ -16,8 +16,36 @@ export const convertDateFormat = (isoDate: string) => {
   return dateResult;
 };
 
+export const updateListOfTickets = (
+  id: string,
+  e: React.ChangeEvent<HTMLInputElement>,
+  setIsButtonDisabled: (value: React.SetStateAction<boolean>) => void,
+  allTicketsSelected: string[],
+  setAllTicketsSelected: (value: React.SetStateAction<string[]>) => void
+) => {
+  if (e.target.checked) {
+    setIsButtonDisabled(false);
+    if (!allTicketsSelected.includes(id)) {
+      setAllTicketsSelected([...allTicketsSelected, id]);
+    }
+  } else {
+    setIsButtonDisabled(true);
+    if (allTicketsSelected.includes(id)) {
+      setAllTicketsSelected(
+        allTicketsSelected.filter((ticket) => {
+          return ticket !== id;
+        })
+      );
+    }
+  }
+};
+
 export function addDashes(str: string) {
   const words = str.split(' ');
   const dashedString = words.join('-');
   return dashedString;
 }
+
+export type PropsDisplayNavbar = {
+  displayNavbar: (isItDisplayed: boolean) => void;
+};

@@ -45,19 +45,10 @@ export const ButtonLogout = styled.button`
   font-family: ${FONT_FAMILY};
   font-weight: ${TITLE_FONT_WEIGHT};
   gap: 10px;
-  padding: 3px 15px 3px 15px;
+  padding: 5px 15px 5px 15px;
   transition: 0.3s ease-out;
 
   &:active {
     background-color: ${SECONDARY_BUTTON_COLOR_ACTION};
   }
-`;
-
-export const LogoLogout = styled.img`
-  margin: 5px 0px 5px 0px;
-  width: 20px;
-`;
-
-export const ContainerLogoLogout = styled.div`
-  display: flex;
 `;

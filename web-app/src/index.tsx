@@ -38,9 +38,6 @@ const splitLink = split(
   wsLink,
   httpLink
 );
-wsLink.client.on('connecting', () => {
-  console.log('connecting');
-});
 
 const client = new ApolloClient({
   link: splitLink,

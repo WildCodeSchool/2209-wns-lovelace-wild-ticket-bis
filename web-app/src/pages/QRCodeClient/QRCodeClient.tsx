@@ -6,9 +6,10 @@ import {
   LogoLarge,
   RightSideQrCodeClient,
 } from './QrCodeClient.styled';
-import logoLarge from '../../assets/logo_flu_large.png';
+import logoLarge from '../../assets/logo_flux_large.png';
+import { PropsDisplayNavbar } from 'utils';
 
-const QRCodeClient = ({ displayNavbar }: any) => {
+const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
   useEffect(() => {
     displayNavbar(false);
     return () => {
