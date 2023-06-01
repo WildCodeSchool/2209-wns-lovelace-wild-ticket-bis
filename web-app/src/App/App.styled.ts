@@ -16,11 +16,13 @@ export const AppContainer = styled.main.attrs(() => ({ tabIndex: 0 }))`
     grid-row-gap: 0px;
   }
   @media (max-width: 1024px) {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 2fr 1fr 6fr 1fr;
-    grid-column-gap: 0px;
-    grid-row-gap: 0px;
+    &.yes {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: 2fr 6fr 1fr;
+      grid-column-gap: 0px;
+      grid-row-gap: 0px;
+    }
   }
 `;
 

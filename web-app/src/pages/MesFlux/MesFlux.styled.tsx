@@ -36,9 +36,6 @@ export const ContainerButton = styled.div`
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 20px;
-  @media (max-width: 1024px) {
-    grid-area: 3 / 1 / 4 / 2;
-  }
 `;
 
 export const SecondaryButton = styled.button`
