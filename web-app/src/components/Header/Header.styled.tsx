@@ -13,6 +13,9 @@ export const ContainerHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 95%;
+  @media (max-width: 1024px) {
+    grid-area: 1 / 1 / 2 / 2;
+  }
 `;
 
 export const ContainerActualFlu = styled.div`

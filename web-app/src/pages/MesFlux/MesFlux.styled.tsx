@@ -25,6 +25,9 @@ export const MainContainer = styled.div`
   display: grid;
   grid-template-rows: 10% 90%;
   width: 95%;
+  @media (max-width: 1024px) {
+    grid-area: 2 / 1 / 3 / 2;
+  }
 `;
 
 export const ContainerButton = styled.div`
@@ -33,6 +36,9 @@ export const ContainerButton = styled.div`
   align-items: flex-end;
   justify-content: space-between;
   margin-bottom: 20px;
+  @media (max-width: 1024px) {
+    grid-area: 3 / 1 / 4 / 2;
+  }
 `;
 
 export const SecondaryButton = styled.button`

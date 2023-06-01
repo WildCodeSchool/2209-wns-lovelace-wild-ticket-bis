@@ -11,6 +11,9 @@ import {
 export const ContainerNavbar = styled.div`
   grid-area: 2 / 1 / 3 / 2;
   margin-top: 60px;
+  @media (max-width: 1024px) {
+    grid-area: 4 / 1 / 5 / 2;
+  }
 `;
 
 export const ContainerLink = styled.div`
