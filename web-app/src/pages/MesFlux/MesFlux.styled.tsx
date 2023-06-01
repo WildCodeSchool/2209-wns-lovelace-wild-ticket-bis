@@ -27,6 +27,9 @@ export const MainContainer = styled.div`
   width: 95%;
   @media (max-width: 1024px) {
     grid-area: 2 / 1 / 3 / 2;
+    height: 100%;
+    width: auto;
+    margin: 0 30px 0 30px;
   }
 `;
 

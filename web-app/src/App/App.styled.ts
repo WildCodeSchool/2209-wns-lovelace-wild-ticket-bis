@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
-
-import { MAIN_THEME_COLOR } from '../styles/style-constants';
-import { baseContainerStyles, baseTitleStyles } from '../styles/base-styles';
+import { baseContainerStyles } from '../styles/base-styles';
 
 export const AppContainer = styled.main.attrs(() => ({ tabIndex: 0 }))`
   ${baseContainerStyles}
@@ -24,23 +21,4 @@ export const AppContainer = styled.main.attrs(() => ({ tabIndex: 0 }))`
       grid-row-gap: 0px;
     }
   }
-`;
-
-export const Header = styled.header`
-  background-color: ${MAIN_THEME_COLOR};
-  color: #fff;
-`;
-
-export const Footer = styled.footer`
-  border-top: 2px solid ${MAIN_THEME_COLOR};
-`;
-
-export const PageTitle = styled.h1`
-  ${baseTitleStyles}
-  font-size: 40px;
-`;
-
-export const PageTitleLink = styled(Link)`
-  color: inherit;
-  text-decoration: none;
 `;
