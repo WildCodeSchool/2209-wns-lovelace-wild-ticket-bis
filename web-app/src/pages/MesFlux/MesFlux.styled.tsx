@@ -9,6 +9,7 @@ import {
   COLOR_VALIDATE_TICKET,
   COLOR_WAITING_TICKET,
   FONT_FAMILY,
+  MAX_WIDTH_TABLET,
   PRIMARY_BUTTON_COLOR,
   PRIMARY_BUTTON_COLOR_ACTION,
   PRIMARY_BUTTON_SIZE,
@@ -26,7 +27,7 @@ export const MainContainer = styled.div`
   grid-template-rows: 10% 90%;
   width: 95%;
   row-gap: 20px;
-  @media (max-width: 1024px) {
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
     grid-area: 2 / 1 / 3 / 2;
     height: 100%;
     width: auto;
@@ -119,7 +120,7 @@ export const ListContainer = styled.div`
   overflow-y: auto;
   height: 410px;
 
-  @media (min-width: 1024px) {
+  @media (min-width: ${MAX_WIDTH_TABLET}) {
     height: 410px;
   }
 

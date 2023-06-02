@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import {
   BUTTON_BOX_SHADOW,
   FONT_FAMILY,
+  MAX_WIDTH_TABLET,
   SECONDARY_BUTTON_COLOR,
   SECONDARY_BUTTON_COLOR_ACTION,
   TITLE_FONT_WEIGHT,
@@ -13,7 +14,7 @@ export const ContainerHeader = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 95%;
-  @media (max-width: 1024px) {
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
     grid-area: 1 / 1 / 2 / 2;
     width: auto;
     margin: 0 30px 0 30px;

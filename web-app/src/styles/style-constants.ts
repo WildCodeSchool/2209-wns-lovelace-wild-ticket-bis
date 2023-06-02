@@ -26,3 +26,5 @@ export const COLOR_VALIDATE_TICKET = '#2BC016';
 export const COLOR_NOSCAN_TICKET = '#F0D472';
 export const COLOR_ERROR_TICKET = '#D93737';
 export const COLOR_WAITING_TICKET = '#61A7CE';
+
+export const MAX_WIDTH_TABLET = '1024px';

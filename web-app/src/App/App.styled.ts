@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { baseContainerStyles } from '../styles/base-styles';
+import { MAX_WIDTH_TABLET } from 'styles/style-constants';
 
 export const AppContainer = styled.main.attrs(() => ({ tabIndex: 0 }))`
   ${baseContainerStyles}
@@ -12,7 +13,7 @@ export const AppContainer = styled.main.attrs(() => ({ tabIndex: 0 }))`
     grid-column-gap: 0px;
     grid-row-gap: 0px;
   }
-  @media (max-width: 1024px) {
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
     &.yes {
       display: grid;
       grid-template-columns: 1fr;

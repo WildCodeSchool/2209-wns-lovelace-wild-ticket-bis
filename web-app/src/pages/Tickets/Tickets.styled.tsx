@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import {
   BUTTON_BOX_SHADOW,
   FONT_FAMILY,
+  MAX_WIDTH_TABLET,
   SECONDARY_BUTTON_COLOR,
   SECONDARY_BUTTON_COLOR_ACTION,
   TEXT_FONT_WEIGHT,
@@ -35,7 +36,7 @@ export const ContainerButton = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  @media (max-width: 1024px) {
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
     flex-wrap: wrap-reverse;
   }
 `;
@@ -51,7 +52,7 @@ export const ButtonQuickChange = styled(motion.button)`
 
 export const ContainerButtonAction = styled.div`
   display: flex;
-  @media (max-width: 1024px) {
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
     margin-top: 15px;
   }
 `;
