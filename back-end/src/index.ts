@@ -41,7 +41,7 @@ const startServer = async () => {
     server: httpServer,
     // Pass a different path here if your ApolloServer serves at
     // a different path.
-    path: '/api',
+    path: '/ws',
   });
 
   const schema = await buildSchema({
