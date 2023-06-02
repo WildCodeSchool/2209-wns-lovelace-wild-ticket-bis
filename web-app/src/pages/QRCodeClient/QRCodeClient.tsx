@@ -22,12 +22,13 @@ import {
 import logoLarge from '../../assets/logo_flux_large.png';
 import { PropsDisplayNavbar } from 'utils';
 import { QRCodeSVG } from 'qrcode.react';
-import { gql, useQuery, useSubscription } from '@apollo/client';
+import { gql, useLazyQuery, useQuery, useSubscription } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
 import { GET_TICKETS_BY_FLOW_ID } from 'gql-store';
 import {
   Subscription,
   SubscriptionSubscriptionForTicketAddToFlowArgs,
+  SubscriptionSubscriptionWithIdArgs,
 } from 'gql/graphql';
 
 export const GET_TICKET_ADD_SUBSCRIPTION = gql`
@@ -40,6 +41,25 @@ export const GET_TICKET_ADD_SUBSCRIPTION = gql`
   }
 `;
 
+export const GET_TICKET_BY_ID = gql`
+  query GetTicketById($id: String!) {
+    getTicketById(id: $id) {
+      date
+      id
+      isTrash
+      status
+    }
+  }
+`;
+
+export const SUBSCRIPTION_WITH_ID = gql`
+  subscription Subscription($id: String) {
+    subscriptionWithId(id: $id) {
+      message
+      id
+    }
+  }
+`;
 interface TicketWithSeconds {
   __typename: string;
   date: string;
@@ -58,15 +78,22 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
   });
 
   const [arrayTickets, setArrayTickets] = useState(Array<TicketWithSeconds>);
+
   const [currentTicketId, setCurrentTicketId] =
     useState<TicketWithSeconds | null>(null);
 
+  //Recupere le flow id contenu dans l'url
   let location = useLocation();
   let flowId: string = location.state;
 
   const { data, loading } = useQuery(GET_TICKETS_BY_FLOW_ID, {
     variables: { flowId },
   });
+
+  const [
+    getTicketWithId,
+    { data: dataQueryTicket, loading: dataQueryLoading },
+  ] = useLazyQuery(GET_TICKET_BY_ID);
 
   const { data: dataSub, loading: subLoading } = useSubscription<
     Subscription,
@@ -76,35 +103,85 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
     shouldResubscribe: true,
   });
 
+  console.log(currentTicketId);
+  const { data: dataSubChangeStatus, loading: loadingSubChangeStatus } =
+    useSubscription<SubscriptionSubscriptionWithIdArgs>(SUBSCRIPTION_WITH_ID, {
+      skip: !currentTicketId,
+      variables: { id: currentTicketId?.id },
+      shouldResubscribe: true,
+    });
+
+  //Fonction pour trier en fonction de la date du tickets
+  const arraySorted = (array: TicketWithSeconds[]) => {
+    return array.sort(
+      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+    );
+  };
+
   useEffect(() => {
+    let newArraySorted: TicketWithSeconds[] = [];
     if (!loading) {
-      //Recupere data et fait un clone , puis rajoute dans chaque tickets , la valeur seconds , puis inplement le tableau dans le state
+      /**
+       * Recupere les tickets deja present dans le flow
+       * Rajoute dans chaque tickets, la valeur seconds
+       * Verifier si les tickets ne sont pas en corbeille, puis rajoute le tableau dans un state
+       */
       let arrayWithNewTickets = data.getTicketsByFlowId.tickets.slice();
-      const newArraySorted: TicketWithSeconds[] = arrayWithNewTickets.map(
-        (ticket: any, index: any) => ({
-          ...ticket,
-          seconds: 10,
-        })
-      );
-      newArraySorted.sort(
-        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-      );
-      setArrayTickets(newArraySorted);
+      newArraySorted = arrayWithNewTickets.map((ticket: any, index: any) => ({
+        ...ticket,
+        seconds: 500,
+      }));
+      setArrayTickets(newArraySorted.filter((e) => e.isTrash === false));
     }
   }, [data, loading]);
 
   useEffect(() => {
-    console.log(subLoading);
+    let newArraySorted: TicketWithSeconds[] = [];
 
-    console.log(dataSub, 'iciciciiic');
-  }, [dataSub, subLoading]);
+    if (!subLoading && dataSub) {
+      //Execute la query pour recuperer un ticket via id
+      getTicketWithId({
+        variables: { id: dataSub.SubscriptionForTicketAddToFlow.id },
+      });
+
+      if (dataQueryTicket) {
+        //implemente la valeurs seconde dans le ticket
+        let newTicketWithSecond: TicketWithSeconds = {
+          ...dataQueryTicket.getTicketById,
+          seconds: 500,
+        };
+
+        //Verifie si le ticket n'est pas deja present dans le tableau
+        if (arrayTickets.some((el) => el.id === newTicketWithSecond.id)) {
+          return;
+        } else {
+          //recupere le state
+          newArraySorted = arrayTickets;
+          //rajoute le nouveau ticket
+          newArraySorted.push(newTicketWithSecond);
+          //re-set le tableau avec le nouveau ticket
+          setArrayTickets(newArraySorted);
+        }
+        //reset tableau
+        newArraySorted = [];
+      }
+    }
+  }, [dataSub, dataQueryTicket]);
 
   useEffect(() => {
     if (arrayTickets.length === 0) {
       console.log('Tous les tickets ont été traités.');
       return;
     }
+
+    //trie le tableau
+    let arrayTicketSorted = arraySorted(arrayTickets);
+
     if (currentTicketId) {
+      console.log(`Affichage du ticket ID: ${currentTicketId.id}`);
+      console.log(dataSubChangeStatus);
+      console.log(loadingSubChangeStatus);
+
       const timer = setInterval(() => {
         currentTicketId.seconds--;
         console.log(
@@ -115,15 +192,28 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
           clearInterval(timer);
           setCurrentTicketId(null);
           arrayTickets.shift();
+          console.log(arrayTickets.length);
+          if (arrayTickets.length === 0) {
+            setArrayTickets([]);
+          }
         }
       }, 1000);
     } else {
-      setCurrentTicketId(arrayTickets[0]);
-      console.log(
-        `Affichage du ticket ID: ${currentTicketId ? currentTicketId : null}`
-      );
+      //defini le ticket a afficher, toujours le premier du tableau
+      setCurrentTicketId(arrayTicketSorted[0]);
     }
   }, [arrayTickets, currentTicketId]);
+
+  useEffect(() => {
+    console.log(dataSubChangeStatus);
+    console.log('iciciciciic');
+  }, [dataSubChangeStatus]);
+
+  const convertIdFormat = (id: string) => {
+    const shortId = id.toUpperCase().split('');
+    shortId.splice(5, shortId.length).join('');
+    return shortId;
+  };
 
   return (
     <ContainerQrCodeClient>
@@ -140,7 +230,11 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
           <TextTicketNumber>
             Numero d’attente : <br />
             <NumberTicket>
-              {currentTicketId ? <p>{currentTicketId.id}</p> : <p>lol</p>}
+              {currentTicketId ? (
+                <p>{convertIdFormat(currentTicketId.id)}</p>
+              ) : (
+                <p>lol</p>
+              )}
             </NumberTicket>
           </TextTicketNumber>
         </ContainerTicketNumber>

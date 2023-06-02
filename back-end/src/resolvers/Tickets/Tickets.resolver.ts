@@ -116,13 +116,14 @@ export default class TicketResolver {
       payload,
       args,
     }: ResolverFilterData<Notification, { id: string; ids: string }>) => {
+      console.log(args);
       const { id, ids } = args;
       return !id || payload.id === id || !ids || ids.includes(payload.id);
     },
   })
   subscriptionWithId(
     @Root() payload: Notification,
-    @Args() subscriptionIds: SubscriptionFilter
+    @Args() args: SubscriptionFilter
   ): Notification {
     return payload;
   }
