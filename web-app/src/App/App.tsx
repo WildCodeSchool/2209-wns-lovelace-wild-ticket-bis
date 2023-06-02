@@ -56,22 +56,23 @@ function App() {
               path={SIGN_IN_PATH}
               element={<SignIn displayNavbar={displayNavbar} />}
             />
+            <Route path={MES_FLUX_PATH} element={<MesFlux />} />
+            <Route path={TICKETS_PATH} element={<Tickets />} />
+            <Route path={QR_CODE_PATH} element={<QRCode />} />
+            <Route path={CORBEILLE_PATH} element={<Corbeille />} />
             <Route
-              element={
-                <ProtectedRoutes user={appContext?.userProfile}>
-                  <DashboardLayout />
-                </ProtectedRoutes>
-              }
-            >
-              <Route path={MES_FLUX_PATH} element={<MesFlux />} />
-              <Route path={TICKETS_PATH} element={<Tickets />} />
-              <Route path={QR_CODE_PATH} element={<QRCode />} />
-              <Route path={CORBEILLE_PATH} element={<Corbeille />} />
+              path={`${QR_CODE_CLIENT_PATH}/:flowName`}
+              element={<QRCodeClient displayNavbar={displayNavbar} />}
+            />
+            {appContext?.userProfile && (
               <Route
-                path={`${QR_CODE_CLIENT_PATH}/:flowName`}
-                element={<QRCodeClient displayNavbar={displayNavbar} />}
+                element={
+                  <ProtectedRoutes user={appContext?.userProfile}>
+                    <DashboardLayout />
+                  </ProtectedRoutes>
+                }
               />
-            </Route>
+            )}
             <Route
               path={`${TICKET_CLIENT_PATH}/:id`}
               element={<PagesClient displayNavbar={displayNavbar} />}
