@@ -15,6 +15,8 @@ export const ContainerHeader = styled.div`
   width: 95%;
   @media (max-width: 1024px) {
     grid-area: 1 / 1 / 2 / 2;
+    width: auto;
+    margin: 0 30px 0 30px;
   }
 `;
 

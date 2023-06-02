@@ -25,6 +25,7 @@ export const MainContainer = styled.div`
   display: grid;
   grid-template-rows: 10% 90%;
   width: 95%;
+  row-gap: 20px;
   @media (max-width: 1024px) {
     grid-area: 2 / 1 / 3 / 2;
     height: 100%;
@@ -38,7 +39,6 @@ export const ContainerButton = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 20px;
 `;
 
 export const SecondaryButton = styled.button`

@@ -35,7 +35,9 @@ export const ContainerButton = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 20px;
+  @media (max-width: 1024px) {
+    flex-wrap: wrap-reverse;
+  }
 `;
 
 export const ButtonQuickChange = styled(motion.button)`
@@ -49,6 +51,9 @@ export const ButtonQuickChange = styled(motion.button)`
 
 export const ContainerButtonAction = styled.div`
   display: flex;
+  @media (max-width: 1024px) {
+    margin-top: 15px;
+  }
 `;
 
 export const AllStatusContainer = styled.div`
