@@ -2,9 +2,11 @@ import styled from 'styled-components';
 import {
   BUTTON_BOX_SHADOW,
   FONT_FAMILY,
+  MAX_WIDTH_PHONE,
   MAX_WIDTH_TABLET,
   SECONDARY_BUTTON_COLOR,
   SECONDARY_BUTTON_COLOR_ACTION,
+  TITLE_FONT_COLOR,
   TITLE_FONT_WEIGHT,
 } from '../../styles/style-constants';
 
@@ -51,13 +53,25 @@ export const ButtonLogout = styled.button`
   border-radius: 10px;
   background-color: ${SECONDARY_BUTTON_COLOR};
   box-shadow: ${BUTTON_BOX_SHADOW};
-  font-family: ${FONT_FAMILY};
-  font-weight: ${TITLE_FONT_WEIGHT};
+  color: ${TITLE_FONT_COLOR};
   gap: 10px;
   padding: 5px 15px 5px 15px;
   transition: 0.3s ease-out;
 
   &:active {
     background-color: ${SECONDARY_BUTTON_COLOR_ACTION};
+  }
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    padding: 10px;
+    border-radius: 3px;
+  }
+`;
+
+export const ButtonSpan = styled.span`
+  font-family: ${FONT_FAMILY};
+  font-weight: ${TITLE_FONT_WEIGHT};
+  color: ${TITLE_FONT_COLOR};
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    display: none;
   }
 `;

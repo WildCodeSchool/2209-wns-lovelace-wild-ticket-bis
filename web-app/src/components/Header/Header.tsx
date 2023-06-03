@@ -1,5 +1,6 @@
 import {
   ButtonLogout,
+  ButtonSpan,
   ContainerActualFlu,
   ContainerHeader,
   LabelActualFlu,
@@ -107,7 +108,7 @@ const Header = ({ isLogoDisplayed }: Props) => {
       </ContainerActualFlu>
       <ButtonLogout onClick={() => logOutNavigation()}>
         <SlLogout size={23} />
-        Se déconnecter
+        <ButtonSpan>Se déconnecter</ButtonSpan>
       </ButtonLogout>
     </ContainerHeader>
   );
