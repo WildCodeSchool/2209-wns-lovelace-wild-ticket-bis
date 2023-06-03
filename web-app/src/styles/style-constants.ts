@@ -28,3 +28,4 @@ export const COLOR_ERROR_TICKET = '#D93737';
 export const COLOR_WAITING_TICKET = '#61A7CE';
 
 export const MAX_WIDTH_TABLET = '1024px';
+export const MAX_WIDTH_PHONE = '800px';

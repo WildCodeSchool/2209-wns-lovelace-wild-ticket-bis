@@ -12,6 +12,9 @@ export const GlobalLogoContainer = styled.div`
 export const LogoImg = styled.img`
   width: 120px;
   margin: 20px;
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    width: ${(props) => (props.hidden ? '120px' : '100px')};
+  }
 `;
 
 export const LogoImgResponsive = styled.img`
