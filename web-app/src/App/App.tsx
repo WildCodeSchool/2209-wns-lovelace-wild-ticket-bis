@@ -45,7 +45,9 @@ function App() {
         {isNavbarDisplayed ? (
           <Logo isNavbarDisplayed={isNavbarDisplayed} />
         ) : null}
-        {isNavbarDisplayed ? <Header /> : null}
+        {isNavbarDisplayed ? (
+          <Header isLogoDisplayed={isNavbarDisplayed} />
+        ) : null}
         {isNavbarDisplayed ? <Navbar /> : null}
         <AnimatePresence mode="wait">
           <Routes location={location} key={location.key}>

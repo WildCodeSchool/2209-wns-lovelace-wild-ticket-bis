@@ -28,6 +28,9 @@ export const ContainerActualFlu = styled.div`
   align-items: center;
   justify-content: flex-start;
   gap: 15px;
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    justify-content: center;
+  }
 `;
 export const LabelActualFlu = styled.label`
   font-family: ${FONT_FAMILY};

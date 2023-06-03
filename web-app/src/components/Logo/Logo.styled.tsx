@@ -13,3 +13,10 @@ export const LogoImg = styled.img`
   width: 120px;
   margin: 20px;
 `;
+
+export const LogoImgResponsive = styled.img`
+  width: 120px;
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    display: ${(props) => (props.hidden ? 'flex' : 'none')};
+  }
+`;
