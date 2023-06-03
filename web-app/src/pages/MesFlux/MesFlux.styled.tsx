@@ -22,14 +22,14 @@ import { SELECT_LINK_COLOR } from '../../styles/style-constants';
 
 export const MainContainer = styled.div`
   grid-area: 2 / 2 / 3 / 3;
-  height: 95%;
+  height: 90%;
   display: grid;
   grid-template-rows: 10% 90%;
   width: 95%;
   row-gap: 20px;
   @media (max-width: ${MAX_WIDTH_TABLET}) {
     grid-area: 2 / 1 / 3 / 2;
-    height: 100%;
+    height: 92%;
     width: auto;
     margin: 0 30px 0 30px;
   }

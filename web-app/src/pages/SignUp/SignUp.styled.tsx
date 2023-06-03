@@ -41,6 +41,9 @@ export const ContainerInput = styled.div`
 export const LabelForm = styled.label`
   @media (max-width: ${MAX_WIDTH_PHONE}) {
     margin: 10px 0 10px 0;
+    &:first-child {
+      margin-top: 25px;
+    }
   }
 `;
 
@@ -55,7 +58,6 @@ export const SignUpRight = styled.div`
     flex-direction: column;
     border-top: 1px solid rgba(42, 42, 42, 0.15);
     border-left: none;
-    margin-top: 10px;
   }
 `;
 
@@ -79,6 +81,9 @@ export const InputForm = styled.input`
   width: 100%;
   @media (max-width: ${MAX_WIDTH_PHONE}) {
     width: 190px;
+    &[type='email'] {
+      margin-bottom: 25px;
+    }
   }
 `;
 
