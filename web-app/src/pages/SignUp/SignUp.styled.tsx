@@ -23,6 +23,7 @@ export const FormContainer = styled.form`
     width: auto;
     height: auto;
     padding: 10px 50px 10px 50px;
+    margin-bottom: 50px;
   }
 `;
 

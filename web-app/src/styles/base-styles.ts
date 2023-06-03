@@ -6,4 +6,5 @@ export const baseContainerStyles = css`
   margin-right: auto;
   background: ${BACKGROUND_COLOR};
   height: 100vh;
+  overflow-y: auto;
 `;
