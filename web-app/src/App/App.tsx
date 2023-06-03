@@ -42,7 +42,9 @@ function App() {
   return (
     <>
       <AppContainer className={isNavbarDisplayed ? 'yes' : 'no'}>
-        {isNavbarDisplayed ? <Logo /> : null}
+        {isNavbarDisplayed ? (
+          <Logo isNavbarDisplayed={isNavbarDisplayed} />
+        ) : null}
         {isNavbarDisplayed ? <Header /> : null}
         {isNavbarDisplayed ? <Navbar /> : null}
         <AnimatePresence mode="wait">

@@ -1,10 +1,13 @@
-import React from 'react';
 import logo from '../../assets/logo_flu.png';
 import { GlobalLogoContainer, LogoImg } from './Logo.styled';
 
-const Logo = () => {
+type Props = {
+  isNavbarDisplayed: boolean;
+};
+
+const Logo = ({ isNavbarDisplayed }: Props) => {
   return (
-    <GlobalLogoContainer>
+    <GlobalLogoContainer hidden={isNavbarDisplayed}>
       <LogoImg src={logo} alt="Flux Logo"></LogoImg>
     </GlobalLogoContainer>
   );

@@ -73,7 +73,7 @@ const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
   return (
     <SignContainer>
       <GlobalLogoContainer>
-        <Logo />
+        <Logo isNavbarDisplayed={false} />
       </GlobalLogoContainer>
       <GlobalFormContainer
         key="signUpKey"
