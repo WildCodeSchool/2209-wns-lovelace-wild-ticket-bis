@@ -7,6 +7,8 @@ export const TEXT_FONT_COLOR = '#2A2A2A';
 export const FONT_FAMILY = `QuickSand`;
 export const TITLE_FONT_WEIGHT = '600';
 export const TEXT_FONT_WEIGHT = '400';
+export const TEXT_FONT_SIZE_PHONE = '0.9rem';
+export const TITLE_FONT_SIZE_PHONE = '1rem';
 
 export const BOX_BACKGROUND_COLOR =
   'linear-gradient(166.21deg, rgba(222,222,222,0.02) 5%, rgba(153,153,153,0.13) 100%)';
@@ -17,7 +19,8 @@ export const BOX_BORDER = '1px solid rgba(42, 42, 42, 0.04)';
 export const SELECT_LINK_COLOR = '#D3D3D3';
 export const SECONDARY_BUTTON_COLOR = '#E7E7E7';
 export const SECONDARY_BUTTON_COLOR_ACTION = '#D2D2D2';
-export const SECONDARY_BUTTON_SIZE = '';
+export const SECONDARY_BUTTON_SIZE = '5px 25px';
+export const SECONDARY_BUTTON_SIZE_PHONE = '3px 23px';
 export const PRIMARY_BUTTON_COLOR = '#FF9442';
 export const PRIMARY_BUTTON_COLOR_ACTION = '#C96E28';
 export const PRIMARY_BUTTON_SIZE = '8px 25px 8px 25px';

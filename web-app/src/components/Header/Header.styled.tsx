@@ -7,6 +7,7 @@ import {
   SECONDARY_BUTTON_COLOR,
   SECONDARY_BUTTON_COLOR_ACTION,
   TITLE_FONT_COLOR,
+  TITLE_FONT_SIZE_PHONE,
   TITLE_FONT_WEIGHT,
 } from '../../styles/style-constants';
 
@@ -33,10 +34,17 @@ export const ContainerActualFlu = styled.div`
   @media (max-width: ${MAX_WIDTH_TABLET}) {
     justify-content: center;
   }
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    justify-content: flex-start;
+    width: auto;
+  }
 `;
 export const LabelActualFlu = styled.label`
   font-family: ${FONT_FAMILY};
   font-size: 1.4em;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    font-size: ${TITLE_FONT_SIZE_PHONE};
+  }
 `;
 
 export const SelectActualFlu = styled.div`

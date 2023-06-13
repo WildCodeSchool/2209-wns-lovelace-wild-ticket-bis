@@ -34,6 +34,7 @@ import {
   TextElementHeader,
   TitleContainer,
   TitleElement,
+  DeleteText,
 } from './MesFlux.styled';
 import Modal from 'react-modal';
 import logo from '../../assets/Flu-icone.png';
@@ -202,7 +203,7 @@ const MesFlux = () => {
           disabled={isButtonDeleteDisable}
         >
           <GoTrashcan size={25} opacity={0.7} />
-          &ensp;Supprimer
+          <DeleteText>&ensp;Supprimer</DeleteText>
         </SecondaryButton>
         <ButtonAdd onClick={toggleModal}>Ajouter un flux</ButtonAdd>
       </ContainerButton>
@@ -210,7 +211,7 @@ const MesFlux = () => {
         <HeaderList>
           <TextElementHeader></TextElementHeader>
           <TextElementHeader>Date</TextElementHeader>
-          <TextElementHeader>Nom de flu</TextElementHeader>
+          <TextElementHeader>Nom de flux</TextElementHeader>
           <TextElementHeader>Nombre de tickets</TextElementHeader>
           <TextElementHeader></TextElementHeader>
         </HeaderList>

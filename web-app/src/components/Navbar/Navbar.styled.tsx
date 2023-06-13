@@ -4,6 +4,7 @@ import {
   BOX_BACKGROUND_COLOR,
   BOX_SHADOW,
   FONT_FAMILY,
+  MAX_WIDTH_PHONE,
   MAX_WIDTH_TABLET,
   SELECT_LINK_COLOR,
   TEXT_FONT_COLOR,
@@ -32,6 +33,9 @@ export const ContainerLink = styled.div`
     display: flex;
     flex-direction: row;
     width: 60%;
+  }
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: 100%;
   }
 `;
 

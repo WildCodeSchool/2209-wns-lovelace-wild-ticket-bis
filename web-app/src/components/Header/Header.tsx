@@ -86,7 +86,7 @@ const Header = ({ isLogoDisplayed }: Props) => {
     <ContainerHeader>
       <LogoResponsive isLogoDisplayed={isLogoDisplayed} />
       <ContainerActualFlu>
-        <LabelActualFlu> Flu Actuel : </LabelActualFlu>
+        <LabelActualFlu> Flux Actuel : </LabelActualFlu>
         <SelectActualFlu>
           {flowsOptions && flowsOptions.length > 0 ? (
             <Select
