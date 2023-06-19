@@ -8,6 +8,7 @@ import {
   MAX_WIDTH_TABLET,
   SELECT_LINK_COLOR,
   TEXT_FONT_COLOR,
+  TITLE_FONT_SIZE,
 } from '../../styles/style-constants';
 import { IoQrCodeOutline, IoReaderOutline } from 'react-icons/io5';
 import { GoTrashcan } from 'react-icons/go';
@@ -83,7 +84,7 @@ export const StyledLink = styled(NavLink)<{ active: number }>`
     border-radius: 0;
     height: 5rem;
     box-shadow: none;
-    font-size: 1.2rem;
+    font-size: ${TITLE_FONT_SIZE};
     transition: background-color 0.1s ease-in;
     &:focus {
       width: 100%;

@@ -6,6 +6,7 @@ export const TEXT_FONT_COLOR = '#2A2A2A';
 
 export const FONT_FAMILY = `QuickSand`;
 export const TITLE_FONT_WEIGHT = '600';
+export const TITLE_FONT_SIZE = '1.2rem';
 export const TEXT_FONT_WEIGHT = '400';
 export const TEXT_FONT_SIZE_PHONE = '0.9rem';
 export const TITLE_FONT_SIZE_PHONE = '1rem';
@@ -23,7 +24,8 @@ export const SECONDARY_BUTTON_SIZE = '5px 25px';
 export const SECONDARY_BUTTON_SIZE_PHONE = '3px 23px';
 export const PRIMARY_BUTTON_COLOR = '#FF9442';
 export const PRIMARY_BUTTON_COLOR_ACTION = '#C96E28';
-export const PRIMARY_BUTTON_SIZE = '8px 25px 8px 25px';
+export const PRIMARY_BUTTON_SIZE = '8px 25px';
+export const PRIMARY_BUTTON_SIZE_PHONE = '5px 19px';
 export const BUTTON_BOX_SHADOW = '0px 2px 2px rgba(69, 69, 69, 0.25)';
 export const COLOR_VALIDATE_TICKET = '#2BC016';
 export const COLOR_NOSCAN_TICKET = '#F0D472';
@@ -31,4 +33,4 @@ export const COLOR_ERROR_TICKET = '#D93737';
 export const COLOR_WAITING_TICKET = '#61A7CE';
 
 export const MAX_WIDTH_TABLET = '1024px';
-export const MAX_WIDTH_PHONE = '800px';
+export const MAX_WIDTH_PHONE = '767px';

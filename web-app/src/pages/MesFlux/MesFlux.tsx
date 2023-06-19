@@ -35,6 +35,8 @@ import {
   TitleContainer,
   TitleElement,
   DeleteText,
+  AddText,
+  AiOutlinePlusCircleIcon,
 } from './MesFlux.styled';
 import Modal from 'react-modal';
 import logo from '../../assets/Flu-icone.png';
@@ -205,7 +207,10 @@ const MesFlux = () => {
           <GoTrashcan size={25} opacity={0.7} />
           <DeleteText>&ensp;Supprimer</DeleteText>
         </SecondaryButton>
-        <ButtonAdd onClick={toggleModal}>Ajouter un flux</ButtonAdd>
+        <ButtonAdd onClick={toggleModal}>
+          <AiOutlinePlusCircleIcon size={27} opacity={0.7} />
+          <AddText>Ajouter un flux</AddText>
+        </ButtonAdd>
       </ContainerButton>
       <ArrayContainer>
         <HeaderList>

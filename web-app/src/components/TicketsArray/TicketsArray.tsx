@@ -18,6 +18,7 @@ import {
   ButtonQuickChange,
   StatusContainer,
   AllStatusContainer,
+  TextStatus,
 } from 'pages/Tickets/Tickets.styled';
 import { IoPlayOutline } from 'react-icons/io5';
 import { TEXT_FONT_COLOR } from 'styles/style-constants';
@@ -106,7 +107,9 @@ const TicketsArray = ({
                           <StatusValidate />
                         ) : null}
                       </StatusContainer>
-                      <StatusContainer>{ticket.status}</StatusContainer>
+                      <StatusContainer>
+                        <TextStatus>{ticket.status}</TextStatus>
+                      </StatusContainer>
                     </AllStatusContainer>
                     {(ticket.status === 'Ticket non scanné' ||
                       ticket.status === 'En attente') &&
