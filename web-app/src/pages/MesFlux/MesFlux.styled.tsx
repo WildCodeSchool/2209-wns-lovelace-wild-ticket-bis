@@ -55,6 +55,7 @@ export const SecondaryButton = styled.button`
   border: 0;
   border-radius: 50px;
   margin-right: 20px;
+  margin-top: 15px;
   background-color: ${SECONDARY_BUTTON_COLOR};
   display: flex;
   align-items: center;

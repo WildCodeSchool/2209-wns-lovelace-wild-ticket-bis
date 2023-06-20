@@ -17,6 +17,7 @@ import {
 export const ButtonAction = styled.button`
   border: 0;
   border-radius: 50px;
+  margin-top: 15px;
   background-color: ${SECONDARY_BUTTON_COLOR};
   display: flex;
   align-items: center;
@@ -70,9 +71,6 @@ export const ButtonQuickChange = styled(motion.button)`
 
 export const ContainerButtonAction = styled.div`
   display: flex;
-  @media (max-width: ${MAX_WIDTH_TABLET}) {
-    margin-top: 15px;
-  }
 `;
 
 export const AllStatusContainer = styled.div`
