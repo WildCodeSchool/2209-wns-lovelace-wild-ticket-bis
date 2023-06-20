@@ -1,4 +1,9 @@
+import { RxCross2 } from 'react-icons/rx';
+import Modal from 'react-modal';
+import { TEXT_FONT_COLOR } from 'styles/style-constants';
+import logo from '../../assets/Flu-icone.png';
 import {
+  customStyles,
   ModalContainer,
   TitleContainer,
   ContainerLogo,
@@ -10,12 +15,7 @@ import {
   ContainerButtonDeleteFlu,
   ButtonValidateDelete,
   ButtonCancelDelete,
-  customStyles,
-} from 'pages/MesFlux/MesFlux.styled';
-import { RxCross2 } from 'react-icons/rx';
-import { TEXT_FONT_COLOR } from 'styles/style-constants';
-import logo from '../../assets/Flu-icone.png';
-import Modal from 'react-modal';
+} from './Modal.styled';
 
 type PropsType = {
   isModalDeleteOpen: boolean;

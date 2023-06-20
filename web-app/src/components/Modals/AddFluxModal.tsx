@@ -1,20 +1,20 @@
-import {
-  ButtonClose,
-  ButtonValidate,
-  ContainerLogo,
-  FormContainer,
-  InputElement,
-  LabelElement,
-  LogotTitle,
-  ModalContainer,
-  TitleContainer,
-  TitleElement,
-  customStyles,
-} from 'pages/MesFlux/MesFlux.styled';
 import logo from '../../assets/Flu-icone.png';
 import { RxCross2 } from 'react-icons/rx';
 import { TEXT_FONT_COLOR } from 'styles/style-constants';
 import Modal from 'react-modal';
+import { ButtonValidate } from 'pages/MesFlux/MesFlux.styled';
+import {
+  customStyles,
+  ModalContainer,
+  TitleContainer,
+  ContainerLogo,
+  LogotTitle,
+  TitleElement,
+  ButtonClose,
+  FormContainer,
+  LabelElement,
+  InputElement,
+} from './Modal.styled';
 
 type PropsType = {
   isAddModalOpen: boolean;
