@@ -3,12 +3,28 @@ import {
   BOX_BORDER,
   BOX_SHADOW,
   FONT_FAMILY,
+  MAX_WIDTH_PHONE,
+  MAX_WIDTH_TABLET,
   PRIMARY_BUTTON_COLOR,
   SECONDARY_BUTTON_COLOR,
   TEXT_FONT_SIZE,
+  TEXT_FONT_SIZE_PHONE,
   TITLE_FONT_SIZE,
   TITLE_FONT_WEIGHT,
 } from 'styles/style-constants';
+
+export const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    border: `${BOX_BORDER}`,
+    boxShadow: `${BOX_SHADOW}`,
+  },
+};
 
 export const ModalContainer = styled.div`
   height: 35vh;
@@ -16,6 +32,14 @@ export const ModalContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 30% 1fr;
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    height: 26vh;
+    width: 45vw;
+  }
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    height: 45vh;
+    width: 75vw;
+  }
 `;
 
 export const TitleContainer = styled.div`
@@ -39,6 +63,9 @@ export const TitleElement = styled.h1`
   font-family: ${FONT_FAMILY};
   font-weight: ${TITLE_FONT_WEIGHT};
   font-size: 1.6rem;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    font-size: 1.4rem;
+  }
 `;
 
 export const ButtonClose = styled.button`
@@ -103,19 +130,6 @@ export const ButtonCancelDelete = styled.button`
   gap: 20px;
 `;
 
-export const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    border: `${BOX_BORDER}`,
-    boxShadow: `${BOX_SHADOW}`,
-  },
-};
-
 export const FormContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -131,6 +145,9 @@ export const LabelElement = styled.label`
   font-size: ${TITLE_FONT_SIZE};
   width: 57%;
   gap: 5px;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: 70%;
+  }
 `;
 
 export const InputElement = styled.input`
@@ -141,5 +158,9 @@ export const InputElement = styled.input`
   border: 0.5px solid rgba(42, 42, 42, 0.2);
   &:focus {
     outline: none;
+  }
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    font-size: ${TEXT_FONT_SIZE_PHONE};
+    padding: 10px;
   }
 `;

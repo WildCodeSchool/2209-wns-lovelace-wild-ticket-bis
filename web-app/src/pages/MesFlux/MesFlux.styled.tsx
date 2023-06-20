@@ -285,4 +285,7 @@ export const ButtonValidate = styled.button`
   &:active {
     background-color: ${PRIMARY_BUTTON_COLOR_ACTION};
   }
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    font-size: 1.2rem;
+  }
 `;
