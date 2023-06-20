@@ -1,20 +1,20 @@
+import { ButtonValidate } from 'pages/MesFlux/MesFlux.styled';
 import { RxCross2 } from 'react-icons/rx';
 import Modal from 'react-modal';
 import { TEXT_FONT_COLOR } from 'styles/style-constants';
 import logo from '../../assets/Flu-icone.png';
 import {
-  customStyles,
-  ModalContainer,
-  TitleContainer,
-  ContainerLogo,
-  LogotTitle,
-  TitleElement,
+  ButtonCancelDelete,
   ButtonClose,
   ContainerAskDelete,
-  QuestionElement,
   ContainerButtonDeleteFlu,
-  ButtonValidateDelete,
-  ButtonCancelDelete,
+  ContainerLogo,
+  LogotTitle,
+  ModalContainer,
+  QuestionElement,
+  TitleContainer,
+  TitleElement,
+  customStyles,
 } from './Modal.styled';
 
 type PropsType = {
@@ -57,9 +57,9 @@ const DeleteFLuxModal = ({
             Voulez-vous vraiment supprimer les flux ?{' '}
           </QuestionElement>
           <ContainerButtonDeleteFlu>
-            <ButtonValidateDelete onClick={() => deletedSelectedFlow()}>
+            <ButtonValidate onClick={() => deletedSelectedFlow()}>
               Confirmer
-            </ButtonValidateDelete>
+            </ButtonValidate>
             <ButtonCancelDelete onClick={() => setIsModalDeleteOpen(false)}>
               Annuler
             </ButtonCancelDelete>
