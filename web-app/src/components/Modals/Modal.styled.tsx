@@ -2,11 +2,14 @@ import styled from 'styled-components';
 import {
   BOX_BORDER,
   BOX_SHADOW,
+  BUTTON_BOX_SHADOW,
   FONT_FAMILY,
   MAX_WIDTH_PHONE,
   MAX_WIDTH_TABLET,
   PRIMARY_BUTTON_COLOR,
+  PRIMARY_BUTTON_SIZE,
   SECONDARY_BUTTON_COLOR,
+  SECONDARY_BUTTON_COLOR_ACTION,
   TEXT_FONT_SIZE,
   TEXT_FONT_SIZE_PHONE,
   TITLE_FONT_SIZE,
@@ -84,14 +87,16 @@ export const ContainerAskDelete = styled.div`
   justify-content: space-around;
 `;
 
-export const QuestionElement = styled.div`
+export const QuestionElement = styled.p`
   font-family: ${FONT_FAMILY};
   font-size: 1.5rem;
-  font-weight: bolder;
   display: flex;
   align-items: center;
-  justify-content: center;
+  text-align: center;
   font-weight: lighter;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const ContainerButtonDeleteFlu = styled.div`
@@ -116,18 +121,23 @@ export const ButtonValidateDelete = styled.button`
 `;
 
 export const ButtonCancelDelete = styled.button`
-  height: 100%;
-  width: 40%;
+  padding: ${PRIMARY_BUTTON_SIZE};
   border: 0;
-  border-radius: 15px;
+  border-radius: 50px;
   background-color: ${SECONDARY_BUTTON_COLOR};
+  box-shadow: ${BUTTON_BOX_SHADOW};
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: ${FONT_FAMILY};
-  font-weight: bold;
   font-size: 1.4rem;
-  gap: 20px;
+
+  &:active {
+    background-color: ${SECONDARY_BUTTON_COLOR_ACTION};
+  }
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    font-size: 1.2rem;
+  }
 `;
 
 export const FormContainer = styled.div`
