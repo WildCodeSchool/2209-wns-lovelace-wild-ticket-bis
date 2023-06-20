@@ -122,20 +122,20 @@ export const AddText = styled.p`
 export const ArrayContainer = styled.div`
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: 10% 1% 89%;
+  grid-template-rows: 65px 1% 89%;
   border-radius: 10px;
   border: ${BOX_BORDER};
   background: ${BOX_BACKGROUND_COLOR};
   box-shadow: ${BOX_SHADOW};
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    grid-template-rows: 50px 1% 89%;
+  }
 `;
 
 export const HeaderList = styled.div`
   grid-area: 1 / 1 / 2 / 2;
   display: grid;
   grid-template-columns: 1fr 2fr 2fr 3fr 0.5fr;
-  grid-template-rows: 1fr;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
   font-family: ${FONT_FAMILY};
   font-size: ${TITLE_FONT_SIZE};
   border-bottom: 1px solid ${SELECT_LINK_COLOR};
@@ -164,9 +164,11 @@ export const ListContainer = styled.div`
   grid-area: 3 / 1 / 4 / 2;
   display: flex;
   flex-direction: column;
-  margin: 0px 20px 10px 20px;
+  margin: 0px 20px 28px 20px;
   overflow-y: auto;
-
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    margin: 10px 5px 15px 5px;
+  }
   @media (max-width: ${MAX_WIDTH_PHONE}) {
     margin: 10px 5px 10px 5px;
   }
