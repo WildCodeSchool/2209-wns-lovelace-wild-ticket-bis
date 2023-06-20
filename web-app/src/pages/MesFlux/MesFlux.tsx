@@ -1,30 +1,34 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState, useContext, ChangeEvent } from 'react';
+import { useMutation } from '@apollo/client';
+import AddFluxModal from 'components/Modals/AddFluxModal';
+import DeleteFLuxModal from 'components/Modals/DeleteFLuxModal';
+import { AppContext } from 'context/AppContext';
+import { ADD_FLOW, DELETE_FLOW } from 'gql-store';
 import {
+  AddFlowMutation,
+  AddFlowMutationVariables,
+  DeleteFlowMutation,
+  DeleteFlowMutationVariables,
+} from 'gql/graphql';
+import { ChangeEvent, useContext, useEffect, useState } from 'react';
+import { GoTrashcan } from 'react-icons/go';
+import { toast } from 'react-toastify';
+import { convertDateFormat, getErrorMessage } from 'utils';
+import {
+  AddText,
+  AiOutlinePlusCircleIcon,
   AllStatusContainer,
   ArrayContainer,
   ButtonAdd,
-  ButtonCancelDelete,
-  ButtonClose,
-  SecondaryButton,
-  ButtonValidate,
-  ButtonValidateDelete,
-  ContainerAskDelete,
   ContainerButton,
-  ContainerButtonDeleteFlu,
   ContainerInputItem,
-  ContainerLogo,
-  FormContainer,
+  DeleteText,
   HeaderList,
-  InputElement,
   InputItem,
   ItemList,
-  LabelElement,
   ListContainer,
-  LogotTitle,
   MainContainer,
-  ModalContainer,
-  QuestionElement,
+  SecondaryButton,
   StatusContainer,
   StatusError,
   StatusNoScan,
@@ -32,32 +36,7 @@ import {
   StatusWaiting,
   TextElement,
   TextElementHeader,
-  TitleContainer,
-  TitleElement,
-  DeleteText,
-  AddText,
-  AiOutlinePlusCircleIcon,
 } from './MesFlux.styled';
-import Modal from 'react-modal';
-import logo from '../../assets/Flu-icone.png';
-import { useMutation } from '@apollo/client';
-import {
-  AddFlowMutation,
-  AddFlowMutationVariables,
-  DeleteFlowMutation,
-  DeleteFlowMutationVariables,
-} from 'gql/graphql';
-import { toast } from 'react-toastify';
-import { convertDateFormat, getErrorMessage } from 'utils';
-import { AppContext } from 'context/AppContext';
-import { GoTrashcan } from 'react-icons/go';
-import { RxCross2 } from 'react-icons/rx';
-import { ADD_FLOW, DELETE_FLOW } from 'gql-store';
-import {
-  BOX_BORDER,
-  BOX_SHADOW,
-  TEXT_FONT_COLOR,
-} from 'styles/style-constants';
 
 type Flow = {
   __typename?: 'Flow';
@@ -73,26 +52,13 @@ type Flow = {
   };
 };
 
-const customStyles = {
-  content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    border: `${BOX_BORDER}`,
-    boxShadow: `${BOX_SHADOW}`,
-  },
-};
-
 const MesFlux = () => {
   const appContext = useContext(AppContext);
   const [id, setId] = useState('');
   const [flowName, setFlowName] = useState('');
   const [flows, setFlows] = useState<Flow[]>();
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [modalDeleteIsOpen, setModalDeleteIsOpen] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [isModalDeleteOpen, setIsModalDeleteOpen] = useState(false);
   const [allFlowSelected, setAllFlowSelected] = useState<Array<string>>([]);
   const [isButtonDeleteDisable, setIsButtonDeleteDisable] = useState(true);
   const [isChecked, setIsChecked] = useState<boolean[]>([]);
@@ -115,10 +81,10 @@ const MesFlux = () => {
   }, [appContext?.userProfile]);
 
   const toggleModal = () => {
-    setIsOpen(!modalIsOpen);
+    setIsAddModalOpen(!isAddModalOpen);
   };
   const toggleModalDelete = () => {
-    setModalDeleteIsOpen(!modalDeleteIsOpen);
+    setIsModalDeleteOpen(!isModalDeleteOpen);
   };
 
   const afterCloseModal = () => {
@@ -267,76 +233,21 @@ const MesFlux = () => {
             : null}
         </ListContainer>
       </ArrayContainer>
-      <Modal
-        ariaHideApp={false}
-        isOpen={modalIsOpen}
-        onRequestClose={toggleModal}
-        style={customStyles}
-        onAfterClose={afterCloseModal}
-        contentLabel="Example Modal"
-      >
-        <ModalContainer>
-          <TitleContainer>
-            <ContainerLogo>
-              <LogotTitle src={logo}></LogotTitle>
-              <TitleElement>Nouveau flu</TitleElement>
-            </ContainerLogo>
-            <ButtonClose onClick={() => toggleModal()}>
-              <RxCross2 color={TEXT_FONT_COLOR} size={18} />
-            </ButtonClose>
-          </TitleContainer>
-          <FormContainer>
-            <LabelElement>
-              Nom
-              <InputElement
-                value={flowName}
-                placeholder="La liste infinie"
-                onChange={(e) => {
-                  e.preventDefault();
-                  setFlowName(e.target.value);
-                }}
-              ></InputElement>
-            </LabelElement>
-            <ButtonValidate onClick={() => addNewFlow()}>
-              Confirmer
-            </ButtonValidate>
-          </FormContainer>
-        </ModalContainer>
-      </Modal>
-      <Modal
-        ariaHideApp={false}
-        isOpen={modalDeleteIsOpen}
-        onRequestClose={toggleModalDelete}
-        onAfterClose={afterCloseModalDelete}
-        style={customStyles}
-        contentLabel="Example Modal"
-        testId="modal"
-      >
-        <ModalContainer>
-          <TitleContainer>
-            <ContainerLogo>
-              <LogotTitle src={logo}></LogotTitle>
-              <TitleElement>Supprimer flux</TitleElement>
-            </ContainerLogo>
-            <ButtonClose onClick={() => toggleModalDelete()}>
-              <RxCross2 color={TEXT_FONT_COLOR} size={18} />
-            </ButtonClose>
-          </TitleContainer>
-          <ContainerAskDelete>
-            <QuestionElement>
-              Voulez-vous vraiment supprimer les flux ?{' '}
-            </QuestionElement>
-            <ContainerButtonDeleteFlu>
-              <ButtonValidateDelete onClick={() => deletedSelectedFlow()}>
-                Confirmer
-              </ButtonValidateDelete>
-              <ButtonCancelDelete onClick={() => setModalDeleteIsOpen(false)}>
-                Annuler
-              </ButtonCancelDelete>
-            </ContainerButtonDeleteFlu>
-          </ContainerAskDelete>
-        </ModalContainer>
-      </Modal>
+      <AddFluxModal
+        isAddModalOpen={isAddModalOpen}
+        afterCloseModal={afterCloseModal}
+        addNewFlow={addNewFlow}
+        toggleModal={toggleModal}
+        setFlowName={setFlowName}
+        flowName={flowName}
+      />
+      <DeleteFLuxModal
+        isModalDeleteOpen={isModalDeleteOpen}
+        toggleModalDelete={toggleModalDelete}
+        afterCloseModalDelete={afterCloseModalDelete}
+        deletedSelectedFlow={deletedSelectedFlow}
+        setIsModalDeleteOpen={setIsModalDeleteOpen}
+      />
     </MainContainer>
   );
 };

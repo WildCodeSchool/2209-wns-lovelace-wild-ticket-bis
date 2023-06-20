@@ -408,3 +408,16 @@ export const ButtonCancelDelete = styled.button`
   font-size: 1.4rem;
   gap: 20px;
 `;
+
+export const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    border: `${BOX_BORDER}`,
+    boxShadow: `${BOX_SHADOW}`,
+  },
+};
