@@ -51,7 +51,13 @@ import { toast } from 'react-toastify';
 import { convertDateFormat, getErrorMessage } from 'utils';
 import { AppContext } from 'context/AppContext';
 import { GoTrashcan } from 'react-icons/go';
+import { RxCross2 } from 'react-icons/rx';
 import { ADD_FLOW, DELETE_FLOW } from 'gql-store';
+import {
+  BOX_BORDER,
+  BOX_SHADOW,
+  TEXT_FONT_COLOR,
+} from 'styles/style-constants';
 
 type Flow = {
   __typename?: 'Flow';
@@ -75,6 +81,8 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
+    border: `${BOX_BORDER}`,
+    boxShadow: `${BOX_SHADOW}`,
   },
 };
 
@@ -273,13 +281,16 @@ const MesFlux = () => {
               <LogotTitle src={logo}></LogotTitle>
               <TitleElement>Nouveau flu</TitleElement>
             </ContainerLogo>
-            <ButtonClose onClick={() => toggleModal()}>X</ButtonClose>
+            <ButtonClose onClick={() => toggleModal()}>
+              <RxCross2 color={TEXT_FONT_COLOR} size={18} />
+            </ButtonClose>
           </TitleContainer>
           <FormContainer>
             <LabelElement>
               Nom
               <InputElement
                 value={flowName}
+                placeholder="La liste infinie"
                 onChange={(e) => {
                   e.preventDefault();
                   setFlowName(e.target.value);
@@ -307,7 +318,9 @@ const MesFlux = () => {
               <LogotTitle src={logo}></LogotTitle>
               <TitleElement>Supprimer flux</TitleElement>
             </ContainerLogo>
-            <ButtonClose onClick={() => toggleModalDelete()}>X</ButtonClose>
+            <ButtonClose onClick={() => toggleModalDelete()}>
+              <RxCross2 color={TEXT_FONT_COLOR} size={18} />
+            </ButtonClose>
           </TitleContainer>
           <ContainerAskDelete>
             <QuestionElement>

@@ -1,4 +1,3 @@
-export const APP_FUNCTIONAL_WIDTH = '800px';
 export const MAIN_THEME_COLOR = '#FF9442';
 export const BACKGROUND_COLOR = '#EFF0F3';
 export const TITLE_FONT_COLOR = '#0D0D0D';
@@ -8,6 +7,7 @@ export const FONT_FAMILY = `QuickSand`;
 export const TITLE_FONT_WEIGHT = '600';
 export const TITLE_FONT_SIZE = '1.2rem';
 export const TEXT_FONT_WEIGHT = '400';
+export const TEXT_FONT_SIZE = '1rem';
 export const TEXT_FONT_SIZE_PHONE = '0.9rem';
 export const TITLE_FONT_SIZE_PHONE = '1rem';
 

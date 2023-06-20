@@ -19,6 +19,7 @@ import {
   SECONDARY_BUTTON_COLOR_ACTION,
   SECONDARY_BUTTON_SIZE,
   SECONDARY_BUTTON_SIZE_PHONE,
+  TEXT_FONT_SIZE,
   TEXT_FONT_SIZE_PHONE,
   TEXT_FONT_WEIGHT,
   TITLE_FONT_SIZE,
@@ -270,26 +271,23 @@ export const StatusError = styled.div`
 
 export const ModalContainer = styled.div`
   height: 35vh;
-  width: 35vw;
+  width: 32vw;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 30% 1fr;
 `;
 
 export const TitleContainer = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 30px;
-  grid-template-rows: 1fr;
-  padding: 0 0 0 15%;
-  grid-area: 1 / 1 / 2 / 2;
+  display: flex;
+  flex-direction: column-reverse;
 `;
 
 export const ContainerLogo = styled.div`
-  width: 100%;
+  margin-left: 30px;
   display: flex;
-  grid-area: 1 / 1 / 2 / 2;
   align-items: center;
-  gap: 15px;
+  justify-content: flex-start;
+  gap: 10px;
 `;
 
 export const LogotTitle = styled.img`
@@ -298,43 +296,42 @@ export const LogotTitle = styled.img`
 
 export const TitleElement = styled.h1`
   font-family: ${FONT_FAMILY};
-  font-size: 1.6rem;
   font-weight: ${TITLE_FONT_WEIGHT};
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  grid-area: 1 / 1 / 2 / 2;
+  font-size: 1.6rem;
 `;
 
 export const ButtonClose = styled.button`
+  display: flex;
+  justify-content: flex-end;
   height: 30px;
-  grid-area: 1 / 2 / 2 / 3;
   background-color: transparent;
   border: 0;
   font-size: medium;
 `;
 
 export const FormContainer = styled.div`
-  grid-area: 2 / 1 / 3 / 2;
   display: flex;
+  flex-direction: column;
   justify-content: space-around;
   align-items: flex-start;
   align-items: center;
-  flex-direction: column;
 `;
 
 export const LabelElement = styled.label`
   display: flex;
   flex-direction: column;
   font-family: ${FONT_FAMILY};
-  font-size: 1.3rem;
-  height: 30%;
-  width: 50%;
+  font-size: ${TITLE_FONT_SIZE};
+  width: 57%;
   gap: 5px;
 `;
 
 export const InputElement = styled.input`
-  height: 30px;
+  font-size: ${TEXT_FONT_SIZE};
+  font-family: ${FONT_FAMILY};
+  padding: 14px;
+  border-radius: 8px;
+  border: 0.5px solid rgba(42, 42, 42, 0.2);
   &:focus {
     outline: none;
   }
