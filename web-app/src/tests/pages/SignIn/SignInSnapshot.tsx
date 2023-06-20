@@ -9,11 +9,11 @@ export const signInSnapshot = `
       class="sc-gswNZR KpODG"
     >
       <div
-        class="sc-ipEyDJ kQFbJt"
+        class="sc-ipEyDJ hNGFrY"
       >
         <img
           alt="Flux Logo"
-          class="sc-csuSiG bkaCGd"
+          class="sc-csuSiG hxqdHq"
           src="logo_flu.png"
         />
       </div>
@@ -24,7 +24,7 @@ export const signInSnapshot = `
     >
       <form
         aria-label="form"
-        class="sc-hLBbgP lhBvdg"
+        class="sc-hLBbgP jUnSRa"
       >
         <h1
           class="sc-ftTHYK dqTwHy"
@@ -35,7 +35,7 @@ export const signInSnapshot = `
           class="sc-pyfCe UOPDj"
         >
           <label
-            class="sc-eDvSVe iwHvPs"
+            class="sc-eDvSVe fbPvgD"
           >
             <p
               class="sc-gKPRtg hUrEQS"
@@ -44,7 +44,7 @@ export const signInSnapshot = `
             </p>
             <input
               autocomplete="email"
-              class="sc-jSUZER cxlunb"
+              class="sc-jSUZER vdbcK"
               id="emailAddress"
               name="emailAddress"
               required=""
@@ -53,7 +53,7 @@ export const signInSnapshot = `
             />
           </label>
           <label
-            class="sc-eDvSVe iwHvPs"
+            class="sc-eDvSVe fbPvgD"
           >
             <p
               class="sc-gKPRtg hUrEQS"
@@ -62,7 +62,7 @@ export const signInSnapshot = `
             </p>
             <input
               autocomplete="current-password"
-              class="sc-jSUZER cxlunb"
+              class="sc-jSUZER vdbcK"
               id="password"
               name="password"
               required=""
@@ -72,12 +72,12 @@ export const signInSnapshot = `
           </label>
         </div>
         <button
-          class="sc-iBYQkv kQciNK"
+          class="sc-iBYQkv jzdORH"
         >
           Se connecter
         </button>
         <div
-          class="sc-jrcTuL gTbhbD"
+          class="sc-jrcTuL cETirK"
         >
           Pas encore de compte ?
            

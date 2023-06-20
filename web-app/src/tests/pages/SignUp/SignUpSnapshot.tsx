@@ -9,11 +9,11 @@ export const signUpSnapshot = `
       class="sc-jrcTuL heIYTt"
     >
       <div
-        class="sc-idXgbr lfHbGg"
+        class="sc-idXgbr cihRVJ"
       >
         <img
           alt="Flux Logo"
-          class="sc-dIfARi seVvw"
+          class="sc-dIfARi jqwQTz"
           src="logo_flu.png"
         />
       </div>
@@ -24,7 +24,7 @@ export const signUpSnapshot = `
     >
       <form
         aria-label="form"
-        class="sc-bcXHqe bxIaMR"
+        class="sc-bcXHqe cnmdMf"
       >
         <h1
           class="sc-hBxehG zxugq"
@@ -32,13 +32,13 @@ export const signUpSnapshot = `
           S'inscrire
         </h1>
         <div
-          class="sc-gswNZR epRMfi"
+          class="sc-gswNZR imWuxh"
         >
           <div
-            class="sc-eDvSVe immEOw"
+            class="sc-eDvSVe bjHPGy"
           >
             <label
-              class="sc-dkrFOg"
+              class="sc-dkrFOg daLZXq"
             >
               <p
                 class="sc-bqWxrE iQSFNg"
@@ -46,7 +46,7 @@ export const signUpSnapshot = `
                  Prénom
               </p>
               <input
-                class="sc-jSUZER eChvvr"
+                class="sc-jSUZER kxVAhi"
                 id="firstName"
                 name="firstName"
                 required=""
@@ -55,7 +55,7 @@ export const signUpSnapshot = `
               />
             </label>
             <label
-              class="sc-dkrFOg"
+              class="sc-dkrFOg daLZXq"
             >
               <p
                 class="sc-bqWxrE iQSFNg"
@@ -63,7 +63,7 @@ export const signUpSnapshot = `
                 Nom
               </p>
               <input
-                class="sc-jSUZER eChvvr"
+                class="sc-jSUZER kxVAhi"
                 id="lastName"
                 name="lastName"
                 required=""
@@ -72,7 +72,7 @@ export const signUpSnapshot = `
               />
             </label>
             <label
-              class="sc-dkrFOg"
+              class="sc-dkrFOg daLZXq"
             >
               <p
                 class="sc-bqWxrE iQSFNg"
@@ -81,7 +81,7 @@ export const signUpSnapshot = `
               </p>
               <input
                 autocomplete="email"
-                class="sc-jSUZER eChvvr"
+                class="sc-jSUZER kxVAhi"
                 id="emailAddress"
                 name="emailAddress"
                 required=""
@@ -91,10 +91,10 @@ export const signUpSnapshot = `
             </label>
           </div>
           <div
-            class="sc-hLBbgP iVxHtu"
+            class="sc-hLBbgP emIJVQ"
           >
             <label
-              class="sc-dkrFOg"
+              class="sc-dkrFOg daLZXq"
             >
               <p
                 class="sc-bqWxrE iQSFNg"
@@ -103,7 +103,7 @@ export const signUpSnapshot = `
               </p>
               <input
                 autocomplete="new-password"
-                class="sc-jSUZER eChvvr"
+                class="sc-jSUZER kxVAhi"
                 id="password"
                 name="password"
                 required=""
@@ -112,7 +112,7 @@ export const signUpSnapshot = `
               />
             </label>
             <label
-              class="sc-dkrFOg"
+              class="sc-dkrFOg daLZXq"
             >
               <p
                 class="sc-bqWxrE iQSFNg"
@@ -121,7 +121,7 @@ export const signUpSnapshot = `
               </p>
               <input
                 autocomplete="new-password"
-                class="sc-jSUZER eChvvr"
+                class="sc-jSUZER kxVAhi"
                 id="confirmed-password"
                 name="confirmed-password"
                 required=""
@@ -151,7 +151,7 @@ export const signUpSnapshot = `
           </div>
         </div>
         <button
-          class="sc-ksBlkl bgUBGp"
+          class="sc-ksBlkl cakpQA"
         >
           S'enregistrer
         </button>
