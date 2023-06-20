@@ -35,8 +35,11 @@ export const ContainerActualFlu = styled.div`
     justify-content: center;
   }
   @media (max-width: ${MAX_WIDTH_PHONE}) {
-    justify-content: flex-start;
+    align-items: flex-start;
+    justify-content: center;
+    flex-direction: column;
     width: auto;
+    gap: 3px;
   }
 `;
 export const LabelActualFlu = styled.label`
@@ -51,6 +54,9 @@ export const SelectActualFlu = styled.div`
   width: 50%;
   font-family: ${FONT_FAMILY};
   font-size: 1rem;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: 150px;
+  }
 `;
 
 export const ButtonLogout = styled.button`

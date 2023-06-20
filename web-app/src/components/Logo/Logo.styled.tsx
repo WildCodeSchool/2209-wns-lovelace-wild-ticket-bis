@@ -21,6 +21,6 @@ export const LogoImgResponsive = styled.img`
     display: ${(props) => (props.hidden ? 'flex' : 'none')};
   }
   @media (max-width: ${MAX_WIDTH_PHONE}) {
-    display: none;
+    width: 50px;
   }
 `;
