@@ -17,6 +17,9 @@ import {
 } from 'styles/style-constants';
 
 export const customStyles = {
+  overlay: {
+    backgroundColor: 'rgb(199 199 199 / 30%)', // Background color for the overlay
+  },
   content: {
     top: '50%',
     left: '50%',

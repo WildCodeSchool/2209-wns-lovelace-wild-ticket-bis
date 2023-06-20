@@ -197,8 +197,10 @@ const MesFlux = () => {
         <ListContainer>
           {flows
             ? flows.map((flow: Flow, index) => {
+                const isFlowSelected =
+                  flow.id === appContext?.selectedFlow?.value;
                 return (
-                  <ItemList key={index}>
+                  <ItemList key={index} hidden={isFlowSelected}>
                     <ContainerInputItem>
                       <InputItem
                         type="checkbox"

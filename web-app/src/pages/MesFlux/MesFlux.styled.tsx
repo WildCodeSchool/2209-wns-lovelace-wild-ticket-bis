@@ -30,16 +30,18 @@ import { AiOutlinePlusCircle } from 'react-icons/ai';
 
 export const MainContainer = styled.div`
   grid-area: 2 / 2 / 3 / 3;
-  height: 90%;
   display: grid;
-  grid-template-rows: 10% 90%;
+  grid-template-rows: 10% 63vh;
   width: 95%;
   row-gap: 20px;
   @media (max-width: ${MAX_WIDTH_TABLET}) {
     grid-area: 2 / 1 / 3 / 2;
-    height: 92%;
     width: auto;
     margin: 0 30px 0 30px;
+  }
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    grid-template-rows: 10% 58vh;
+    row-gap: 15px;
   }
 `;
 
@@ -162,19 +164,8 @@ export const ListContainer = styled.div`
   grid-area: 3 / 1 / 4 / 2;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  overflow: auto;
-  margin: 20px;
+  margin: 0px 20px 10px 20px;
   overflow-y: auto;
-  height: 410px;
-
-  @media (min-width: ${MAX_WIDTH_TABLET}) {
-    height: 410px;
-  }
-
-  @media (min-width: 1365px) {
-    height: 480px;
-  }
 
   @media (max-width: ${MAX_WIDTH_PHONE}) {
     margin: 10px 5px 10px 5px;
@@ -182,17 +173,16 @@ export const ListContainer = styled.div`
 `;
 
 export const ItemList = styled.div`
-  height: 10%;
   display: grid;
   grid-template-columns: 1fr 2fr 2fr 3fr 0.5fr;
-  grid-template-rows: 1fr;
-  grid-column-gap: 0px;
-  grid-row-gap: 0px;
   font-family: ${FONT_FAMILY};
   font-size: ${TITLE_FONT_SIZE};
+  margin-top: 5px;
+  background-color: ${(props) =>
+    props.hidden ? SELECT_LINK_COLOR : 'transparent'};
+  border-radius: 10px;
   @media (max-width: ${MAX_WIDTH_PHONE}) {
     grid-template-columns: 0.3fr 1fr 1fr 0fr;
-    height: 12%;
   }
 `;
 

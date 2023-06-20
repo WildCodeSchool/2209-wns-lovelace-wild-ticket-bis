@@ -30,6 +30,9 @@ export const ButtonAction = styled.button`
   &:active {
     background-color: ${SECONDARY_BUTTON_COLOR_ACTION};
   }
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    padding: 0px 7px;
+  }
   @media (max-width: ${MAX_WIDTH_PHONE}) {
     padding: 3px 9px;
     margin-right: 5px;
@@ -40,6 +43,9 @@ export const TextButtonAction = styled.p`
   font-family: ${FONT_FAMILY};
   font-weight: ${TEXT_FONT_WEIGHT};
   margin: 0;
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    font-size: 0.8rem;
+  }
   @media (max-width: ${MAX_WIDTH_PHONE}) {
     display: none;
   }
@@ -49,12 +55,6 @@ export const ContainerButton = styled.div`
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  @media (max-width: ${MAX_WIDTH_TABLET}) {
-    flex-wrap: wrap-reverse;
-  }
-  @media (max-width: ${MAX_WIDTH_PHONE}) {
-    flex-wrap: wrap;
-  }
 `;
 
 export const ButtonQuickChange = styled(motion.button)`
