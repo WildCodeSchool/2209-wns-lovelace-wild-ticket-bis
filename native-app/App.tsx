@@ -13,6 +13,7 @@ import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { WS_DEV } from './config';
+import Navigation from './components/Nagigation';
 
 const httpLink = new HttpLink({
   uri: '/api',
@@ -44,10 +45,7 @@ const client = new ApolloClient({
 export default function App() {
   return (
     <ApolloProvider client={client}>
-      <View style={styles.container}>
-        <Text>Welcome to Flux !</Text>
-        <StatusBar style="auto" />
-      </View>
+      <Navigation />
     </ApolloProvider>
   );
 }
