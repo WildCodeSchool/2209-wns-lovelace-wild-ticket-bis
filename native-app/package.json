@@ -9,15 +9,20 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.15",
     "expo": "~48.0.18",
     "expo-status-bar": "~1.4.4",
+    "graphql": "^15.8.0",
+    "graphql-ws": "^5.13.1",
     "react": "18.2.0",
     "react-native": "0.71.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
-    "typescript": "^4.9.4",
-    "@types/react": "~18.0.27"
+    "@graphql-codegen/cli": "^4.0.1",
+    "@types/react": "~18.0.27",
+    "@types/react-native": "^0.72.2",
+    "typescript": "^4.9.4"
   },
   "private": true
 }
