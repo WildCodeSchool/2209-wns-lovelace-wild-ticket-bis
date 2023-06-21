@@ -12,7 +12,7 @@ import {
   TEXT_FONT_COLOR,
   TITLE_FONT_COLOR,
 } from '../../styles/style-constants';
-import { Image, Text } from 'react-native';
+import { Image, Text, StyleSheet } from 'react-native';
 
 const Navigation = () => {
   const Tab = createBottomTabNavigator();
@@ -56,54 +56,40 @@ const Navigation = () => {
           name="Mes Flux"
           component={MesFlux}
           options={{
-            tabBarLabel: () => (
-              <Text
-                style={{
-                  fontSize: 12,
-                  color: `${TITLE_FONT_COLOR}`,
-                }}
-              >
-                Mes Flux
-              </Text>
-            ),
+            tabBarLabel: () => <Text style={styles.link}>Mes Flux</Text>,
           }}
         />
         <Tab.Screen
           name="Tickets"
           component={Tickets}
           options={{
-            tabBarLabel: () => (
-              <Text style={{ fontSize: 12, color: `${TITLE_FONT_COLOR}` }}>
-                Tickets
-              </Text>
-            ),
+            tabBarLabel: () => <Text style={styles.link}>Tickets</Text>,
           }}
         />
         <Tab.Screen
           name="QR Code"
           component={QRCode}
           options={{
-            tabBarLabel: () => (
-              <Text style={{ fontSize: 12, color: `${TITLE_FONT_COLOR}` }}>
-                QR Code
-              </Text>
-            ),
+            tabBarLabel: () => <Text style={styles.link}>QR Code</Text>,
           }}
         />
         <Tab.Screen
           name="Corbeille"
           component={Corbeille}
           options={{
-            tabBarLabel: () => (
-              <Text style={{ fontSize: 12, color: `${TITLE_FONT_COLOR}` }}>
-                Corbeille
-              </Text>
-            ),
+            tabBarLabel: () => <Text style={styles.link}>Corbeille</Text>,
           }}
         />
       </Tab.Navigator>
     </NavigationContainer>
   );
 };
+
+const styles = StyleSheet.create({
+  link: {
+    fontSize: 12,
+    color: `${TITLE_FONT_COLOR}`,
+  },
+});
 
 export default Navigation;
