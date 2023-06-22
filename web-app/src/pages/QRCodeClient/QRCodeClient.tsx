@@ -104,12 +104,12 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
   });
 
   console.log(currentTicketId);
-  const { data: dataSubChangeStatus, loading: loadingSubChangeStatus } =
-    useSubscription<SubscriptionSubscriptionWithIdArgs>(SUBSCRIPTION_WITH_ID, {
-      skip: !currentTicketId,
-      variables: { id: currentTicketId?.id },
-      shouldResubscribe: true,
-    });
+  // const { data: dataSubChangeStatus, loading: loadingSubChangeStatus } =
+  //   useSubscription<SubscriptionSubscriptionWithIdArgs>(SUBSCRIPTION_WITH_ID, {
+  //     skip: !currentTicketId,
+  //     variables: { id: currentTicketId?.id },
+  //     shouldResubscribe: true,
+  //   });
 
   //Fonction pour trier en fonction de la date du tickets
   const arraySorted = (array: TicketWithSeconds[]) => {
@@ -179,8 +179,7 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
 
     if (currentTicketId) {
       console.log(`Affichage du ticket ID: ${currentTicketId.id}`);
-      console.log(dataSubChangeStatus);
-      console.log(loadingSubChangeStatus);
+   
 
       const timer = setInterval(() => {
         currentTicketId.seconds--;
@@ -204,10 +203,9 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
     }
   }, [arrayTickets, currentTicketId]);
 
-  useEffect(() => {
-    console.log(dataSubChangeStatus);
-    console.log('iciciciciic');
-  }, [dataSubChangeStatus]);
+  // useEffect(() => {
+ 
+  // }, [dataSubChangeStatus]);
 
   const convertIdFormat = (id: string) => {
     const shortId = id.toUpperCase().split('');

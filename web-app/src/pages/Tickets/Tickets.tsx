@@ -41,7 +41,7 @@ import {
   CHANGE_TICKET_STATUS_BY_ID,
   GET_TICKETS_BY_FLOW_ID,
   IS_TRASH_TICKETS_BY_IDS,
-  SUBSCRIPTION_WITH_ID,
+  SUBSCRIPTION_WITH_IDs,
 } from 'gql-store';
 import { updateListOfTickets } from 'utils';
 
@@ -84,7 +84,7 @@ const Tickets = () => {
   const { data: dataSub, loading } = useSubscription<
     Subscription,
     SubscriptionSubscriptionWithIdArgs
-  >(SUBSCRIPTION_WITH_ID, {
+  >(SUBSCRIPTION_WITH_IDs, {
     variables: { ids },
     shouldResubscribe: true,
   });

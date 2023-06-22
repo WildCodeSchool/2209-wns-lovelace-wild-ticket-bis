@@ -26,7 +26,11 @@ const documents = {
     "\n  mutation ChangeTicketStatus($id: String!, $status: String!) {\n    changeTicketStatus(id: $id, status: $status) {\n      date\n      id\n      status\n    }\n  }\n": types.ChangeTicketStatusDocument,
     "\n  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {\n    changeTicketsStatus(arrayId: $arrayId, status: $status) {\n      id\n      date\n      status\n    }\n  }\n": types.ChangeTicketsStatusDocument,
     "\n  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {\n    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n": types.ChangeTicketIsTrashDocument,
-    "\n  subscription SubscriptionWithId($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n": types.SubscriptionWithIdDocument,
+    "\n  subscription SubscriptionWithIds($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n": types.SubscriptionWithIdsDocument,
+    "\n  subscription SubscriptionWithId($id: String!) {\n    subscriptionWithId(id: $id) {\n      id\n      message\n    }\n  }\n": types.SubscriptionWithIdDocument,
+    "\n  subscription SubscriptionForTicketAddToFlow($flowId: String!) {\n    SubscriptionForTicketAddToFlow(flowId: $flowId) {\n      message\n      id\n      flowId\n    }\n  }\n": types.SubscriptionForTicketAddToFlowDocument,
+    "\n  query GetTicketById($id: String!) {\n    getTicketById(id: $id) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n": types.GetTicketByIdDocument,
+    "\n  subscription Subscription($id: String) {\n    subscriptionWithId(id: $id) {\n      message\n      id\n    }\n  }\n": types.SubscriptionDocument,
 };
 
 /**
@@ -98,7 +102,23 @@ export function graphql(source: "\n  mutation ChangeTicketIsTrash($arrayId: [ID!
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(source: "\n  subscription SubscriptionWithId($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n"): (typeof documents)["\n  subscription SubscriptionWithId($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n"];
+export function graphql(source: "\n  subscription SubscriptionWithIds($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n"): (typeof documents)["\n  subscription SubscriptionWithIds($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  subscription SubscriptionWithId($id: String!) {\n    subscriptionWithId(id: $id) {\n      id\n      message\n    }\n  }\n"): (typeof documents)["\n  subscription SubscriptionWithId($id: String!) {\n    subscriptionWithId(id: $id) {\n      id\n      message\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  subscription SubscriptionForTicketAddToFlow($flowId: String!) {\n    SubscriptionForTicketAddToFlow(flowId: $flowId) {\n      message\n      id\n      flowId\n    }\n  }\n"): (typeof documents)["\n  subscription SubscriptionForTicketAddToFlow($flowId: String!) {\n    SubscriptionForTicketAddToFlow(flowId: $flowId) {\n      message\n      id\n      flowId\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  query GetTicketById($id: String!) {\n    getTicketById(id: $id) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n"): (typeof documents)["\n  query GetTicketById($id: String!) {\n    getTicketById(id: $id) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n"];
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "\n  subscription Subscription($id: String) {\n    subscriptionWithId(id: $id) {\n      message\n      id\n    }\n  }\n"): (typeof documents)["\n  subscription Subscription($id: String) {\n    subscriptionWithId(id: $id) {\n      message\n      id\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
