@@ -1,51 +1,39 @@
-import { useEffect, useRef, useState } from 'react';
-import {
-  ContainerCircle,
-  ContainerLink,
-  ContainerLogoLarge,
-  ContainerQrCodeClient,
-  ContainerText,
-  ContainerTicketNumber,
-  Hr,
-  LeftSideQrCodeClient,
-  LogoLarge,
-  NoTicketContainer,
-  NumberTicket,
-  QRCodeClientElementContainer,
-  QrCodeContainer,
-  QrCodeShadow,
-  RightSideQrCodeClient,
-  TextCountDown,
-  TextLinkQrCode,
-  TextNoTicket,
-  TextQrCodeClient,
-  TextScanQrCode,
-  TextTicketNumber,
-  TextTitleLinkQrCode,
-} from './QrCodeClient.styled';
-import logoLarge from '../../assets/logo_flux_large.png';
-import { PropsDisplayNavbar } from 'utils';
-import { QRCodeSVG } from 'qrcode.react';
 import { useLazyQuery, useQuery, useSubscription } from '@apollo/client';
-import { useLocation } from 'react-router-dom';
-import {
-  Subscription,
-  SubscriptionSubscriptionForTicketAddToFlowArgs,
-  SubscriptionSubscriptionWithIdArgs,
-  Ticket,
-} from 'gql/graphql';
 import {
   GET_TICKETS_BY_FLOW_ID,
   GET_TICKET_ADD_SUBSCRIPTION,
   GET_TICKET_BY_ID,
   SUBSCRIPTION_WITH_IDs,
 } from 'gql-store';
-import { URL_DEV } from 'config';
-import { CountdownCircleTimer } from 'react-countdown-circle-timer';
-
-interface TicketWithSeconds extends Ticket {
-  seconds: number;
-}
+import {
+  SubscriptionSubscriptionForTicketAddToFlowArgs,
+  SubscriptionSubscriptionWithIdArgs,
+  Ticket,
+} from 'gql/graphql';
+import { QRCodeSVG } from 'qrcode.react';
+import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router';
+import { PropsDisplayNavbar } from 'utils';
+import { Subscription } from 'zen-observable-ts';
+import logoLarge from '../../assets/logo_flux_large.png';
+import {
+  ContainerLogoLarge,
+  ContainerQrCodeClient,
+  ContainerText,
+  ContainerTicketNumber,
+  LeftSideQrCodeClient,
+  LogoLarge,
+  NumberTicket,
+  QRCodeClientElementContainer,
+  QrCodeContainer,
+  QrCodeShadow,
+  RightSideQrCodeClient,
+  TextLinkQrCode,
+  TextQrCodeClient,
+  TextScanQrCode,
+  TextTicketNumber,
+  TextTitleLinkQrCode,
+} from './QrCodeClient.styled';
 
 const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
   useEffect(() => {
@@ -271,59 +259,32 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
           </TextQrCodeClient>
         </ContainerText>
         <ContainerTicketNumber>
-          {currentTicketId ? (
-            <TextTicketNumber>
-              Numero d’attente : <br />
-              <NumberTicket>
-                <p>{convertIdFormat(currentTicketId.id)}</p>
-              </NumberTicket>
-            </TextTicketNumber>
-          ) : null}
+          <TextTicketNumber>
+            Numero d’attente : <br />
+            <NumberTicket>#5842</NumberTicket>
+          </TextTicketNumber>
         </ContainerTicketNumber>
       </LeftSideQrCodeClient>
       <RightSideQrCodeClient>
-        {currentTicketId ? (
-          <QrCodeContainer>
-            <ContainerCircle>
-              <CountdownCircleTimer
-                isPlaying
-                duration={10}
-                colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-                colorsTime={[10, 6, 3, 0]}
-                size={50}
-                strokeWidth={5}
-              >
-                {renderTime}
-              </CountdownCircleTimer>
-              <TextCountDown>Temps restant </TextCountDown>
-            </ContainerCircle>
-            <TextScanQrCode>
-              • &nbsp; Scanner le Qr-code en dessous 👇
-            </TextScanQrCode>
-            <QRCodeClientElementContainer>
-              <QrCodeShadow>
-                <QRCodeSVG
-                  value={`${URL_DEV}pages-client/${currentTicketId?.id}`}
-                  bgColor={'transparent'}
-                  size={400}
-                />
-              </QrCodeShadow>
-            </QRCodeClientElementContainer>
-            <Hr></Hr>
-            <ContainerLink>
-              <TextTitleLinkQrCode>
-                • &nbsp; Ou rendez-vous sur : <br />
-                <TextLinkQrCode>
-                  {URL_DEV}pages-client/{currentTicketId?.id}
-                </TextLinkQrCode>
-              </TextTitleLinkQrCode>
-            </ContainerLink>
-          </QrCodeContainer>
-        ) : (
-          <NoTicketContainer>
-            <TextNoTicket>Aucun ticket en cours </TextNoTicket>
-          </NoTicketContainer>
-        )}
+        <QrCodeContainer>
+          <TextScanQrCode>
+            • &nbsp; Scanner le Qr-code en dessous 👇
+          </TextScanQrCode>
+          <QRCodeClientElementContainer>
+            <QrCodeShadow>
+              <QRCodeSVG
+                value={`https://localhost:3000/qr-code-client/
+              )}`}
+                bgColor={'transparent'}
+                size={400}
+              />
+            </QrCodeShadow>
+          </QRCodeClientElementContainer>
+          <TextTitleLinkQrCode>
+            • &nbsp; Ou rendez-vous sur : <br />
+            <TextLinkQrCode>https://NameOfApp/ticket/idticket</TextLinkQrCode>
+          </TextTitleLinkQrCode>
+        </QrCodeContainer>
       </RightSideQrCodeClient>
     </ContainerQrCodeClient>
   );
