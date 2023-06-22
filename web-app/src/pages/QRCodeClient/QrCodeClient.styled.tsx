@@ -39,8 +39,6 @@ export const TextQrCodeClient = styled.h2`
   font-weight: bolder;
   margin: 0 0 0 8%;
   font-size: 3.5rem;
-  flex-direction: column;
-  justify-content: center;
 `;
 
 export const ContainerTicketNumber = styled.div`
@@ -55,7 +53,7 @@ export const TextTicketNumber = styled.h2`
   font-family: ${FONT_FAMILY};
   font-weight: initial;
   text-align: center;
-  font-size: 3.5rem;
+  font-size: 2.5rem;
 `;
 export const NumberTicket = styled.h2`
   font-family: ${FONT_FAMILY};
@@ -74,25 +72,19 @@ export const TextTicketNumberQrCode = styled.h2`
   font-weight: bolder;
   font-size: 2.5em;
   margin: 8% 0 0 0;
-  flex-direction: column;
-  justify-content: center;
 `;
 
 export const TextScanQrCode = styled.h2`
   font-family: ${FONT_FAMILY};
   font-weight: bolder;
-  font-size: 2.5em;
+  font-size: 3vw;
   margin: 8% 0 0 0;
-  flex-direction: column;
-  justify-content: center;
 `;
 
 export const TextTitleLinkQrCode = styled.h2`
   font-family: ${FONT_FAMILY};
   font-weight: bolder;
-  font-size: 2.5em;
-  flex-direction: column;
-  justify-content: center;
+  font-size: 3vw;
 `;
 
 export const QrCodeShadow = styled.div`
@@ -108,7 +100,7 @@ export const QrCodeShadow = styled.div`
 export const TextLinkQrCode = styled.h2`
   font-family: ${FONT_FAMILY};
   font-weight: bolder;
-  font-size: 1em;
+  font-size: 2.5vw;
   text-align: center;
 `;
 
@@ -119,4 +111,12 @@ export const QRCodeClientElementContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
+`;
+
+export const Hr = styled.hr`
+  width: 80%;
+`;
+
+export const ContainerLink = styled.div`
+  width: 100%;
 `;

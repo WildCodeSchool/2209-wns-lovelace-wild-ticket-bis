@@ -45,7 +45,7 @@ export default class TicketResolver {
       message: ticket.status,
       flowId: flowId,
     };
-    await pubSub.publish('NEW_TICKET_IN_FLOW', payload);
+    await pubSub.publish('NEW_TICKET_ADD', payload);
     return ticket;
   }
 

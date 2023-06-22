@@ -76,7 +76,6 @@ export class NotificationNewTicket {
   flowId: string;
 }
 
-
 @ArgsType()
 export class ChangeTicketsIsTrash {
   @Field(() => [ID])
@@ -116,7 +115,7 @@ export class SubscriptionFilter {
 @ArgsType()
 export class SubscriptionFilterFlowId {
   @Field()
-  id?: string;
+  flowId?: string;
 }
 @ArgsType()
 export class TicketId {

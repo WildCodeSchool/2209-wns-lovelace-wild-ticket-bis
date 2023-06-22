@@ -1,26 +1,11 @@
-import { useLazyQuery, useQuery, useSubscription } from '@apollo/client';
+import { useEffect, useState } from 'react';
 import {
-  GET_TICKETS_BY_FLOW_ID,
-  GET_TICKET_ADD_SUBSCRIPTION,
-  GET_TICKET_BY_ID,
-  SUBSCRIPTION_WITH_IDs,
-} from 'gql-store';
-import {
-  SubscriptionSubscriptionForTicketAddToFlowArgs,
-  SubscriptionSubscriptionWithIdArgs,
-  Ticket,
-} from 'gql/graphql';
-import { QRCodeSVG } from 'qrcode.react';
-import { useEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router';
-import { PropsDisplayNavbar } from 'utils';
-import { Subscription } from 'zen-observable-ts';
-import logoLarge from '../../assets/logo_flux_large.png';
-import {
+  ContainerLink,
   ContainerLogoLarge,
   ContainerQrCodeClient,
   ContainerText,
   ContainerTicketNumber,
+  Hr,
   LeftSideQrCodeClient,
   LogoLarge,
   NumberTicket,
@@ -34,6 +19,35 @@ import {
   TextTicketNumber,
   TextTitleLinkQrCode,
 } from './QrCodeClient.styled';
+import logoLarge from '../../assets/logo_flux_large.png';
+import { PropsDisplayNavbar } from 'utils';
+import { QRCodeSVG } from 'qrcode.react';
+import { gql, useQuery, useSubscription } from '@apollo/client';
+import { useLocation } from 'react-router-dom';
+import { GET_TICKETS_BY_FLOW_ID } from 'gql-store';
+import {
+  Subscription,
+  SubscriptionSubscriptionForTicketAddToFlowArgs,
+} from 'gql/graphql';
+
+export const GET_TICKET_ADD_SUBSCRIPTION = gql`
+  subscription SubscriptionForTicketAddToFlow($flowId: String!) {
+    SubscriptionForTicketAddToFlow(flowId: $flowId) {
+      message
+      id
+      flowId
+    }
+  }
+`;
+
+interface TicketWithSeconds {
+  __typename: string;
+  date: string;
+  id: string;
+  isTrash: boolean;
+  status: string;
+  seconds: number;
+}
 
 const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
   useEffect(() => {
@@ -43,209 +57,73 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
     };
   });
 
-  const [arrayTickets, setArrayTickets] = useState<
-    Array<TicketWithSeconds> | []
-  >();
-  const [ids, setIds] = useState(Array<string>);
+  const [arrayTickets, setArrayTickets] = useState(Array<TicketWithSeconds>);
   const [currentTicketId, setCurrentTicketId] =
     useState<TicketWithSeconds | null>(null);
 
-  const [newTicket, setNewTicket] = useState<Ticket>();
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  //Recupere le flow id contenu dans l'url
   let location = useLocation();
   let flowId: string = location.state;
-  /**
-   * Query executé au montage du composant, elle recupere les tickets
-   */
+
   const { data, loading } = useQuery(GET_TICKETS_BY_FLOW_ID, {
     variables: { flowId },
   });
 
-  /**
-   * Cette subscription ecoute un flux , quand un ticket est ajouter , il recoit son id
-   */
   const { data: dataSub, loading: subLoading } = useSubscription<
     Subscription,
     SubscriptionSubscriptionForTicketAddToFlowArgs
   >(GET_TICKET_ADD_SUBSCRIPTION, {
-    variables: { id: flowId },
+    variables: { flowId },
+    shouldResubscribe: true,
   });
-  /**
-   * Ce useEffect est execute quand dataSub recoit un message avec un id de ticket
-   * Il execute un query pour recuperer le ticket
-   */
-  useEffect(() => {
-    getTicketWithId({
-      variables: { id: dataSub?.SubscriptionForTicketAddToFlow.id },
-    });
-  }, [dataSub]);
 
-  /**
-   * Cette query permet de recuperer un ticket en db
-   * Quand la query est complete(receved), elle ajoute le tickets dans un state
-   */
-  const [getTicketWithId] = useLazyQuery(GET_TICKET_BY_ID, {
-    onCompleted(data) {
-      setNewTicket(data.getTicketById);
-    },
-  });
-  /**
-   * Cette subscription ecoute tout les tickets presents dans le flux
-   */
-  const { data: dataSubAllTickets, loading: loadingSubTickets } =
-    useSubscription<Subscription, SubscriptionSubscriptionWithIdArgs>(
-      SUBSCRIPTION_WITH_IDs,
-      {
-        variables: { ids: ids },
-        shouldResubscribe: true,
-      }
-    );
-
-  /**
-   * Ce useEffect s'execute quand dataSubAllTickets recois un message de modification d'un tickets
-   * Il enleve ce ticket dans le tableau arrayTickets
-   */
   useEffect(() => {
-    setArrayTickets(
-      arrayTickets?.filter(
-        (ticket) => ticket.id === dataSubAllTickets?.subscriptionWithId.id
-      )
-    );
-  }, [dataSubAllTickets]);
-
-  /** Fonction pour trier en fonction de la date du tickets
-   * +
-   * supprime tickets qui sont deja scanner ou dans la corbeille */
-  const arraySorted = (array: TicketWithSeconds[]) => {
-    return array
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-      .filter((ticket) => {
-        return (
-          ticket.status === 'Ticket non scanné' && ticket.isTrash === false
-        );
-      });
-  };
-  /**Ce useEffect est executé a la reponse de la premiere query
-   * Il ajoute les tickets deja presents dans le flux  */
-  useEffect(() => {
-    let newArraySorted: TicketWithSeconds[] = [];
     if (!loading) {
-      /**
-       * Recupere les tickets deja present dans le flow
-       * Rajoute dans chaque tickets, la valeur seconds
-       * Verifier si les tickets ne sont pas en corbeille, puis rajoute le tableau dans un state
-       */
+      //Recupere data et fait un clone , puis rajoute dans chaque tickets , la valeur seconds , puis inplement le tableau dans le state
       let arrayWithNewTickets = data.getTicketsByFlowId.tickets.slice();
-      newArraySorted = arrayWithNewTickets.map((ticket: any, index: any) => ({
-        ...ticket,
-        seconds: 10,
-      }));
-      setArrayTickets(arraySorted(newArraySorted));
-      extractIds(newArraySorted);
+      const newArraySorted: TicketWithSeconds[] = arrayWithNewTickets.map(
+        (ticket: any, index: any) => ({
+          ...ticket,
+          seconds: 10,
+        })
+      );
+      newArraySorted.sort(
+        (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+      );
+      setArrayTickets(newArraySorted);
     }
   }, [data, loading]);
 
-  /** Ce UseEffect est dedié au nouveau ticket ajouter dans un flux
-   *  Il est executer quand la valeur de newTicket change */
   useEffect(() => {
-    let newArraySorted: TicketWithSeconds[] = [];
-    if (newTicket && arrayTickets) {
-      //implemente la valeurs seconde dans le ticket
-      let newTicketWithSecond: TicketWithSeconds = {
-        ...newTicket,
-        seconds: 10,
-      };
-      //Verifie si le ticket n'est pas deja present dans le tableau
-      if (arrayTickets.some((el) => el.id === newTicketWithSecond.id)) {
-        return;
-      } else {
-        //recupere le state
-        newArraySorted = arrayTickets;
-        //rajoute le nouveau ticket
-        newArraySorted.push(newTicketWithSecond);
-        //re-set le tableau avec le nouveau ticket
-        setArrayTickets(newArraySorted);
-        extractIds(newArraySorted);
-      }
-      //reset tableau
-      newArraySorted = [];
+    console.log(subLoading);
+
+    console.log(dataSub, 'iciciciiic');
+  }, [dataSub, subLoading]);
+
+  useEffect(() => {
+    if (arrayTickets.length === 0) {
+      console.log('Tous les tickets ont été traités.');
+      return;
     }
-  }, [newTicket]);
+    if (currentTicketId) {
+      const timer = setInterval(() => {
+        currentTicketId.seconds--;
+        console.log(
+          `Ticket ID: ${currentTicketId.id}, Timer: ${currentTicketId.seconds}`
+        );
 
-  useEffect(() => {
-    if (arrayTickets) {
-      if (arrayTickets.length === 0) {
-        console.log('Tous les tickets ont été traités.');
-      }
-      //trie le tableau
-      let arrayTicketSorted = arraySorted(arrayTickets);
-
-      if (currentTicketId) {
-        console.log(`Affichage du ticket ID: ${currentTicketId.id}`);
-        // Supprimer le timer existant s'il y en a un
-        if (timerRef.current) {
-          clearInterval(timerRef.current as NodeJS.Timeout);
+        if (currentTicketId.seconds === 0 || currentTicketId.seconds < 0) {
+          clearInterval(timer);
+          setCurrentTicketId(null);
+          arrayTickets.shift();
         }
-
-        // Démarrer un nouveau timer
-        timerRef.current = setInterval(() => {
-          currentTicketId.seconds--;
-          console.log(
-            `Ticket ID: ${currentTicketId.id}, Timer: ${currentTicketId.seconds}`
-          );
-          //si fin du temps ou que mon currentTicket a subi un changement de statu
-          if (
-            currentTicketId.seconds === 0 ||
-            dataSubAllTickets?.subscriptionWithId.id === currentTicketId.id
-          ) {
-            clearInterval(timerRef.current as NodeJS.Timeout);
-            timerRef.current = null;
-            // Supprime le ticket actuel du tableau
-
-            arrayTicketSorted = arrayTicketSorted.filter(
-              (ticket) => ticket.id !== currentTicketId.id
-            );
-            console.warn(arrayTicketSorted);
-            setArrayTickets(
-              arrayTicketSorted.length === 0 ? [] : arrayTicketSorted
-            );
-            setCurrentTicketId(null);
-          }
-        }, 1000);
-      } else {
-        //defini le ticket a afficher, toujours le premier du tableau
-        setCurrentTicketId(arrayTicketSorted[0]);
-      }
+      }, 1000);
+    } else {
+      setCurrentTicketId(arrayTickets[0]);
+      console.log(
+        `Affichage du ticket ID: ${currentTicketId ? currentTicketId : null}`
+      );
     }
-  }, [
-    arrayTickets,
-    arrayTickets?.length,
-    currentTicketId,
-    dataSubAllTickets?.subscriptionWithId.id,
-  ]);
-
-  function extractIds(ticketArray: Array<TicketWithSeconds>) {
-    var idsArray: Array<string> = [];
-    for (var i = 0; i < ticketArray.length; i++) {
-      var ticket = ticketArray[i];
-      idsArray.push(ticket.id);
-    }
-    setIds(idsArray);
-  }
-
-  const convertIdFormat = (id: string) => {
-    const shortId = id.toUpperCase().split('');
-    shortId.splice(5, shortId.length).join('');
-    return shortId;
-  };
-  const renderTime = ({ remainingTime }: any) => {
-    return (
-      <div className="timer">
-        <div className="value">{remainingTime}</div>
-      </div>
-    );
-  };
+  }, [arrayTickets, currentTicketId]);
 
   return (
     <ContainerQrCodeClient>
@@ -261,7 +139,9 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
         <ContainerTicketNumber>
           <TextTicketNumber>
             Numero d’attente : <br />
-            <NumberTicket>#5842</NumberTicket>
+            <NumberTicket>
+              {currentTicketId ? <p>{currentTicketId.id}</p> : <p>lol</p>}
+            </NumberTicket>
           </TextTicketNumber>
         </ContainerTicketNumber>
       </LeftSideQrCodeClient>
@@ -280,10 +160,13 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
               />
             </QrCodeShadow>
           </QRCodeClientElementContainer>
-          <TextTitleLinkQrCode>
-            • &nbsp; Ou rendez-vous sur : <br />
-            <TextLinkQrCode>https://NameOfApp/ticket/idticket</TextLinkQrCode>
-          </TextTitleLinkQrCode>
+          <Hr></Hr>
+          <ContainerLink>
+            <TextTitleLinkQrCode>
+              • &nbsp; Ou rendez-vous sur : <br />
+              <TextLinkQrCode>https://NameOfApp/ticket/idticket</TextLinkQrCode>
+            </TextTitleLinkQrCode>
+          </ContainerLink>
         </QrCodeContainer>
       </RightSideQrCodeClient>
     </ContainerQrCodeClient>
