@@ -2,8 +2,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer } from '@react-navigation/native';
 import MesFlux from '../../screens/MesFlux/MesFlux';
 import Tickets from '../../screens/Tickets/Tickets';
-import QRCode from '../../screens/QRCode/QRCode';
-import Corbeille from '../../screens/Corbeille/Corbeillle';
 import { Ionicons } from '@expo/vector-icons';
 import {
   BOX_BACKGROUND_COLOR,
@@ -64,20 +62,6 @@ const Navigation = () => {
           component={Tickets}
           options={{
             tabBarLabel: () => <Text style={styles.link}>Tickets</Text>,
-          }}
-        />
-        <Tab.Screen
-          name="QR Code"
-          component={QRCode}
-          options={{
-            tabBarLabel: () => <Text style={styles.link}>QR Code</Text>,
-          }}
-        />
-        <Tab.Screen
-          name="Corbeille"
-          component={Corbeille}
-          options={{
-            tabBarLabel: () => <Text style={styles.link}>Corbeille</Text>,
           }}
         />
       </Tab.Navigator>

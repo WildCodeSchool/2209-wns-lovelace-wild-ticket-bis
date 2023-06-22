@@ -24,3 +24,11 @@ Build and start in dev mode:
 ### Run tests in back-end
 
 docker-compose -f docker-compose.dev.yml exec back-end npm run test
+
+## Run native app
+
+Expo go is required on your device to run native app
+
+```
+npx expo start --tunnel
+```
