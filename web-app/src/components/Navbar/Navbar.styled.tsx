@@ -4,13 +4,25 @@ import {
   BOX_BACKGROUND_COLOR,
   BOX_SHADOW,
   FONT_FAMILY,
+  MAX_WIDTH_PHONE,
+  MAX_WIDTH_TABLET,
   SELECT_LINK_COLOR,
   TEXT_FONT_COLOR,
+  TITLE_FONT_SIZE,
 } from '../../styles/style-constants';
+import { IoQrCodeOutline, IoReaderOutline } from 'react-icons/io5';
+import { GoTrashcan } from 'react-icons/go';
 
 export const ContainerNavbar = styled.div`
   grid-area: 2 / 1 / 3 / 2;
   margin-top: 60px;
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    grid-area: 3 / 1 / 4 / 2;
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    border-top: solid 1px ${SELECT_LINK_COLOR};
+  }
 `;
 
 export const ContainerLink = styled.div`
@@ -18,6 +30,14 @@ export const ContainerLink = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    display: flex;
+    flex-direction: row;
+    width: 60%;
+  }
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: 100%;
+  }
 `;
 
 export const StyledLink = styled(NavLink)<{ active: number }>`
@@ -53,7 +73,57 @@ export const StyledLink = styled(NavLink)<{ active: number }>`
   `}
 
   -webkit-tap-highlight-color: transparent;
+
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 0px;
+    width: 100%;
+    border-radius: 0;
+    height: 5rem;
+    box-shadow: none;
+    font-size: ${TITLE_FONT_SIZE};
+    transition: background-color 0.1s ease-in;
+    &:focus {
+      width: 100%;
+      padding-left: 0px;
+      background-color: ${SELECT_LINK_COLOR};
+    }
+    ${({ active }) =>
+      active === 1 &&
+      `
+    width: 100%;
+    padding-left: none;
+    background-color: ${SELECT_LINK_COLOR};
+  `}
+  }
 `;
 export const LogoLink = styled.img`
-  height: 90%;
+  height: 40px;
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    height: 30px;
+  }
+`;
+
+export const IoReaderOutlineIcon = styled(IoReaderOutline)`
+  font-size: 40px;
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    font-size: 30px;
+  }
+`;
+
+export const IoQrCodeOutlineIcon = styled(IoQrCodeOutline)`
+  font-size: 40px;
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    font-size: 30px;
+  }
+`;
+
+export const GoTrashcanIcon = styled(GoTrashcan)`
+  font-size: 40px;
+  @media (max-width: ${MAX_WIDTH_TABLET}) {
+    font-size: 30px;
+  }
 `;

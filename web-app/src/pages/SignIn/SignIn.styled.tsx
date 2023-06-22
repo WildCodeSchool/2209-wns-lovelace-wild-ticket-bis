@@ -6,6 +6,7 @@ import {
   BOX_SHADOW,
   FONT_FAMILY,
   MAIN_THEME_COLOR,
+  MAX_WIDTH_PHONE,
   PRIMARY_BUTTON_COLOR_ACTION,
   TEXT_FONT_WEIGHT,
   TITLE_FONT_WEIGHT,
@@ -42,19 +43,31 @@ export const FormContainer = styled.form`
   width: 390px;
   background: ${BOX_BACKGROUND_COLOR};
   box-shadow: ${BOX_SHADOW};
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: auto;
+    height: auto;
+    padding: 10px 50px 10px 50px;
+    margin-bottom: 50px;
+  }
 `;
 export const LabelForm = styled.label`
   width: 90%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px;
+  padding: 20px 0 20px 0;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: auto;
+  }
 `;
 export const InputForm = styled.input`
   width: 100%;
   height: 30px;
   border: 1px solid rgba(42, 42, 42, 0.2);
   border-radius: 8px;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: auto;
+  }
 `;
 export const TextLabel = styled.p`
   margin: 0;
@@ -77,6 +90,10 @@ export const ButtonLabel = styled.button`
   box-shadow: ${BOX_SHADOW};
   &:active {
     background-color: ${PRIMARY_BUTTON_COLOR_ACTION};
+  }
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    padding: 5px;
+    font-size: 18px;
   }
 `;
 
@@ -103,6 +120,9 @@ export const FooterForm = styled.div`
   align-items: center;
   gap: 10px;
   margin-bottom: 30px;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    flex-direction: column;
+  }
 `;
 
 export const LinkFooter = styled.p`

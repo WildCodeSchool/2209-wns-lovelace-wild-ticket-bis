@@ -16,6 +16,7 @@ import {
   SecondaryButton,
   ContainerButton,
   MainContainer,
+  DeleteText,
 } from 'pages/MesFlux/MesFlux.styled';
 import { Flow } from 'pages/Tickets/Tickets';
 import { ContainerButtonAction } from 'pages/Tickets/Tickets.styled';
@@ -90,14 +91,14 @@ const Corbeille = () => {
             onClick={deleteTicketsInTicketList}
           >
             <GoTrashcan size={25} opacity={0.7} />
-            &ensp;Supprimer définitivement
+            <DeleteText>&ensp;Supprimer définitivement</DeleteText>
           </SecondaryButton>
           <SecondaryButton
             disabled={isButtonDisabled}
             onClick={() => changeIsTrashInTicketsList(false)}
           >
             <GrTransaction size={20} opacity={isButtonDisabled ? 0.2 : 0.7} />
-            &ensp;Transférer dans le flu
+            <DeleteText>&ensp;Transférer dans le flu</DeleteText>
           </SecondaryButton>
         </ContainerButtonAction>
       </ContainerButton>

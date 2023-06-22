@@ -1,5 +1,6 @@
 import {
   ButtonLogout,
+  ButtonSpan,
   ContainerActualFlu,
   ContainerHeader,
   LabelActualFlu,
@@ -16,6 +17,7 @@ import { AppContext } from 'context/AppContext';
 import Select, { SingleValue } from 'react-select';
 import { SlLogout } from 'react-icons/sl';
 import { LOGOUT } from 'gql-store';
+import LogoResponsive from 'components/Logo/LogoResponsive';
 
 type Flow = {
   __typename?: 'Flow' | undefined;
@@ -23,7 +25,11 @@ type Flow = {
   id: string;
 };
 
-const Header = () => {
+type Props = {
+  isLogoDisplayed: boolean;
+};
+
+const Header = ({ isLogoDisplayed }: Props) => {
   const navigate = useNavigate();
 
   const [logOut] = useMutation<LogOutMutation>(LOGOUT);
@@ -78,8 +84,9 @@ const Header = () => {
   };
   return (
     <ContainerHeader>
+      <LogoResponsive isLogoDisplayed={isLogoDisplayed} />
       <ContainerActualFlu>
-        <LabelActualFlu> Flu Actuel : </LabelActualFlu>
+        <LabelActualFlu> Flux Actuel : </LabelActualFlu>
         <SelectActualFlu>
           {flowsOptions && flowsOptions.length > 0 ? (
             <Select
@@ -101,7 +108,7 @@ const Header = () => {
       </ContainerActualFlu>
       <ButtonLogout onClick={() => logOutNavigation()}>
         <SlLogout size={23} />
-        Se déconnecter
+        <ButtonSpan>Se déconnecter</ButtonSpan>
       </ButtonLogout>
     </ContainerHeader>
   );

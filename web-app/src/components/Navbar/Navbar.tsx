@@ -7,12 +7,13 @@ import {
 import {
   ContainerLink,
   ContainerNavbar,
+  GoTrashcanIcon,
+  IoQrCodeOutlineIcon,
+  IoReaderOutlineIcon,
   LogoLink,
   StyledLink,
 } from './Navbar.styled';
 import FluIcon from '../../assets/Flu-icone.png';
-import { GoTrashcan } from 'react-icons/go';
-import { IoQrCodeOutline, IoReaderOutline } from 'react-icons/io5';
 import { useState } from 'react';
 
 const Navbar = () => {
@@ -45,7 +46,7 @@ const Navbar = () => {
           onClick={() => getSelectedTab(SelectedState.TICKETS)}
           active={selectedTab === SelectedState.TICKETS ? 1 : 0}
         >
-          <IoReaderOutline size={40} />
+          <IoReaderOutlineIcon />
           Tickets
         </StyledLink>
         <StyledLink
@@ -53,7 +54,7 @@ const Navbar = () => {
           onClick={() => getSelectedTab(SelectedState.QRCODE)}
           active={selectedTab === SelectedState.QRCODE ? 1 : 0}
         >
-          <IoQrCodeOutline size={40} />
+          <IoQrCodeOutlineIcon />
           QR code
         </StyledLink>
         <StyledLink
@@ -61,7 +62,7 @@ const Navbar = () => {
           onClick={() => getSelectedTab(SelectedState.CORBEILLE)}
           active={selectedTab === SelectedState.CORBEILLE ? 1 : 0}
         >
-          <GoTrashcan size={40} />
+          <GoTrashcanIcon />
           Corbeille
         </StyledLink>
       </ContainerLink>

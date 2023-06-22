@@ -60,11 +60,11 @@ const SignIn = ({ displayNavbar }: PropsDisplayNavbar) => {
     <SignContainer>
       {isSignInSuccess ? (
         <GlobalLogoContainer initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
-          <Logo />
+          <Logo isNavbarDisplayed={false} />
         </GlobalLogoContainer>
       ) : (
         <GlobalLogoContainer>
-          <Logo />
+          <Logo isNavbarDisplayed={false} />
         </GlobalLogoContainer>
       )}
       <GlobalFormContainer

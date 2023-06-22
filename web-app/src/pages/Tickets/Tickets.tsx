@@ -3,11 +3,15 @@ import {
   MainContainer,
   ButtonAdd,
   SecondaryButton,
+  DeleteText,
+  AddText,
+  AiOutlinePlusCircleIcon,
 } from 'pages/MesFlux/MesFlux.styled';
 import {
   ButtonAction,
   ContainerButton,
   ContainerButtonAction,
+  TextButtonAction,
 } from './Tickets.styled';
 import {
   COLOR_ERROR_TICKET,
@@ -182,31 +186,35 @@ const Tickets = () => {
             disabled={isButtonDisabled}
             onClick={() => changeIsTrashInTicketsList(true)}
           >
-            <GoTrashcan size={25} opacity={0.7} /> &ensp;Supprimer
+            <GoTrashcan size={25} opacity={0.7} />{' '}
+            <DeleteText>&ensp;Supprimer</DeleteText>
           </SecondaryButton>
           <ButtonAction
             disabled={isButtonDisabled}
             onClick={() => changeTicketsStatus('En attente')}
           >
             <IoIosPlay size={25} style={{ color: COLOR_WAITING_TICKET }} />
-            &ensp;En attente
+            <TextButtonAction>&ensp;En attente</TextButtonAction>
           </ButtonAction>
           <ButtonAction
             disabled={isButtonDisabled}
             onClick={() => changeTicketsStatus('Ticket validé')}
           >
             <IoIosPlay size={25} style={{ color: COLOR_VALIDATE_TICKET }} />
-            &ensp;Valider
+            <TextButtonAction>&ensp;Valider</TextButtonAction>
           </ButtonAction>
           <ButtonAction
             disabled={isButtonDisabled}
             onClick={() => changeTicketsStatus('Incident')}
           >
             <IoIosPlay size={25} style={{ color: COLOR_ERROR_TICKET }} />
-            &ensp;Incident
+            <TextButtonAction>&ensp;Incident</TextButtonAction>
           </ButtonAction>
         </ContainerButtonAction>
-        <ButtonAdd onClick={addNewTicket}>Ajouter un ticket</ButtonAdd>
+        <ButtonAdd onClick={addNewTicket}>
+          <AiOutlinePlusCircleIcon size={27} opacity={0.7} />
+          <AddText>Ajouter un ticket</AddText>
+        </ButtonAdd>
       </ContainerButton>
       <TicketsArray
         flowTickets={flowTickets}
