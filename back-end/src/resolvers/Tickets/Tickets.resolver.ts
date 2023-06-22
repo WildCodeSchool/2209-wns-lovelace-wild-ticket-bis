@@ -45,7 +45,7 @@ export default class TicketResolver {
       message: ticket.status,
       flowId: flowId,
     };
-    await pubSub.publish('NEW_TICKET_ADD', payload);
+    await pubSub.publish('NEW_TICKET_IN_FLOW', payload);
     return ticket;
   }
 
@@ -93,23 +93,6 @@ export default class TicketResolver {
     return TicketRepository.updateTicketsIsTrash(arrayId, isTrash);
   }
 
-  @Subscription(() => NotificationNewTicket, {
-    topics: 'NEW_TICKET_ADD',
-    filter: ({
-      payload,
-      args,
-    }: ResolverFilterData<NotificationNewTicket, { flowId: string }>) => {
-      const { flowId } = args;
-      return flowId === payload.flowId;
-    },
-  })
-  SubscriptionForTicketAddToFlow(
-    @Root() messagePayload: NotificationNewTicket,
-    @Args() flowIdFilters: SubscriptionFilterFlowId
-  ): NotificationNewTicket {
-    return messagePayload;
-  }
-
   @Subscription(() => Notification, {
     topics: 'STATUS_TICKET_CHANGE',
     filter: ({
@@ -126,5 +109,27 @@ export default class TicketResolver {
     @Args() subscriptionIds: SubscriptionFilter
   ): Notification {
     return payload;
+  }
+
+  @Subscription(() => NotificationNewTicket, {
+    topics: 'NEW_TICKET_IN_FLOW',
+    filter: ({
+      payload,
+      args,
+    }: ResolverFilterData<NotificationNewTicket, { id: string }>) => {
+      const { id } = args;
+      return id === payload.flowId;
+    },
+  })
+  SubscriptionForTicketAddToFlow(
+    @Root() messagePayload: NotificationNewTicket,
+    @Args() flowIdFilters: SubscriptionFilterFlowId
+  ): NotificationNewTicket {
+    return messagePayload;
+  }
+
+  @Subscription(() => Notification, { topics: 'STATUS_TICKET_CHANGE' })
+  normalSubscription(@Root() messagePayload: Notification): Notification {
+    return messagePayload;
   }
 }

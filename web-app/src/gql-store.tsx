@@ -175,3 +175,12 @@ export const SUBSCRIPTION_WITH_ID = gql`
     }
   }
 `;
+export const GET_TICKET_ADD_SUBSCRIPTION = gql`
+  subscription SubscriptionForTicketAddToFlow($id: String!) {
+    SubscriptionForTicketAddToFlow(id: $id) {
+      message
+      id
+      flowId
+    }
+  }
+`;
