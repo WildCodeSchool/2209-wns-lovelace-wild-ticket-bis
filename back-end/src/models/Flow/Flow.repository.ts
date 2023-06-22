@@ -32,7 +32,7 @@ export default class FlowRepository extends FlowDb {
       const flow = new Flow(flowName, appUser);
       return this.saveFlow(flow);
     } else {
-      throw new Error('Aucun utilisateur');
+      throw new Error('No user found');
     }
   }
 
@@ -40,16 +40,13 @@ export default class FlowRepository extends FlowDb {
     return this.repository.findOneBy({ flowName });
   }
   static async getFlowById(id: string): Promise<Flow | null> {
-    if (id) {
-      //return flow with tickets order by descending date
-      const flow = await this.repository.findOneBy({ id });
-      (await flow?.tickets)?.sort(
-        (a, b) => a.date.getTime() - b.date.getTime()
-      );
-      return flow;
-    } else {
-      throw new Error(`Aucun Flu n'a été trouvé`);
+    //return flow with tickets order by descending date
+    const flow = await this.repository.findOneBy({ id });
+    if (!flow) {
+      throw new Error('No existing Flow matching flowname');
     }
+    (await flow?.tickets)?.sort((a, b) => a.date.getTime() - b.date.getTime());
+    return flow;
   }
 
   static async getTicketCountByStatus(
@@ -58,7 +55,7 @@ export default class FlowRepository extends FlowDb {
     const flow = await this.getFlowById(flowId);
 
     if (!flow) {
-      throw Error(`Aucun Flu n'a été trouvé`);
+      throw Error('No existing flow matching id');
     }
 
     const ticketCount = {
@@ -93,7 +90,7 @@ export default class FlowRepository extends FlowDb {
   static async deleteFlow(arrayId: string[]): Promise<number> {
     const result = await this.repository.delete(arrayId);
     if (!result.affected) {
-      throw new Error('No matching flows with id');
+      throw new Error('No exisiting flows matching ids');
     }
     return result.affected;
   }

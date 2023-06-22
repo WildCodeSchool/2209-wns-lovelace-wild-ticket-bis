@@ -10,20 +10,21 @@ import {
   Root,
   Subscription,
 } from 'type-graphql';
-import Ticket, { GetTicketsByIdType } from '../../models/Ticket/Ticket.entity';
+import { pubSub } from '../..';
+import Ticket from '../../models/Ticket/Ticket.entity';
 import TicketRepository from '../../models/Ticket/Ticket.repository';
 import { getTicketsByFlowIdArgs } from '../Flow/Flow.input';
 import {
   ChangeTicketsIsTrash,
-  changeTicketsStatusArgs,
-  changeTicketStatusArgs,
   Notification,
   NotificationPayload,
   SubscriptionFilter,
   TicketId,
+  changeTicketStatusArgs,
+  changeTicketsStatusArgs,
 } from './Tickets.input';
-import { pubSub } from '../..';
 
+@Resolver(() => Ticket)
 export default class TicketResolver {
   @Query(() => Ticket)
   getTicketById(@Args() { id }: TicketId): Promise<Ticket | null> {
