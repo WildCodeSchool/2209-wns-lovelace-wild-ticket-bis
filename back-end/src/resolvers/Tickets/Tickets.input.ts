@@ -115,7 +115,7 @@ export class SubscriptionFilter {
 @ArgsType()
 export class SubscriptionFilterFlowId {
   @Field()
-  flowId?: string;
+  id?: string;
 }
 @ArgsType()
 export class TicketId {

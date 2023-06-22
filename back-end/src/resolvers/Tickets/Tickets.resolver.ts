@@ -45,7 +45,7 @@ export default class TicketResolver {
       message: ticket.status,
       flowId: flowId,
     };
-    await pubSub.publish('NEW_TICKET_ADD', payload);
+    await pubSub.publish('NEW_TICKET_IN_FLOW', payload);
     return ticket;
   }
 
@@ -129,7 +129,7 @@ export default class TicketResolver {
   })
   SubscriptionForTicketAddToFlow(
     @Root() messagePayload: NotificationNewTicket,
-    @Args() args: SubscriptionFilterFlowId
+    @Args() flowIdFilters: SubscriptionFilterFlowId
   ): NotificationNewTicket {
     return messagePayload;
   }

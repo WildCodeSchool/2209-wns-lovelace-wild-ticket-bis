@@ -22,44 +22,19 @@ import {
 import logoLarge from '../../assets/logo_flux_large.png';
 import { PropsDisplayNavbar } from 'utils';
 import { QRCodeSVG } from 'qrcode.react';
-import { gql, useLazyQuery, useQuery, useSubscription } from '@apollo/client';
+import { useLazyQuery, useQuery, useSubscription } from '@apollo/client';
 import { useLocation } from 'react-router-dom';
-import { GET_TICKETS_BY_FLOW_ID } from 'gql-store';
 import {
   Subscription,
   SubscriptionSubscriptionForTicketAddToFlowArgs,
-  SubscriptionSubscriptionWithIdArgs,
 } from 'gql/graphql';
+import {
+  GET_TICKETS_BY_FLOW_ID,
+  GET_TICKET_ADD_SUBSCRIPTION,
+  GET_TICKET_BY_ID,
+} from 'gql-store';
 
-export const GET_TICKET_ADD_SUBSCRIPTION = gql`
-  subscription SubscriptionForTicketAddToFlow($flowId: String!) {
-    SubscriptionForTicketAddToFlow(flowId: $flowId) {
-      message
-      id
-      flowId
-    }
-  }
-`;
 
-export const GET_TICKET_BY_ID = gql`
-  query GetTicketById($id: String!) {
-    getTicketById(id: $id) {
-      date
-      id
-      isTrash
-      status
-    }
-  }
-`;
-
-export const SUBSCRIPTION_WITH_ID = gql`
-  subscription Subscription($id: String) {
-    subscriptionWithId(id: $id) {
-      message
-      id
-    }
-  }
-`;
 interface TicketWithSeconds {
   __typename: string;
   date: string;
@@ -99,7 +74,7 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
     Subscription,
     SubscriptionSubscriptionForTicketAddToFlowArgs
   >(GET_TICKET_ADD_SUBSCRIPTION, {
-    variables: { flowId },
+    variables: { id : flowId },
     shouldResubscribe: true,
   });
 
@@ -179,7 +154,6 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
 
     if (currentTicketId) {
       console.log(`Affichage du ticket ID: ${currentTicketId.id}`);
-   
 
       const timer = setInterval(() => {
         currentTicketId.seconds--;
@@ -204,7 +178,7 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
   }, [arrayTickets, currentTicketId]);
 
   // useEffect(() => {
- 
+
   // }, [dataSubChangeStatus]);
 
   const convertIdFormat = (id: string) => {

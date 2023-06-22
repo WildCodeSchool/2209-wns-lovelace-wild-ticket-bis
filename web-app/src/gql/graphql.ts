@@ -144,12 +144,11 @@ export type Session = {
 export type Subscription = {
   __typename?: 'Subscription';
   SubscriptionForTicketAddToFlow: NotificationNewTicket;
-  normalSubscription: Notification;
   subscriptionWithId: Notification;
 };
 
 export type SubscriptionSubscriptionForTicketAddToFlowArgs = {
-  id: Scalars['String'];
+  flowId: Scalars['String'];
 };
 
 export type SubscriptionSubscriptionWithIdArgs = {
