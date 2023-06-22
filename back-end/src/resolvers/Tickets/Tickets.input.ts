@@ -64,6 +64,19 @@ export class Notification {
   message: string;
 }
 
+@ObjectType()
+export class NotificationNewTicket {
+  @Field()
+  id: string;
+
+  @Field()
+  message: string;
+
+  @Field()
+  flowId: string;
+}
+
+
 @ArgsType()
 export class ChangeTicketsIsTrash {
   @Field(() => [ID])
@@ -82,6 +95,11 @@ export interface NotificationPayload {
   message: string;
 }
 
+export interface NotificationPayloadNewTicket {
+  id: string;
+  message: string;
+  flowId: string;
+}
 @ArgsType()
 export class SubscriptionFilter {
   @Field({ nullable: true })
@@ -95,6 +113,11 @@ export class SubscriptionFilter {
   ids?: string[];
 }
 
+@ArgsType()
+export class SubscriptionFilterFlowId {
+  @Field()
+  flowId?: string;
+}
 @ArgsType()
 export class TicketId {
   @Field()

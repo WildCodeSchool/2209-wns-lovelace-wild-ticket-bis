@@ -17,8 +17,11 @@ import { getTicketsByFlowIdArgs } from '../Flow/Flow.input';
 import {
   ChangeTicketsIsTrash,
   Notification,
+  NotificationNewTicket,
   NotificationPayload,
+  NotificationPayloadNewTicket,
   SubscriptionFilter,
+  SubscriptionFilterFlowId,
   TicketId,
   changeTicketStatusArgs,
   changeTicketsStatusArgs,
@@ -33,10 +36,17 @@ export default class TicketResolver {
 
   @Authorized()
   @Mutation(() => Ticket)
-  addTicketByFlowId(
+  async addTicketByFlowId(
     @Args() { flowId }: getTicketsByFlowIdArgs
   ): Promise<Ticket> {
-    return TicketRepository.createTicketByFlowId(flowId);
+    const ticket = await TicketRepository.createTicketByFlowId(flowId);
+    const payload: NotificationPayloadNewTicket = {
+      id: ticket.id,
+      message: ticket.status,
+      flowId: flowId,
+    };
+    await pubSub.publish('NEW_TICKET_ADD', payload);
+    return ticket;
   }
 
   @Authorized()
@@ -53,11 +63,6 @@ export default class TicketResolver {
     @Args() { id, status }: changeTicketStatusArgs
   ): Promise<Ticket | null> {
     const ticket = await TicketRepository.updateTicketStatus(id, status);
-    const payload: NotificationPayload = {
-      id: ticket.id,
-      message: ticket.status,
-    };
-    await pubSub.publish('STATUS_TICKET_CHANGE', payload);
     return ticket;
   }
 
@@ -88,8 +93,20 @@ export default class TicketResolver {
     return TicketRepository.updateTicketsIsTrash(arrayId, isTrash);
   }
 
-  @Subscription(() => Notification, { topics: 'STATUS_TICKET_CHANGE' })
-  normalSubscription(@Root() messagePayload: Notification): Notification {
+  @Subscription(() => NotificationNewTicket, {
+    topics: 'NEW_TICKET_ADD',
+    filter: ({
+      payload,
+      args,
+    }: ResolverFilterData<NotificationNewTicket, { flowId: string }>) => {
+      const { flowId } = args;
+      return flowId === payload.flowId;
+    },
+  })
+  SubscriptionForTicketAddToFlow(
+    @Root() messagePayload: NotificationNewTicket,
+    @Args() flowIdFilters: SubscriptionFilterFlowId
+  ): NotificationNewTicket {
     return messagePayload;
   }
 

@@ -49,13 +49,15 @@ export const Divider = styled.hr`
   width: 70%;
 `;
 
-export const QRCodeUrl = styled.h2`
+export const QRCodeUrl = styled.a`
   font-family: ${FONT_FAMILY};
   font-weight: lighter;
   flex-direction: column;
   justify-content: center;
   text-align: center;
   margin: 0;
+  text-decoration: none;
+  color: black;
 `;
 
 export const ContainerLoader = styled.div`

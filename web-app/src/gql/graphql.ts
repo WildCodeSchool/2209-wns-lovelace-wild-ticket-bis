@@ -109,6 +109,13 @@ export type Notification = {
   message: Scalars['String'];
 };
 
+export type NotificationNewTicket = {
+  __typename?: 'NotificationNewTicket';
+  flowId: Scalars['String'];
+  id: Scalars['String'];
+  message: Scalars['String'];
+};
+
 export type NumberOfTickets = {
   __typename?: 'NumberOfTickets';
   incident?: Maybe<Scalars['Float']>;
@@ -141,8 +148,13 @@ export type Session = {
 
 export type Subscription = {
   __typename?: 'Subscription';
-  normalSubscription: Notification;
+  SubscriptionForTicketAddToFlow: NotificationNewTicket;
   subscriptionWithId: Notification;
+};
+
+
+export type SubscriptionSubscriptionForTicketAddToFlowArgs = {
+  flowId: Scalars['String'];
 };
 
 

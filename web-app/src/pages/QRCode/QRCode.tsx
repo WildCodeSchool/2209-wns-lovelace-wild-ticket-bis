@@ -13,6 +13,7 @@ import {
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from 'context/AppContext';
 import { addDashes } from 'utils';
+import { useNavigate } from 'react-router-dom';
 
 interface Flows {
   value: string;
@@ -29,8 +30,7 @@ const QRCode = () => {
     }
   }, [appContext]);
 
- 
-
+  const navigate = useNavigate();
 
   return (
     <QRCodeContainer>
@@ -47,15 +47,21 @@ const QRCode = () => {
         {flows?.label ? (
           <>
             <QRCodeSVG
-              value={`https://localhost:3000/qr-code-client/${addDashes(
+              value={`${document.location.href}-client/${addDashes(
                 flows?.label
               )}`}
               bgColor={'transparent'}
               size={250}
             />
             <Divider />
-            <QRCodeUrl>
-              https://localhost:3000/qr-code-client/{addDashes(flows?.label)}
+            <QRCodeUrl
+              onClick={(e) =>
+                navigate(`../qr-code-client/${addDashes(flows?.label)}`, {
+                  state: flows.value,
+                })
+              }
+            >
+              Cliquez ici pour acceder à cette page
             </QRCodeUrl>
           </>
         ) : (
