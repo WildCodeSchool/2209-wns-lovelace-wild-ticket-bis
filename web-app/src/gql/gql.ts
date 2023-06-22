@@ -29,9 +29,6 @@ const documents = {
     "\n  subscription SubscriptionWithIds($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n": types.SubscriptionWithIdsDocument,
     "\n  subscription SubscriptionWithId($id: String!) {\n    subscriptionWithId(id: $id) {\n      id\n      message\n    }\n  }\n": types.SubscriptionWithIdDocument,
     "\n  subscription SubscriptionForTicketAddToFlow($id: String!) {\n    SubscriptionForTicketAddToFlow(id: $id) {\n      message\n      id\n      flowId\n    }\n  }\n": types.SubscriptionForTicketAddToFlowDocument,
-    "\n  subscription SubscriptionForTicketAddToFlow($flowId: String!) {\n    SubscriptionForTicketAddToFlow(flowId: $flowId) {\n      message\n      id\n      flowId\n    }\n  }\n": types.SubscriptionForTicketAddToFlowDocument,
-    "\n  query GetTicketById($id: String!) {\n    getTicketById(id: $id) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n": types.GetTicketByIdDocument,
-    "\n  subscription Subscription($id: String) {\n    subscriptionWithId(id: $id) {\n      message\n      id\n    }\n  }\n": types.SubscriptionDocument,
 };
 
 /**
