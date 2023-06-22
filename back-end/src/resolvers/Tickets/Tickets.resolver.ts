@@ -112,7 +112,7 @@ export default class TicketResolver {
   })
   subscriptionWithId(
     @Root() payload: Notification,
-    @Args() args: SubscriptionFilter
+    @Args() subscriptionIds: SubscriptionFilter
   ): Notification {
     return payload;
   }
