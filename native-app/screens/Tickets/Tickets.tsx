@@ -18,24 +18,25 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 20,
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
     backgroundColor: `#fefefe`,
+  },
+  table: {
+    borderRadius: 15,
+    overflow: 'hidden',
+    maxHeight: 500,
   },
   head: {
     height: 50,
     backgroundColor: `#ecedf06e`,
-    justifyContent: 'center',
   },
-  title: { fontWeight: '600' },
-  row: { height: 40, backgroundColor: `#ecedf06e` },
-  table: { borderRadius: 15, overflow: 'hidden' },
+  row: { backgroundColor: `#ecedf06e` },
   bubble: {
     width: 20,
     height: 20,
     borderRadius: 10,
   },
   bubbleContainer: {
-    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -73,38 +74,36 @@ const Tickets = () => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.table}>
-        <DataTable>
-          <DataTable.Header style={styles.head}>
-            <DataTable.Title>
-              <Text style={styles.title}>Date</Text>
-            </DataTable.Title>
-            <DataTable.Title>
-              <Text style={styles.title}>Numéro</Text>
-            </DataTable.Title>
-            <DataTable.Title>
-              <Text style={styles.title}>Statut</Text>
-            </DataTable.Title>
-          </DataTable.Header>
-          <ScrollView>
-            {flowTickets &&
-              flowTickets?.map((flowTicket, index) => {
-                const statusColor = getStatusColor(flowTicket.Status);
-                return (
-                  <DataTable.Row style={styles.row} key={index}>
-                    <DataTable.Cell>{flowTicket.Date}</DataTable.Cell>
-                    <DataTable.Cell>{flowTicket.Number}</DataTable.Cell>
-                    <DataTable.Cell>
-                      <View style={styles.bubbleContainer}>
-                        <StatusBubble color={statusColor} />
-                      </View>
-                    </DataTable.Cell>
-                  </DataTable.Row>
-                );
-              })}
-          </ScrollView>
-        </DataTable>
-      </View>
+      <DataTable style={styles.table}>
+        <DataTable.Header style={styles.head}>
+          <DataTable.Title>
+            <Text>Date</Text>
+          </DataTable.Title>
+          <DataTable.Title>
+            <Text>Numéro</Text>
+          </DataTable.Title>
+          <DataTable.Title>
+            <Text>Statut</Text>
+          </DataTable.Title>
+        </DataTable.Header>
+        <ScrollView>
+          {flowTickets &&
+            flowTickets?.map((flowTicket, index) => {
+              const statusColor = getStatusColor(flowTicket.Status);
+              return (
+                <DataTable.Row style={styles.row} key={index}>
+                  <DataTable.Cell>{flowTicket.Date}</DataTable.Cell>
+                  <DataTable.Cell>{flowTicket.Number}</DataTable.Cell>
+                  <DataTable.Cell>
+                    <View style={styles.bubbleContainer}>
+                      <StatusBubble color={statusColor} />
+                    </View>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              );
+            })}
+        </ScrollView>
+      </DataTable>
     </View>
   );
 };

@@ -11,7 +11,11 @@ const generateFlowTicket = () => {
     'Ticket validé',
     'Incident',
   ];
-  const date = new Date().toLocaleString('fr-FR');
+  const date = new Date().toLocaleString('fr-FR', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
   const number = getRandomNumber();
   const status = statuses[Math.floor(Math.random() * statuses.length)];
 
@@ -22,6 +26,6 @@ const generateFlowTicket = () => {
   };
 };
 
-export const mockedFlowTickets: FlowTicket[] = Array.from({ length: 50 }, () =>
+export const mockedFlowTickets: FlowTicket[] = Array.from({ length: 100 }, () =>
   generateFlowTicket()
 );
