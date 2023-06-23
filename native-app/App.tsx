@@ -1,7 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { BACKGROUND_COLOR } from './styles/style-constants';
 import {
   ApolloClient,
   ApolloProvider,
@@ -9,11 +5,16 @@ import {
   InMemoryCache,
   split,
 } from '@apollo/client';
+import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { createClient } from 'graphql-ws';
-import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import { WS_DEV } from './config';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 import Navigation from './components/Nagigation';
+import { WS_DEV } from './config';
+import { BACKGROUND_COLOR } from './styles/style-constants';
+import Tickets from './screens/Tickets/Tickets';
 
 const httpLink = new HttpLink({
   uri: '/api',
@@ -44,9 +45,11 @@ const client = new ApolloClient({
 
 export default function App() {
   return (
-    <ApolloProvider client={client}>
-      <Navigation />
-    </ApolloProvider>
+    <SafeAreaProvider>
+      <ApolloProvider client={client}>
+        <Navigation />
+      </ApolloProvider>
+    </SafeAreaProvider>
   );
 }
 
