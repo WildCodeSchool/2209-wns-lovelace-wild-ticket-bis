@@ -7,7 +7,7 @@ type Props = {
 
 const Logo = ({ isNavbarDisplayed }: Props) => {
   return (
-    <GlobalLogoContainer hidden={isNavbarDisplayed}>
+    <GlobalLogoContainer>
       <LogoImg src={logo} alt="Flux Logo" hidden={isNavbarDisplayed}></LogoImg>
     </GlobalLogoContainer>
   );

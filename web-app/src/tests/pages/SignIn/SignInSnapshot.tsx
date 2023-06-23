@@ -13,7 +13,7 @@ export const signInSnapshot = `
       >
         <img
           alt="Flux Logo"
-          class="sc-csuSiG hxqdHq"
+          class="sc-csuSiG GuiOo"
           src="logo_flu.png"
         />
       </div>

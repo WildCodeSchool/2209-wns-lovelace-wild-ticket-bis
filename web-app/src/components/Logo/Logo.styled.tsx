@@ -11,7 +11,7 @@ export const LogoImg = styled.img`
   margin: 20px;
   display: flex;
   @media (max-width: ${MAX_WIDTH_TABLET}) {
-    display: none;
+    display: ${(props) => (props.hidden ? 'none' : 'flex')};
   }
 `;
 
