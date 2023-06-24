@@ -33,10 +33,6 @@ const Navigation = () => {
                 );
               } else if (route.name === 'Tickets') {
                 iconName = 'receipt-outline';
-              } else if (route.name === 'QR Code') {
-                iconName = 'qr-code-outline';
-              } else if (route.name === 'Corbeille') {
-                iconName = 'trash-outline';
               }
 
               // You can return any component that you like here!
