@@ -18,13 +18,13 @@ import {
   MainContainer,
   DeleteText,
 } from 'pages/MesFlux/MesFlux.styled';
-import { Flow } from 'pages/Tickets/Tickets';
+
 import { ContainerButtonAction } from 'pages/Tickets/Tickets.styled';
 import { useContext, useEffect, useState } from 'react';
 import { GoTrashcan } from 'react-icons/go';
 import { GrTransaction } from 'react-icons/gr';
 import { toast } from 'react-toastify';
-import { updateListOfTickets } from 'utils';
+import { Flow, updateListOfTickets } from 'utils';
 
 const Corbeille = () => {
   const appContext = useContext(AppContext);

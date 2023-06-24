@@ -9,9 +9,9 @@ type Props = {
 };
 
 const ProtectedRoutes = ({ user, children }: Props) => {
-  if (!user) {
-    return <Navigate to={SIGN_IN_PATH} replace />;
-  }
+  // if (!user) {
+  //   return <Navigate to={SIGN_IN_PATH} replace />;
+  // }
   return children;
 };
 

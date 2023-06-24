@@ -100,6 +100,7 @@ export const GET_TICKET_BY_ID = gql`
   query getTicketById($id: String!) {
     getTicketById(id: $id) {
       isTrash
+      date
       id
       status
     }

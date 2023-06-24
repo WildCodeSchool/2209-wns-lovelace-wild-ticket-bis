@@ -63,6 +63,12 @@ export default class TicketResolver {
     @Args() { id, status }: changeTicketStatusArgs
   ): Promise<Ticket | null> {
     const ticket = await TicketRepository.updateTicketStatus(id, status);
+
+    const payload: Notification = {
+      id: ticket.id,
+      message: ticket.status,
+    };
+    await pubSub.publish('STATUS_TICKET_CHANGE', payload);
     return ticket;
   }
 
@@ -99,7 +105,6 @@ export default class TicketResolver {
       payload,
       args,
     }: ResolverFilterData<Notification, { id: string; ids: string }>) => {
-      console.log(args);
       const { id, ids } = args;
       return !id || payload.id === id || !ids || ids.includes(payload.id);
     },
@@ -123,7 +128,7 @@ export default class TicketResolver {
   })
   SubscriptionForTicketAddToFlow(
     @Root() messagePayload: NotificationNewTicket,
-    @Args() flowIdFilters: SubscriptionFilterFlowId
+    @Args() args: SubscriptionFilterFlowId
   ): NotificationNewTicket {
     return messagePayload;
   }

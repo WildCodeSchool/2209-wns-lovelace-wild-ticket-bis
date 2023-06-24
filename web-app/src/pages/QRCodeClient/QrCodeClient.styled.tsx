@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { FONT_FAMILY } from 'styles/style-constants';
 
 export const ContainerQrCodeClient = styled.div`
@@ -26,7 +26,6 @@ export const LogoLarge = styled.img`
 `;
 
 export const ContainerText = styled.div`
-  
   height: 40%;
   display: flex;
   flex-direction: row;
@@ -35,11 +34,11 @@ export const ContainerText = styled.div`
 }
 `;
 export const TextQrCodeClient = styled.h2`
-  width: 70%;
   font-family: ${FONT_FAMILY};
   font-weight: bolder;
   margin: 0 0 0 8%;
-  font-size: 3.5rem;
+  font-size: 3rem;
+  width: 80%;
 `;
 
 export const ContainerTicketNumber = styled.div`
@@ -56,7 +55,7 @@ export const TextTicketNumber = styled.h2`
   text-align: center;
   font-size: 2.5rem;
 `;
-export const NumberTicket = styled.h2`
+export const NumberTicket = styled.h3`
   font-family: ${FONT_FAMILY};
   font-weight: bold;
   margin: 0;
@@ -120,4 +119,31 @@ export const Hr = styled.hr`
 
 export const ContainerLink = styled.div`
   width: 100%;
+`;
+
+export const NoTicketContainer = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+export const TextNoTicket = styled.h3`
+  font-family: ${FONT_FAMILY};
+  font-weight: initial;
+  text-align: center;
+  font-size: 2.5rem;
+`;
+export const ContainerCircle = styled.div`
+  margin: 5px 5px 0 0;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 10px;
+`;
+export const TextCountDown = styled.h3`
+  font-family: ${FONT_FAMILY};
+  font-weight: initial;
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 0;
 `;

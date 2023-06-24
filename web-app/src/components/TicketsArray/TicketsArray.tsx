@@ -12,7 +12,7 @@ import {
   TextElement,
   TextElementHeader,
 } from 'pages/MesFlux/MesFlux.styled';
-import { Flow } from 'pages/Tickets/Tickets';
+
 import {
   TextElementBold,
   ButtonQuickChange,
@@ -22,7 +22,7 @@ import {
 } from 'pages/Tickets/Tickets.styled';
 import { IoPlayOutline } from 'react-icons/io5';
 import { TEXT_FONT_COLOR } from 'styles/style-constants';
-import { convertDateFormat } from 'utils';
+import { Flow, convertDateFormat } from 'utils';
 
 type TicketsArrayProps = {
   flowTickets: Flow | undefined;

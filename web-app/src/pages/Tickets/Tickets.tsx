@@ -45,19 +45,6 @@ import {
 } from 'gql-store';
 import { updateListOfTickets } from 'utils';
 
-export type Flow = {
-  __typename?: 'Flow' | undefined;
-  flowName: string;
-  id: string;
-  tickets: {
-    __typename?: 'Ticket' | undefined;
-    date: string;
-    id: string;
-    isTrash: boolean;
-    status: string;
-  }[];
-};
-
 const Tickets = () => {
   const appContext = useContext(AppContext);
   const [ids, setIds] = useState<string[] | null>();
@@ -89,7 +76,6 @@ const Tickets = () => {
     shouldResubscribe: true,
   });
 
-  const [flowTickets, setFlowTickets] = useState<Flow>();
   const [allTicketsSelected, setAllTicketsSelected] = useState<Array<string>>(
     []
   );
@@ -99,30 +85,25 @@ const Tickets = () => {
     refetch({ flowId: appContext?.selectedFlow?.value });
 
     if (data?.getTicketsByFlowId) {
-      setFlowTickets(data.getTicketsByFlowId);
-      const ticketsIds = flowTickets?.tickets.map((ticket) => ticket.id);
+      appContext?.setFlowTickets(data.getTicketsByFlowId);
+      const ticketsIds = appContext?.flowTickets?.tickets.map(
+        (ticket) => ticket.id
+      );
       setIds(ticketsIds);
     }
 
     if (!loading && dataSub) {
       refetch();
     }
-  }, [
-    appContext?.selectedFlow?.value,
-    data,
-    refetch,
-    loading,
-    dataSub,
-    flowTickets?.tickets,
-  ]);
+  }, [data, refetch, loading, dataSub, appContext]);
 
   const addNewTicket = async () => {
-    if (!flowTickets?.id) {
+    if (!appContext?.flowTickets?.id) {
       toast.warning('Veuillez sélectionner un flu valide.');
     } else {
       try {
         await addTicketByFlowId({
-          variables: { flowId: flowTickets?.id },
+          variables: { flowId: appContext?.flowTickets?.id },
         });
         refetch();
       } catch (error) {
@@ -217,7 +198,7 @@ const Tickets = () => {
         </ButtonAdd>
       </ContainerButton>
       <TicketsArray
-        flowTickets={flowTickets}
+        flowTickets={appContext?.flowTickets}
         allTicketsSelected={allTicketsSelected}
         setAllTicketsSelected={setAllTicketsSelected}
         updateListOfTickets={updateListOfTickets}
