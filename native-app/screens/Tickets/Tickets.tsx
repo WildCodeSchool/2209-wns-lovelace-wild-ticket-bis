@@ -4,6 +4,7 @@ import { DataTable } from 'react-native-paper';
 import { mockedFlowTickets } from './MockedTickets';
 import {
   COLOR_ERROR_TICKET,
+  COLOR_NOSCAN_TICKET,
   COLOR_VALIDATE_TICKET,
   COLOR_WAITING_TICKET,
 } from '../../styles/style-constants';
@@ -20,6 +21,8 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingHorizontal: 20,
     backgroundColor: `#fefefe`,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   table: {
     borderRadius: 15,
@@ -47,7 +50,7 @@ const getStatusColor = (status: string) => {
     case 'En attente':
       return `${COLOR_WAITING_TICKET}`;
     case 'Ticket non scanné':
-      return `${COLOR_WAITING_TICKET}`;
+      return `${COLOR_NOSCAN_TICKET}`;
     case 'Incident':
       return `${COLOR_ERROR_TICKET}`;
     case 'Ticket validé':
