@@ -36,10 +36,8 @@ const styles = StyleSheet.create({
     marginLeft: 50,
   },
   status: {
-    flexDirection: 'column',
     justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
+    gap: 15,
   },
 });
 
