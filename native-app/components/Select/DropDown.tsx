@@ -5,28 +5,20 @@ import { TITLE_FONT_COLOR } from '../../styles/style-constants';
 
 const DropDown = () => {
   const countries = [
-    'Egypt',
-    'Canada',
-    'Australia',
-    'Ireland',
-    'Brazil',
-    'England',
-    'Dubai',
-    'France',
-    'Germany',
-    'Saudi Arabia',
-    'Argentina',
-    'India',
+    'Le camion vert',
+    'Le flux étincellant',
+    'Les burgers de maman',
+    'La friterie fringuante',
   ];
   return (
     <SafeAreaView style={styles.saveAreaViewContainer}>
       <View style={styles.viewContainer}>
+        <Text style={styles.label}>Flux Sélectionné :</Text>
         <ScrollView
           showsVerticalScrollIndicator={false}
           alwaysBounceVertical={false}
           contentContainerStyle={styles.scrollViewContainer}
         >
-          <Text>Flux Sélectionné :</Text>
           <SelectDropdown
             data={countries}
             defaultValueByIndex={1}
@@ -64,6 +56,9 @@ const DropDown = () => {
 };
 
 const styles = StyleSheet.create({
+  label: {
+    paddingLeft: 40,
+  },
   shadow: {
     shadowColor: '#1b1b1b',
     shadowOffset: { width: 0, height: 6 },
@@ -80,7 +75,7 @@ const styles = StyleSheet.create({
   },
   headerTitle: { color: '#a6a6a6', fontWeight: 'bold', fontSize: 16 },
   saveAreaViewContainer: { flex: 1, backgroundColor: '#FFF' },
-  viewContainer: { backgroundColor: '#FFF' },
+  viewContainer: { backgroundColor: '#FFF', paddingTop: 3 },
   scrollViewContainer: {
     paddingTop: 5,
     flexGrow: 1,
@@ -89,7 +84,7 @@ const styles = StyleSheet.create({
   },
   dropdown2BtnStyle: {
     width: '80%',
-    height: 50,
+    height: 40,
     backgroundColor: '#ecedf06e',
     borderRadius: 8,
   },
