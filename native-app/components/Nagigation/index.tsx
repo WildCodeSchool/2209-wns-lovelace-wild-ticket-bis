@@ -12,6 +12,7 @@ import {
 } from '../../styles/style-constants';
 import { Image, Text, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import SignIn from '../../screens/SignIn/SignIn';
 
 const Navigation = () => {
   const Tab = createBottomTabNavigator();
@@ -62,6 +63,13 @@ const Navigation = () => {
             component={Tickets}
             options={{
               tabBarLabel: () => <Text style={styles.link}>Tickets</Text>,
+            }}
+          />
+          <Tab.Screen
+            name="SignIn"
+            component={SignIn}
+            options={{
+              tabBarLabel: () => <Text style={styles.link}>SignIn</Text>,
             }}
           />
         </Tab.Navigator>
