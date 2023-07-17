@@ -198,7 +198,6 @@ const Tickets = () => {
         </ButtonAdd>
       </ContainerButton>
       <TicketsArray
-        flowTickets={appContext?.flowTickets}
         allTicketsSelected={allTicketsSelected}
         setAllTicketsSelected={setAllTicketsSelected}
         updateListOfTickets={updateListOfTickets}
