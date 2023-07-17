@@ -34,7 +34,6 @@ import {
   GET_TICKET_BY_ID,
 } from 'gql-store';
 
-
 interface TicketWithSeconds {
   __typename: string;
   date: string;
@@ -74,7 +73,7 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
     Subscription,
     SubscriptionSubscriptionForTicketAddToFlowArgs
   >(GET_TICKET_ADD_SUBSCRIPTION, {
-    variables: { id : flowId },
+    variables: { id: flowId },
     shouldResubscribe: true,
   });
 
@@ -104,7 +103,7 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
       let arrayWithNewTickets = data.getTicketsByFlowId.tickets.slice();
       newArraySorted = arrayWithNewTickets.map((ticket: any, index: any) => ({
         ...ticket,
-        seconds: 500,
+        seconds: 800,
       }));
       setArrayTickets(newArraySorted.filter((e) => e.isTrash === false));
     }
@@ -112,33 +111,23 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
 
   useEffect(() => {
     let newArraySorted: TicketWithSeconds[] = [];
-
-    if (!subLoading && dataSub) {
-      //Execute la query pour recuperer un ticket via id
-      getTicketWithId({
-        variables: { id: dataSub.SubscriptionForTicketAddToFlow.id },
-      });
-
-      if (dataQueryTicket) {
-        //implemente la valeurs seconde dans le ticket
-        let newTicketWithSecond: TicketWithSeconds = {
-          ...dataQueryTicket.getTicketById,
-          seconds: 500,
-        };
-
-        //Verifie si le ticket n'est pas deja present dans le tableau
-        if (arrayTickets.some((el) => el.id === newTicketWithSecond.id)) {
-          return;
-        } else {
-          //recupere le state
-          newArraySorted = arrayTickets;
-          //rajoute le nouveau ticket
-          newArraySorted.push(newTicketWithSecond);
-          //re-set le tableau avec le nouveau ticket
-          setArrayTickets(newArraySorted);
-        }
-        //reset tableau
-        newArraySorted = [];
+    if (newTicket && arrayTickets) {
+      //implemente la valeurs seconde dans le ticket
+      let newTicketWithSecond: TicketWithSeconds = {
+        ...newTicket,
+        seconds: 800,
+      };
+      //Verifie si le ticket n'est pas deja present dans le tableau
+      if (arrayTickets.some((el) => el.id === newTicketWithSecond.id)) {
+        return;
+      } else {
+        //recupere le state
+        newArraySorted = arrayTickets;
+        //rajoute le nouveau ticket
+        newArraySorted.push(newTicketWithSecond);
+        //re-set le tableau avec le nouveau ticket
+        setArrayTickets(newArraySorted);
+        extractIds(newArraySorted);
       }
     }
   }, [dataSub, dataQueryTicket]);
@@ -212,28 +201,48 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
         </ContainerTicketNumber>
       </LeftSideQrCodeClient>
       <RightSideQrCodeClient>
-        <QrCodeContainer>
-          <TextScanQrCode>
-            • &nbsp; Scanner le Qr-code en dessous 👇
-          </TextScanQrCode>
-          <QRCodeClientElementContainer>
-            <QrCodeShadow>
-              <QRCodeSVG
-                value={`https://localhost:3000/qr-code-client/
-              )}`}
-                bgColor={'transparent'}
-                size={400}
-              />
-            </QrCodeShadow>
-          </QRCodeClientElementContainer>
-          <Hr></Hr>
-          <ContainerLink>
-            <TextTitleLinkQrCode>
-              • &nbsp; Ou rendez-vous sur : <br />
-              <TextLinkQrCode>https://NameOfApp/ticket/idticket</TextLinkQrCode>
-            </TextTitleLinkQrCode>
-          </ContainerLink>
-        </QrCodeContainer>
+        {currentTicketId ? (
+          <QrCodeContainer>
+            <ContainerCircle>
+              <CountdownCircleTimer
+                isPlaying
+                duration={800}
+                colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+                colorsTime={[10, 6, 3, 0]}
+                size={50}
+                strokeWidth={5}
+              >
+                {renderTime}
+              </CountdownCircleTimer>
+              <TextCountDown>Temps restant </TextCountDown>
+            </ContainerCircle>
+            <TextScanQrCode>
+              • &nbsp; Scanner le Qr-code en dessous 👇
+            </TextScanQrCode>
+            <QRCodeClientElementContainer>
+              <QrCodeShadow>
+                <QRCodeSVG
+                  value={`${URL_DEV}pages-client/${currentTicketId?.id}`}
+                  bgColor={'transparent'}
+                  size={400}
+                />
+              </QrCodeShadow>
+            </QRCodeClientElementContainer>
+            <Hr></Hr>
+            <ContainerLink>
+              <TextTitleLinkQrCode>
+                • &nbsp; Ou rendez-vous sur : <br />
+                <TextLinkQrCode>
+                  {URL_DEV}pages-client/{currentTicketId?.id}
+                </TextLinkQrCode>
+              </TextTitleLinkQrCode>
+            </ContainerLink>
+          </QrCodeContainer>
+        ) : (
+          <NoTicketContainer>
+            <TextNoTicket>Aucun ticket en cours </TextNoTicket>
+          </NoTicketContainer>
+        )}
       </RightSideQrCodeClient>
     </ContainerQrCodeClient>
   );
