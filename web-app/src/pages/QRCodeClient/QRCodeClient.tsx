@@ -8,7 +8,7 @@ import {
 import {
   Subscription,
   SubscriptionSubscriptionForTicketAddToFlowArgs,
-  SubscriptionSubscriptionWithIdArgs
+  SubscriptionSubscriptionWithIdArgs,
 } from 'gql/graphql';
 import { QRCodeSVG } from 'qrcode.react';
 import { useEffect, useState } from 'react';
@@ -16,6 +16,13 @@ import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { useLocation } from 'react-router-dom';
 import { PropsDisplayNavbar } from 'utils';
 import logoLarge from '../../assets/logo_flux_large.png';
+import {
+  TicketWithSeconds,
+  arraySortedByDate,
+  convertIdFormat,
+  extractIds,
+  renderTime,
+} from './QRCodeClient.services';
 import {
   ContainerCircle,
   ContainerLogoLarge,
@@ -36,37 +43,16 @@ import {
   TextTicketNumber,
 } from './QrCodeClient.styled';
 
-interface TicketWithSeconds {
-  __typename: string;
-  date: string;
-  id: string;
-  isTrash: boolean;
-  status: string;
-  seconds: number;
-}
-
 const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
-  const TIMER = 10;
-
-  useEffect(() => {
-    displayNavbar(false);
-    return () => {
-      displayNavbar(false);
-    };
-  });
+  //Recupere le flow id contenu dans l'url
+  let location = useLocation();
+  let flowId: string = location.state;
 
   const [arrayTickets, setArrayTickets] = useState(Array<TicketWithSeconds>);
 
   const [currentTicketId, setCurrentTicketId] =
     useState<TicketWithSeconds | null>(null);
 
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  //Recupere le flow id contenu dans l'url
-  let location = useLocation();
-  let flowId: string = location.state;
-  /**
-   * Query executée au montage du composant, elle recupere les tickets
-   */
   const { data, refetch, loading } = useQuery(GET_TICKETS_BY_FLOW_ID, {
     variables: { flowId },
   });
@@ -93,14 +79,16 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
     shouldResubscribe: true,
   });
 
-  /** Fonction pour trier en fonction de la date du tickets
-   * +
-   * supprime tickets qui sont deja scanner ou dans la corbeille */
-  const arraySorted = (array: TicketWithSeconds[]) => {
-    return array.sort(
-      (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-    );
-  };
+  const TIMER = 10;
+
+  useEffect(() => {
+    displayNavbar(false);
+    return () => {
+      displayNavbar(false);
+    };
+  });
+
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   /**Ce useEffect est executé a la reponse de la premiere query
    * Il ajoute les tickets deja presents dans le flux  */
@@ -112,6 +100,7 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
         )
       );
     }
+
     let ticketsWithTimer: TicketWithSeconds[] = [];
     if (!loading && data) {
       /**
@@ -125,8 +114,8 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
         ...ticket,
         seconds: TIMER,
       }));
-      setArrayTickets(arraySorted(ticketsWithTimer));
-      extractIds(ticketsWithTimer);
+      setArrayTickets(arraySortedByDate(ticketsWithTimer));
+      extractIds(ticketsWithTimer, setIds);
     }
     if (dataSub?.SubscriptionForTicketAddToFlow.id) {
       refetch();
@@ -134,9 +123,10 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, dataSub?.SubscriptionForTicketAddToFlow.id, loading, refetch]);
 
+  /*Use effect permettant de gérer le timer sur les tickets*/
   useEffect(() => {
     if (arrayTickets) {
-      let arrayTicketSorted = arraySorted(arrayTickets);
+      let arrayTicketSorted = arraySortedByDate(arrayTickets);
       if (currentTicketId) {
         // Supprimer le timer existant s'il y en a un
         if (timerRef.current) {
@@ -146,7 +136,7 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
         // Démarrer un nouveau timer
         timerRef.current = setInterval(() => {
           currentTicketId.seconds--;
-          //si fin du temps ou que mon currentTicket a subi un changement de statut
+          //si fin du temps ou que le currentTicket a subi un changement de statut
           if (
             currentTicketId.seconds === 0 ||
             dataSubAllTickets?.subscriptionWithId.id === currentTicketId.id
@@ -169,16 +159,6 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
       setCurrentTicketId(arrayTicketSorted[0]);
     }
   }, [arrayTickets, currentTicketId]);
-
-  // useEffect(() => {
-
-  // }, [dataSubChangeStatus]);
-
-  const convertIdFormat = (id: string) => {
-    const shortId = id.toUpperCase().split('');
-    shortId.splice(5, shortId.length).join('');
-    return shortId;
-  };
 
   return (
     <ContainerQrCodeClient>
