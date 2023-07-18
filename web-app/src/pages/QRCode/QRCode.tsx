@@ -1,19 +1,22 @@
+import { AppContext } from 'context/AppContext';
+import { ContainerButton, MainContainer } from 'pages/MesFlux/MesFlux.styled';
 import { QRCodeSVG } from 'qrcode.react';
+import { useContext, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { addDashes } from 'utils';
 import {
-  QRCodeContainer,
+  ArrayContainerQrCode,
+  ContainerLoader,
+  Divider,
+  HeaderListQrCode,
+  ListContainerQrCode,
+  Loader,
+  LoaderText,
   QRCodeElementContainer,
   QRCodeText,
   QRCodeTextContainer,
-  Divider,
   QRCodeUrl,
-  Loader,
-  ContainerLoader,
-  LoaderText,
 } from './QRCode.styled';
-import { useContext, useEffect, useState } from 'react';
-import { AppContext } from 'context/AppContext';
-import { addDashes } from 'utils';
-import { useNavigate } from 'react-router-dom';
 
 interface Flows {
   value: string;
@@ -33,45 +36,51 @@ const QRCode = () => {
   const navigate = useNavigate();
 
   return (
-    <QRCodeContainer>
-      <QRCodeTextContainer>
-        <QRCodeText>
-          Scannez ce QR code ou accéder au lien sur un second appareil.
-        </QRCodeText>
-        <QRCodeText>
-          Il permettra à vos clients de scanner un QRCode pour suivre leurs
-          tickets sur le flu sélectionné.
-        </QRCodeText>
-      </QRCodeTextContainer>
-      <QRCodeElementContainer>
-        {flows?.label ? (
-          <>
-            <QRCodeSVG
-              value={`${document.location.href}-client/${addDashes(
-                flows?.label
-              )}`}
-              bgColor={'transparent'}
-              size={250}
-            />
-            <Divider />
-            <QRCodeUrl
-              onClick={(e) =>
-                navigate(`../qr-code-client/${addDashes(flows?.label)}`, {
-                  state: flows.value,
-                })
-              }
-            >
-              Cliquez ici pour acceder à cette page
-            </QRCodeUrl>
-          </>
-        ) : (
-          <ContainerLoader>
-            <Loader></Loader>
-            <LoaderText>Merci de sélectionner un flu.</LoaderText>
-          </ContainerLoader>
-        )}
-      </QRCodeElementContainer>
-    </QRCodeContainer>
+    <MainContainer>
+      <ContainerButton></ContainerButton>
+      <ArrayContainerQrCode>
+        <HeaderListQrCode></HeaderListQrCode>
+        <ListContainerQrCode>
+          <QRCodeTextContainer>
+            <QRCodeText>
+              Scannez ce QR code ou accéder au lien sur un second appareil.
+            </QRCodeText>
+            <QRCodeText>
+              Il permettra à vos clients de scanner un QRCode pour suivre leurs
+              tickets sur le flu sélectionné.
+            </QRCodeText>
+          </QRCodeTextContainer>
+          <QRCodeElementContainer>
+            {flows?.label ? (
+              <>
+                <QRCodeSVG
+                  value={`${document.location.href}-client/${addDashes(
+                    flows?.label
+                  )}`}
+                  bgColor={'transparent'}
+                  size={250}
+                />
+                <Divider />
+                <QRCodeUrl
+                  onClick={(e) =>
+                    navigate(`../qr-code-client/${addDashes(flows?.label)}`, {
+                      state: flows.value,
+                    })
+                  }
+                >
+                  Cliquez ici pour acceder à cette page
+                </QRCodeUrl>
+              </>
+            ) : (
+              <ContainerLoader>
+                <Loader></Loader>
+                <LoaderText>Merci de sélectionner un flu.</LoaderText>
+              </ContainerLoader>
+            )}
+          </QRCodeElementContainer>
+        </ListContainerQrCode>
+      </ArrayContainerQrCode>
+    </MainContainer>
   );
 };
 

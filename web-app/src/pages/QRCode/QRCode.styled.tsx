@@ -5,6 +5,8 @@ import {
   BOX_SHADOW,
   FONT_FAMILY,
   MAIN_THEME_COLOR,
+  TEXT_FONT_WEIGHT,
+  TITLE_FONT_WEIGHT,
 } from 'styles/style-constants';
 
 export const QRCodeContainer = styled.div`
@@ -21,10 +23,11 @@ export const QRCodeContainer = styled.div`
 
 export const QRCodeTextContainer = styled.div`
   display: flex;
-  grid-area: 1 / 1 / 2 / 2;
   height: 100%;
+  width: 40%;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 `;
 
 export const QRCodeElementContainer = styled.div`
@@ -39,10 +42,7 @@ export const QRCodeElementContainer = styled.div`
 
 export const QRCodeText = styled.h2`
   font-family: ${FONT_FAMILY};
-  font-weight: lighter;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 15%;
+  font-weight: ${TITLE_FONT_WEIGHT};
 `;
 
 export const Divider = styled.hr`
@@ -51,7 +51,7 @@ export const Divider = styled.hr`
 
 export const QRCodeUrl = styled.a`
   font-family: ${FONT_FAMILY};
-  font-weight: lighter;
+  font-weight: ${TEXT_FONT_WEIGHT};
   flex-direction: column;
   justify-content: center;
   text-align: center;
@@ -89,4 +89,23 @@ export const LoaderText = styled.h2`
   font-family: ${FONT_FAMILY};
   font-weight: lighter;
   font-size: 1.4rem;
+`;
+
+export const HeaderListQrCode = styled.div``;
+
+export const ArrayContainerQrCode = styled.div`
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  border: ${BOX_BORDER};
+  background: ${BOX_BACKGROUND_COLOR};
+  box-shadow: ${BOX_SHADOW};
+`;
+
+export const ListContainerQrCode = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8%;
 `;
