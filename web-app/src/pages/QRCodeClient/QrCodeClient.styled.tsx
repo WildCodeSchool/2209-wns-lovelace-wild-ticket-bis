@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
 import { FONT_FAMILY } from 'styles/style-constants';
 
 export const ContainerQrCodeClient = styled.div`
@@ -31,10 +31,8 @@ export const ContainerText = styled.div`
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
-}
 `;
-export const TextQrCodeClient = styled.h2`
-  width: 70%;
+export const TextQrCodeClient = styled.p`
   font-family: ${FONT_FAMILY};
   font-weight: bolder;
   margin: 0 0 0 8%;
@@ -55,7 +53,7 @@ export const TextTicketNumber = styled.h2`
   text-align: center;
   font-size: 2.5rem;
 `;
-export const NumberTicket = styled.h2`
+export const NumberTicket = styled.p`
   font-family: ${FONT_FAMILY};
   font-weight: bold;
   margin: 0;
@@ -67,24 +65,18 @@ export const QrCodeContainer = styled.div`
   height: 100%;
 `;
 
-export const TextTicketNumberQrCode = styled.h2`
+export const TextTicketNumberQrCode = styled.p`
   font-family: ${FONT_FAMILY};
   font-weight: bolder;
   font-size: 2.5em;
   margin: 8% 0 0 0;
 `;
 
-export const TextScanQrCode = styled.h2`
+export const TextScanQrCode = styled.p`
   font-family: ${FONT_FAMILY};
   font-weight: bolder;
   font-size: 3vw;
   margin: 8% 0 0 0;
-`;
-
-export const TextTitleLinkQrCode = styled.h2`
-  font-family: ${FONT_FAMILY};
-  font-weight: bolder;
-  font-size: 3vw;
 `;
 
 export const QrCodeShadow = styled.div`
@@ -97,7 +89,7 @@ export const QrCodeShadow = styled.div`
   );
 `;
 
-export const TextLinkQrCode = styled.h2`
+export const TextLinkQrCode = styled.p`
   font-family: ${FONT_FAMILY};
   font-weight: bolder;
   font-size: 2.5vw;
@@ -113,10 +105,29 @@ export const QRCodeClientElementContainer = styled.div`
   gap: 10px;
 `;
 
-export const Hr = styled.hr`
-  width: 80%;
+export const NoTicketContainer = styled.div`
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
-
-export const ContainerLink = styled.div`
-  width: 100%;
+export const TextNoTicket = styled.p`
+  font-family: ${FONT_FAMILY};
+  font-weight: initial;
+  text-align: center;
+  font-size: 2.5rem;
+`;
+export const ContainerCircle = styled.div`
+  margin: 5px 5px 0 0;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: 10px;
+`;
+export const TextCountDown = styled.p`
+  font-family: ${FONT_FAMILY};
+  font-weight: initial;
+  text-align: center;
+  font-size: 1.5rem;
+  margin: 0;
 `;

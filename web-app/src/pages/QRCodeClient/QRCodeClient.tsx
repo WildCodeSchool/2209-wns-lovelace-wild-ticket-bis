@@ -1,11 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useLazyQuery, useQuery, useSubscription } from '@apollo/client';
+import { URL_DEV } from 'config';
 import {
-  ContainerLink,
+  GET_TICKETS_BY_FLOW_ID,
+  GET_TICKET_ADD_SUBSCRIPTION,
+  GET_TICKET_BY_ID,
+  SUBSCRIPTION_WITH_IDs,
+} from 'gql-store';
+import {
+  Subscription,
+  SubscriptionSubscriptionForTicketAddToFlowArgs,
+  SubscriptionSubscriptionWithIdArgs
+} from 'gql/graphql';
+import { QRCodeSVG } from 'qrcode.react';
+import { useEffect, useState } from 'react';
+import { CountdownCircleTimer } from 'react-countdown-circle-timer';
+import { useLocation } from 'react-router-dom';
+import { PropsDisplayNavbar } from 'utils';
+import logoLarge from '../../assets/logo_flux_large.png';
+import {
+  ContainerCircle,
   ContainerLogoLarge,
   ContainerQrCodeClient,
   ContainerText,
   ContainerTicketNumber,
-  Hr,
   LeftSideQrCodeClient,
   LogoLarge,
   NumberTicket,
@@ -13,26 +30,12 @@ import {
   QrCodeContainer,
   QrCodeShadow,
   RightSideQrCodeClient,
-  TextLinkQrCode,
+  TextCountDown,
+  TextNoTicket,
   TextQrCodeClient,
   TextScanQrCode,
   TextTicketNumber,
-  TextTitleLinkQrCode,
 } from './QrCodeClient.styled';
-import logoLarge from '../../assets/logo_flux_large.png';
-import { PropsDisplayNavbar } from 'utils';
-import { QRCodeSVG } from 'qrcode.react';
-import { useLazyQuery, useQuery, useSubscription } from '@apollo/client';
-import { useLocation } from 'react-router-dom';
-import {
-  Subscription,
-  SubscriptionSubscriptionForTicketAddToFlowArgs,
-} from 'gql/graphql';
-import {
-  GET_TICKETS_BY_FLOW_ID,
-  GET_TICKET_ADD_SUBSCRIPTION,
-  GET_TICKET_BY_ID,
-} from 'gql-store';
 
 interface TicketWithSeconds {
   __typename: string;
@@ -59,17 +62,17 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
   //Recupere le flow id contenu dans l'url
   let location = useLocation();
   let flowId: string = location.state;
-
+  /**
+   * Query executée au montage du composant, elle recupere les tickets
+   */
   const { data, loading } = useQuery(GET_TICKETS_BY_FLOW_ID, {
     variables: { flowId },
   });
 
-  const [
-    getTicketWithId,
-    { data: dataQueryTicket, loading: dataQueryLoading },
-  ] = useLazyQuery(GET_TICKET_BY_ID);
-
-  const { data: dataSub, loading: subLoading } = useSubscription<
+  /**
+   * Cette subscription ecoute un flux , quand un ticket est ajouter , il reçoit son id
+   */
+  const { data: dataSub } = useSubscription<
     Subscription,
     SubscriptionSubscriptionForTicketAddToFlowArgs
   >(GET_TICKET_ADD_SUBSCRIPTION, {
@@ -77,13 +80,25 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
     shouldResubscribe: true,
   });
 
-  console.log(currentTicketId);
-  // const { data: dataSubChangeStatus, loading: loadingSubChangeStatus } =
-  //   useSubscription<SubscriptionSubscriptionWithIdArgs>(SUBSCRIPTION_WITH_ID, {
-  //     skip: !currentTicketId,
-  //     variables: { id: currentTicketId?.id },
-  //     shouldResubscribe: true,
-  //   });
+  /**
+   * Cette query permet de recuperer un ticket en db
+   * Quand la query est complete(receved), elle ajoute le tickets dans un state
+   */
+  const [getTicketWithId] = useLazyQuery(GET_TICKET_BY_ID, {
+    onCompleted(data) {
+      setNewTicket(data.getTicketById);
+    },
+  });
+  /**
+   * Cette subscription ecoute tout les tickets presents dans le flux
+   */
+  const { data: dataSubAllTickets } = useSubscription<
+    Subscription,
+    SubscriptionSubscriptionWithIdArgs
+  >(SUBSCRIPTION_WITH_IDs, {
+    variables: { ids: ids },
+    shouldResubscribe: true,
+  });
 
   //Fonction pour trier en fonction de la date du tickets
   const arraySorted = (array: TicketWithSeconds[]) => {
@@ -103,7 +118,7 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
       let arrayWithNewTickets = data.getTicketsByFlowId.tickets.slice();
       newArraySorted = arrayWithNewTickets.map((ticket: any, index: any) => ({
         ...ticket,
-        seconds: 800,
+        seconds: 10,
       }));
       setArrayTickets(newArraySorted.filter((e) => e.isTrash === false));
     }
@@ -115,7 +130,7 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
       //implemente la valeurs seconde dans le ticket
       let newTicketWithSecond: TicketWithSeconds = {
         ...newTicket,
-        seconds: 800,
+        seconds: 10,
       };
       //Verifie si le ticket n'est pas deja present dans le tableau
       if (arrayTickets.some((el) => el.id === newTicketWithSecond.id)) {
@@ -144,19 +159,13 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
     if (currentTicketId) {
       console.log(`Affichage du ticket ID: ${currentTicketId.id}`);
 
-      const timer = setInterval(() => {
-        currentTicketId.seconds--;
-        console.log(
-          `Ticket ID: ${currentTicketId.id}, Timer: ${currentTicketId.seconds}`
-        );
-
-        if (currentTicketId.seconds === 0 || currentTicketId.seconds < 0) {
-          clearInterval(timer);
-          setCurrentTicketId(null);
-          arrayTickets.shift();
-          console.log(arrayTickets.length);
-          if (arrayTickets.length === 0) {
-            setArrayTickets([]);
+            arrayTicketSorted = arrayTicketSorted.filter(
+              (ticket) => ticket.id !== currentTicketId.id
+            );
+            setArrayTickets(
+              arrayTicketSorted.length === 0 ? [] : arrayTicketSorted
+            );
+            setCurrentTicketId(null);
           }
         }
       }, 1000);
@@ -188,16 +197,12 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
           </TextQrCodeClient>
         </ContainerText>
         <ContainerTicketNumber>
-          <TextTicketNumber>
-            Numero d’attente : <br />
-            <NumberTicket>
-              {currentTicketId ? (
-                <p>{convertIdFormat(currentTicketId.id)}</p>
-              ) : (
-                <p>lol</p>
-              )}
-            </NumberTicket>
-          </TextTicketNumber>
+          {currentTicketId ? (
+            <TextTicketNumber>
+              Numero d’attente :
+              <NumberTicket>{convertIdFormat(currentTicketId.id)}</NumberTicket>
+            </TextTicketNumber>
+          ) : null}
         </ContainerTicketNumber>
       </LeftSideQrCodeClient>
       <RightSideQrCodeClient>
@@ -206,8 +211,8 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
             <ContainerCircle>
               <CountdownCircleTimer
                 isPlaying
-                duration={800}
-                colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+                duration={10}
+                colors={['#2E8DC2', '#fff12b', '#A30000', '#A30000']}
                 colorsTime={[10, 6, 3, 0]}
                 size={50}
                 strokeWidth={5}
@@ -228,15 +233,6 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
                 />
               </QrCodeShadow>
             </QRCodeClientElementContainer>
-            <Hr></Hr>
-            <ContainerLink>
-              <TextTitleLinkQrCode>
-                • &nbsp; Ou rendez-vous sur : <br />
-                <TextLinkQrCode>
-                  {URL_DEV}pages-client/{currentTicketId?.id}
-                </TextLinkQrCode>
-              </TextTitleLinkQrCode>
-            </ContainerLink>
           </QrCodeContainer>
         ) : (
           <NoTicketContainer>
