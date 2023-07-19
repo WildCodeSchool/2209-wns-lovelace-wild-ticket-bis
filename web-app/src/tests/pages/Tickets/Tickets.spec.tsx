@@ -7,6 +7,7 @@ import {
   ChangeTicketStatusMutation,
   ChangeTicketsStatusMutation,
   GetTicketsByFlowIdQuery,
+  MyprofileQuery,
 } from 'gql/graphql';
 import Tickets from 'pages/Tickets/Tickets';
 import {
@@ -16,7 +17,8 @@ import {
   GET_TICKETS_BY_FLOW_ID,
   IS_TRASH_TICKETS_BY_IDS,
 } from '../../../gql-store';
-
+import { OperationVariables, ApolloQueryResult } from '@apollo/client';
+import { Flow } from 'utils';
 jest.mock('react-toastify');
 
 const clickOnAddTicketButton = () => {
@@ -33,6 +35,30 @@ const clickOnQuickChangeButton = (ticketId: string) => {
   fireEvent.click(screen.getByTestId(`button-${ticketId}`));
 };
 
+type ValueType = {
+  userProfile: MyprofileQuery | null;
+  refetch: (
+    variables?: Partial<OperationVariables> | undefined
+  ) => Promise<ApolloQueryResult<MyprofileQuery | null>>;
+  selectedFlow:
+    | {
+        value: string;
+        label: string;
+      }
+    | undefined;
+  setSelectedFlow: React.Dispatch<
+    React.SetStateAction<
+      | {
+          value: string;
+          label: string;
+        }
+      | undefined
+    >
+  >;
+  flowTickets: Flow | undefined;
+  setFlowTickets: React.Dispatch<React.SetStateAction<Flow | undefined>>;
+};
+
 const renderTickets = async (
   mocks: MockedResponse<
     | AddTicketByFlowIdMutation
@@ -42,7 +68,7 @@ const renderTickets = async (
     | ChangeTicketIsTrashMutation
     | ChangeTicketIsTrashMutation
   >[] = [],
-  providerProps: any
+  providerProps: ValueType
 ) => {
   return render(
     <MockedProvider mocks={mocks} addTypename={false}>
@@ -60,44 +86,74 @@ const selectedFlow = {
   value: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
 };
 
+const flowTickets: Flow = {
+  flowName: 'Le camion vert',
+  id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+  tickets: [
+    {
+      date: '2023-03-29T13:00:36.184Z',
+      id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
+      isTrash: false,
+      status: 'Ticket non scanné',
+    },
+    {
+      date: '2023-03-29T14:06:21.209Z',
+      id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+      isTrash: false,
+      status: 'En attente',
+    },
+  ],
+};
+
+const userProfile = {
+  myProfile: {
+    id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
+    firstName: 'Harry',
+    flows: [
+      {
+        flowName: 'Le camion vert',
+        id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+        date: '2023-04-28T12:26:45.276Z',
+        calculateTicketCounts: {
+          incident: 0,
+          nonScanned: 0,
+          validate: 0,
+          waiting: 0,
+        },
+      },
+      {
+        flowName: "Pas d'idée de nom",
+        id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+        date: '2023-04-28T12:26:45.276Z',
+        calculateTicketCounts: {
+          incident: 0,
+          nonScanned: 0,
+          validate: 0,
+          waiting: 0,
+        },
+      },
+    ],
+  },
+};
+
 beforeEach(() => {
   isRefetchCalled = false;
 });
 
 describe('Tickets :', () => {
   describe('When the app mount Ticket component', () => {
-    const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
-      request: {
-        query: GET_TICKETS_BY_FLOW_ID,
-        variables: {
-          flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-        },
-      },
-      result: {
-        data: {
-          getTicketsByFlowId: {
-            flowName: 'Le camion vert',
-            id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-            tickets: [
-              {
-                date: '2023-03-29T13:00:36.184Z',
-                id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                isTrash: false,
-                status: 'Ticket non scanné',
-              },
-              {
-                date: '2023-03-29T14:06:21.209Z',
-                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-                isTrash: false,
-                status: 'En attente',
-              },
-            ],
-          },
-        },
-      },
-    };
     it('renders correctly', async () => {
-      renderTickets([mockGetTicketByFlowId], { selectedFlow });
+      const setFlowTickets = jest.fn();
+      const refetch = jest.fn();
+      const setSelectedFlow = jest.fn();
+      renderTickets([], {
+        selectedFlow,
+        flowTickets,
+        setFlowTickets,
+        userProfile,
+        refetch,
+        setSelectedFlow,
+      });
       await waitFor(() => {
         expect(screen.getByTestId('tickets-array')).toBeInTheDocument();
       });
@@ -106,43 +162,13 @@ describe('Tickets :', () => {
 
   describe('When user click on tickets buttons', () => {
     describe('When user click on quickChange button', () => {
-      const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
-        request: {
-          query: GET_TICKETS_BY_FLOW_ID,
-          variables: {
-            flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-          },
-        },
-        result: {
-          data: {
-            getTicketsByFlowId: {
-              flowName: 'Le camion vert',
-              id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-              tickets: [
-                {
-                  date: '2023-03-29T13:00:36.184Z',
-                  id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                  isTrash: false,
-                  status: 'En attente',
-                },
-                {
-                  date: '2023-03-29T14:06:21.209Z',
-                  id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-                  isTrash: false,
-                  status: 'Ticket non scanné',
-                },
-              ],
-            },
-          },
-        },
-      };
       describe('When ticket status is Ticket non scanné', () => {
         const mockChangeTicketStatusById: MockedResponse<ChangeTicketStatusMutation> =
           {
             request: {
               query: CHANGE_TICKET_STATUS_BY_ID,
               variables: {
-                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
                 status: 'En attente',
               },
             },
@@ -150,7 +176,7 @@ describe('Tickets :', () => {
               data: {
                 changeTicketStatus: {
                   date: '2023-04-27T07:14:08.209Z',
-                  id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                  id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
                   status: 'En attente',
                 },
               },
@@ -161,7 +187,7 @@ describe('Tickets :', () => {
                 data: {
                   changeTicketStatus: {
                     date: '2023-04-27T07:14:08.209Z',
-                    id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+                    id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
                     status: 'En attente',
                   },
                 },
@@ -169,24 +195,34 @@ describe('Tickets :', () => {
             },
           };
         it('change status to En attente', async () => {
-          renderTickets([mockGetTicketByFlowId, mockChangeTicketStatusById], {
+          const setFlowTickets = jest.fn();
+          const refetch = jest.fn();
+          const setSelectedFlow = jest.fn();
+          renderTickets([mockChangeTicketStatusById], {
             selectedFlow,
+            flowTickets,
+            setFlowTickets,
+            userProfile,
+            refetch,
+            setSelectedFlow,
           });
           await waitFor(() => {
-            clickOnQuickChangeButton('992146a1-7138-4782-9e53-555c6c8f6e7f');
+            clickOnQuickChangeButton('7d081b08-3b24-4a4a-aa4e-0f983b0f012e');
             expect(isRefetchCalled).toBe(true);
           });
         });
       });
       describe('When ticket status is En attente', () => {
         it('change status to Ticket validé', async () => {
+          const setFlowTickets = jest.fn();
+          const refetch = jest.fn();
           const mockChangeTicketStatusById: MockedResponse<ChangeTicketStatusMutation> =
             {
               request: {
                 query: CHANGE_TICKET_STATUS_BY_ID,
                 variables: {
                   id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                  status: 'Ticket validé',
+                  status: 'En attente',
                 },
               },
               result: {
@@ -211,8 +247,14 @@ describe('Tickets :', () => {
                 };
               },
             };
-          renderTickets([mockGetTicketByFlowId, mockChangeTicketStatusById], {
+          const setSelectedFlow = jest.fn();
+          renderTickets([mockChangeTicketStatusById], {
             selectedFlow,
+            flowTickets,
+            setFlowTickets,
+            userProfile,
+            refetch,
+            setSelectedFlow,
           });
           await waitFor(() => {
             clickOnQuickChangeButton('7d081b08-3b24-4a4a-aa4e-0f983b0f012e');
@@ -222,37 +264,9 @@ describe('Tickets :', () => {
       });
     });
     describe('When user click on Add ticket button', () => {
-      const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
-        request: {
-          query: GET_TICKETS_BY_FLOW_ID,
-          variables: {
-            flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-          },
-        },
-        result: {
-          data: {
-            getTicketsByFlowId: {
-              flowName: 'Le camion vert',
-              id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-              tickets: [
-                {
-                  date: '2023-03-29T14:06:21.209Z',
-                  id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-                  isTrash: false,
-                  status: 'En attente',
-                },
-                {
-                  date: '2023-03-29T13:00:36.184Z',
-                  id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                  isTrash: false,
-                  status: 'Ticket non scanné',
-                },
-              ],
-            },
-          },
-        },
-      };
       it('add a new ticket in list', async () => {
+        const setFlowTickets = jest.fn();
+        const refetch = jest.fn();
         const mockAddTicketByFlowId: MockedResponse<AddTicketByFlowIdMutation> =
           {
             request: {
@@ -285,8 +299,14 @@ describe('Tickets :', () => {
               };
             },
           };
-        renderTickets([mockAddTicketByFlowId, mockGetTicketByFlowId], {
+        const setSelectedFlow = jest.fn();
+        renderTickets([mockAddTicketByFlowId], {
           selectedFlow,
+          flowTickets,
+          setFlowTickets,
+          userProfile,
+          refetch,
+          setSelectedFlow,
         });
         await waitFor(() => {
           clickOnAddTicketButton();
@@ -296,37 +316,9 @@ describe('Tickets :', () => {
       });
     });
     describe('When user click on delete button', () => {
-      const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
-        request: {
-          query: GET_TICKETS_BY_FLOW_ID,
-          variables: {
-            flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-          },
-        },
-        result: {
-          data: {
-            getTicketsByFlowId: {
-              flowName: 'Le camion vert',
-              id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-              tickets: [
-                {
-                  date: '2023-03-29T13:00:36.184Z',
-                  id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                  isTrash: false,
-                  status: 'Ticket non scanné',
-                },
-                {
-                  date: '2023-03-29T14:06:21.209Z',
-                  id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-                  isTrash: false,
-                  status: 'En attente',
-                },
-              ],
-            },
-          },
-        },
-      };
       it('put ticket in trash', async () => {
+        const setFlowTickets = jest.fn();
+        const refetch = jest.fn();
         const mockPutTicketInTrashTicketByFlowId: MockedResponse<ChangeTicketIsTrashMutation> =
           {
             request: {
@@ -376,13 +368,15 @@ describe('Tickets :', () => {
               };
             },
           };
-
-        renderTickets(
-          [mockGetTicketByFlowId, mockPutTicketInTrashTicketByFlowId],
-          {
-            selectedFlow,
-          }
-        );
+        const setSelectedFlow = jest.fn();
+        renderTickets([mockPutTicketInTrashTicketByFlowId], {
+          selectedFlow,
+          flowTickets,
+          setFlowTickets,
+          userProfile,
+          refetch,
+          setSelectedFlow,
+        });
         await waitFor(async () => {
           expect(screen.getByText('99214')).toBeInTheDocument();
         });
@@ -391,30 +385,6 @@ describe('Tickets :', () => {
       });
     });
     describe('When user click on waiting button', () => {
-      const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
-        request: {
-          query: GET_TICKETS_BY_FLOW_ID,
-          variables: {
-            flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-          },
-        },
-        result: {
-          data: {
-            getTicketsByFlowId: {
-              flowName: 'Le camion vert',
-              id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-              tickets: [
-                {
-                  date: '2023-03-29T14:06:21.209Z',
-                  id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-                  isTrash: false,
-                  status: 'Ticket non scanné',
-                },
-              ],
-            },
-          },
-        },
-      };
       it('Change ticket status to wait', async () => {
         const mockChangeWaitingStatusByTicketId: MockedResponse<ChangeTicketsStatusMutation> =
           {
@@ -463,12 +433,17 @@ describe('Tickets :', () => {
               };
             },
           };
-        renderTickets(
-          [mockGetTicketByFlowId, mockChangeWaitingStatusByTicketId],
-          {
-            selectedFlow,
-          }
-        );
+        const setSelectedFlow = jest.fn();
+        const setFlowTickets = jest.fn();
+        const refetch = jest.fn();
+        renderTickets([mockChangeWaitingStatusByTicketId], {
+          selectedFlow,
+          flowTickets,
+          setFlowTickets,
+          userProfile,
+          refetch,
+          setSelectedFlow,
+        });
         await waitFor(async () => {
           expect(screen.getByText('99214')).toBeInTheDocument();
         });
@@ -502,6 +477,8 @@ describe('Tickets :', () => {
         },
       };
       it('change status to Error', async () => {
+        const setFlowTickets = jest.fn();
+        const refetch = jest.fn();
         const mockChangeIncidentStatusByTicketId: MockedResponse<ChangeTicketsStatusMutation> =
           {
             request: {
@@ -549,10 +526,16 @@ describe('Tickets :', () => {
               };
             },
           };
+        const setSelectedFlow = jest.fn();
         renderTickets(
           [mockGetTicketByFlowId, mockChangeIncidentStatusByTicketId],
           {
             selectedFlow,
+            flowTickets,
+            setFlowTickets,
+            userProfile,
+            refetch,
+            setSelectedFlow,
           }
         );
         await waitFor(async () => {
@@ -588,6 +571,8 @@ describe('Tickets :', () => {
         },
       };
       it('change ticket status to validate', async () => {
+        const setFlowTickets = jest.fn();
+        const refetch = jest.fn();
         const mockChangeValidateStatusByTicketId: MockedResponse<ChangeTicketsStatusMutation> =
           {
             request: {
@@ -628,10 +613,16 @@ describe('Tickets :', () => {
               };
             },
           };
+        const setSelectedFlow = jest.fn();
         renderTickets(
           [mockGetTicketByFlowId, mockChangeValidateStatusByTicketId],
           {
             selectedFlow,
+            flowTickets,
+            setFlowTickets,
+            userProfile,
+            refetch,
+            setSelectedFlow,
           }
         );
         await waitFor(async () => {

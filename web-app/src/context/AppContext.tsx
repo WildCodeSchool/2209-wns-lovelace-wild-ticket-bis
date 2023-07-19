@@ -6,6 +6,7 @@ import {
 import { MY_PROFILE } from 'gql-store';
 import { MyprofileQuery } from 'gql/graphql';
 import { createContext, useEffect, useState } from 'react';
+import { Flow } from 'utils';
 
 type ValueType = {
   userProfile: MyprofileQuery | null;
@@ -27,6 +28,8 @@ type ValueType = {
       | undefined
     >
   >;
+  flowTickets: Flow | undefined;
+  setFlowTickets: React.Dispatch<React.SetStateAction<Flow | undefined>>;
 };
 
 type Props = {
@@ -38,7 +41,7 @@ export const AppContext = createContext<ValueType | null>(null);
 export function ContextProvider({ children }: Props) {
   const { data, refetch } = useQuery<MyprofileQuery>(MY_PROFILE);
   const [userProfile, setUserProfile] = useState<MyprofileQuery | null>(null);
-
+  const [flowTickets, setFlowTickets] = useState<Flow>();
   const [selectedFlow, setSelectedFlow] = useState<{
     value: string;
     label: string;
@@ -52,7 +55,14 @@ export function ContextProvider({ children }: Props) {
 
   return (
     <AppContext.Provider
-      value={{ userProfile, refetch, selectedFlow, setSelectedFlow }}
+      value={{
+        userProfile,
+        refetch,
+        selectedFlow,
+        setSelectedFlow,
+        flowTickets,
+        setFlowTickets,
+      }}
     >
       {children}
     </AppContext.Provider>

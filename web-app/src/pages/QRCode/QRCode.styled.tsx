@@ -1,3 +1,4 @@
+import { QRCodeSVG } from 'qrcode.react';
 import styled from 'styled-components';
 import {
   BOX_BACKGROUND_COLOR,
@@ -5,6 +6,11 @@ import {
   BOX_SHADOW,
   FONT_FAMILY,
   MAIN_THEME_COLOR,
+  MAX_WIDTH_PHONE,
+  SELECT_LINK_COLOR,
+  TEXT_FONT_COLOR,
+  TEXT_FONT_WEIGHT,
+  TITLE_FONT_WEIGHT,
 } from 'styles/style-constants';
 
 export const QRCodeContainer = styled.div`
@@ -21,10 +27,16 @@ export const QRCodeContainer = styled.div`
 
 export const QRCodeTextContainer = styled.div`
   display: flex;
-  grid-area: 1 / 1 / 2 / 2;
   height: 100%;
+  width: 40%;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: 70%;
+    height: unset;
+    gap: 7px;
+  }
 `;
 
 export const QRCodeElementContainer = styled.div`
@@ -35,27 +47,37 @@ export const QRCodeElementContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    height: unset;
+  }
 `;
 
 export const QRCodeText = styled.h2`
   font-family: ${FONT_FAMILY};
-  font-weight: lighter;
-  flex-direction: column;
-  justify-content: center;
-  margin-left: 15%;
+  font-weight: ${TITLE_FONT_WEIGHT};
+  color: ${TEXT_FONT_COLOR};
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    font-size: 0.7rem;
+    margin: 0;
+  }
 `;
 
-export const Divider = styled.hr`
-  width: 70%;
-`;
-
-export const QRCodeUrl = styled.h2`
+export const QRCodeUrl = styled.a`
   font-family: ${FONT_FAMILY};
-  font-weight: lighter;
+  font-weight: ${TEXT_FONT_WEIGHT};
+  color: ${TEXT_FONT_COLOR};
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  margin: 0;
+  text-decoration: underline;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid ${SELECT_LINK_COLOR};
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    font-size: 0.8rem;
+    padding-top: 10px;
+    margin-top: 10px;
+  }
 `;
 
 export const ContainerLoader = styled.div`
@@ -87,4 +109,35 @@ export const LoaderText = styled.h2`
   font-family: ${FONT_FAMILY};
   font-weight: lighter;
   font-size: 1.4rem;
+`;
+
+export const HeaderListQrCode = styled.div``;
+
+export const ArrayContainerQrCode = styled.div`
+  display: flex;
+  justify-content: center;
+  border-radius: 10px;
+  border: ${BOX_BORDER};
+  background: ${BOX_BACKGROUND_COLOR};
+  box-shadow: ${BOX_SHADOW};
+`;
+
+export const ListContainerQrCode = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 8%;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    flex-direction: column;
+  }
+`;
+
+export const QrCodeSVG = styled(QRCodeSVG)`
+  width: 250px;
+  height: 250px;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: 150px;
+    height: 150px;
+  }
 `;

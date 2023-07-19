@@ -17,8 +17,11 @@ import { getTicketsByFlowIdArgs } from '../Flow/Flow.input';
 import {
   ChangeTicketsIsTrash,
   Notification,
+  NotificationNewTicket,
   NotificationPayload,
+  NotificationPayloadNewTicket,
   SubscriptionFilter,
+  SubscriptionFilterFlowId,
   TicketId,
   changeTicketStatusArgs,
   changeTicketsStatusArgs,
@@ -33,10 +36,17 @@ export default class TicketResolver {
 
   @Authorized()
   @Mutation(() => Ticket)
-  addTicketByFlowId(
+  async addTicketByFlowId(
     @Args() { flowId }: getTicketsByFlowIdArgs
   ): Promise<Ticket> {
-    return TicketRepository.createTicketByFlowId(flowId);
+    const ticket = await TicketRepository.createTicketByFlowId(flowId);
+    const payload: NotificationPayloadNewTicket = {
+      id: ticket.id,
+      message: ticket.status,
+      flowId: flowId,
+    };
+    await pubSub.publish('NEW_TICKET_IN_FLOW', payload);
+    return ticket;
   }
 
   @Authorized()
@@ -53,7 +63,8 @@ export default class TicketResolver {
     @Args() { id, status }: changeTicketStatusArgs
   ): Promise<Ticket | null> {
     const ticket = await TicketRepository.updateTicketStatus(id, status);
-    const payload: NotificationPayload = {
+
+    const payload: Notification = {
       id: ticket.id,
       message: ticket.status,
     };
@@ -88,17 +99,13 @@ export default class TicketResolver {
     return TicketRepository.updateTicketsIsTrash(arrayId, isTrash);
   }
 
-  @Subscription(() => Notification, { topics: 'STATUS_TICKET_CHANGE' })
-  normalSubscription(@Root() messagePayload: Notification): Notification {
-    return messagePayload;
-  }
-
   @Subscription(() => Notification, {
     topics: 'STATUS_TICKET_CHANGE',
     filter: ({
       payload,
       args,
     }: ResolverFilterData<Notification, { id: string; ids: string }>) => {
+      console.log(args);
       const { id, ids } = args;
       return !id || payload.id === id || !ids || ids.includes(payload.id);
     },
@@ -108,5 +115,27 @@ export default class TicketResolver {
     @Args() subscriptionIds: SubscriptionFilter
   ): Notification {
     return payload;
+  }
+
+  @Subscription(() => NotificationNewTicket, {
+    topics: 'NEW_TICKET_IN_FLOW',
+    filter: ({
+      payload,
+      args,
+    }: ResolverFilterData<NotificationNewTicket, { id: string }>) => {
+      const { id } = args;
+      return id === payload.flowId;
+    },
+  })
+  SubscriptionForTicketAddToFlow(
+    @Root() messagePayload: NotificationNewTicket,
+    @Args() flowIdFilters: SubscriptionFilterFlowId
+  ): NotificationNewTicket {
+    return messagePayload;
+  }
+
+  @Subscription(() => Notification, { topics: 'STATUS_TICKET_CHANGE' })
+  normalSubscription(@Root() messagePayload: Notification): Notification {
+    return messagePayload;
   }
 }

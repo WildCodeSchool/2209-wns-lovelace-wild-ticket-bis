@@ -100,6 +100,7 @@ export const GET_TICKET_BY_ID = gql`
   query getTicketById($id: String!) {
     getTicketById(id: $id) {
       isTrash
+      date
       id
       status
     }
@@ -158,11 +159,29 @@ export const IS_TRASH_TICKETS_BY_IDS = gql`
 
 /* Subscription */
 
-export const SUBSCRIPTION_WITH_ID = gql`
-  subscription SubscriptionWithId($ids: [String!]) {
+export const SUBSCRIPTION_WITH_IDs = gql`
+  subscription SubscriptionWithIds($ids: [String!]) {
     subscriptionWithId(ids: $ids) {
       id
       message
+    }
+  }
+`;
+
+export const SUBSCRIPTION_WITH_ID = gql`
+  subscription SubscriptionWithId($id: String!) {
+    subscriptionWithId(id: $id) {
+      id
+      message
+    }
+  }
+`;
+export const GET_TICKET_ADD_SUBSCRIPTION = gql`
+  subscription SubscriptionForTicketAddToFlow($id: String!) {
+    SubscriptionForTicketAddToFlow(id: $id) {
+      message
+      id
+      flowId
     }
   }
 `;

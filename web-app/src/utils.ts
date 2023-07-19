@@ -49,3 +49,16 @@ export function addDashes(str: string) {
 export type PropsDisplayNavbar = {
   displayNavbar: (isItDisplayed: boolean) => void;
 };
+
+export type Flow = {
+  __typename?: 'Flow' | undefined;
+  flowName: string;
+  id: string;
+  tickets: {
+    __typename?: 'Ticket' | undefined;
+    date: string;
+    id: string;
+    isTrash: boolean;
+    status: string;
+  }[];
+};

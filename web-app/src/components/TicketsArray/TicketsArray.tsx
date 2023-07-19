@@ -1,3 +1,4 @@
+import { AppContext } from 'context/AppContext';
 import {
   ArrayContainer,
   ContainerInputItem,
@@ -12,20 +13,20 @@ import {
   TextElement,
   TextElementHeader,
 } from 'pages/MesFlux/MesFlux.styled';
-import { Flow } from 'pages/Tickets/Tickets';
+
 import {
-  TextElementBold,
+  AllStatusContainer,
   ButtonQuickChange,
   StatusContainer,
-  AllStatusContainer,
+  TextElementBold,
   TextStatus,
 } from 'pages/Tickets/Tickets.styled';
+import { useContext } from 'react';
 import { IoPlayOutline } from 'react-icons/io5';
 import { TEXT_FONT_COLOR } from 'styles/style-constants';
 import { convertDateFormat } from 'utils';
 
 type TicketsArrayProps = {
-  flowTickets: Flow | undefined;
   allTicketsSelected: string[];
   setAllTicketsSelected: React.Dispatch<React.SetStateAction<string[]>>;
   updateListOfTickets: (
@@ -44,7 +45,6 @@ type TicketsArrayProps = {
 };
 
 const TicketsArray = ({
-  flowTickets,
   allTicketsSelected,
   setAllTicketsSelected,
   updateListOfTickets,
@@ -52,6 +52,8 @@ const TicketsArray = ({
   isTicketFromTrash,
   setIsButtonDisabled,
 }: TicketsArrayProps) => {
+  const appContext = useContext(AppContext);
+
   const convertIdFormat = (id: string) => {
     const shortId = id.toUpperCase().split('');
     shortId.splice(5, shortId.length).join('');
@@ -68,8 +70,8 @@ const TicketsArray = ({
         <TextElementHeader></TextElementHeader>
       </HeaderList>
       <ListContainer>
-        {flowTickets
-          ? flowTickets.tickets
+        {appContext?.flowTickets
+          ? appContext.flowTickets.tickets
               .filter((ticket) => ticket.isTrash === isTicketFromTrash)
               .reverse()
               .map((ticket) => {

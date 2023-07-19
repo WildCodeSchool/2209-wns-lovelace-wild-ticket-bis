@@ -18,7 +18,7 @@ import {
   MainContainer,
   DeleteText,
 } from 'pages/MesFlux/MesFlux.styled';
-import { Flow } from 'pages/Tickets/Tickets';
+
 import { ContainerButtonAction } from 'pages/Tickets/Tickets.styled';
 import { useContext, useEffect, useState } from 'react';
 import { GoTrashcan } from 'react-icons/go';
@@ -38,7 +38,6 @@ const Corbeille = () => {
   const [deleteTicketInTicketListMutation] =
     useMutation<DeleteTicketsMutation>(DELETE_TICKETS_BY_ID);
 
-  const [flowTickets, setFlowTickets] = useState<Flow>();
   const [allTicketsSelected, setAllTicketsSelected] = useState<Array<string>>(
     []
   );
@@ -47,9 +46,9 @@ const Corbeille = () => {
   useEffect(() => {
     refetch({ flowId: appContext?.selectedFlow?.value });
     if (data?.getTicketsByFlowId) {
-      setFlowTickets(data.getTicketsByFlowId);
+      appContext?.setFlowTickets(data.getTicketsByFlowId);
     }
-  }, [appContext?.selectedFlow?.value, data, refetch]);
+  }, [appContext, appContext?.selectedFlow?.value, data, refetch]);
 
   const deleteTicketsInTicketList = async () => {
     try {
@@ -103,7 +102,6 @@ const Corbeille = () => {
         </ContainerButtonAction>
       </ContainerButton>
       <TicketsArray
-        flowTickets={flowTickets}
         allTicketsSelected={allTicketsSelected}
         setAllTicketsSelected={setAllTicketsSelected}
         updateListOfTickets={updateListOfTickets}

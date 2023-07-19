@@ -1,19 +1,42 @@
+import { OperationVariables, ApolloQueryResult } from '@apollo/client';
 import { MockedProvider, MockedResponse } from '@apollo/client/testing';
 import { fireEvent, waitFor, screen, render } from '@testing-library/react';
 import { AppContext } from 'context/AppContext';
-import {
-  DELETE_TICKETS_BY_ID,
-  GET_TICKETS_BY_FLOW_ID,
-  IS_TRASH_TICKETS_BY_IDS,
-} from 'gql-store';
+import { DELETE_TICKETS_BY_ID, IS_TRASH_TICKETS_BY_IDS } from 'gql-store';
 import {
   GetTicketsByFlowIdQuery,
   DeleteTicketsMutation,
   ChangeTicketIsTrashMutation,
+  MyprofileQuery,
 } from 'gql/graphql';
 import Corbeille from 'pages/Corbeille/Corbeille';
+import { Flow } from 'utils';
 
 jest.mock('react-toastify');
+
+type ValueType = {
+  userProfile: MyprofileQuery | null;
+  refetch: (
+    variables?: Partial<OperationVariables> | undefined
+  ) => Promise<ApolloQueryResult<MyprofileQuery | null>>;
+  selectedFlow:
+    | {
+        value: string;
+        label: string;
+      }
+    | undefined;
+  setSelectedFlow: React.Dispatch<
+    React.SetStateAction<
+      | {
+          value: string;
+          label: string;
+        }
+      | undefined
+    >
+  >;
+  flowTickets: Flow | undefined;
+  setFlowTickets: React.Dispatch<React.SetStateAction<Flow | undefined>>;
+};
 
 let isRefetchCalled = false;
 
@@ -29,7 +52,7 @@ const renderTickets = async (
     | DeleteTicketsMutation
     | ChangeTicketIsTrashMutation
   >[] = [],
-  providerProps: any
+  providerProps: ValueType
 ) => {
   return render(
     <MockedProvider mocks={mocks} addTypename={false}>
@@ -49,40 +72,70 @@ const selectedFlow = {
   value: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
 };
 
+const flowTickets: Flow = {
+  flowName: 'Le camion vert',
+  id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
+  tickets: [
+    {
+      date: '2023-03-29T13:00:36.184Z',
+      id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
+      isTrash: true,
+      status: 'Ticket non scanné',
+    },
+    {
+      date: '2023-03-29T14:06:21.209Z',
+      id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
+      isTrash: true,
+      status: 'En attente',
+    },
+  ],
+};
+
+const userProfile = {
+  myProfile: {
+    id: '9d194517-b995-496c-a6c2-0568e9e47b7c',
+    firstName: 'Harry',
+    flows: [
+      {
+        flowName: 'Le camion vert',
+        id: '86b13f3f-389d-4c4b-b50a-fd00a484673c',
+        date: '2023-04-28T12:26:45.276Z',
+        calculateTicketCounts: {
+          incident: 0,
+          nonScanned: 0,
+          validate: 0,
+          waiting: 0,
+        },
+      },
+      {
+        flowName: "Pas d'idée de nom",
+        id: 'f4be2425-6f79-4e09-b8c1-9c24f611c896',
+        date: '2023-04-28T12:26:45.276Z',
+        calculateTicketCounts: {
+          incident: 0,
+          nonScanned: 0,
+          validate: 0,
+          waiting: 0,
+        },
+      },
+    ],
+  },
+};
+
 describe('Corbeille :', () => {
   describe('When the app mount Ticket component', () => {
-    const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
-      request: {
-        query: GET_TICKETS_BY_FLOW_ID,
-        variables: {
-          flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-        },
-      },
-      result: {
-        data: {
-          getTicketsByFlowId: {
-            flowName: 'Le camion vert',
-            id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-            tickets: [
-              {
-                date: '2023-03-29T13:00:36.184Z',
-                id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                isTrash: true,
-                status: 'Ticket non scanné',
-              },
-              {
-                date: '2023-03-29T14:06:21.209Z',
-                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-                isTrash: true,
-                status: 'En attente',
-              },
-            ],
-          },
-        },
-      },
-    };
+    const setFlowTickets = jest.fn();
+    const refetch = jest.fn();
+    const setSelectedFlow = jest.fn();
     it('renders correctly', async () => {
-      renderTickets([mockGetTicketByFlowId], { selectedFlow });
+      renderTickets([], {
+        selectedFlow,
+        flowTickets,
+        setFlowTickets,
+        userProfile,
+        refetch,
+        setSelectedFlow,
+      });
       await waitFor(() => {
         expect(screen.getByTestId('tickets-array')).toBeInTheDocument();
       });
@@ -90,36 +143,9 @@ describe('Corbeille :', () => {
   });
 
   describe('When user click on delete button', () => {
-    const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
-      request: {
-        query: GET_TICKETS_BY_FLOW_ID,
-        variables: {
-          flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-        },
-      },
-      result: {
-        data: {
-          getTicketsByFlowId: {
-            flowName: 'Le camion vert',
-            id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-            tickets: [
-              {
-                date: '2023-03-29T13:00:36.184Z',
-                id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                isTrash: true,
-                status: 'Ticket non scanné',
-              },
-              {
-                date: '2023-03-29T14:06:21.209Z',
-                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-                isTrash: true,
-                status: 'En attente',
-              },
-            ],
-          },
-        },
-      },
-    };
+    const setFlowTickets = jest.fn();
+    const refetch = jest.fn();
+    const setSelectedFlow = jest.fn();
     it(`delete ticket`, async () => {
       const mockDeleteTicketByFlowId: MockedResponse<DeleteTicketsMutation> = {
         request: {
@@ -155,8 +181,13 @@ describe('Corbeille :', () => {
         },
       };
 
-      renderTickets([mockGetTicketByFlowId, mockDeleteTicketByFlowId], {
+      renderTickets([mockDeleteTicketByFlowId], {
         selectedFlow,
+        flowTickets,
+        setFlowTickets,
+        userProfile,
+        refetch,
+        setSelectedFlow,
       });
       await waitFor(async () => {
         expect(screen.getByText('99214')).toBeInTheDocument();
@@ -166,36 +197,9 @@ describe('Corbeille :', () => {
     });
   });
   describe('When user click transfer ticket button', () => {
-    const mockGetTicketByFlowId: MockedResponse<GetTicketsByFlowIdQuery> = {
-      request: {
-        query: GET_TICKETS_BY_FLOW_ID,
-        variables: {
-          flowId: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-        },
-      },
-      result: {
-        data: {
-          getTicketsByFlowId: {
-            flowName: 'Le camion vert',
-            id: '58eea2d7-5929-4efc-9dfc-374d2b30ee42',
-            tickets: [
-              {
-                date: '2023-03-29T13:00:36.184Z',
-                id: '7d081b08-3b24-4a4a-aa4e-0f983b0f012e',
-                isTrash: true,
-                status: 'Ticket non scanné',
-              },
-              {
-                date: '2023-03-29T14:06:21.209Z',
-                id: '992146a1-7138-4782-9e53-555c6c8f6e7f',
-                isTrash: true,
-                status: 'En attente',
-              },
-            ],
-          },
-        },
-      },
-    };
+    const setFlowTickets = jest.fn();
+    const refetch = jest.fn();
+    const setSelectedFlow = jest.fn();
     it('put back ticket its flux', async () => {
       const mockPutTicketInTrashTicketByFlowId: MockedResponse<ChangeTicketIsTrashMutation> =
         {
@@ -247,12 +251,14 @@ describe('Corbeille :', () => {
           },
         };
 
-      renderTickets(
-        [mockGetTicketByFlowId, mockPutTicketInTrashTicketByFlowId],
-        {
-          selectedFlow,
-        }
-      );
+      renderTickets([mockPutTicketInTrashTicketByFlowId], {
+        selectedFlow,
+        flowTickets,
+        setFlowTickets,
+        userProfile,
+        refetch,
+        setSelectedFlow,
+      });
       await waitFor(async () => {
         expect(screen.getByText('99214')).toBeInTheDocument();
       });
