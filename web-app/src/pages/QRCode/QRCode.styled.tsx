@@ -5,6 +5,9 @@ import {
   BOX_SHADOW,
   FONT_FAMILY,
   MAIN_THEME_COLOR,
+  MAX_WIDTH_PHONE,
+  SELECT_LINK_COLOR,
+  TEXT_FONT_COLOR,
   TEXT_FONT_WEIGHT,
   TITLE_FONT_WEIGHT,
 } from 'styles/style-constants';
@@ -28,6 +31,11 @@ export const QRCodeTextContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: 70%;
+    height: unset;
+    gap: 7px;
+  }
 `;
 
 export const QRCodeElementContainer = styled.div`
@@ -38,26 +46,37 @@ export const QRCodeElementContainer = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    height: unset;
+  }
 `;
 
 export const QRCodeText = styled.h2`
   font-family: ${FONT_FAMILY};
   font-weight: ${TITLE_FONT_WEIGHT};
-`;
-
-export const Divider = styled.hr`
-  width: 70%;
+  color: ${TEXT_FONT_COLOR};
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    font-size: 0.7rem;
+    margin: 0;
+  }
 `;
 
 export const QRCodeUrl = styled.a`
   font-family: ${FONT_FAMILY};
   font-weight: ${TEXT_FONT_WEIGHT};
+  color: ${TEXT_FONT_COLOR};
   flex-direction: column;
   justify-content: center;
   text-align: center;
-  margin: 0;
-  text-decoration: none;
-  color: black;
+  text-decoration: underline;
+  padding-top: 20px;
+  margin-top: 20px;
+  border-top: 1px solid ${SELECT_LINK_COLOR};
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    font-size: 0.8rem;
+    padding-top: 10px;
+    margin-top: 10px;
+  }
 `;
 
 export const ContainerLoader = styled.div`
@@ -108,4 +127,7 @@ export const ListContainerQrCode = styled.div`
   justify-content: center;
   align-items: center;
   gap: 8%;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    flex-direction: column;
+  }
 `;

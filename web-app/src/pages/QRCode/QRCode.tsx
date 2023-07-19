@@ -7,7 +7,6 @@ import { addDashes } from 'utils';
 import {
   ArrayContainerQrCode,
   ContainerLoader,
-  Divider,
   HeaderListQrCode,
   ListContainerQrCode,
   Loader,
@@ -60,7 +59,6 @@ const QRCode = () => {
                   bgColor={'transparent'}
                   size={250}
                 />
-                <Divider />
                 <QRCodeUrl
                   onClick={(e) =>
                     navigate(`../qr-code-client/${addDashes(flows?.label)}`, {
@@ -73,7 +71,7 @@ const QRCode = () => {
               </>
             ) : (
               <ContainerLoader>
-                <Loader></Loader>
+                <Loader />
                 <LoaderText>Merci de sélectionner un flu.</LoaderText>
               </ContainerLoader>
             )}
