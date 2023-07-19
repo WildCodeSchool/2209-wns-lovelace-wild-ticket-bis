@@ -10,8 +10,7 @@ import {
   SubscriptionSubscriptionForTicketAddToFlowArgs,
   SubscriptionSubscriptionWithIdArgs,
 } from 'gql/graphql';
-import { QRCodeSVG } from 'qrcode.react';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CountdownCircleTimer } from 'react-countdown-circle-timer';
 import { useLocation } from 'react-router-dom';
 import { PropsDisplayNavbar } from 'utils';
@@ -25,21 +24,26 @@ import {
 } from './QRCodeClient.services';
 import {
   ContainerCircle,
+  ContainerDesktop,
   ContainerLogoLarge,
   ContainerQrCodeClient,
+  ContainerResponsive,
   ContainerText,
   ContainerTicketNumber,
+  ContainerTicketNumberResponsive,
   LeftSideQrCodeClient,
   LogoLarge,
   NumberTicket,
   QRCodeClientElementContainer,
   QrCodeContainer,
+  QrCodeSVG,
   QrCodeShadow,
   RightSideQrCodeClient,
   TextCountDown,
   TextNoTicket,
   TextQrCodeClient,
   TextScanQrCode,
+  TextScanQrCodeResponsive,
   TextTicketNumber,
 } from './QrCodeClient.styled';
 
@@ -162,59 +166,75 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
 
   return (
     <ContainerQrCodeClient>
-      <LeftSideQrCodeClient>
-        <ContainerLogoLarge>
-          <LogoLarge src={logoLarge}></LogoLarge>
-        </ContainerLogoLarge>
-        <ContainerText>
-          <TextQrCodeClient>
-            Soyez prévenue quand votre commande est prête ! 👋
-          </TextQrCodeClient>
-        </ContainerText>
-        <ContainerTicketNumber>
+      <ContainerDesktop>
+        <LeftSideQrCodeClient>
+          <ContainerLogoLarge>
+            <LogoLarge src={logoLarge}></LogoLarge>
+          </ContainerLogoLarge>
+          <ContainerText>
+            <TextQrCodeClient>
+              Soyez prévenue quand votre commande est prête ! 👋
+            </TextQrCodeClient>
+          </ContainerText>
+          <ContainerTicketNumber>
+            {currentTicketId ? (
+              <TextTicketNumber>
+                Numero d’attente :
+                <NumberTicket>
+                  {convertIdFormat(currentTicketId.id)}
+                </NumberTicket>
+              </TextTicketNumber>
+            ) : null}
+          </ContainerTicketNumber>
+        </LeftSideQrCodeClient>
+        <RightSideQrCodeClient>
+          {currentTicketId ? (
+            <QrCodeContainer>
+              <ContainerCircle>
+                <CountdownCircleTimer
+                  isPlaying
+                  duration={TIMER}
+                  colors={['#2E8DC2', '#fff12b', '#f9d506', '#ff0000']}
+                  colorsTime={[10, 6, 3, 0]}
+                  size={50}
+                  strokeWidth={5}
+                >
+                  {renderTime}
+                </CountdownCircleTimer>
+                <TextCountDown>Temps restant </TextCountDown>
+              </ContainerCircle>
+              <TextScanQrCode hidden={currentTicketId ? true : false}>
+                • &nbsp; Scanner le Qr-code en dessous 👇
+              </TextScanQrCode>
+              <QRCodeClientElementContainer>
+                <QrCodeShadow>
+                  <QrCodeSVG
+                    value={`${URL_DEV}pages-client/${currentTicketId?.id}`}
+                    bgColor={'transparent'}
+                  />
+                </QrCodeShadow>
+              </QRCodeClientElementContainer>
+            </QrCodeContainer>
+          ) : (
+            <NoTicketContainer>
+              <TextNoTicket>Aucun ticket en cours </TextNoTicket>
+            </NoTicketContainer>
+          )}
+        </RightSideQrCodeClient>
+      </ContainerDesktop>
+      <ContainerResponsive>
+        <TextScanQrCodeResponsive hidden={currentTicketId ? true : false}>
+          • &nbsp; Scanner le Qr-code en dessus 👆
+        </TextScanQrCodeResponsive>
+        <ContainerTicketNumberResponsive>
           {currentTicketId ? (
             <TextTicketNumber>
               Numero d’attente :
               <NumberTicket>{convertIdFormat(currentTicketId.id)}</NumberTicket>
             </TextTicketNumber>
           ) : null}
-        </ContainerTicketNumber>
-      </LeftSideQrCodeClient>
-      <RightSideQrCodeClient>
-        {currentTicketId ? (
-          <QrCodeContainer>
-            <ContainerCircle>
-              <CountdownCircleTimer
-                isPlaying
-                duration={TIMER}
-                colors={['#2E8DC2', '#fff12b', '#f9d506', '#ff0000']}
-                colorsTime={[10, 6, 3, 0]}
-                size={50}
-                strokeWidth={5}
-              >
-                {renderTime}
-              </CountdownCircleTimer>
-              <TextCountDown>Temps restant </TextCountDown>
-            </ContainerCircle>
-            <TextScanQrCode>
-              • &nbsp; Scanner le Qr-code en dessous 👇
-            </TextScanQrCode>
-            <QRCodeClientElementContainer>
-              <QrCodeShadow>
-                <QRCodeSVG
-                  value={`${URL_DEV}pages-client/${currentTicketId?.id}`}
-                  bgColor={'transparent'}
-                  size={400}
-                />
-              </QrCodeShadow>
-            </QRCodeClientElementContainer>
-          </QrCodeContainer>
-        ) : (
-          <NoTicketContainer>
-            <TextNoTicket>Aucun ticket en cours </TextNoTicket>
-          </NoTicketContainer>
-        )}
-      </RightSideQrCodeClient>
+        </ContainerTicketNumberResponsive>
+      </ContainerResponsive>
     </ContainerQrCodeClient>
   );
 };
