@@ -1,3 +1,4 @@
+import { QRCodeSVG } from 'qrcode.react';
 import styled from 'styled-components';
 import {
   BOX_BACKGROUND_COLOR,
@@ -129,5 +130,14 @@ export const ListContainerQrCode = styled.div`
   gap: 8%;
   @media (max-width: ${MAX_WIDTH_PHONE}) {
     flex-direction: column;
+  }
+`;
+
+export const QrCodeSVG = styled(QRCodeSVG)`
+  width: 250px;
+  height: 250px;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: 150px;
+    height: 150px;
   }
 `;

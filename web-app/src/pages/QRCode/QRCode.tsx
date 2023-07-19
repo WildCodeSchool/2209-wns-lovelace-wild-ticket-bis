@@ -1,6 +1,5 @@
 import { AppContext } from 'context/AppContext';
 import { ContainerButton, MainContainer } from 'pages/MesFlux/MesFlux.styled';
-import { QRCodeSVG } from 'qrcode.react';
 import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { addDashes } from 'utils';
@@ -15,6 +14,7 @@ import {
   QRCodeText,
   QRCodeTextContainer,
   QRCodeUrl,
+  QrCodeSVG,
 } from './QRCode.styled';
 
 interface Flows {
@@ -52,12 +52,11 @@ const QRCode = () => {
           <QRCodeElementContainer>
             {flows?.label ? (
               <>
-                <QRCodeSVG
+                <QrCodeSVG
                   value={`${document.location.href}-client/${addDashes(
                     flows?.label
                   )}`}
                   bgColor={'transparent'}
-                  size={250}
                 />
                 <QRCodeUrl
                   onClick={(e) =>
