@@ -44,6 +44,7 @@ services:
     volumes:
       - ./gateway/nginx.conf:/etc/nginx/nginx.conf
       - web-app-build:/web-app-build
+      - ./logs:/var/log/nginx
     restart: always
 
 volumes:
