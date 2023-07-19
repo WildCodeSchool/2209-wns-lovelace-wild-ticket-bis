@@ -13,44 +13,22 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  * Therefore it is highly recommended to use the babel-plugin for production.
  */
 const documents = {
-  '\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $emailAddress: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      emailAddress: $emailAddress\n      password: $password\n    ) {\n      id\n      emailAddress\n    }\n  }\n':
-    types.SignUpDocument,
-  '\n  mutation SignIn($emailAddress: String!, $password: String!) {\n    signIn(emailAddress: $emailAddress, password: $password) {\n      id\n      emailAddress\n      firstName\n      lastName\n    }\n  }\n':
-    types.SignInDocument,
-  '\n  mutation LogOut {\n    logOut {\n      id\n    }\n    removeCookie\n  }\n':
-    types.LogOutDocument,
-  '\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n        date\n        calculateTicketCounts {\n          incident\n          nonScanned\n          validate\n          waiting\n        }\n      }\n    }\n  }\n':
-    types.MyprofileDocument,
-  '\n  mutation addFlow($id: String!, $flowName: String!) {\n    addFlow(id: $id, flowName: $flowName) {\n      id\n      flowName\n    }\n  }\n':
-    types.AddFlowDocument,
-  '\n  mutation deleteFlow($arrayId: [String!]!) {\n    deleteFlow(arrayId: $arrayId)\n  }\n':
-    types.DeleteFlowDocument,
-  '\n  query GetTicketsByFlowId($flowId: String!) {\n    getTicketsByFlowId(flowId: $flowId) {\n      flowName\n      id\n      tickets {\n        date\n        id\n        isTrash\n        status\n      }\n    }\n  }\n':
-    types.GetTicketsByFlowIdDocument,
-  '\n  query getTicketById($id: String!) {\n    getTicketById(id: $id) {\n      isTrash\n      id\n      status\n    }\n  }\n':
-    types.GetTicketByIdDocument,
-  '\n  mutation DeleteTickets($arrayId: [String!]!) {\n    deleteTickets(arrayId: $arrayId)\n  }\n':
-    types.DeleteTicketsDocument,
-  '\n  mutation AddTicketByFlowId($flowId: String!) {\n    addTicketByFlowId(flowId: $flowId) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n':
-    types.AddTicketByFlowIdDocument,
-  '\n  mutation ChangeTicketStatus($id: String!, $status: String!) {\n    changeTicketStatus(id: $id, status: $status) {\n      date\n      id\n      status\n    }\n  }\n':
-    types.ChangeTicketStatusDocument,
-  '\n  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {\n    changeTicketsStatus(arrayId: $arrayId, status: $status) {\n      id\n      date\n      status\n    }\n  }\n':
-    types.ChangeTicketsStatusDocument,
-  '\n  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {\n    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n':
-    types.ChangeTicketIsTrashDocument,
-  '\n  subscription SubscriptionWithIds($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n':
-    types.SubscriptionWithIdsDocument,
-  '\n  subscription SubscriptionWithId($id: String!) {\n    subscriptionWithId(id: $id) {\n      id\n      message\n    }\n  }\n':
-    types.SubscriptionWithIdDocument,
-  '\n  subscription SubscriptionForTicketAddToFlow($id: String!) {\n    SubscriptionForTicketAddToFlow(id: $id) {\n      message\n      id\n      flowId\n    }\n  }\n':
-    types.SubscriptionForTicketAddToFlowDocument,
-  '\n  subscription SubscriptionForTicketAddToFlow($flowId: String!) {\n    SubscriptionForTicketAddToFlow(flowId: $flowId) {\n      message\n      id\n      flowId\n    }\n  }\n':
-    types.SubscriptionForTicketAddToFlowDocument,
-  '\n  query GetTicketById($id: String!) {\n    getTicketById(id: $id) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n':
-    types.GetTicketByIdDocument,
-  '\n  subscription Subscription($id: String) {\n    subscriptionWithId(id: $id) {\n      message\n      id\n    }\n  }\n':
-    types.SubscriptionWithIdDocument,
+    "\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $emailAddress: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      emailAddress: $emailAddress\n      password: $password\n    ) {\n      id\n      emailAddress\n    }\n  }\n": types.SignUpDocument,
+    "\n  mutation SignIn($emailAddress: String!, $password: String!) {\n    signIn(emailAddress: $emailAddress, password: $password) {\n      id\n      emailAddress\n      firstName\n      lastName\n    }\n  }\n": types.SignInDocument,
+    "\n  mutation LogOut {\n    logOut {\n      id\n    }\n    removeCookie\n  }\n": types.LogOutDocument,
+    "\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n        date\n        calculateTicketCounts {\n          incident\n          nonScanned\n          validate\n          waiting\n        }\n      }\n    }\n  }\n": types.MyprofileDocument,
+    "\n  mutation addFlow($id: String!, $flowName: String!) {\n    addFlow(id: $id, flowName: $flowName) {\n      id\n      flowName\n    }\n  }\n": types.AddFlowDocument,
+    "\n  mutation deleteFlow($arrayId: [String!]!) {\n    deleteFlow(arrayId: $arrayId)\n  }\n": types.DeleteFlowDocument,
+    "\n  query GetTicketsByFlowId($flowId: String!) {\n    getTicketsByFlowId(flowId: $flowId) {\n      flowName\n      id\n      tickets {\n        date\n        id\n        isTrash\n        status\n      }\n    }\n  }\n": types.GetTicketsByFlowIdDocument,
+    "\n  query getTicketById($id: String!) {\n    getTicketById(id: $id) {\n      isTrash\n      date\n      id\n      status\n    }\n  }\n": types.GetTicketByIdDocument,
+    "\n  mutation DeleteTickets($arrayId: [String!]!) {\n    deleteTickets(arrayId: $arrayId)\n  }\n": types.DeleteTicketsDocument,
+    "\n  mutation AddTicketByFlowId($flowId: String!) {\n    addTicketByFlowId(flowId: $flowId) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n": types.AddTicketByFlowIdDocument,
+    "\n  mutation ChangeTicketStatus($id: String!, $status: String!) {\n    changeTicketStatus(id: $id, status: $status) {\n      date\n      id\n      status\n    }\n  }\n": types.ChangeTicketStatusDocument,
+    "\n  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {\n    changeTicketsStatus(arrayId: $arrayId, status: $status) {\n      id\n      date\n      status\n    }\n  }\n": types.ChangeTicketsStatusDocument,
+    "\n  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {\n    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n": types.ChangeTicketIsTrashDocument,
+    "\n  subscription SubscriptionWithIds($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n": types.SubscriptionWithIdsDocument,
+    "\n  subscription SubscriptionWithId($id: String!) {\n    subscriptionWithId(id: $id) {\n      id\n      message\n    }\n  }\n": types.SubscriptionWithIdDocument,
+    "\n  subscription SubscriptionForTicketAddToFlow($id: String!) {\n    SubscriptionForTicketAddToFlow(id: $id) {\n      message\n      id\n      flowId\n    }\n  }\n": types.SubscriptionForTicketAddToFlowDocument,
 };
 
 /**
@@ -70,103 +48,70 @@ export function graphql(source: string): unknown;
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $emailAddress: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      emailAddress: $emailAddress\n      password: $password\n    ) {\n      id\n      emailAddress\n    }\n  }\n'
-): (typeof documents)['\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $emailAddress: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      emailAddress: $emailAddress\n      password: $password\n    ) {\n      id\n      emailAddress\n    }\n  }\n'];
+export function graphql(source: "\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $emailAddress: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      emailAddress: $emailAddress\n      password: $password\n    ) {\n      id\n      emailAddress\n    }\n  }\n"): (typeof documents)["\n  mutation SignUp(\n    $firstName: String!\n    $lastName: String!\n    $emailAddress: String!\n    $password: String!\n  ) {\n    signUp(\n      firstName: $firstName\n      lastName: $lastName\n      emailAddress: $emailAddress\n      password: $password\n    ) {\n      id\n      emailAddress\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation SignIn($emailAddress: String!, $password: String!) {\n    signIn(emailAddress: $emailAddress, password: $password) {\n      id\n      emailAddress\n      firstName\n      lastName\n    }\n  }\n'
-): (typeof documents)['\n  mutation SignIn($emailAddress: String!, $password: String!) {\n    signIn(emailAddress: $emailAddress, password: $password) {\n      id\n      emailAddress\n      firstName\n      lastName\n    }\n  }\n'];
+export function graphql(source: "\n  mutation SignIn($emailAddress: String!, $password: String!) {\n    signIn(emailAddress: $emailAddress, password: $password) {\n      id\n      emailAddress\n      firstName\n      lastName\n    }\n  }\n"): (typeof documents)["\n  mutation SignIn($emailAddress: String!, $password: String!) {\n    signIn(emailAddress: $emailAddress, password: $password) {\n      id\n      emailAddress\n      firstName\n      lastName\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation LogOut {\n    logOut {\n      id\n    }\n    removeCookie\n  }\n'
-): (typeof documents)['\n  mutation LogOut {\n    logOut {\n      id\n    }\n    removeCookie\n  }\n'];
+export function graphql(source: "\n  mutation LogOut {\n    logOut {\n      id\n    }\n    removeCookie\n  }\n"): (typeof documents)["\n  mutation LogOut {\n    logOut {\n      id\n    }\n    removeCookie\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n        date\n        calculateTicketCounts {\n          incident\n          nonScanned\n          validate\n          waiting\n        }\n      }\n    }\n  }\n'
-): (typeof documents)['\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n        date\n        calculateTicketCounts {\n          incident\n          nonScanned\n          validate\n          waiting\n        }\n      }\n    }\n  }\n'];
+export function graphql(source: "\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n        date\n        calculateTicketCounts {\n          incident\n          nonScanned\n          validate\n          waiting\n        }\n      }\n    }\n  }\n"): (typeof documents)["\n  query Myprofile {\n    myProfile {\n      id\n      firstName\n      flows {\n        flowName\n        id\n        date\n        calculateTicketCounts {\n          incident\n          nonScanned\n          validate\n          waiting\n        }\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation addFlow($id: String!, $flowName: String!) {\n    addFlow(id: $id, flowName: $flowName) {\n      id\n      flowName\n    }\n  }\n'
-): (typeof documents)['\n  mutation addFlow($id: String!, $flowName: String!) {\n    addFlow(id: $id, flowName: $flowName) {\n      id\n      flowName\n    }\n  }\n'];
+export function graphql(source: "\n  mutation addFlow($id: String!, $flowName: String!) {\n    addFlow(id: $id, flowName: $flowName) {\n      id\n      flowName\n    }\n  }\n"): (typeof documents)["\n  mutation addFlow($id: String!, $flowName: String!) {\n    addFlow(id: $id, flowName: $flowName) {\n      id\n      flowName\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation deleteFlow($arrayId: [String!]!) {\n    deleteFlow(arrayId: $arrayId)\n  }\n'
-): (typeof documents)['\n  mutation deleteFlow($arrayId: [String!]!) {\n    deleteFlow(arrayId: $arrayId)\n  }\n'];
+export function graphql(source: "\n  mutation deleteFlow($arrayId: [String!]!) {\n    deleteFlow(arrayId: $arrayId)\n  }\n"): (typeof documents)["\n  mutation deleteFlow($arrayId: [String!]!) {\n    deleteFlow(arrayId: $arrayId)\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  query GetTicketsByFlowId($flowId: String!) {\n    getTicketsByFlowId(flowId: $flowId) {\n      flowName\n      id\n      tickets {\n        date\n        id\n        isTrash\n        status\n      }\n    }\n  }\n'
-): (typeof documents)['\n  query GetTicketsByFlowId($flowId: String!) {\n    getTicketsByFlowId(flowId: $flowId) {\n      flowName\n      id\n      tickets {\n        date\n        id\n        isTrash\n        status\n      }\n    }\n  }\n'];
+export function graphql(source: "\n  query GetTicketsByFlowId($flowId: String!) {\n    getTicketsByFlowId(flowId: $flowId) {\n      flowName\n      id\n      tickets {\n        date\n        id\n        isTrash\n        status\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetTicketsByFlowId($flowId: String!) {\n    getTicketsByFlowId(flowId: $flowId) {\n      flowName\n      id\n      tickets {\n        date\n        id\n        isTrash\n        status\n      }\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  query getTicketById($id: String!) {\n    getTicketById(id: $id) {\n      isTrash\n      id\n      status\n    }\n  }\n'
-): (typeof documents)['\n  query getTicketById($id: String!) {\n    getTicketById(id: $id) {\n      isTrash\n      id\n      status\n    }\n  }\n'];
+export function graphql(source: "\n  query getTicketById($id: String!) {\n    getTicketById(id: $id) {\n      isTrash\n      date\n      id\n      status\n    }\n  }\n"): (typeof documents)["\n  query getTicketById($id: String!) {\n    getTicketById(id: $id) {\n      isTrash\n      date\n      id\n      status\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation DeleteTickets($arrayId: [String!]!) {\n    deleteTickets(arrayId: $arrayId)\n  }\n'
-): (typeof documents)['\n  mutation DeleteTickets($arrayId: [String!]!) {\n    deleteTickets(arrayId: $arrayId)\n  }\n'];
+export function graphql(source: "\n  mutation DeleteTickets($arrayId: [String!]!) {\n    deleteTickets(arrayId: $arrayId)\n  }\n"): (typeof documents)["\n  mutation DeleteTickets($arrayId: [String!]!) {\n    deleteTickets(arrayId: $arrayId)\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation AddTicketByFlowId($flowId: String!) {\n    addTicketByFlowId(flowId: $flowId) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n'
-): (typeof documents)['\n  mutation AddTicketByFlowId($flowId: String!) {\n    addTicketByFlowId(flowId: $flowId) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n'];
+export function graphql(source: "\n  mutation AddTicketByFlowId($flowId: String!) {\n    addTicketByFlowId(flowId: $flowId) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation AddTicketByFlowId($flowId: String!) {\n    addTicketByFlowId(flowId: $flowId) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation ChangeTicketStatus($id: String!, $status: String!) {\n    changeTicketStatus(id: $id, status: $status) {\n      date\n      id\n      status\n    }\n  }\n'
-): (typeof documents)['\n  mutation ChangeTicketStatus($id: String!, $status: String!) {\n    changeTicketStatus(id: $id, status: $status) {\n      date\n      id\n      status\n    }\n  }\n'];
+export function graphql(source: "\n  mutation ChangeTicketStatus($id: String!, $status: String!) {\n    changeTicketStatus(id: $id, status: $status) {\n      date\n      id\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation ChangeTicketStatus($id: String!, $status: String!) {\n    changeTicketStatus(id: $id, status: $status) {\n      date\n      id\n      status\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {\n    changeTicketsStatus(arrayId: $arrayId, status: $status) {\n      id\n      date\n      status\n    }\n  }\n'
-): (typeof documents)['\n  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {\n    changeTicketsStatus(arrayId: $arrayId, status: $status) {\n      id\n      date\n      status\n    }\n  }\n'];
+export function graphql(source: "\n  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {\n    changeTicketsStatus(arrayId: $arrayId, status: $status) {\n      id\n      date\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation ChangeTicketsStatus($arrayId: [ID!]!, $status: String!) {\n    changeTicketsStatus(arrayId: $arrayId, status: $status) {\n      id\n      date\n      status\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {\n    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n'
-): (typeof documents)['\n  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {\n    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n'];
+export function graphql(source: "\n  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {\n    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n"): (typeof documents)["\n  mutation ChangeTicketIsTrash($arrayId: [ID!]!, $isTrash: Boolean!) {\n    changeTicketIsTrash(arrayId: $arrayId, isTrash: $isTrash) {\n      date\n      id\n      isTrash\n      status\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  subscription SubscriptionWithIds($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n'
-): (typeof documents)['\n  subscription SubscriptionWithIds($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n'];
+export function graphql(source: "\n  subscription SubscriptionWithIds($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n"): (typeof documents)["\n  subscription SubscriptionWithIds($ids: [String!]) {\n    subscriptionWithId(ids: $ids) {\n      id\n      message\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  subscription SubscriptionWithId($id: String!) {\n    subscriptionWithId(id: $id) {\n      id\n      message\n    }\n  }\n'
-): (typeof documents)['\n  subscription SubscriptionWithId($id: String!) {\n    subscriptionWithId(id: $id) {\n      id\n      message\n    }\n  }\n'];
+export function graphql(source: "\n  subscription SubscriptionWithId($id: String!) {\n    subscriptionWithId(id: $id) {\n      id\n      message\n    }\n  }\n"): (typeof documents)["\n  subscription SubscriptionWithId($id: String!) {\n    subscriptionWithId(id: $id) {\n      id\n      message\n    }\n  }\n"];
 /**
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function graphql(
-  source: '\n  subscription SubscriptionForTicketAddToFlow($id: String!) {\n    SubscriptionForTicketAddToFlow(id: $id) {\n      message\n      id\n      flowId\n    }\n  }\n'
-): (typeof documents)['\n  subscription SubscriptionForTicketAddToFlow($id: String!) {\n    SubscriptionForTicketAddToFlow(id: $id) {\n      message\n      id\n      flowId\n    }\n  }\n'];
+export function graphql(source: "\n  subscription SubscriptionForTicketAddToFlow($id: String!) {\n    SubscriptionForTicketAddToFlow(id: $id) {\n      message\n      id\n      flowId\n    }\n  }\n"): (typeof documents)["\n  subscription SubscriptionForTicketAddToFlow($id: String!) {\n    SubscriptionForTicketAddToFlow(id: $id) {\n      message\n      id\n      flowId\n    }\n  }\n"];
 
 export function graphql(source: string) {
   return (documents as any)[source] ?? {};
 }
 
-export type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
-  TDocumentNode extends DocumentNode<infer TType, any> ? TType : never;
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> = TDocumentNode extends DocumentNode<  infer TType,  any>  ? TType  : never;

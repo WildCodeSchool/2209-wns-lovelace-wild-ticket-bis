@@ -33,6 +33,7 @@ import {
   ContainerTicketNumberResponsive,
   LeftSideQrCodeClient,
   LogoLarge,
+  NoTicketContainer,
   NumberTicket,
   QRCodeClientElementContainer,
   QrCodeContainer,
@@ -52,8 +53,10 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
   let location = useLocation();
   let flowId: string = location.state;
 
-  const [arrayTickets, setArrayTickets] = useState(Array<TicketWithSeconds>);
-
+  const [arrayTickets, setArrayTickets] = useState<
+    Array<TicketWithSeconds> | []
+  >();
+  const [ids, setIds] = useState(Array<string>);
   const [currentTicketId, setCurrentTicketId] =
     useState<TicketWithSeconds | null>(null);
 
@@ -69,7 +72,6 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
     SubscriptionSubscriptionForTicketAddToFlowArgs
   >(GET_TICKET_ADD_SUBSCRIPTION, {
     variables: { id: flowId },
-    shouldResubscribe: true,
   });
 
   /**
@@ -156,13 +158,18 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
             );
             setCurrentTicketId(null);
           }
-        }
-      }, 1000);
-    } else {
-      //defini le ticket a afficher, toujours le premier du tableau
-      setCurrentTicketId(arrayTicketSorted[0]);
+        }, 1000);
+      } else {
+        //defini le ticket a afficher, toujours le premier du tableau
+        setCurrentTicketId(arrayTicketSorted[0]);
+      }
     }
-  }, [arrayTickets, currentTicketId]);
+  }, [
+    arrayTickets,
+    arrayTickets?.length,
+    currentTicketId,
+    dataSubAllTickets?.subscriptionWithId.id,
+  ]);
 
   return (
     <ContainerQrCodeClient>
