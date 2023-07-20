@@ -8,9 +8,7 @@ import TicketRepository from '../models/Ticket/Ticket.repository';
 const dataSource = new DataSource({
   type: 'postgres',
   url: NODE_ENV === 'test' ? TEST_DATABASE_URL : DATABASE_URL,
-  entities: [
-    __dirname + `/../models/**/*.entity.${NODE_ENV === 'test' ? 'ts' : 'js'}`,
-  ],
+  entities: [__dirname + `/../models/**/*.entity.{js,ts}`],
   logging: NODE_ENV === 'development' ? ['query', 'error'] : ['error'],
   migrations: [__dirname + '/migrations/*.{js,ts}'],
   migrationsRun: true,
@@ -41,4 +39,10 @@ async function closeConnection() {
   await dataSource.destroy();
 }
 
-export { dataSource };
+export default dataSource;
+export {
+  getDatabase,
+  getRepository,
+  initializeDatabaseRepositories,
+  closeConnection,
+};
