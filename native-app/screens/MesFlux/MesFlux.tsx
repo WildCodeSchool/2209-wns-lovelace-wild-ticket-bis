@@ -7,6 +7,23 @@ import {
 } from '../../styles/style-constants';
 import { DataTable } from 'react-native-paper';
 import DropDown from '../../components/Select/DropDown';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useContext, useEffect, useState } from 'react';
+import { AppContext } from '../../context/AppContext';
+
+type Flow = {
+  __typename?: 'Flow';
+  flowName: string;
+  id: string;
+  date: string;
+  calculateTicketCounts: {
+    __typename?: 'NumberOfTickets';
+    incident?: number | null;
+    nonScanned?: number | null;
+    validate?: number | null;
+    waiting?: number | null;
+  };
+};
 
 const styles = StyleSheet.create({
   globalContainer: {
@@ -46,17 +63,43 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     gap: 15,
   },
+  containerloading: {
+    display: 'flex',
+    height: '70%',
+    alignItems: 'center',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
 });
 
 const MesFlux = () => {
+  const appContext = useContext(AppContext);
+
+  const [flowSelected, setFlowSelected] = useState<Flow | null>(null);
+  useEffect(() => {
+    // console.log(appContext.serverError);
+    if (appContext?.selectedFlow && appContext?.userProfile) {
+      let flow = appContext?.userProfile.myProfile.flows.find(
+        (flow) => flow.id === appContext?.selectedFlow.value
+      );
+      setFlowSelected(flow);
+    }
+ 
+  }, [appContext]);
+
   return (
     <View style={styles.globalContainer}>
       <DropDown />
+
       <View style={styles.container}>
         <DataTable style={styles.table}>
           <DataTable.Header style={styles.head}>
             <DataTable.Title>
-              <Text>Le camion vert</Text>
+              <Text>
+                {flowSelected !== null
+                  ? `${flowSelected.flowName}`
+                  : 'Chargement... '}
+              </Text>
             </DataTable.Title>
           </DataTable.Header>
           <DataTable.Row style={styles.row}>
@@ -68,7 +111,11 @@ const MesFlux = () => {
             <DataTable.Cell>
               <View style={styles.status}>
                 <Text>Ticket non scanné</Text>
-                <Text>10</Text>
+                <Text>
+                  {flowSelected !== null
+                    ? `${flowSelected.calculateTicketCounts.nonScanned}`
+                    : 'Chargement... '}
+                </Text>
               </View>
             </DataTable.Cell>
           </DataTable.Row>
@@ -81,7 +128,12 @@ const MesFlux = () => {
             <DataTable.Cell>
               <View style={styles.status}>
                 <Text>En attente</Text>
-                <Text>2</Text>
+                <Text>
+                  {' '}
+                  {flowSelected !== null
+                    ? `${flowSelected.calculateTicketCounts.waiting}`
+                    : 'Chargement... '}
+                </Text>
               </View>
             </DataTable.Cell>
           </DataTable.Row>
@@ -94,7 +146,12 @@ const MesFlux = () => {
             <DataTable.Cell>
               <View style={styles.status}>
                 <Text>Ticket validé</Text>
-                <Text>20</Text>
+                <Text>
+                  {' '}
+                  {flowSelected !== null
+                    ? `${flowSelected.calculateTicketCounts.validate}`
+                    : 'Chargement... '}
+                </Text>
               </View>
             </DataTable.Cell>
           </DataTable.Row>
@@ -107,7 +164,12 @@ const MesFlux = () => {
             <DataTable.Cell>
               <View style={styles.status}>
                 <Text>Incident</Text>
-                <Text>2</Text>
+                <Text>
+                  {' '}
+                  {flowSelected !== null
+                    ? `${flowSelected.calculateTicketCounts.incident}`
+                    : 'Chargement... '}
+                </Text>
               </View>
             </DataTable.Cell>
           </DataTable.Row>
