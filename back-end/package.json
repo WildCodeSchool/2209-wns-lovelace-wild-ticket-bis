@@ -8,7 +8,9 @@
     "test:watch": "jest --watchAll --runInBand",
     "build": "tsc",
     "start": "node dist/index.js",
-    "start:watch": "tsc && (tsc -w & nodemon dist/index.js)"
+    "start:watch": "tsc && (tsc -w & nodemon dist/index.js)",
+    "typeorm": "typeorm-ts-node-commonjs -d ./src/database/utils.ts",
+    "migration:generate": "npm run typeorm migration:generate src/database/migrations/migration"
   },
   "author": "",
   "license": "ISC",
@@ -27,7 +29,6 @@
     "type-graphql": "^1.1.1",
     "ws": "^8.13.0",
     "typeorm": "^0.3.9"
-
   },
   "devDependencies": {
     "@jest/globals": "^29.3.1",
