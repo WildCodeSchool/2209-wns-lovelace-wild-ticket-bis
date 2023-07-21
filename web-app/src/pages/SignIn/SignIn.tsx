@@ -27,6 +27,7 @@ import { SIGN_IN } from 'gql-store';
 import { AppContext } from 'context/AppContext';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import { TEXT_FONT_COLOR } from 'styles/style-constants';
+import { clickOnEye } from './Sign.services';
 
 const SignIn = ({ displayNavbar }: PropsDisplayNavbar) => {
   const [emailAddress, setEmailAddress] = useState('');
@@ -52,10 +53,6 @@ const SignIn = ({ displayNavbar }: PropsDisplayNavbar) => {
     } catch (error) {
       toast.error(getErrorMessage(error));
     }
-  };
-
-  const clickOnEye = () => {
-    setIsPasswordHidden(!isPasswordHidden);
   };
 
   useEffect(() => {
@@ -120,7 +117,9 @@ const SignIn = ({ displayNavbar }: PropsDisplayNavbar) => {
                 />
                 <ShowHidePasswordButton
                   type="button"
-                  onClick={() => clickOnEye()}
+                  onClick={() =>
+                    clickOnEye(isPasswordHidden, setIsPasswordHidden)
+                  }
                 >
                   {isPasswordHidden ? (
                     <BsEye color={TEXT_FONT_COLOR} />

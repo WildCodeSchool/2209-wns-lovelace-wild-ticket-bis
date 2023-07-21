@@ -32,6 +32,7 @@ import { AppContext } from 'context/AppContext';
 import { PropsDisplayNavbar } from 'utils';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import { TEXT_FONT_COLOR } from 'styles/style-constants';
+import { clickOnEye } from 'pages/SignIn/Sign.services';
 
 const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
   const [firstName, setFirstName] = useState('');
@@ -46,13 +47,6 @@ const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
     SIGN_UP
   );
   const navigate = useNavigate();
-
-  const clickOnEye = (
-    state: boolean,
-    setState: React.Dispatch<React.SetStateAction<boolean>>
-  ) => {
-    setState(!state);
-  };
 
   const clickOnSignUp = async () => {
     if (password !== confirmedPassword) {
