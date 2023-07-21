@@ -32,3 +32,7 @@ Expo go is required on your device to run native app
 ```
 npx expo start --tunnel
 ```
+
+### Run migrations when modify schema in back-end
+
+docker compose -f docker-compose.dev.yml exec back-end npm run migration:generate
