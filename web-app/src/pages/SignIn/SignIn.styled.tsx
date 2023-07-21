@@ -130,3 +130,20 @@ export const LinkFooter = styled.p`
   color: ${MAIN_THEME_COLOR};
   text-decoration: underline;
 `;
+
+export const ShowHidePasswordButton = styled.button`
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  position: absolute;
+  transform: translateY(-50%);
+  right: 18px;
+  top: 52%;
+  padding: 0;
+`;
+
+export const ContainerPasswordInput = styled.div`
+  display: flex;
+  width: 100%;
+  position: relative;
+`;
