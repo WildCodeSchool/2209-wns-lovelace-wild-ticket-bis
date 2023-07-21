@@ -40,7 +40,6 @@ const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
   const [password, setPassword] = useState('');
   const [confirmedPassword, setconfirmedPassword] = useState('');
   const [isPasswordHidden, setIsPasswordHidden] = useState(true);
-  const [isConfirmPasswordHidden, setIsConfirmPasswordHidden] = useState(true);
   const appContext = useContext(AppContext);
 
   const [signUp] = useMutation<SignUpMutation, SignUpMutationVariables>(
@@ -186,7 +185,7 @@ const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
                 <TextLabel>Confirmer le mot de passe</TextLabel>
                 <ContainerPasswordInput>
                   <InputForm
-                    type={isConfirmPasswordHidden ? 'password' : 'text'}
+                    type={isPasswordHidden ? 'password' : 'text'}
                     required
                     autoComplete="new-password"
                     id="confirmed-password"
@@ -196,21 +195,6 @@ const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
                       setconfirmedPassword(event.target.value);
                     }}
                   />
-                  <ShowHidePasswordButton
-                    type="button"
-                    onClick={() =>
-                      clickOnEye(
-                        isConfirmPasswordHidden,
-                        setIsConfirmPasswordHidden
-                      )
-                    }
-                  >
-                    {isConfirmPasswordHidden ? (
-                      <BsEye color={TEXT_FONT_COLOR} />
-                    ) : (
-                      <BsEyeSlash color={TEXT_FONT_COLOR} />
-                    )}
-                  </ShowHidePasswordButton>
                 </ContainerPasswordInput>
                 {password === confirmedPassword || confirmedPassword === '' ? (
                   <TextGoodPassword></TextGoodPassword>
