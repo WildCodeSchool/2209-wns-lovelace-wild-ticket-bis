@@ -35,7 +35,7 @@ const fillFormAndSubmit = () => {
   fireEvent.change(screen.getByLabelText(/Mot de passe/i), {
     target: { value: 'Jeanjeanbon1!' },
   });
-  fireEvent.submit(screen.getByRole('form'));
+  fireEvent.click(screen.getByRole('button', { name: /Se connecter/i }));
 };
 
 describe('SignIn :', () => {

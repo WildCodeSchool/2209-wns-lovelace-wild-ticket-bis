@@ -23,11 +23,16 @@ import {
   TextLabel,
   SignContainer,
   GlobalLogoContainer,
+  ContainerPasswordInput,
+  ShowHidePasswordButton,
 } from '../SignIn/SignIn.styled';
 import Logo from 'components/Logo/Logo';
 import { SIGN_UP } from 'gql-store';
 import { AppContext } from 'context/AppContext';
 import { PropsDisplayNavbar } from 'utils';
+import { BsEye, BsEyeSlash } from 'react-icons/bs';
+import { TEXT_FONT_COLOR } from 'styles/style-constants';
+import { clickOnEye } from 'pages/SignIn/Sign.services';
 
 const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
   const [firstName, setFirstName] = useState('');
@@ -35,6 +40,7 @@ const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
   const [emailAddress, setEmailAddress] = useState('');
   const [password, setPassword] = useState('');
   const [confirmedPassword, setconfirmedPassword] = useState('');
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
   const appContext = useContext(AppContext);
 
   const [signUp] = useMutation<SignUpMutation, SignUpMutationVariables>(
@@ -143,33 +149,47 @@ const SignUp = ({ displayNavbar }: PropsDisplayNavbar) => {
             <SignUpRight>
               <LabelForm>
                 <TextLabel>Mot de passe</TextLabel>
-
-                <InputForm
-                  type="password"
-                  required
-                  autoComplete="new-password"
-                  id="password"
-                  name="password"
-                  value={password}
-                  onChange={(event) => {
-                    setPassword(event.target.value);
-                  }}
-                />
+                <ContainerPasswordInput>
+                  <InputForm
+                    type={isPasswordHidden ? 'password' : 'text'}
+                    required
+                    autoComplete="new-password"
+                    id="password"
+                    name="password"
+                    value={password}
+                    onChange={(event) => {
+                      setPassword(event.target.value);
+                    }}
+                  />
+                  <ShowHidePasswordButton
+                    type="button"
+                    onClick={() =>
+                      clickOnEye(isPasswordHidden, setIsPasswordHidden)
+                    }
+                  >
+                    {isPasswordHidden ? (
+                      <BsEye color={TEXT_FONT_COLOR} />
+                    ) : (
+                      <BsEyeSlash color={TEXT_FONT_COLOR} />
+                    )}
+                  </ShowHidePasswordButton>
+                </ContainerPasswordInput>
               </LabelForm>
               <LabelForm>
                 <TextLabel>Confirmer le mot de passe</TextLabel>
-
-                <InputForm
-                  type="password"
-                  required
-                  autoComplete="new-password"
-                  id="confirmed-password"
-                  name="confirmed-password"
-                  value={confirmedPassword}
-                  onChange={(event) => {
-                    setconfirmedPassword(event.target.value);
-                  }}
-                />
+                <ContainerPasswordInput>
+                  <InputForm
+                    type={isPasswordHidden ? 'password' : 'text'}
+                    required
+                    autoComplete="new-password"
+                    id="confirmed-password"
+                    name="confirmed-password"
+                    value={confirmedPassword}
+                    onChange={(event) => {
+                      setconfirmedPassword(event.target.value);
+                    }}
+                  />
+                </ContainerPasswordInput>
                 {password === confirmedPassword || confirmedPassword === '' ? (
                   <TextGoodPassword></TextGoodPassword>
                 ) : (
