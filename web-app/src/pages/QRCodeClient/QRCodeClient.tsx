@@ -1,5 +1,5 @@
 import { useQuery, useSubscription } from '@apollo/client';
-import { IS_PRODUCTION, URL_DEV, URL_PROD } from 'config';
+import { IS_PRODUCTION, URL_DEV } from 'config';
 import {
   GET_TICKETS_BY_FLOW_ID,
   GET_TICKET_ADD_SUBSCRIPTION,
@@ -216,9 +216,9 @@ const QRCodeClient = ({ displayNavbar }: PropsDisplayNavbar) => {
               <QRCodeClientElementContainer>
                 <QrCodeShadow>
                   <QrCodeSVG
-                    value={`${IS_PRODUCTION ? URL_PROD : URL_DEV}pages-client/${
-                      currentTicketId?.id
-                    }`}
+                    value={`${
+                      IS_PRODUCTION ? process.env.REACT_APP_URL_PROD : URL_DEV
+                    }pages-client/${currentTicketId?.id}`}
                     bgColor={'transparent'}
                   />
                 </QrCodeShadow>
