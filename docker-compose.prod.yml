@@ -7,7 +7,7 @@ services:
       target: prod
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgres://postgres:password@database:5432/postgres
+      DATABASE_URL: postgres://postgres:${POSTGRES_PASSWORD}@database:5432/postgres
     expose:
       - 4000
     restart: always
@@ -27,7 +27,7 @@ services:
   database:
     image: postgres:14.5-alpine
     environment:
-      POSTGRES_PASSWORD: password
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - database-content:/var/lib/postgresql/data
     expose:
