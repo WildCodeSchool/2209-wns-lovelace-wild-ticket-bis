@@ -1,12 +1,13 @@
-import { gql, useMutation } from '@apollo/client'
-import { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { toast } from 'react-toastify'
-import Loader from '../../components/Loader'
-import { SignInMutation, SignInMutationVariables } from '../../gql/graphql'
-import { getErrorMessage } from '../../utils'
-import { MES_FLUX_PATH, SIGN_UP_PATH } from '../paths'
+import { useMutation } from '@apollo/client';
+import { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { SignInMutation, SignInMutationVariables } from '../../gql/graphql';
+import { PropsDisplayNavbar, getErrorMessage } from '../../utils';
+import { MES_FLUX_PATH, SIGN_UP_PATH } from '../paths';
 import {
+  GlobalFormContainer,
   ButtonLabel,
   ContainerInput,
   FooterForm,
@@ -15,104 +16,133 @@ import {
   LabelForm,
   LabelTitle,
   LinkFooter,
-  SignInContainer,
   TextLabel,
-  Logo,
-} from './SignIn.styled'
-import './SignIn.styled.tsx'
-import imglogo from '../../logo_flu.png'
+  SignContainer,
+  GlobalLogoContainer,
+  ShowHidePasswordButton,
+  ContainerPasswordInput,
+} from './SignIn.styled';
+import Logo from 'components/Logo/Logo';
+import { SIGN_IN } from 'gql-store';
+import { AppContext } from 'context/AppContext';
+import { BsEye, BsEyeSlash } from 'react-icons/bs';
+import { TEXT_FONT_COLOR } from 'styles/style-constants';
+import { clickOnEye } from './Sign.services';
 
-const SIGN_IN = gql`
-  mutation SignIn($emailAddress: String!, $password: String!) {
-    signIn(emailAddress: $emailAddress, password: $password) {
-      id
-      emailAddress
-      firstName
-      lastName
-    }
-  }
-`
-const SignIn = ({ onSuccess, displayNavbar }: any) => {
-  const [emailAddress, setEmailAddress] = useState('')
-  const [password, setPassword] = useState('')
+const SignIn = ({ displayNavbar }: PropsDisplayNavbar) => {
+  const [emailAddress, setEmailAddress] = useState('');
+  const [password, setPassword] = useState('');
+  const [isSignInSuccess, setIsSignInSuccess] = useState(false);
+  const [isPasswordHidden, setIsPasswordHidden] = useState(true);
+  const appContext = useContext(AppContext);
 
-  const [signIn, { loading }] = useMutation<
-    SignInMutation,
-    SignInMutationVariables
-  >(SIGN_IN)
-  const navigate = useNavigate()
+  const [signIn] = useMutation<SignInMutation, SignInMutationVariables>(
+    SIGN_IN
+  );
+  const navigate = useNavigate();
 
-  const submit = async () => {
+  const clickOnLogin = async () => {
     try {
       await signIn({
         variables: { emailAddress, password },
-      })
-      toast.success(`Vous vous êtes connecté avec succès.`)
-      onSuccess()
-      navigate(MES_FLUX_PATH)
-      displayNavbar(true)
+      });
+      setIsSignInSuccess(true);
+      toast.success(`Vous vous êtes connecté avec succès.`);
+      appContext?.refetch();
+      navigate(MES_FLUX_PATH);
     } catch (error) {
-      displayNavbar(false)
-      toast.error(getErrorMessage(error))
+      toast.error(getErrorMessage(error));
     }
-  }
+  };
 
   useEffect(() => {
-    displayNavbar(false)
-  })
+    displayNavbar(false);
+    return () => {
+      isSignInSuccess ? displayNavbar(true) : displayNavbar(false);
+    };
+  });
 
   return (
-    <SignInContainer>
-      <Logo src={imglogo} />
-      <FormContainer
-        onSubmit={async (event) => {
-          event.preventDefault()
-          await submit()
+    <SignContainer>
+      {isSignInSuccess ? (
+        <GlobalLogoContainer initial={{ opacity: 1 }} exit={{ opacity: 0 }}>
+          <Logo isNavbarDisplayed={false} />
+        </GlobalLogoContainer>
+      ) : (
+        <GlobalLogoContainer>
+          <Logo isNavbarDisplayed={false} />
+        </GlobalLogoContainer>
+      )}
+      <GlobalFormContainer
+        key="signInKey"
+        initial={{ x: -1000, opacity: 0 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{
+          type: 'spring',
+          stiffness: 250,
+          damping: 20,
         }}
+        exit={{ x: -1000, opacity: 0 }}
       >
-        <LabelTitle>Bonjour</LabelTitle>
-        <ContainerInput>
-          <LabelForm>
-            <TextLabel>Adresse email</TextLabel>
-            <InputForm
-              type="email"
-              required
-              autoComplete="email"
-              id="emailAddress"
-              name="emailAddress"
-              value={emailAddress}
-              onChange={(event) => {
-                setEmailAddress(event.target.value)
-              }}
-            />
-          </LabelForm>
-          <LabelForm>
-            <TextLabel>Mot de passe</TextLabel>
-            <InputForm
-              type="password"
-              required
-              autoComplete="current-password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={(event) => {
-                setPassword(event.target.value)
-              }}
-            />
-          </LabelForm>
-        </ContainerInput>
-        <ButtonLabel disabled={loading}>
-          {loading ? <Loader /> : 'Se connecter'}{' '}
-        </ButtonLabel>
-        <FooterForm>
-          Pas encore de compte ?{' '}
-          <Link style={{ textDecoration: 'none' }} to={SIGN_UP_PATH}>
-            <LinkFooter> S'inscrire</LinkFooter>
-          </Link>{' '}
-        </FooterForm>
-      </FormContainer>
-    </SignInContainer>
-  )
-}
+        <FormContainer aria-label="form">
+          <LabelTitle>Bonjour</LabelTitle>
+          <ContainerInput>
+            <LabelForm>
+              <TextLabel>Adresse email</TextLabel>
+              <InputForm
+                type="email"
+                required
+                autoComplete="email"
+                id="emailAddress"
+                name="emailAddress"
+                value={emailAddress}
+                onChange={(event) => {
+                  setEmailAddress(event.target.value);
+                }}
+              />
+            </LabelForm>
+            <LabelForm>
+              <TextLabel>Mot de passe</TextLabel>
+              <ContainerPasswordInput>
+                <InputForm
+                  type={isPasswordHidden ? 'password' : 'text'}
+                  required
+                  autoComplete="current-password"
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={(event) => {
+                    setPassword(event.target.value);
+                  }}
+                />
+                <ShowHidePasswordButton
+                  type="button"
+                  onClick={() =>
+                    clickOnEye(isPasswordHidden, setIsPasswordHidden)
+                  }
+                >
+                  {isPasswordHidden ? (
+                    <BsEye color={TEXT_FONT_COLOR} />
+                  ) : (
+                    <BsEyeSlash color={TEXT_FONT_COLOR} />
+                  )}
+                </ShowHidePasswordButton>
+              </ContainerPasswordInput>
+            </LabelForm>
+          </ContainerInput>
+          <ButtonLabel type="button" onClick={() => clickOnLogin()}>
+            Se connecter
+          </ButtonLabel>
+          <FooterForm>
+            Pas encore de compte ?{' '}
+            <Link to={SIGN_UP_PATH}>
+              <LinkFooter> S'inscrire</LinkFooter>
+            </Link>{' '}
+          </FooterForm>
+        </FormContainer>
+      </GlobalFormContainer>
+    </SignContainer>
+  );
+};
 
-export default SignIn
+export default SignIn;

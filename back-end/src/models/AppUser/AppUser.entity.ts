@@ -1,13 +1,13 @@
-import { IsEmail } from 'class-validator'
-import { Field, ID, ObjectType } from 'type-graphql'
+import { IsEmail } from 'class-validator';
+import { Field, ID, InputType, ObjectType } from 'type-graphql';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   Index,
   OneToMany,
-} from 'typeorm'
-import Flow from '../Flow/Flow.entity'
+} from 'typeorm';
+import Flow from '../Flow/Flow.entity';
 
 @Entity()
 @ObjectType()
@@ -17,40 +17,40 @@ export default class AppUser {
     lastName: string,
     emailAddress: string,
     hashedPassword: string,
-    flows?: Flow[],
+    flows?: Flow[]
   ) {
-    this.firstName = firstName
-    this.lastName = lastName
-    this.emailAddress = emailAddress
-    this.hashedPassword = hashedPassword
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.emailAddress = emailAddress;
+    this.hashedPassword = hashedPassword;
 
     if (flows) {
-      this.flows = Promise.resolve(flows)
+      this.flows = Promise.resolve(flows);
     }
   }
 
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
-  id: string
+  id: string;
 
   @Column()
   @Field()
   @Index({ unique: true })
   @IsEmail()
-  emailAddress: string
+  emailAddress: string;
 
   @Column()
   @Field()
-  firstName: string
+  firstName: string;
 
   @Column()
   @Field()
-  lastName: string
+  lastName: string;
 
   @Column()
-  hashedPassword: string
+  hashedPassword: string;
 
   @OneToMany(() => Flow, (flow) => flow.appUser)
   @Field(() => [Flow], { nullable: false })
-  flows: Promise<Flow[]>
+  flows: Promise<Flow[]>;
 }

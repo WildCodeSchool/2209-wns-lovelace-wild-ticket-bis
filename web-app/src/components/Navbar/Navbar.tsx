@@ -1,28 +1,73 @@
-import { Link } from 'react-router-dom'
 import {
   CORBEILLE_PATH,
   MES_FLUX_PATH,
-  QR_CODE_CLIENT_PATH,
   QR_CODE_PATH,
-  SIGN_IN_PATH,
-  SIGN_UP_PATH,
   TICKETS_PATH,
-  TICKET_CLIENT_PATH,
-} from '../../pages/paths'
+} from '../../pages/paths';
+import {
+  ContainerLink,
+  ContainerNavbar,
+  GoTrashcanIcon,
+  IoQrCodeOutlineIcon,
+  IoReaderOutlineIcon,
+  LogoLink,
+  StyledLink,
+} from './Navbar.styled';
+import FluIcon from '../../assets/Flu-icone.png';
+import { useState } from 'react';
 
 const Navbar = () => {
-  return (
-    <>
-      <Link to={SIGN_IN_PATH}>Se connecter</Link>
-      <Link to={SIGN_UP_PATH}>S'inscrire</Link>
-      <Link to={MES_FLUX_PATH}>Mes Flux</Link>
-      <Link to={TICKETS_PATH}>Tickets</Link>
-      <Link to={QR_CODE_PATH}>QR code</Link>
-      <Link to={CORBEILLE_PATH}>Corbeille</Link>
-      <Link to={QR_CODE_CLIENT_PATH}>QR code client</Link>
-      <Link to={TICKET_CLIENT_PATH}>Ticket client</Link>
-    </>
-  )
-}
+  const enum SelectedState {
+    'MES_FLUX',
+    'TICKETS',
+    'QRCODE',
+    'CORBEILLE',
+  }
 
-export default Navbar
+  const [selectedTab, setSelectedTab] = useState(SelectedState.MES_FLUX);
+
+  const getSelectedTab = (selectedState: SelectedState) => {
+    setSelectedTab(selectedState);
+  };
+
+  return (
+    <ContainerNavbar>
+      <ContainerLink>
+        <StyledLink
+          to={MES_FLUX_PATH}
+          onClick={() => getSelectedTab(SelectedState.MES_FLUX)}
+          active={selectedTab === SelectedState.MES_FLUX ? 1 : 0}
+        >
+          <LogoLink src={FluIcon}></LogoLink>
+          Mes Flux
+        </StyledLink>
+        <StyledLink
+          to={TICKETS_PATH}
+          onClick={() => getSelectedTab(SelectedState.TICKETS)}
+          active={selectedTab === SelectedState.TICKETS ? 1 : 0}
+        >
+          <IoReaderOutlineIcon />
+          Tickets
+        </StyledLink>
+        <StyledLink
+          to={QR_CODE_PATH}
+          onClick={() => getSelectedTab(SelectedState.QRCODE)}
+          active={selectedTab === SelectedState.QRCODE ? 1 : 0}
+        >
+          <IoQrCodeOutlineIcon />
+          QR code
+        </StyledLink>
+        <StyledLink
+          to={CORBEILLE_PATH}
+          onClick={() => getSelectedTab(SelectedState.CORBEILLE)}
+          active={selectedTab === SelectedState.CORBEILLE ? 1 : 0}
+        >
+          <GoTrashcanIcon />
+          Corbeille
+        </StyledLink>
+      </ContainerLink>
+    </ContainerNavbar>
+  );
+};
+
+export default Navbar;

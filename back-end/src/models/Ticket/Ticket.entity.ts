@@ -1,14 +1,14 @@
-import { Field, ID, ObjectType } from 'type-graphql'
+import { ArgsType, Field, ID, Int, ObjectType } from 'type-graphql';
 import {
   Column,
   CreateDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
-} from 'typeorm'
-import Flow from '../Flow/Flow.entity'
+} from 'typeorm';
+import Flow from '../Flow/Flow.entity';
 
-enum Status {
+export enum Status {
   TICKET_NON_SCANNE = 'Ticket non scanné',
   EN_ATTENTE = 'En attente',
   INCIDENT = 'Incident',
@@ -18,32 +18,43 @@ enum Status {
 @Entity()
 @ObjectType()
 export default class Ticket {
-  constructor(orderNumber: number, flow: Flow) {
-    this.orderNumber = orderNumber
+  constructor(flow: Flow) {
     if (flow) {
-      this.flow = flow
+      this.flow = flow;
     }
   }
   @PrimaryGeneratedColumn('uuid')
   @Field(() => ID)
-  id: string
+  id: string;
 
   @Column('text', { default: Status.TICKET_NON_SCANNE })
   @Field()
-  status: Status
-
-  @Column()
-  @Field()
-  orderNumber: number
+  status: Status;
 
   @CreateDateColumn()
-  date: Date
+  @Field()
+  date: Date;
 
   @Column('boolean', { default: false })
   @Field()
-  isTrash: boolean
+  isTrash: boolean;
 
-  @ManyToOne(() => Flow, (flow) => flow.tickets)
+  @ManyToOne(() => Flow, (flow) => flow.tickets, { onDelete: 'CASCADE' })
   @Field(() => Flow)
-  flow: Flow
+  flow: Flow;
+}
+@ObjectType()
+export class Notification {
+  @Field(() => ID)
+  id: number;
+
+  @Field()
+  message: Ticket;
+  //pas ouf
+}
+
+@ArgsType()
+export class GetTicketsByIdType {
+  @Field()
+  id: string;
 }

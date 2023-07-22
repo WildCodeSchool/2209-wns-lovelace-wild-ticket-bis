@@ -1,30 +1,45 @@
-import { IsEmail, Matches, MinLength } from "class-validator";
-import { ArgsType, Field } from "type-graphql";
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Matches,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
+import { ArgsType, Field } from 'type-graphql';
 
 const passwordRegExp = new RegExp(
-  "^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})"
+  '^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})'
 );
 
 @ArgsType()
 export class SignUpArgs {
   @Field()
   @MinLength(1, {
-    message: "Le prénom doit faire au moins un caractère de long.",
+    message: 'Firstname must be at least one character long',
+  })
+  @MaxLength(20, {
+    message: 'Firstname must be a maximum of 20 character long',
   })
   firstName: string;
 
   @Field()
-  @MinLength(1, { message: "Le nom doit faire au moins un caractère de long." })
+  @MinLength(1, { message: 'Lastname must be at least one character long' })
+  @MaxLength(20, {
+    message: 'Lastname must be a maximum of 20 character long',
+  })
   lastName: string;
 
   @Field()
+  @IsNotEmpty()
   @IsEmail()
   emailAddress: string;
 
   @Field()
+  @IsString()
   @Matches(passwordRegExp, {
     message:
-      "Le mot de passe doit comporter au moins 8 caractères, une majuscule, une minuscule, un chiffre et un caractère spécial.",
+      'Password should have at least 1 number, lower, upper & special char and have at least 8 characters',
   })
   password: string;
 }
@@ -32,9 +47,12 @@ export class SignUpArgs {
 @ArgsType()
 export class SignInArgs {
   @Field()
+  @IsNotEmpty()
   @IsEmail()
   emailAddress: string;
 
   @Field()
+  @IsNotEmpty()
+  @IsString()
   password: string;
 }

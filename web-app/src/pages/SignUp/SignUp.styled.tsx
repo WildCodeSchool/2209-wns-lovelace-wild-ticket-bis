@@ -1,83 +1,103 @@
 import styled from 'styled-components';
+import {
+  BOX_BACKGROUND_COLOR,
+  BOX_BORDER,
+  BOX_SHADOW,
+  COLOR_ERROR_TICKET,
+  FONT_FAMILY,
+  MAX_WIDTH_PHONE,
+  TEXT_FONT_WEIGHT,
+} from '../../styles/style-constants';
 
-export const Logo = styled.img``;
+export const FormContainer = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: ${BOX_BORDER};
+  border-radius: 15px;
+  height: 470px;
+  width: 700px;
+  background: ${BOX_BACKGROUND_COLOR};
+  box-shadow: ${BOX_SHADOW};
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: auto;
+    height: auto;
+    padding: 10px 50px 10px 50px;
+    margin-bottom: 50px;
+  }
+`;
 
-export const SignUpContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 30px;
-  padding: 20px;
-  height: 90%;
-`;
-export const FormContainer = styled.form`;
-  width: 50vw;
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-  padding: 20px;
-  align-items: center;
-  justify-content: space-around;
-  background-color: #dedede;
-  border-radius: 25px;
-`;
-export const LabelForm = styled.label`
-  width: 90%;
-  height: 30%;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  align-items: center;
-  justify-content: center;
-`;
-export const InputForm = styled.input`
-  width: 100%;
-  height: 40px;
-  border-radius: 10px;
-  border: 0;
-`;
-export const TextLabel = styled.p`
-  margin: 0;
-  font-family: QuickSand;
-  font-size: 25px;
-  display: flex;
-  width: 100%;
-`;
-export const ButtonLabel = styled.button`
-  height: 50px;
-  width: 40%;
-  border-radius: 30px;
-  border: 0;
-  background-color: #ff9442;
-  font-family: QuickSand;
-  font-size: 20px;
-`;
-export const LabelTitle = styled.h1`
-  font-family: QuickSand;
-  font-size: 30px;
-  font-weight: bold;
-`;
 export const ContainerInput = styled.div`
-  width: 80%;
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  height: 100%;
+  width: 100%;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    display: flex;
+    flex-direction: column;
+  }
+`;
+
+export const LabelForm = styled.label`
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    margin: 10px 0 10px 0;
+    &:first-child {
+      margin-top: 25px;
+    }
+  }
+`;
+
+export const SignUpRight = styled.div`
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
   align-items: center;
   justify-content: center;
-  gap: 30px;
+  border-left: 1px solid rgba(42, 42, 42, 0.15);
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid rgba(42, 42, 42, 0.15);
+    border-left: none;
+  }
 `;
+
+export const SignUpLeft = styled.div`
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  align-items: center;
+  justify-content: center;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    display: flex;
+    flex-direction: column;
+    border-left: none;
+    margin-top: 10px;
+  }
+`;
+
+export const InputForm = styled.input`
+  height: 30px;
+  border: 1px solid rgba(42, 42, 42, 0.2);
+  border-radius: 8px;
+  width: 100%;
+  @media (max-width: ${MAX_WIDTH_PHONE}) {
+    width: 190px;
+    &[type='email'] {
+      margin-bottom: 25px;
+    }
+  }
+`;
+
 export const FooterForm = styled.div`
   margin: 0;
-  font-family: QuickSand;
-  font-weight: lighter;
-  font-size: 20px;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  align-items: center;
-  gap:10px;
+  font-family: ${FONT_FAMILY};
+  font-weight: ${TEXT_FONT_WEIGHT};
+  text-align: center;
+`;
+export const TextWrongPassword = styled.p`
+  margin: 0;
+  font-family: ${FONT_FAMILY};
+  font-size: small;
+  color: ${COLOR_ERROR_TICKET};
 `;
 
-export const LinkFooter = styled.p`
-  color: #ff9442;
-  text-decoration: none;
-`;
+export const TextGoodPassword = styled.p``;

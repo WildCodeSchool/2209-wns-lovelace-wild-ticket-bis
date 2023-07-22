@@ -4,36 +4,42 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
+    "test": "jest --runInBand",
+    "test:watch": "jest --watchAll --runInBand",
     "build": "tsc",
     "start": "node dist/index.js",
-    "start:watch": "tsc && (tsc -w & nodemon dist/index.js)"
+    "start:watch": "tsc && (tsc -w & nodemon dist/index.js)",
+    "typeorm": "typeorm-ts-node-commonjs -d ./src/database/utils.ts",
+    "migration:generate": "npm run typeorm migration:generate src/database/migrations/migration"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "apollo-server": "^3.10.3",
+    "apollo-server-core": "^3.12.0",
     "bcryptjs": "^2.4.3",
     "class-validator": "^0.13.2",
     "cookie": "^0.5.0",
     "graphql": "^15.8.0",
+    "graphql-subscriptions": "^2.0.0",
+    "graphql-ws": "^5.12.0",
     "pg": "^8.8.0",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.11",
     "type-graphql": "^1.1.1",
-    "typeorm": "^0.3.9"
+    "typeorm": "^0.3.9",
+    "ws": "^8.13.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.20.5",
-    "@babel/preset-env": "^7.20.2",
-    "@babel/preset-typescript": "^7.18.6",
     "@jest/globals": "^29.3.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/cookie": "^0.5.1",
+    "@types/jest": "^29.4.0",
+    "@types/ws": "^8.5.4",
     "babel-jest": "^29.3.1",
     "nodemon": "^2.0.19",
-    "ts-jest": "^29.0.3",
+    "ts-jest": "^29.0.5",
+    "ts-node": "^10.9.1",
     "typescript": "^4.8.3"
   }
 }
