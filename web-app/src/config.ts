@@ -4,11 +4,7 @@ const IS_PRODUCTION = NODE_ENV === 'production';
 
 const IS_DEVELOPEMENT = NODE_ENV === 'development';
 
-export const WS_PROD = 'wss://staging.lovelace5.wns.wilders.dev/ws';
-
 export const WS_DEV = 'ws://localhost:4000/ws';
-
-export const URL_PROD = 'https://staging.lovelace5.wns.wilders.dev/';
 
 export const URL_DEV = 'http://localhost:3000/';
 

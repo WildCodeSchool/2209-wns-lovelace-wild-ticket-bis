@@ -1,21 +1,21 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom';
 import {
   ApolloClient,
-  InMemoryCache,
   ApolloProvider,
   HttpLink,
+  InMemoryCache,
   split,
 } from '@apollo/client';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
-import './index.css';
-import App from './App/App';
-import reportWebVitals from './reportWebVitals';
+import { getMainDefinition } from '@apollo/client/utilities';
+import { IS_PRODUCTION, WS_DEV } from 'config';
 import { ContextProvider } from 'context/AppContext';
 import { createClient } from 'graphql-ws';
-import { getMainDefinition } from '@apollo/client/utilities';
-import { IS_PRODUCTION, WS_DEV, WS_PROD } from 'config';
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App/App';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
 
 const httpLink = new HttpLink({
   uri: '/api',
@@ -23,7 +23,7 @@ const httpLink = new HttpLink({
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: IS_PRODUCTION ? WS_PROD : WS_DEV,
+    url: IS_PRODUCTION ? `${process.env.WS_PROD}` : WS_DEV,
   })
 );
 const splitLink = split(
