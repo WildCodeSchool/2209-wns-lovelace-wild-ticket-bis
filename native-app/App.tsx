@@ -10,7 +10,7 @@ import {
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-import Navigation from './components/Nagigation';
+import Navigation from './components/Navigation';
 import cookie from 'cookie';
 import { BACKGROUND_COLOR } from './styles/style-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
