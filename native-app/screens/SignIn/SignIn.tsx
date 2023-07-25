@@ -1,5 +1,4 @@
 import {
-  Button,
   TextInput,
   View,
   Text,
@@ -8,19 +7,13 @@ import {
   Pressable,
 } from 'react-native';
 import { Formik } from 'formik';
-import * as Yup from 'yup';
 import { useMutation } from '@apollo/client';
 import { SignInMutation, SignInMutationVariables } from '../../gql/graphql';
 import { SIGN_IN } from '../../gql-store';
 import { AppContext } from '../../context/AppContext';
 import { useContext, useEffect, useState } from 'react';
 
-const userSchema = Yup.object({
-  email: Yup.string().email('Email is not valid').required('Email is required'),
-  password: Yup.string()
-    .min(8, 'Password is too short')
-    .required('Password is required'),
-});
+
 
 const SignIn = () => {
   const initialValues = { emailAddress: '', password: '' };

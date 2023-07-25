@@ -1,22 +1,19 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { DarkTheme, NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';
 import MesFlux from '../../screens/MesFlux/MesFlux';
 import Tickets from '../../screens/Tickets/Tickets';
 import { Ionicons } from '@expo/vector-icons';
 import {
   BOX_BACKGROUND_COLOR,
   BOX_BORDER,
-  SELECT_LINK_COLOR,
-  TEXT_FONT_COLOR,
-  TITLE_FONT_COLOR,
 } from '../../styles/style-constants';
-import { Image, Text, StyleSheet, View, useColorScheme } from 'react-native';
+import { Image, Text, StyleSheet } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SignIn from '../../screens/SignIn/SignIn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
-import { DefaultTheme } from 'react-native-paper';
+
 
 const Navigation = () => {
   const Tab = createBottomTabNavigator();

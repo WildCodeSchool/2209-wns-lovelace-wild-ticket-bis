@@ -1,8 +1,6 @@
-import { useApolloClient, useMutation } from '@apollo/client';
+import {  useMutation } from '@apollo/client';
 import { useContext, useState } from 'react';
 import {
-  Button,
-  TextInput,
   View,
   Text,
   StyleSheet,

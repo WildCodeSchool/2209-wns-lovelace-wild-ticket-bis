@@ -16,7 +16,6 @@ import DropDown from '../../components/Select/DropDown';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
 import SignOut from '../SignOut/SignOut';
-import SwitchComponent from '../../components/Switch/Switch';
 
 type Flow = {
   __typename?: 'Flow';

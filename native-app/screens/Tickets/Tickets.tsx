@@ -1,6 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from 'react';
 import {
-  ScrollView,
   StyleSheet,
   View,
   Text,
@@ -9,7 +8,6 @@ import {
   RefreshControl,
 } from 'react-native';
 import { DataTable } from 'react-native-paper';
-import { mockedFlowTickets } from './MockedTickets';
 import {
   COLOR_ERROR_TICKET,
   COLOR_NOSCAN_TICKET,
@@ -18,7 +16,7 @@ import {
 } from '../../styles/style-constants';
 import { AppContext } from '../../context/AppContext';
 import { useQuery } from '@apollo/client';
-import { GetTicketsByFlowIdQuery, Ticket } from '../../gql/graphql';
+import { GetTicketsByFlowIdQuery } from '../../gql/graphql';
 import { GET_TICKETS_BY_FLOW_ID } from '../../gql-store';
 
 export type FlowTicket = {
