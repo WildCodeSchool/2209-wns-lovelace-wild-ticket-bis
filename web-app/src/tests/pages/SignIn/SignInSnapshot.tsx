@@ -24,7 +24,7 @@ export const signInSnapshot = `
     >
       <form
         aria-label="form"
-        class="sc-hLBbgP jUnSRa"
+        class="sc-hLBbgP fpsCPt"
       >
         <h1
           class="sc-ftTHYK dqTwHy"
@@ -99,7 +99,7 @@ export const signInSnapshot = `
           </label>
         </div>
         <button
-          class="sc-iBYQkv jzdORH"
+          class="sc-iBYQkv czjVDs"
           type="button"
         >
           Se connecter
