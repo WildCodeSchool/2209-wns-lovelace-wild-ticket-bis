@@ -28,8 +28,10 @@ type ValueType = {
       | undefined
     >
   >;
+  darkMode: boolean;
+  setDarkMode: React.Dispatch<React.SetStateAction<boolean | undefined>>;
   setIsConnected: React.Dispatch<React.SetStateAction<boolean | undefined>>;
-  isConnected: boolean | undefined;
+  isConnected: boolean;
 };
 
 type Props = {
@@ -41,22 +43,26 @@ export const AppContext = createContext<ValueType | null>(null);
 export function ContextProvider({ children }: Props) {
   const { data, refetch, error } = useQuery<MyprofileQuery>(MY_PROFILE);
 
-  let serverError: boolean;
-  if (error) {
-    serverError = true;
-  } else {
-    serverError = false;
-  }
-
+  const [darkMode, setDarkMode] = useState<boolean>(false);
   const [userProfile, setUserProfile] = useState<MyprofileQuery | null>(null);
   const [isConnected, setIsConnected] = useState<boolean>(false);
   const [selectedFlow, setSelectedFlow] = useState<{
     value: string;
     label: string;
   }>();
+  console.log(darkMode);
+  let serverError: boolean;
+  if (error) {
+    console.log(error);
+    serverError = true;
+  } else {
+    serverError = false;
+  }
 
   useEffect(() => {
+    console.log('@@@ isConnected', isConnected);
     if (isConnected) {
+      console.log('@@@ isData', data);
       if (data) {
         setUserProfile(data);
       }
@@ -67,6 +73,8 @@ export function ContextProvider({ children }: Props) {
   return (
     <AppContext.Provider
       value={{
+        darkMode,
+        setDarkMode,
         setIsConnected,
         isConnected,
         userProfile,

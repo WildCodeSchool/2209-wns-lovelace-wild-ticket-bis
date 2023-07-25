@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Image,
   Modal,
+  Pressable,
 } from 'react-native';
 import { LogOutMutation } from '../../gql/graphql';
 import { LOGOUT } from '../../gql-store';
@@ -26,32 +27,93 @@ const SignOut = () => {
       appContext.setIsConnected(false);
     } catch (error) {
       console.log(error);
-      console.error('Une Erreur est survenue lors de la déconnexion.');
+      console.error('Une Erreur est survenue lors de la déconnexion.', error);
     }
     setIsModalVisible(false);
   };
 
-  // Fonction pour vider le cache d'Apollo
-
   return (
-    <View>
-      <Button title="Déconnexion" onPress={() => setIsModalVisible(true)} />
+    <>
+      <Pressable style={styles.button} onPress={() => setIsModalVisible(true)}>
+        <Text style={styles.text}>Déconnexion</Text>
+      </Pressable>
       <Modal visible={isModalVisible} animationType="slide" transparent>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>
               Êtes-vous sûr de vouloir vous déconnecter ?
             </Text>
-            <Button title="Oui" onPress={handleLogout} />
-            <Button title="Non" onPress={() => setIsModalVisible(false)} />
+            <Pressable style={styles.buttonYes} onPress={handleLogout}>
+              <Text style={styles.textYes}>Oui</Text>
+            </Pressable>
+            <Pressable
+              style={styles.buttonNo}
+              onPress={() => setIsModalVisible(false)}
+            >
+              <Text style={styles.textNo}>Non</Text>
+            </Pressable>
           </View>
         </View>
       </Modal>
-    </View>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+
+    backgroundColor: '#FF9442',
+  },
+  buttonYes: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#FF9442',
+    margin: 10,
+  },
+  buttonNo: {
+    alignItems: 'center',
+    margin: 10,
+    justifyContent: 'center',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: '#E7E7E7',
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: '#2a2a2a',
+    fontFamily: 'Quicksand_400Regular',
+  },
+  textYes: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: '#2a2a2a',
+    fontFamily: 'Quicksand_400Regular',
+  },
+  textNo: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: '500',
+    letterSpacing: 0.25,
+    color: '#2a2a2a',
+    fontFamily: 'Quicksand_400Regular',
+  },
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -66,6 +128,7 @@ const styles = StyleSheet.create({
   modalText: {
     fontSize: 18,
     marginBottom: 10,
+    fontFamily: 'Quicksand_400Regular',
     textAlign: 'center',
   },
 });

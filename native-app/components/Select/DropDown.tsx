@@ -45,104 +45,131 @@ const DropDown = () => {
     });
     appContext.refetch();
   };
+  const [darkMode, setDarkMode] = useState<boolean>();
+  useEffect(() => {
+    if (appContext) {
+      setDarkMode(appContext.darkMode);
+    }
+  }, [appContext]);
+
+  const styles = StyleSheet.create({
+    label: {
+      paddingLeft: 40,
+      fontWeight: '500',
+      fontFamily: 'Quicksand_400Regular',
+      fontSize: 20,
+      color: `${darkMode ? 'white' : 'black'}`,
+    },
+    shadow: {
+      shadowColor: '#1b1b1b',
+      shadowOffset: { width: 0, height: 6 },
+      shadowOpacity: 0.9,
+      shadowRadius: 10,
+      elevation: 10,
+    },
+    header: {
+      flexDirection: 'row',
+      height: 50,
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: `${darkMode ? '#2D2D30' : '#fefefe'}`,
+    },
+    headerTitle: { color: '#a6a6a6', fontWeight: 'bold', fontSize: 16 },
+    saveAreaViewContainer: {
+      flex: 1,
+      margin: 10,
+      backgroundColor: '#FFF',
+    },
+    viewContainer: {
+      backgroundColor: `${darkMode ? '#2D2D30' : '#fefefe'}`,
+      paddingTop: 3,
+      fontFamily: 'Quicksand_400Regular',
+      fontSize: 30,
+    },
+    scrollViewContainer: {
+      paddingTop: 5,
+      flexGrow: 1,
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      fontFamily: 'Quicksand_400Regular',
+      fontSize: 30,
+      backgroundColor: `${darkMode ? '#2D2D30' : '#fefefe'}`,
+    },
+    dropdown2BtnStyle: {
+      width: '80%',
+      height: 40,
+      backgroundColor: '#ecedf06e',
+      borderRadius: 8,
+    },
+    dropdown2BtnTxtStyle: {
+      color: `${darkMode ? 'white' : 'black'}`,
+      textAlign: 'center',
+      fontWeight: '500',
+      fontFamily: 'Quicksand_400Regular',
+      fontSize: 20,
+    },
+    dropdown2DropdownStyle: {
+      backgroundColor: `${darkMode ? '#2D2D30' : '#fefefe'}`,
+      borderBottomLeftRadius: 12,
+      borderBottomRightRadius: 12,
+    },
+    dropdown2RowStyle: {
+      backgroundColor: `${darkMode ? '#2D2D30' : '#fefefe'}`,
+      borderBottomColor: `${darkMode ? 'gray' : 'black'}`,
+    },
+    dropdown2RowTxtStyle: {
+      color: `${darkMode ? 'white' : 'black'}`,
+      textAlign: 'center',
+      fontWeight: '500',
+      fontFamily: 'Quicksand_400Regular',
+      fontSize: 20,
+    },
+  });
+
   return (
     <SafeAreaView style={styles.saveAreaViewContainer}>
-        <View style={styles.viewContainer}>
-          <Text style={styles.label}>Flux Sélectionné :</Text>
-          <ScrollView
-            showsVerticalScrollIndicator={false}
-            alwaysBounceVertical={false}
-            contentContainerStyle={styles.scrollViewContainer}
-          >
-            {flowsOptions && flowsOptions.length > 0 ? (
-              <SelectDropdown
-                data={flowsOptions.map((e) => e.label)}
-                onSelect={(e) => {
-                  console.log(' @@@ onselect ', e);
-                  handleChangeSelectedFlow(e);
-                }}
-                defaultValueByIndex={0}
-                buttonTextAfterSelection={(selectedItem, index) => {
-                  return selectedItem;
-                }}
-                rowTextForSelection={(item, index) => {
-                  return item;
-                }}
-                buttonStyle={styles.dropdown2BtnStyle}
-                buttonTextStyle={styles.dropdown2BtnTxtStyle}
-                renderDropdownIcon={(isOpened) => {
-                  return (
-                    <FontAwesome
-                      name={isOpened ? 'chevron-up' : 'chevron-down'}
-                      color={`${TITLE_FONT_COLOR}`}
-                      size={18}
-                    />
-                  );
-                }}
-                dropdownIconPosition={'right'}
-                dropdownStyle={styles.dropdown2DropdownStyle}
-                rowStyle={styles.dropdown2RowStyle}
-                rowTextStyle={styles.dropdown2RowTxtStyle}
-              />
-            ) : null}
-          </ScrollView>
-        </View>
+      <View style={styles.viewContainer}>
+        <Text style={styles.label}>Flux Sélectionné :</Text>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          alwaysBounceVertical={false}
+          contentContainerStyle={styles.scrollViewContainer}
+        >
+          {flowsOptions && flowsOptions.length > 0 ? (
+            <SelectDropdown
+              data={flowsOptions.map((e) => e.label)}
+              onSelect={(e) => {
+                console.log(' @@@ onselect ', e);
+                handleChangeSelectedFlow(e);
+              }}
+              defaultValueByIndex={0}
+              buttonTextAfterSelection={(selectedItem, index) => {
+                return selectedItem;
+              }}
+              rowTextForSelection={(item, index) => {
+                return item;
+              }}
+              buttonStyle={styles.dropdown2BtnStyle}
+              buttonTextStyle={styles.dropdown2BtnTxtStyle}
+              renderDropdownIcon={(isOpened) => {
+                return (
+                  <FontAwesome
+                    name={isOpened ? 'chevron-up' : 'chevron-down'}
+                    color={`${TITLE_FONT_COLOR}`}
+                    size={18}
+                  />
+                );
+              }}
+              dropdownIconPosition={'right'}
+              dropdownStyle={styles.dropdown2DropdownStyle}
+              rowStyle={styles.dropdown2RowStyle}
+              rowTextStyle={styles.dropdown2RowTxtStyle}
+            />
+          ) : null}
+        </ScrollView>
+      </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  label: {
-    paddingLeft: 40,
-  },
-  shadow: {
-    shadowColor: '#1b1b1b',
-    shadowOffset: { width: 0, height: 6 },
-    shadowOpacity: 0.9,
-    shadowRadius: 10,
-    elevation: 10,
-  },
-  header: {
-    flexDirection: 'row',
-    height: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#F6F6F6',
-  },
-  headerTitle: { color: '#a6a6a6', fontWeight: 'bold', fontSize: 16 },
-  saveAreaViewContainer: { flex: 1, backgroundColor: '#FFF' },
-  viewContainer: { backgroundColor: '#FFF', paddingTop: 3 },
-  scrollViewContainer: {
-    paddingTop: 5,
-    flexGrow: 1,
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  dropdown2BtnStyle: {
-    width: '80%',
-    height: 40,
-    backgroundColor: '#ecedf06e',
-    borderRadius: 8,
-  },
-  dropdown2BtnTxtStyle: {
-    color: `${TITLE_FONT_COLOR}`,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-  dropdown2DropdownStyle: {
-    backgroundColor: '#ecedf06e',
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
-  },
-  dropdown2RowStyle: {
-    backgroundColor: '#ecedf0',
-    borderBottomColor: '#ecedf0',
-  },
-  dropdown2RowTxtStyle: {
-    color: `${TITLE_FONT_COLOR}`,
-    textAlign: 'center',
-    fontWeight: 'bold',
-  },
-});
 
 export default DropDown;

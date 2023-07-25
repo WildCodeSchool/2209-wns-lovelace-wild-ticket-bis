@@ -16,6 +16,14 @@ import { BACKGROUND_COLOR } from './styles/style-constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setContext } from '@apollo/client/link/context';
 import { ContextProvider } from './context/AppContext';
+import {
+  useFonts,
+  Quicksand_300Light,
+  Quicksand_400Regular,
+  Quicksand_500Medium,
+  Quicksand_600SemiBold,
+  Quicksand_700Bold,
+} from '@expo-google-fonts/quicksand';
 
 const authMiddleware = new ApolloLink((operation, forward) => {
   return forward(operation).map((response) => {
@@ -43,7 +51,7 @@ const authLink = setContext(async (_, { headers }) => {
 });
 
 const httpLink = createHttpLink({
-  uri: `http://192.168.1.13:4000/api`,
+  uri: `http://192.168.1.13:5000/api`,
 });
 
 const client = new ApolloClient({
@@ -52,21 +60,33 @@ const client = new ApolloClient({
 });
 
 export default function App() {
-  return (
-    <ApolloProvider client={client}>
-      <SafeAreaProvider>
-        <ContextProvider>
-          <Navigation />
-        </ContextProvider>
-      </SafeAreaProvider>
-    </ApolloProvider>
-  );
+  const [fontsLoaded] = useFonts({
+    Quicksand_300Light,
+    Quicksand_400Regular,
+    Quicksand_500Medium,
+    Quicksand_600SemiBold,
+    Quicksand_700Bold,
+    // Ajoutez d'autres polices si nécessaire
+  });
+  if (!fontsLoaded) {
+    return null; // Vous pouvez afficher un écran de chargement ici si nécessaire
+  } else {
+    return (
+      <ApolloProvider client={client}>
+        <SafeAreaProvider>
+          <ContextProvider>
+            <Navigation  />
+          </ContextProvider>
+        </SafeAreaProvider>
+      </ApolloProvider>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: `${BACKGROUND_COLOR}`,
+    backgroundColor: `red`,
     alignItems: 'center',
     justifyContent: 'center',
   },

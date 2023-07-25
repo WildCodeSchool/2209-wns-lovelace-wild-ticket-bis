@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { NavigationContainer } from '@react-navigation/native';
+import { DarkTheme, NavigationContainer } from '@react-navigation/native';
 import MesFlux from '../../screens/MesFlux/MesFlux';
 import Tickets from '../../screens/Tickets/Tickets';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,13 +10,13 @@ import {
   TEXT_FONT_COLOR,
   TITLE_FONT_COLOR,
 } from '../../styles/style-constants';
-import { Image, Text, StyleSheet, View } from 'react-native';
+import { Image, Text, StyleSheet, View, useColorScheme } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import SignIn from '../../screens/SignIn/SignIn';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useContext, useEffect, useState } from 'react';
 import { AppContext } from '../../context/AppContext';
-import SignOut from '../../screens/SignOut/SignOut';
+import { DefaultTheme } from 'react-native-paper';
 
 const Navigation = () => {
   const Tab = createBottomTabNavigator();
@@ -24,6 +24,7 @@ const Navigation = () => {
 
   useEffect(() => {
     const fetchCookie = async () => {
+      // await AsyncStorage.removeItem('Cookie');
       try {
         const cookieValue = await AsyncStorage.getItem('Cookie');
         const sessionIdIndex = cookieValue.indexOf('sessionId=');
@@ -34,7 +35,6 @@ const Navigation = () => {
           console.log('Session ID : ', sessionId);
           appContext.setIsConnected(true);
         } else {
-          console.log('sessionId non trouvé dans la chaîne de cookie.');
           appContext.setIsConnected(false);
         }
       } catch {
@@ -43,7 +43,19 @@ const Navigation = () => {
     };
     fetchCookie(); // Appeler la fonction asynchrone immédiatement
   }, [appContext]);
-  console.log(appContext.isConnected);
+
+  const [darkMode, setDarkMode] = useState<boolean>();
+  useEffect(() => {
+    if (appContext) {
+      setDarkMode(appContext.darkMode);
+    }
+  }, [appContext]);
+  const styles = StyleSheet.create({
+    link: {
+      fontSize: 12,
+      color: `${darkMode ? 'white' : 'black'}`,
+    },
+  });
   return (
     <>
       <NavigationContainer>
@@ -51,6 +63,10 @@ const Navigation = () => {
           {appContext.isConnected ? (
             <Tab.Navigator
               screenOptions={({ route }) => ({
+                //  headerShown: false,
+                headerStyle: {
+                  backgroundColor: `${darkMode ? '#2D2D30' : '#fefefe'}`,
+                },
                 tabBarIcon: ({ color }) => {
                   let iconName;
                   let iconeSize = 34;
@@ -59,7 +75,11 @@ const Navigation = () => {
                     return (
                       <Image
                         source={require('../../assets/internalAppImg/Flu-icone.png')}
-                        style={{ width: 39, resizeMode: 'contain' }}
+                        style={{
+                          width: 39,
+                          resizeMode: 'contain',
+                          tintColor: `${darkMode ? 'white' : 'black'}`,
+                        }}
                       />
                     );
                   } else if (route.name === 'Tickets') {
@@ -68,23 +88,32 @@ const Navigation = () => {
 
                   // You can return any component that you like here!
                   return (
-                    <Ionicons name={iconName} size={iconeSize} color={color} />
+                    <Ionicons
+                      name={iconName}
+                      size={iconeSize}
+                      color={`${darkMode ? 'white' : 'black'}`}
+                    />
                   );
                 },
                 tabBarStyle: {
-                  height: 70,
-                  borderTopColor: `${BOX_BORDER}`,
+                  height: 60,
+                  borderTopColor: `${darkMode ? 'black' : `${BOX_BORDER}`}`,
                 },
-                tabBarInactiveTintColor: `${TEXT_FONT_COLOR}`,
-                tabBarActiveBackgroundColor: `${SELECT_LINK_COLOR}`,
-                tabBarInactiveBackgroundColor: `${BOX_BACKGROUND_COLOR}`,
-                tabBarActiveTintColor: `${TEXT_FONT_COLOR}`,
+                tabBarInactiveTintColor: `${darkMode ? 'white' : '#D3D3D3'}`,
+                tabBarActiveBackgroundColor: `${
+                  darkMode ? '#282A3A' : '#D3D3D3'
+                }`,
+                tabBarInactiveBackgroundColor: `${
+                  darkMode ? 'gray' : `${BOX_BACKGROUND_COLOR}`
+                }`,
+                tabBarActiveTintColor: `${darkMode ? 'white' : '#2a2a2a'}`,
               })}
             >
               <Tab.Screen
                 name="Mes Flux"
                 component={MesFlux}
                 options={{
+                  headerTintColor: `${darkMode ? 'white' : '#2D2D30'}`,
                   tabBarLabel: () => <Text style={styles.link}>Mes Flux</Text>,
                 }}
               />
@@ -92,15 +121,8 @@ const Navigation = () => {
                 name="Tickets"
                 component={Tickets}
                 options={{
+                  headerTintColor: `${darkMode ? 'white' : '#2D2D30'}`,
                   tabBarLabel: () => <Text style={styles.link}>Tickets</Text>,
-                }}
-              />
-
-              <Tab.Screen
-                name="SignOut"
-                component={SignOut}
-                options={{
-                  tabBarLabel: () => <Text style={styles.link}>SignOut</Text>,
                 }}
               />
             </Tab.Navigator>
@@ -115,6 +137,9 @@ const Navigation = () => {
               <Tab.Screen
                 name="SignIn"
                 component={SignIn}
+                options={{
+                  headerTintColor: `${darkMode ? 'white' : 'black'}`,
+                }}
               />
             </Tab.Navigator>
           )}
@@ -123,12 +148,5 @@ const Navigation = () => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  link: {
-    fontSize: 12,
-    color: `${TITLE_FONT_COLOR}`,
-  },
-});
 
 export default Navigation;
