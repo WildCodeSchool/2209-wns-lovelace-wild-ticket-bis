@@ -32,13 +32,13 @@ const Navigation = () => {
           const sessionId = cookieValue.substring(
             sessionIdIndex + 'sessionId='.length
           );
-          console.log('Session ID : ', sessionId);
+          
           appContext.setIsConnected(true);
         } else {
           appContext.setIsConnected(false);
         }
       } catch {
-        console.log('sessionId non trouvé dans la chaîne de cookie.');
+        console.error('sessionId non trouvé dans la chaîne de cookie.');
       }
     };
     fetchCookie(); // Appeler la fonction asynchrone immédiatement

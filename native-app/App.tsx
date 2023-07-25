@@ -32,7 +32,6 @@ const authMiddleware = new ApolloLink((operation, forward) => {
     if (cookies) {
       const sessionId = cookie.parse(cookies);
       const setCookie = cookie.serialize('sessionId', sessionId.sessionId);
-      console.log(setCookie, 'set-cookie');
       AsyncStorage.setItem('Cookie', setCookie);
     }
     return response;
@@ -41,7 +40,6 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 
 const authLink = setContext(async (_, { headers }) => {
   const sessionId = await AsyncStorage.getItem('Cookie');
-  console.log(sessionId, '@@@ sessionId in authLink');
   return {
     headers: {
       ...headers,
@@ -75,19 +73,10 @@ export default function App() {
       <ApolloProvider client={client}>
         <SafeAreaProvider>
           <ContextProvider>
-            <Navigation  />
+            <Navigation />
           </ContextProvider>
         </SafeAreaProvider>
       </ApolloProvider>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: `red`,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

@@ -50,19 +50,16 @@ export function ContextProvider({ children }: Props) {
     value: string;
     label: string;
   }>();
-  console.log(darkMode);
+
   let serverError: boolean;
   if (error) {
-    console.log(error);
     serverError = true;
   } else {
     serverError = false;
   }
 
   useEffect(() => {
-    console.log('@@@ isConnected', isConnected);
     if (isConnected) {
-      console.log('@@@ isData', data);
       if (data) {
         setUserProfile(data);
       }

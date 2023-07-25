@@ -15,7 +15,6 @@ const DropDown = () => {
   const appContext = useContext(AppContext);
 
   useEffect(() => {
-    console.log(appContext?.userProfile?.myProfile.flows);
     if (appContext?.userProfile?.myProfile.flows) {
       const flowOptions = appContext.userProfile.myProfile.flows.map(
         (flow: Flow) => ({
@@ -139,7 +138,6 @@ const DropDown = () => {
             <SelectDropdown
               data={flowsOptions.map((e) => e.label)}
               onSelect={(e) => {
-                console.log(' @@@ onselect ', e);
                 handleChangeSelectedFlow(e);
               }}
               defaultValueByIndex={0}

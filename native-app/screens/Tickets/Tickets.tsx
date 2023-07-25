@@ -217,8 +217,6 @@ const Tickets = () => {
           }
           data={flowTickets}
           renderItem={(flowTicket) => {
-            console.log('@@@ flowTicket', flowTicket);
-
             const statusColor = getStatusColor(flowTicket.item.status);
             return (
               <DataTable.Row style={styles.row}>

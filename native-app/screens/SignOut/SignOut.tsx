@@ -26,7 +26,6 @@ const SignOut = () => {
       await AsyncStorage.removeItem('Cookie');
       appContext.setIsConnected(false);
     } catch (error) {
-      console.log(error);
       console.error('Une Erreur est survenue lors de la déconnexion.', error);
     }
     setIsModalVisible(false);
