@@ -15,6 +15,7 @@ import {
   ContainerPages,
   ContainerTextMobile,
   LogoMobile,
+  OrderNumber,
   TextCardMobile,
   TextLightMobile,
   TextMobile,
@@ -30,6 +31,7 @@ import {
   SUBSCRIPTION_WITH_ID,
 } from 'gql-store';
 import { PropsDisplayNavbar } from 'utils';
+import { convertIdFormat } from 'pages/QRCodeClient/QRCodeClient.services';
 
 enum ColorStatus {
   'En attente' = '#61A7CE',
@@ -109,6 +111,13 @@ const PagesClient = ({ displayNavbar }: PropsDisplayNavbar) => {
             <TextCardMobile>
               Votre commande est en cours de préparation !
             </TextCardMobile>
+            <OrderNumber>
+              {' '}
+              N°
+              {dataQuery?.getTicketById.id
+                ? convertIdFormat(dataQuery?.getTicketById.id)
+                : ''}
+            </OrderNumber>
           </Card>
         );
 
@@ -128,6 +137,13 @@ const PagesClient = ({ displayNavbar }: PropsDisplayNavbar) => {
             <TextCardMobile>
               Vous pouvez la récupérer auprès de votre vendeur !
             </TextCardMobile>
+            <OrderNumber>
+              {' '}
+              N°
+              {dataQuery?.getTicketById.id
+                ? convertIdFormat(dataQuery?.getTicketById.id)
+                : ''}
+            </OrderNumber>
           </Card>
         );
 
@@ -149,6 +165,13 @@ const PagesClient = ({ displayNavbar }: PropsDisplayNavbar) => {
             <TextCardMobile>
               On vous invite à retourner voir votre vendeur !
             </TextCardMobile>
+            <OrderNumber>
+              {' '}
+              N°
+              {dataQuery?.getTicketById.id
+                ? convertIdFormat(dataQuery?.getTicketById.id)
+                : ''}
+            </OrderNumber>
           </Card>
         );
     }
