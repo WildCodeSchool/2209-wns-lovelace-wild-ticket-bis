@@ -1,4 +1,9 @@
+import { useContext, useEffect, useState } from 'react';
+
+import { AppContext } from '../context/AppContext';
+
 export const APP_FUNCTIONAL_WIDTH = '800px';
+
 export const MAIN_THEME_COLOR = '#FF9442';
 export const BACKGROUND_COLOR = '#EFF0F3';
 export const TITLE_FONT_COLOR = '#0D0D0D';
@@ -26,3 +31,4 @@ export const COLOR_VALIDATE_TICKET = '#2BC016';
 export const COLOR_NOSCAN_TICKET = '#F0D472';
 export const COLOR_ERROR_TICKET = '#D93737';
 export const COLOR_WAITING_TICKET = '#61A7CE';
+

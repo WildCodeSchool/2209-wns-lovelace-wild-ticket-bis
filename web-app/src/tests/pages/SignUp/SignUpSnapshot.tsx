@@ -24,7 +24,7 @@ export const signUpSnapshot = `
     >
       <form
         aria-label="form"
-        class="sc-bcXHqe cnmdMf"
+        class="sc-bcXHqe CDiYU"
       >
         <h1
           class="sc-hBxehG zxugq"
@@ -182,7 +182,7 @@ export const signUpSnapshot = `
           </div>
         </div>
         <button
-          class="sc-ksBlkl cakpQA"
+          class="sc-ksBlkl fCNSkb"
         >
           S'enregistrer
         </button>

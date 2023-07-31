@@ -23,7 +23,7 @@ const httpLink = new HttpLink({
 
 const wsLink = new GraphQLWsLink(
   createClient({
-    url: IS_PRODUCTION ? `${process.env.WS_PROD}` : WS_DEV,
+    url: IS_PRODUCTION ? `${process.env.REACT_APP_WS_PROD}` : WS_DEV,
   })
 );
 const splitLink = split(

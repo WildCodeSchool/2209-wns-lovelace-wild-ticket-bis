@@ -14,7 +14,7 @@ export const TITLE_FONT_SIZE_PHONE = '1rem';
 export const BOX_BACKGROUND_COLOR =
   'linear-gradient(166.21deg, rgba(222,222,222,0.02) 5%, rgba(153,153,153,0.13) 100%)';
 export const BOX_OPACITY = '0.1';
-export const BOX_SHADOW = 'rgba(99, 99, 99, 0.2) 1px 2px 5px 0px;';
+export const BOX_SHADOW = 'rgba(99, 99, 99, 0.2) 1px 2px 5px 0px';
 export const BOX_BORDER = '1px solid rgba(42, 42, 42, 0.04)';
 
 export const SELECT_LINK_COLOR = '#D3D3D3';
