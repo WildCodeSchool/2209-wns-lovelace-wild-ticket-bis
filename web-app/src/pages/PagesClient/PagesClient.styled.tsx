@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { FONT_FAMILY } from 'styles/style-constants';
+import { FONT_FAMILY, TITLE_FONT_WEIGHT } from 'styles/style-constants';
 
 export const ContainerPages = styled.div`
   display: flex;
@@ -50,7 +50,6 @@ export const Card = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-}
 `;
 
 export const TextCardMobile = styled.h2`
@@ -60,6 +59,13 @@ export const TextCardMobile = styled.h2`
   text-align: center;
   color: white;
   margin: 10px;
+`;
+
+export const OrderNumber = styled.p`
+  font-family: ${FONT_FAMILY};
+  font-weight: ${TITLE_FONT_WEIGHT};
+  font-size: 2rem;
+  color: white;
 `;
 
 export const ContainerIconStatus = styled.div`
