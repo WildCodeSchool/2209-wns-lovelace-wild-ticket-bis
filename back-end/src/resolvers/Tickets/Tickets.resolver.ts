@@ -57,7 +57,6 @@ export default class TicketResolver {
     return TicketRepository.deleteTicket(arrayId);
   }
 
-  @Authorized()
   @Mutation(() => Ticket)
   async changeTicketStatus(
     @Args() { id, status }: changeTicketStatusArgs
